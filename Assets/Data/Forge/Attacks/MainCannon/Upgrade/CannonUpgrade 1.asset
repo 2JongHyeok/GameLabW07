@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 699b438c86e4ad442893cf31d772c437, type: 3}
+  m_Name: CannonUpgrade 1
+  m_EditorClassIdentifier: 
+  forgeId: 5
+  upgradeName: "\uD3EC \uAC15\uD654 Lv.1"
+  upgradeDescription: "\uD3EC\uB97C \uAC15\uD654\uD574 \uB370\uBBF8\uC9C0\uC640 \uBC1C\uC0AC
+    \uC18D\uB3C4\uB97C \uAC1C\uC120\uD569\uB2C8\uB2E4.\\n\uD3EC \uB370\uBBF8\uC9C0:
+    1 > <color=green>2</color>\\n\uBC1C\uC0AC \uC18D\uB3C4: 0.6\uCD08 > <color=green>0.5\uCD08</color>  "
+  depth: 1
+  coalCost: 3
+  ironCost: 1
+  goldCost: 0
+  diamondCost: 0
+  postSubBranches: []
+  AtkDamage: 1
+  AtkSpeed: -0.1

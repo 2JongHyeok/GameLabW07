@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e70b6b271346ce4482030dc99a04d58, type: 3}
+  m_Name: Lv3_Zone_Settings
+  m_EditorClassIdentifier: 
+  minDistance: 40
+  maxDistance: 60
+  spawnChance: 0.2
+  asteroidPool:
+  - asteroidPrefab: {fileID: 4021950633781993007, guid: 67e15c0b3df4c9b4d985c35dde886239, type: 3}
+    weight: 60
+  - asteroidPrefab: {fileID: 4021950633781993007, guid: 1d695ca0ee353a445a239ecaa71a2ad1, type: 3}
+    weight: 15
+  - asteroidPrefab: {fileID: 4021950633781993007, guid: b754f8bc00548b144a9b324de273f90d, type: 3}
+    weight: 5

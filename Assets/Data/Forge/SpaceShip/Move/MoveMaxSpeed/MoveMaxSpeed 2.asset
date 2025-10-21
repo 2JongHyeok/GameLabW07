@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4150fc41a4f5f3645b47ba74e3c92766, type: 3}
+  m_Name: MoveMaxSpeed 2
+  m_EditorClassIdentifier: 
+  forgeId: 11
+  upgradeName: "\uC6B0\uC8FC\uC120 \uCD9C\uB825 Lv.Max"
+  upgradeDescription: "\uC6B0\uC8FC\uC120\uC758 \uCD9C\uB825\uC744 \uD5A5\uC0C1\uC2DC\uD0B5\uB2C8\uB2E4.\\n1\uCD5C\uB300
+    \uCD9C\uB825: 65 > <color=green>100</color> "
+  depth: 4
+  coalCost: 8
+  ironCost: 4
+  goldCost: 1
+  diamondCost: 0
+  postSubBranches: []
+  MaxSpeed: 35

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8814e6928576db5479c1e148737f583f, type: 3}
+  m_Name: SpaceShipBranch
+  m_EditorClassIdentifier: 
+  branchName: "\uC6B0\uC8FC\uC120"
+  branchType: 0
+  subBranches:
+  - {fileID: 11400000, guid: 65986112d05460447bc704bfc5a041de, type: 2}
+  - {fileID: 11400000, guid: 7e55f2b34946698458f39681eff4e910, type: 2}
+  - {fileID: 11400000, guid: 75dad64a8faa43f4e91fde1cb5d24bfd, type: 2}
+  - {fileID: 11400000, guid: 74ab8f634c827cf449465a0a89b48d03, type: 2}

@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2565020052216766252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1452659752750618764}
+  - component: {fileID: 6559816729868818941}
+  m_Layer: 0
+  m_Name: WaveManger
+  m_TagString: Ground
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1452659752750618764
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2565020052216766252}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6559816729868818941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2565020052216766252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2118ab6c336b154bbfb5892afa7f529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefabs:
+  - {fileID: 2615078695605655245, guid: f9b76da067c362d4b9f9525ae7495563, type: 3}
+  - {fileID: 2615078695605655245, guid: 71b2860df2cd00a4dbdabb1ee68337e5, type: 3}
+  - {fileID: 3732918253183833171, guid: 2f4e763b99dd012449e0fc9d0eed412b, type: 3}
+  - {fileID: 3732918253183833171, guid: 40a0db0a5f174c24fb6d97ba6f46cb1b, type: 3}
+  - {fileID: 2615078695605655245, guid: 4e15d82d4de1c3947a5b22f1b76248db, type: 3}
+  Target: {fileID: 0}
+  maxCameraSize: 15
+  spawnDistanceOffset: 2
+  waves:
+  - {fileID: 11400000, guid: 66a6658e18527f94eb87b7729eb63815, type: 2}
+  - {fileID: 11400000, guid: 764ff3157e0360542bada92cc6de648d, type: 2}
+  - {fileID: 11400000, guid: 529e9ad077d4ff044b29078ccc3ebfd3, type: 2}
+  - {fileID: 11400000, guid: 2a1bab23227d38a4d991f980c784f5a2, type: 2}
+  - {fileID: 11400000, guid: 3d5a8d7751b9e31478f80b898db4133c, type: 2}
+  - {fileID: 11400000, guid: 86a967a3813f3ea46814a0212ba5af82, type: 2}
+  - {fileID: 11400000, guid: cf4dde942666cd940855918beed6b377, type: 2}
+  - {fileID: 11400000, guid: caf7fe88af9cccc40ba3b8a676770a1f, type: 2}
+  - {fileID: 11400000, guid: 17eb63598b44e08489a335ab5661a0b2, type: 2}
+  - {fileID: 11400000, guid: 22848f109b17da842be2a96031d8eeb7, type: 2}
+  - {fileID: 11400000, guid: 3206c7fe7f8047a4e9cf7fe633905f72, type: 2}
+  - {fileID: 11400000, guid: f56b47968ce933546bca3c3bfe8c83dc, type: 2}
+  - {fileID: 11400000, guid: 0320ba3dc5e40dc4cbf9f16839758202, type: 2}
+  timeBetweenWaves: 60
+  countdown: 5
+  waveTimerText: {fileID: 0}
+  enemyCountText: {fileID: 0}
+  EnemyCount: 0

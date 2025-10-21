@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cc3f09d9dfc4b943a198bef8b2de719, type: 3}
+  m_Name: 2_SpaceshipMassReduceRate
+  m_EditorClassIdentifier: 
+  upgradeName: "\uC6B0\uC8FC\uC120 \uC790\uC6D0 \uBB34\uAC8C"
+  upgradeDescription: "\uC6B0\uC8FC\uC120 \uC790\uC6D0 \uBB34\uAC8C \uAC10\uC18C"
+  baseValue: 3
+  recipes:
+  - levelValue: -1.5
+    cost:
+    - oreType: 0
+      amount: 3
+  - levelValue: -0.7
+    cost:
+    - oreType: 0
+      amount: 3
+  - levelValue: -0.45
+    cost:
+    - oreType: 0
+      amount: 3
+    - oreType: 0
+      amount: 0
+    - oreType: 0
+      amount: 0
+    - oreType: 3
+      amount: 1
+  upgradeType: 1

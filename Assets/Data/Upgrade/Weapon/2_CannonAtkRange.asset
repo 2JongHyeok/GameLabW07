@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34890eaa5094d154eaa62a0882a30883, type: 3}
+  m_Name: 2_CannonAtkRange
+  m_EditorClassIdentifier: 
+  upgradeName: "\uC8FC\uD3EC \uD3ED\uBC1C \uBC94\uC704"
+  upgradeDescription: "\uC8FC\uD3EC \uAC15\uD654"
+  baseValue: 0.2
+  recipes:
+  - levelValue: 0.3
+    cost:
+    - oreType: 0
+      amount: 999
+  - levelValue: 0.3
+    cost:
+    - oreType: 0
+      amount: 1
+  - levelValue: 0.3
+    cost:
+    - oreType: 0
+      amount: 1
+  - levelValue: 0.3
+    cost:
+    - oreType: 0
+      amount: 5
+  - levelValue: 0.3
+    cost:
+    - oreType: 0
+      amount: 5
+  upgradeType: 1

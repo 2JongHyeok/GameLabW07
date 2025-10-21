@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a23c7dcced9e84b8abb8fe9d3a9a67, type: 3}
+  m_Name: KamikazeTankSO
+  m_EditorClassIdentifier: 
+  enemyType: 3
+  enemyHP: 4
+  enemySpeed: 2.5
+  enemyPrefab: {fileID: 0}
+  ExplosionEffectPrefab: {fileID: 5807730180560662781, guid: 9b9b064fb4e0f0445a06122d7bfca6e6, type: 3}
+  damage: 10
+  explosionRadius: 3
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 8193

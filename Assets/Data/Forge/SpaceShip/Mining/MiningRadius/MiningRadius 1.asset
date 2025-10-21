@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa8dbe64ac2fc40469cd7b6ecee485cc, type: 3}
+  m_Name: MiningRadius 1
+  m_EditorClassIdentifier: 
+  forgeId: 10
+  upgradeName: "\uD3ED\uBC1C \uBC94\uC704 Lv.1"
+  upgradeDescription: "\uC6B0\uC8FC\uC120 \uBBF8\uC0AC\uC77C\uC758 \uD3ED\uBC1C \uBC94\uC704\uB97C
+    \uD5A5\uC0C1\uC2DC\uD0B5\uB2C8\uB2E4.\\n\uD3ED\uBC1C \uBC18\uACBD: 0.4 > <color=green>0.6</color> "
+  depth: 1
+  coalCost: 4
+  ironCost: 2
+  goldCost: 0
+  diamondCost: 0
+  postSubBranches: []
+  MiningRadius: 0.2

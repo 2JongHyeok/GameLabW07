@@ -1,0 +1,1157 @@
+fileFormatVersion: 2
+guid: 09195dce94892db44b593095e86fc2a2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8655024676644762962
+    second: canonrail_480 1_0
+  - first:
+      213: -3980648207798757441
+    second: canonrail_480 1_1
+  - first:
+      213: 8695622133236707127
+    second: canonrail_480 1_2
+  - first:
+      213: 5431294947236756037
+    second: canonrail_480 1_3
+  - first:
+      213: 4198465948226081974
+    second: canonrail_480 1_4
+  - first:
+      213: 610969968705566835
+    second: canonrail_480 1_5
+  - first:
+      213: 5052941413342644714
+    second: canonrail_480 1_6
+  - first:
+      213: -3302260084554380517
+    second: canonrail_480 1_7
+  - first:
+      213: -4842440004031304986
+    second: canonrail_480 1_8
+  - first:
+      213: 388417639952456169
+    second: canonrail_480 1_9
+  - first:
+      213: 7377503366619129304
+    second: canonrail_480 1_10
+  - first:
+      213: -4702955390351170979
+    second: canonrail_480 1_11
+  - first:
+      213: -7298841820772869232
+    second: canonrail_480 1_12
+  - first:
+      213: 4309028322975800389
+    second: canonrail_480 1_13
+  - first:
+      213: 4639732352371794835
+    second: canonrail_480 1_14
+  - first:
+      213: -5781051479872006753
+    second: canonrail_480 1_15
+  - first:
+      213: 2267526050062894461
+    second: canonrail_480 1_16
+  - first:
+      213: 8529520249986315868
+    second: canonrail_480 1_17
+  - first:
+      213: -4989671521266811763
+    second: canonrail_480 1_18
+  - first:
+      213: -5099355690648745622
+    second: canonrail_480 1_19
+  - first:
+      213: -4031214727867314018
+    second: canonrail_480 1_20
+  - first:
+      213: -8357457981570563591
+    second: canonrail_480 1_21
+  - first:
+      213: -5663220894656041967
+    second: canonrail_480 1_22
+  - first:
+      213: 6470110580419510594
+    second: canonrail_480 1_23
+  - first:
+      213: -2582371629914061368
+    second: canonrail_480 1_24
+  - first:
+      213: 8555270111490688060
+    second: canonrail_480 1_25
+  - first:
+      213: 8823227583167040148
+    second: canonrail_480 1_26
+  - first:
+      213: 3761413224518354856
+    second: canonrail_480 1_27
+  - first:
+      213: -8878071392586775961
+    second: canonrail_480 1_28
+  - first:
+      213: -1423048937238472586
+    second: canonrail_480 1_29
+  - first:
+      213: 7628568425076818465
+    second: canonrail_480 1_30
+  - first:
+      213: 3238517681013498965
+    second: canonrail_480 1_31
+  - first:
+      213: -3351574593400030065
+    second: canonrail_480 1_32
+  - first:
+      213: 9027985072149745650
+    second: canonrail_480 1_33
+  - first:
+      213: 6153111707406707783
+    second: canonrail_480 1_34
+  - first:
+      213: 2622765424335855305
+    second: canonrail_480 1_35
+  - first:
+      213: 5325723566678017922
+    second: canonrail_480 1_36
+  - first:
+      213: 7679178448668937109
+    second: canonrail_480 1_37
+  - first:
+      213: -3639169063268047061
+    second: canonrail_480 1_38
+  - first:
+      213: 8607910517251480780
+    second: canonrail_480 1_39
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: canonrail_480 1_0
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 453
+        width: 33
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 255b6ad4613dc1870800000000000000
+      internalID: 8655024676644762962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_1
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 463
+        width: 33
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb71c5e9b85e1c8c0800000000000000
+      internalID: -3980648207798757441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_2
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 467
+        width: 34
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73f2990424e0da870800000000000000
+      internalID: 8695622133236707127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_3
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 463
+        width: 33
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54abb607af5df5b40800000000000000
+      internalID: 5431294947236756037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_4
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 453
+        width: 33
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b4d6951982f34a30800000000000000
+      internalID: 4198465948226081974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_5
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 417
+        width: 30
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 378702113f99a7800800000000000000
+      internalID: 610969968705566835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_6
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 438
+        width: 32
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae9062d9177af1640800000000000000
+      internalID: 5052941413342644714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_7
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 438
+        width: 31
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1b4f2003f30c22d0800000000000000
+      internalID: -3302260084554380517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_8
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 417
+        width: 30
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6eaa29109723cccb0800000000000000
+      internalID: -4842440004031304986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_9
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 363
+        width: 26
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e99cdd19cfe36500800000000000000
+      internalID: 388417639952456169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_10
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 392
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d5e4986938226660800000000000000
+      internalID: 7377503366619129304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_11
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 392
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d522c936dfebbbeb0800000000000000
+      internalID: -4702955390351170979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_12
+      rect:
+        serializedVersion: 2
+        x: 417
+        y: 363
+        width: 26
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09b5111f80e45ba90800000000000000
+      internalID: -7298841820772869232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_13
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 331
+        width: 23
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54cd116fd6ebccb30800000000000000
+      internalID: 4309028322975800389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_14
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 331
+        width: 23
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 393220cfdf3a36040800000000000000
+      internalID: 4639732352371794835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_15
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 296
+        width: 21
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f959bf1fe4495cfa0800000000000000
+      internalID: -5781051479872006753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_16
+      rect:
+        serializedVersion: 2
+        x: 453
+        y: 296
+        width: 21
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7581fcbdeed77f10800000000000000
+      internalID: 2267526050062894461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_17
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 260
+        width: 17
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c567fecd971fe5670800000000000000
+      internalID: 8529520249986315868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_18
+      rect:
+        serializedVersion: 2
+        x: 463
+        y: 260
+        width: 17
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8c3205103021cab0800000000000000
+      internalID: -4989671521266811763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_19
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 223
+        width: 13
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a69c38354037b39b0800000000000000
+      internalID: -5099355690648745622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_20
+      rect:
+        serializedVersion: 2
+        x: 467
+        y: 223
+        width: 13
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e905524309f3e08c0800000000000000
+      internalID: -4031214727867314018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 187
+        width: 17
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f1cb37de38540c80800000000000000
+      internalID: -8357457981570563591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_22
+      rect:
+        serializedVersion: 2
+        x: 463
+        y: 187
+        width: 17
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11ce471f9923861b0800000000000000
+      internalID: -5663220894656041967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_23
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 151
+        width: 21
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 241c663fa437ac950800000000000000
+      internalID: 6470110580419510594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_24
+      rect:
+        serializedVersion: 2
+        x: 453
+        y: 151
+        width: 21
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c50de04fa2992cd0800000000000000
+      internalID: -2582371629914061368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_25
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 118
+        width: 23
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c344be0b6dc6ab670800000000000000
+      internalID: 8555270111490688060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_26
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 118
+        width: 23
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49a891b4db6627a70800000000000000
+      internalID: 8823227583167040148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_27
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 87
+        width: 26
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a78fdc1669333430800000000000000
+      internalID: 3761413224518354856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_28
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 60
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 762ce424b11cac480800000000000000
+      internalID: -8878071392586775961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_29
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 60
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67857edf780504ce0800000000000000
+      internalID: -1423048937238472586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_30
+      rect:
+        serializedVersion: 2
+        x: 417
+        y: 87
+        width: 26
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1220771909e1ed960800000000000000
+      internalID: 7628568425076818465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_31
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 37
+        width: 30
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 554a1a72ca681fc20800000000000000
+      internalID: 3238517681013498965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_32
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 19
+        width: 32
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8cba2a2aa0dc71d0800000000000000
+      internalID: -3351574593400030065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_33
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 19
+        width: 31
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ffc30f3798d94d70800000000000000
+      internalID: 9027985072149745650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_34
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 37
+        width: 30
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74c264f4f7e346550800000000000000
+      internalID: 6153111707406707783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_35
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 6
+        width: 33
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ce17b6e14fe56420800000000000000
+      internalID: 2622765424335855305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_36
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 0
+        width: 33
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28705c3fd55c8e940800000000000000
+      internalID: 5325723566678017922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_37
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 0
+        width: 34
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59b4fbfec1ce19a60800000000000000
+      internalID: 7679178448668937109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_38
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 0
+        width: 33
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b272152a4031f7dc0800000000000000
+      internalID: -3639169063268047061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: canonrail_480 1_39
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 6
+        width: 33
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccc9f1f3201757770800000000000000
+      internalID: 8607910517251480780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      canonrail_480 1_0: 8655024676644762962
+      canonrail_480 1_1: -3980648207798757441
+      canonrail_480 1_10: 7377503366619129304
+      canonrail_480 1_11: -4702955390351170979
+      canonrail_480 1_12: -7298841820772869232
+      canonrail_480 1_13: 4309028322975800389
+      canonrail_480 1_14: 4639732352371794835
+      canonrail_480 1_15: -5781051479872006753
+      canonrail_480 1_16: 2267526050062894461
+      canonrail_480 1_17: 8529520249986315868
+      canonrail_480 1_18: -4989671521266811763
+      canonrail_480 1_19: -5099355690648745622
+      canonrail_480 1_2: 8695622133236707127
+      canonrail_480 1_20: -4031214727867314018
+      canonrail_480 1_21: -8357457981570563591
+      canonrail_480 1_22: -5663220894656041967
+      canonrail_480 1_23: 6470110580419510594
+      canonrail_480 1_24: -2582371629914061368
+      canonrail_480 1_25: 8555270111490688060
+      canonrail_480 1_26: 8823227583167040148
+      canonrail_480 1_27: 3761413224518354856
+      canonrail_480 1_28: -8878071392586775961
+      canonrail_480 1_29: -1423048937238472586
+      canonrail_480 1_3: 5431294947236756037
+      canonrail_480 1_30: 7628568425076818465
+      canonrail_480 1_31: 3238517681013498965
+      canonrail_480 1_32: -3351574593400030065
+      canonrail_480 1_33: 9027985072149745650
+      canonrail_480 1_34: 6153111707406707783
+      canonrail_480 1_35: 2622765424335855305
+      canonrail_480 1_36: 5325723566678017922
+      canonrail_480 1_37: 7679178448668937109
+      canonrail_480 1_38: -3639169063268047061
+      canonrail_480 1_39: 8607910517251480780
+      canonrail_480 1_4: 4198465948226081974
+      canonrail_480 1_5: 610969968705566835
+      canonrail_480 1_6: 5052941413342644714
+      canonrail_480 1_7: -3302260084554380517
+      canonrail_480 1_8: -4842440004031304986
+      canonrail_480 1_9: 388417639952456169
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

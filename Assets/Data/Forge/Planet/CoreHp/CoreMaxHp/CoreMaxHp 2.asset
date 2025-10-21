@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7445806a18514ff4696b945f3c48702d, type: 3}
+  m_Name: CoreMaxHp 2
+  m_EditorClassIdentifier: 
+  forgeId: 1
+  upgradeName: "\uCD5C\uB300 \uCCB4\uB825Lv.Max"
+  upgradeDescription: "\uCF54\uC5B4\uC758 \uCD5C\uB300 \uCCB4\uB825\uC744 \uC0C1\uC2B9\uC2DC\uD0B5\uB2C8\uB2E4.\\n\uCD5C\uB300
+    \uCCB4\uB825: 120 > <color=green>160</color> "
+  depth: 4
+  coalCost: 11
+  ironCost: 6
+  goldCost: 2
+  diamondCost: 1
+  postSubBranches: []
+  CoreMaxHp: 40

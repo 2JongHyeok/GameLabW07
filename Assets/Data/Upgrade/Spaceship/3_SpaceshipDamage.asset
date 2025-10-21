@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cc3f09d9dfc4b943a198bef8b2de719, type: 3}
+  m_Name: 3_SpaceshipDamage
+  m_EditorClassIdentifier: 
+  upgradeName: "\uC6B0\uC8FC\uC120 \uCC44\uAD74 \uD6A8\uC728"
+  upgradeDescription: "\uC6B0\uC8FC\uC120 \uCC44\uAD74 \uD6A8\uC728 \uC99D\uAC00"
+  baseValue: 1
+  recipes:
+  - levelValue: 1
+    cost:
+    - oreType: 0
+      amount: 3
+  - levelValue: 1
+    cost:
+    - oreType: 0
+      amount: 3
+  - levelValue: 1
+    cost:
+    - oreType: 0
+      amount: 3
+    - oreType: 0
+      amount: 0
+    - oreType: 0
+      amount: 0
+    - oreType: 3
+      amount: 1
+  upgradeType: 2

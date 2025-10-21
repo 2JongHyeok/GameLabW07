@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23e564cf66d572f478e1eedfa8ac0b4c, type: 3}
+  m_Name: MoveOrePerSlow 1
+  m_EditorClassIdentifier: 
+  forgeId: 12
+  upgradeName: "\uC6B4\uBC18\uB825 Lv.1"
+  upgradeDescription: "\uC6B0\uC8FC\uC120\uC774 \uB04C \uC218 \uC788\uB294 \uAD11\uBB3C\uB7C9\uC744
+    \uB298\uB9BD\uB2C8\uB2E4. \\n1.5 > <color=green>0.8</color> "
+  depth: 1
+  coalCost: 3
+  ironCost: 0
+  goldCost: 0
+  diamondCost: 0
+  postSubBranches: []
+  OrePerSlow: -0.7

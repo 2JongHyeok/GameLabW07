@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8814e6928576db5479c1e148737f583f, type: 3}
+  m_Name: AttacksBranch
+  m_EditorClassIdentifier: 
+  branchName: "\uACF5\uACA9"
+  branchType: 1
+  subBranches:
+  - {fileID: 11400000, guid: 7ae222599bff8ac4f96eea109368a0d5, type: 2}
+  - {fileID: 11400000, guid: 6c9b6d25c59368a42b7cee3c17ec698e, type: 2}

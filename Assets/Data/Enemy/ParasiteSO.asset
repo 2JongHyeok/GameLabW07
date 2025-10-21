@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d4c88fe6c1a484688e4b3f3094bf28, type: 3}
+  m_Name: ParasiteSO
+  m_EditorClassIdentifier: 
+  enemyType: 4
+  enemyHP: 1
+  enemySpeed: 10
+  enemyPrefab: {fileID: 0}
+  ParasitePrefab: {fileID: 6360892650054380025, guid: 3d29ee9112aae784da1687e8ed4153fc, type: 3}
+  attackRange: 999
+  bulletSpeed: 1
+  attackCooldown: 0.5

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f7d763d70d5d43428007459f6f85e3a, type: 3}
+  m_Name: MissileUnlock 1
+  m_EditorClassIdentifier: 
+  forgeId: 8
+  upgradeName: "\uC720\uB3C4 \uBBF8\uC0AC\uC77C \uD3EC\uB300 \uAC74\uC124"
+  upgradeDescription: "\uC801\uC744 \uC790\uB3D9\uC73C\uB85C \uACF5\uACA9\uD558\uB294
+    \uBBF8\uC0AC\uC77C \uD3EC\uB300\uB97C \uAC74\uC124\uD569\uB2C8\uB2E4.\\n\uC790\uB3D9
+    \uACF5\uACA9 \uBBF8\uC0AC\uC77C <color=green>\uD574\uAE08</color>\\n\uB370\uBBF8\uC9C0:
+    <color=green>10</color>\\n\uBC1C\uC0AC \uC18D\uB3C4: <color=green>0.6</color> "
+  depth: 1
+  coalCost: 6
+  ironCost: 3
+  goldCost: 1
+  diamondCost: 0
+  postSubBranches: []

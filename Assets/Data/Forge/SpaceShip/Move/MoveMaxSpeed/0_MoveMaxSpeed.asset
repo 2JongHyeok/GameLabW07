@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ffc067897671d04fa641fe01a67676c, type: 3}
+  m_Name: 0_MoveMaxSpeed
+  m_EditorClassIdentifier: 
+  branchName: "\uC6B0\uC8FC\uC120 \uCD9C\uB825"
+  subBranchType: 10
+  baseForgeSOs:
+  - {fileID: 11400000, guid: f5dcec8d8aa61bf4d9d1d327f56c16c5, type: 2}
+  - {fileID: 11400000, guid: a60cf594f4e669042b15093182b39053, type: 2}
