@@ -112,7 +112,17 @@ public class AsteroidHealth : MonoBehaviour
             if (tileBeingDamaged is MineralRuleTile mineralTile && mineralTile.itemDropPrefab != null)
             {
                 Vector3 spawnPosition = myTilemap.GetCellCenterWorld(cellPosition);
-                Instantiate(mineralTile.itemDropPrefab, spawnPosition, Quaternion.identity);
+                GameObject spawnedOre = Instantiate(mineralTile.itemDropPrefab, spawnPosition, Quaternion.identity);
+
+                // 채광량 증가 (광물이 생성되어 채집 가능한 상태가 되었을 때)
+                Ore oreComponent = spawnedOre.GetComponent<Ore>();
+                
+                
+                // [Log] 광석 채광량 증가
+                if (oreComponent != null && Managers.Instance != null && Managers.Instance.inventory != null)
+                {
+                    Managers.Instance.inventory.IncrementMinedAmount(oreComponent.oreType, oreComponent.amount);
+                }
             }
 
             myTilemap.SetTile(cellPosition, null);

@@ -122,15 +122,17 @@ public class WaveManager : MonoBehaviour
         if (EnemyCount <= 0 && !isSpawning)
         {
             EnemyCount = 0;
-            // [Log] 웨이브 완료 로그 출력
-            GameAnalyticsLogger.instance.LogWaveComplete(currentWaveIndex, Managers.Instance.core.CurrentHP);
-            // [Log] 웨이브 종료 시 자원 통계 출력
-            
             countdown -= Time.deltaTime;
 
             // 카운트다운이 끝나면 다음 웨이브 시작
             if (countdown <= 0f)
             {
+                // [Log] 웨이브 클리어 로그 출력, 광물 통계 수집
+                if (currentWaveIndex < waves.Length && Managers.Instance != null && Managers.Instance.inventory != null)
+                {
+                    GameAnalyticsLogger.instance.LogWaveComplete(currentWaveIndex, Managers.Instance.core.CurrentHP);
+                    GameAnalyticsLogger.instance.LogWaveResources(currentWaveIndex, Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
+                }
                 StartCoroutine(SpawnWave());
                 countdown = timeBetweenWaves;
                 isFirst = false; // 첫 번째 웨이브가 시작되면 더 이상 첫 시작이 아님
@@ -238,6 +240,12 @@ public class WaveManager : MonoBehaviour
     {
         if (currentWaveIndex >= waves.Length)
             yield break;
+
+        // [Log] 웨이브 시작 시 인벤토리 통계 초기화
+        if (Managers.Instance != null && Managers.Instance.inventory != null)
+        {
+            Managers.Instance.inventory.ResetWaveStats();
+        }
 
         isSpawning = true;
         // [Log] 웨이브 시작 로그 출력 

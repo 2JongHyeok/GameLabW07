@@ -6,22 +6,28 @@ public class InventoryManger : MonoBehaviour
     public OreSO[] orePools;
     public int[] OreList;
     [SerializeField] private InventoryUI inventoryUI;
-    
-    // 인게임 광물 획득 총량
-    public Dictionary<OreType, int> totalOresCollected = new Dictionary<OreType, int>()
-    {
-        { OreType.Coal, 0 },
-        { OreType.Iron, 0 },
-        { OreType.Gold, 0 },
-        { OreType.Diamond, 0 }
-    };
+
+    // 로그 출력용 디버그 변수
+    public int[] minedThisWave;
+    public int[] totalMinedSession;
+    public int[] depositedThisWave;
+    public int[] totalDepositedSession;
 
     private void Start()
     {
         OreList = new int[orePools.Length];
-        foreach (var item in orePools)
+        minedThisWave = new int[orePools.Length];
+        totalMinedSession = new int[orePools.Length];
+        depositedThisWave = new int[orePools.Length];
+        totalDepositedSession = new int[orePools.Length];
+
+        for (int i = 0; i < orePools.Length; i++)
         {
-            OreList[(int)item.oreType] = 0;
+            OreList[i] = 0;
+            minedThisWave[i] = 0;
+            totalMinedSession[i] = 0;
+            depositedThisWave[i] = 0;
+            totalDepositedSession[i] = 0;
         }
         inventoryUI.CreateOreUI(this);
     }
@@ -40,9 +46,11 @@ public class InventoryManger : MonoBehaviour
     public void AddOre(OreType oreType, int amount)
     {
         OreList[(int)oreType] += amount;
+        depositedThisWave[(int)oreType] += amount;
+        totalDepositedSession[(int)oreType] += amount;
         inventoryUI.UpdateOreUI(oreType, OreList[(int)oreType]);
-        totalOresCollected[oreType] += amount;
     }
+    
     public bool RemoveOre(OreType oreType, int amount)
     {
         if (OreList[(int)oreType] >= amount)
@@ -79,19 +87,43 @@ public class InventoryManger : MonoBehaviour
         
         return true;
     }
+
+    // == [Log] 로그 출력용 추가사항 ==
+    // 현재 웨이브 통계 초기화
+    public void ResetWaveStats()
+    {
+        for (int i = 0; i < orePools.Length; i++)
+        {
+            minedThisWave[i] = 0;
+            depositedThisWave[i] = 0;
+        }
+    }
     
-    // 광물 총 획득량 로그 출력용 메서드
-    public string GetTotalOresCollectedAsString()
+    // 채광량 증가 메서드
+    public void IncrementMinedAmount(OreType oreType, int amount)
+    {
+        minedThisWave[(int)oreType] += amount;
+        totalMinedSession[(int)oreType] += amount;
+    }
+
+    // 웨이브 종료 시 자원 통계 문자열 반환
+    public string GetWaveResourceStats(int waveNumber)
     {
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
-        foreach (var kvp in totalOresCollected)
+        sb.Append($"[Wave_Resources] wave: {waveNumber} / timestamp: {Time.time} / ");
+
+        for (int i = 0; i < orePools.Length; i++)
         {
-            sb.Append($"{kvp.Key.ToString()}: {kvp.Value}");
-            sb.Append(", ");
-        }
-        if (sb.Length >= 2)
-        {
-            sb.Length -= 2; // 마지막 ", " 제거
+            OreType oreType = (OreType)i;
+            sb.Append($"{oreType.ToString()} / ");
+            sb.Append($"total_mined_session: {totalMinedSession[i]} / ");
+            sb.Append($"mined_this_wave: {minedThisWave[i]} / ");
+            sb.Append($"total_deposited_session: {totalDepositedSession[i]} / ");
+            sb.Append($"deposited_this_wave: {depositedThisWave[i]}");
+            if (i < orePools.Length - 1)
+            {
+                sb.Append(" | "); // 각 광물 타입별 구분을 위한 구분자
+            }
         }
         return sb.ToString();
     }

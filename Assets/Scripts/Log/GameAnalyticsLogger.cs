@@ -220,25 +220,21 @@ public class GameAnalyticsLogger : MonoBehaviour
             { "Timestamp", GetLocalTime() },
             { "Build_Name", buildName }
         };
-        WriteTxt(LogCategory.Build, "build_upgrade", data);
-        WriteCsv(LogCategory.Build, "build_upgrade", data);
+        WriteTxt(LogCategory.Session, "build_upgrade", data); // Build enum 지금 오류
+        WriteCsv(LogCategory.Session, "build_upgrade", data);
     }
     
     // [Wave_Resources] wave: int / timestamp: float / mineral_type: string / total_mined_session: string / mined_this_wave: string / total_deposited_wave: string /deposited_this_wave: string
-    public void LogWaveResources(int waveNumber, string mineralType, string totalMinedSession, string minedThisWave, string totalDepositedWave, string depositedThisWave)
+    public void LogWaveResources(int waveNumber, string mineralInfo)
     {
         var data = new Dictionary<string, object>
         {
             { "Wave", waveNumber },
             { "Timestamp", GetLocalTime() },
-            { "Mineral_Type", mineralType },
-            { "Total_Mined_Session", totalMinedSession },
-            { "Mined_This_Wave", minedThisWave },
-            { "Total_Deposited_Wave", totalDepositedWave },
-            { "Deposited_This_Wave", depositedThisWave }
+            { "mineral_type: ", mineralInfo }
         };
-        WriteTxt(LogCategory.Build, "wave_resources", data);
-        WriteCsv(LogCategory.Build, "wave_resources", data);
+        WriteTxt(LogCategory.Session, "wave_resources", data);
+        WriteCsv(LogCategory.Session, "wave_resources", data);
     }
     
     // [Total_Resources] mineral_type: string / total_mined_session: string / total_deposited_session: string
@@ -250,8 +246,8 @@ public class GameAnalyticsLogger : MonoBehaviour
             { "Total_Mined_Session", totalMinedSession },
             { "Total_Deposited_Session", totalDepositedSession }
         };
-        WriteTxt(LogCategory.Build, "total_resources", data);
-        WriteCsv(LogCategory.Build, "total_resources", data);
+        WriteTxt(LogCategory.Session, "total_resources", data);
+        WriteCsv(LogCategory.Session, "total_resources", data);
     }
     
     // === Stage ===
