@@ -6,6 +6,15 @@ public class InventoryManger : MonoBehaviour
     public OreSO[] orePools;
     public int[] OreList;
     [SerializeField] private InventoryUI inventoryUI;
+    
+    // 인게임 광물 획득 총량
+    public Dictionary<OreType, int> totalOresCollected = new Dictionary<OreType, int>()
+    {
+        { OreType.Coal, 0 },
+        { OreType.Iron, 0 },
+        { OreType.Gold, 0 },
+        { OreType.Diamond, 0 }
+    };
 
     private void Start()
     {
@@ -32,6 +41,7 @@ public class InventoryManger : MonoBehaviour
     {
         OreList[(int)oreType] += amount;
         inventoryUI.UpdateOreUI(oreType, OreList[(int)oreType]);
+        totalOresCollected[oreType] += amount;
     }
     public bool RemoveOre(OreType oreType, int amount)
     {
@@ -68,5 +78,21 @@ public class InventoryManger : MonoBehaviour
         RemoveOre(OreType.Diamond, forgeSO.diamondCost);
         
         return true;
+    }
+    
+    // 광물 총 획득량 로그 출력용 메서드
+    public string GetTotalOresCollectedAsString()
+    {
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        foreach (var kvp in totalOresCollected)
+        {
+            sb.Append($"{kvp.Key.ToString()}: {kvp.Value}");
+            sb.Append(", ");
+        }
+        if (sb.Length >= 2)
+        {
+            sb.Length -= 2; // 마지막 ", " 제거
+        }
+        return sb.ToString();
     }
 }

@@ -9,6 +9,9 @@ public class Core : MonoBehaviour
     private int currentHP;
     public TMP_Text CoreHpText;
     [SerializeField] private InventoryManger inventoryManger;
+    
+    // 현재 체력 읽기용 
+    public int CurrentHP => currentHP;
 
     private void Awake()
     {
@@ -39,6 +42,8 @@ public class Core : MonoBehaviour
     private void GameOver()
     {
         Destroy(gameObject);
+        // [Log] 웨이브 방어 실패 로그 출력
+        GameAnalyticsLogger.instance.LogWaveFail(WaveManager.Instance.CurrentWaveIndex, Managers.Instance.core.CurrentHP);
         Managers.Instance.RestartPanel.SetActive(true);
         // 이후에 GameOver 연출이나 Scene 전환 로직을 여기에 추가 가능
     }

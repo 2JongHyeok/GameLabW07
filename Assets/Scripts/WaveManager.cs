@@ -41,6 +41,9 @@ public class WaveManager : MonoBehaviour
 
     // 현재 웨이브에서 각 적 타입별 남은 스폰 수
     private Dictionary<EnemyType, int> remainingSpawnCounts = new();
+    
+    // 읽기용 현재 웨이브 인덱스
+    public int CurrentWaveIndex => currentWaveIndex;
 
     private void Awake()
     {
@@ -119,6 +122,10 @@ public class WaveManager : MonoBehaviour
         if (EnemyCount <= 0 && !isSpawning)
         {
             EnemyCount = 0;
+            // [Log] 웨이브 완료 로그 출력
+            GameAnalyticsLogger.instance.LogWaveComplete(currentWaveIndex, Managers.Instance.core.CurrentHP);
+            // [Log] 웨이브 종료 시 자원 통계 출력
+            
             countdown -= Time.deltaTime;
 
             // 카운트다운이 끝나면 다음 웨이브 시작
@@ -233,6 +240,8 @@ public class WaveManager : MonoBehaviour
             yield break;
 
         isSpawning = true;
+        // [Log] 웨이브 시작 로그 출력 
+        GameAnalyticsLogger.instance.LogWaveStart(currentWaveIndex + 1, Managers.Instance.core.CurrentHP);
         WaveSO currentWave = waves[currentWaveIndex];
 
         // 현재 웨이브의 총 적 수 계산 및 EnemyCount 설정
