@@ -25,7 +25,7 @@ public class GameAnalyticsLogger : MonoBehaviour
 {
     { LogCategory.Session,     "session.txt" },
     { LogCategory.Wave,        "wave.txt" },
-    { LogCategory.Build,       "Build" },
+    { LogCategory.Build,       "Build.txt" },
     { LogCategory.Resources,   "resource.txt" },
     { LogCategory.Combat,      "combat.txt" },
     { LogCategory.Movement,    "movement.txt" },
@@ -208,7 +208,7 @@ public class GameAnalyticsLogger : MonoBehaviour
     #endregion
 
     #region Build
-    public void LogBuildUpgrade(int waveNumber, float timestamp, string buildName)
+    public void LogBuildUpgrade(int waveNumber, string buildName)
     {
        var data = new Dictionary<string, object>
         {
@@ -222,17 +222,13 @@ public class GameAnalyticsLogger : MonoBehaviour
     #endregion
 
     #region Resources
-    public void LogWaveResources(int waveNumber, string mineralType, string totalMinedSession, string minedThisWave, string totalDepositedWave, string depositedThisWave)
+    public void LogWaveResources(int waveNumber, string mineralInfo)
     {
         var data = new Dictionary<string, object>
         {
             { "Wave", waveNumber },
             { "Timestamp", GetLocalTime() },
-            { "Mineral_Type", mineralType },
-            { "Total_Mined_Session", totalMinedSession },
-            { "Mined_This_Wave", minedThisWave },
-            { "Total_Deposited_Wave", totalDepositedWave },
-            { "Deposited_This_Wave", depositedThisWave }
+            { " ", mineralInfo }
         };
         WriteTxt(LogCategory.Resources, "wave_resources", data);
         WriteCsv(LogCategory.Resources, "wave_resources", data);

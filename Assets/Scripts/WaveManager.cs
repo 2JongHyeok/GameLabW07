@@ -27,6 +27,7 @@ public class WaveManager : MonoBehaviour
     public float countdown = 10f;
     private bool isSpawning = false;
     private bool isFirst = true; // 게임 시작 시 첫 번째 카운트다운인지 확인
+    private bool waveEnd = false;
 
     [Header("UI")]
     public TMP_Text waveTimerText;
@@ -96,6 +97,7 @@ public class WaveManager : MonoBehaviour
         // 스폰 중이면 웨이브 진행 중 표시
         if (isSpawning)
         {
+            waveEnd = true;
             waveTimerText.text = $"Wave {currentWaveIndex + 1}";
             enemyCountText.text = $"Enemies: {EnemyCount}";
             if (miningInstructionText != null)
@@ -127,12 +129,6 @@ public class WaveManager : MonoBehaviour
             // 카운트다운이 끝나면 다음 웨이브 시작
             if (countdown <= 0f)
             {
-                // [Log] 웨이브 클리어 로그 출력, 광물 통계 수집
-                if (currentWaveIndex < waves.Length && Managers.Instance != null && Managers.Instance.inventory != null)
-                {
-                    GameAnalyticsLogger.instance.LogWaveComplete(currentWaveIndex, Managers.Instance.core.CurrentHP);
-                    GameAnalyticsLogger.instance.LogWaveResources(currentWaveIndex, Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
-                }
                 StartCoroutine(SpawnWave());
                 countdown = timeBetweenWaves;
                 isFirst = false; // 첫 번째 웨이브가 시작되면 더 이상 첫 시작이 아님
@@ -153,6 +149,16 @@ public class WaveManager : MonoBehaviour
                         // 웨이브 사이에는 초록색으로 자원 탐색 메시지 표시
                         miningInstructionText.color = Color.green;
                         miningInstructionText.text = "자원을 탐색하세요";
+                    }
+
+                    if (waveEnd)
+                    {
+                        // [Log] 이전 웨이브 완료 로그 및 자원 통계 기록
+                        GameAnalyticsLogger.instance.LogWaveComplete(currentWaveIndex, Managers.Instance.core.CurrentHP);
+                        GameAnalyticsLogger.instance.LogWaveResources(currentWaveIndex, Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
+                        // [Log] 웨이브 시작 시 인벤토리 통계 초기화
+                        Managers.Instance.inventory.ResetWaveStats();
+                        waveEnd = false;
                     }
                 }
             }
@@ -241,11 +247,8 @@ public class WaveManager : MonoBehaviour
         if (currentWaveIndex >= waves.Length)
             yield break;
 
-        // [Log] 웨이브 시작 시 인벤토리 통계 초기화
-        if (Managers.Instance != null && Managers.Instance.inventory != null)
-        {
-            Managers.Instance.inventory.ResetWaveStats();
-        }
+        
+       
 
         isSpawning = true;
         // [Log] 웨이브 시작 로그 출력 
