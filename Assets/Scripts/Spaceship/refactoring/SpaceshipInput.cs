@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+// using UnityEngine.InputSystem;
 
 // 더 이상 PlayerInput은 필요 없어. 네가 버렸으니까.
 public class SpaceshipInput : MonoBehaviour
@@ -24,7 +24,8 @@ public class SpaceshipInput : MonoBehaviour
     // 모든 걸 이 원시적인 Update() 안에서 해결해주지.
     private void Update()
     {
-        if (Gamepad.current != null)
+        // 추후 게임패드 추가
+        /*if (Gamepad.current != null)
         {
             float gamepadThrust = Gamepad.current.leftStick.ReadValue().y;
             if (Mathf.Abs(gamepadThrust) > gamepadDeadZone)
@@ -38,23 +39,25 @@ public class SpaceshipInput : MonoBehaviour
                 ThrustInput = 0.0f;
             }
 
-        }
+        }*/
 
         if (ThrustInput == 0.0f)
         {
             // 전진/후진 (W/S)
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-            {
-                ThrustInput = 1.0f;
-            }
-            else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-            {
-                ThrustInput = -reverseThrustMultiplier;
-            }
+            // 추후 여기에 키보드 인풋 추가
         }
         else
         {
             ThrustInput = 0.0f;
+        }
+        
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        {
+            ThrustInput = 1.0f;
+        }
+        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        {
+            ThrustInput = -reverseThrustMultiplier;
         }
 
         // 부스트 (Shift)
@@ -63,7 +66,9 @@ public class SpaceshipInput : MonoBehaviour
         // 회전 (A/D)
         // A키는 양수, D키는 음수 값을 줘야 Motor에서 제대로 회전해.
         // 게임패드 왼쪽 스틱 X축 입력 처리 (회전)
-        if (Gamepad.current != null)
+        
+        // 추후 게임패드 추가
+        /*if (Gamepad.current != null)
         {
             float gamepadRotate = Gamepad.current.leftStick.ReadValue().x;
             if (Mathf.Abs(gamepadRotate) > gamepadDeadZone) // 데드존 적용
@@ -74,24 +79,26 @@ public class SpaceshipInput : MonoBehaviour
             {
                 RotateInput = 0f; // 데드존 이내면 입력 없음
             }
-        }
+        }*/
 
         // 게임패드 입력이 없거나 데드존 이내일 경우 키보드 입력 사용 
         // 게임패드 입력이 없었을 때만 키보드 확인
         if (RotateInput == 0f)
         {
-            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-            {
-                RotateInput = -1f;
-            }
-            else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-            {
-                RotateInput = 1f;
-            }
-            else
-            {
-                RotateInput = 0f;
-            }
+            // 추후 여기에 키보드 인풋 추가
+        }
+        
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        {
+            RotateInput = -1f;
+        }
+        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        {
+            RotateInput = 1f;
+        }
+        else
+        {
+            RotateInput = 0f;
         }
     }
 }
