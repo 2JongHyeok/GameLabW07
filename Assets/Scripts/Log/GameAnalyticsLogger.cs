@@ -16,6 +16,11 @@ public class GameAnalyticsLogger : MonoBehaviour
     [Header("Build/Schema")]
     [SerializeField] string buildVersion = "6000.0.55f1";   // 빌드 버전
     [SerializeField] int eventSchemaVersion = 0;            // 로그 구조 버전
+    public int playerBulletCount;
+    public int playerBulletHitCount;
+    public int waveCount = 0;
+    public int exitCount = 0;
+
 
     string userId, sessionId, sessionDir;
     UTF8Encoding noBom = new UTF8Encoding(false);   // 인코딩 시 BOM 제거 - CSV 분석 도구에서 문제 방지용.
@@ -249,18 +254,29 @@ public class GameAnalyticsLogger : MonoBehaviour
     #endregion
 
     #region Combat
-    public void LogEnemySpawn(int waveNumber, string enemyType, string spawnLocation, float enemyStartAttackTime)
+    public void LogEnemySpawn(int waveNumber, string enemyType, int enemyNum, string spawnLocation)
     {
         var data = new Dictionary<string, object>
         {
             { "Wave", waveNumber },
             { "Timestamp", GetLocalTime() },
             { "Enemy_Type", enemyType },
+            { "Enemy_Num", enemyNum },
             { "Spawn_Location", spawnLocation },
-            { "Enemy_StartAttackTime", enemyStartAttackTime }
         };
         WriteTxt(LogCategory.Combat, "enemy_spawn", data);
         WriteCsv(LogCategory.Combat, "enemy_spawn", data);
+    }
+
+   public void LogEnemyStartAttack(int enemyNum)
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "Timestamp", GetLocalTime() },
+            { "Enemy_Num", enemyNum },
+        };
+        WriteTxt(LogCategory.Combat, "enemy_attack", data);
+        WriteCsv(LogCategory.Combat, "enemy_attack", data);
     }
 
     public void LogEnemyKilled(int waveNumber, string enemyType, string defeatedBy)
@@ -277,13 +293,14 @@ public class GameAnalyticsLogger : MonoBehaviour
         WriteCsv(LogCategory.Combat, "enemy_killed", data);
     }
 
-    public void LogPlayerDefend(int waveNumber, int playerAttackCount)
+    public void LogPlayerDefend(int waveNumber, int playerAttackCount,int playerHitCount)
     {
         var data = new Dictionary<string, object>
         {
             { "Wave", waveNumber },
             { "Timestamp", GetLocalTime() },
-            { "Player_AttackCount", playerAttackCount }
+            { "Player_AttackCount", playerAttackCount },
+            { "Player_AttackHitCount", playerHitCount }
         };
         WriteTxt(LogCategory.Combat, "player_defend", data);
         WriteCsv(LogCategory.Combat, "player_defend", data);
@@ -291,34 +308,22 @@ public class GameAnalyticsLogger : MonoBehaviour
     #endregion
 
     #region Movement
-    public void LogPlayerTravel(int wave,int totalTravelTime, int thisWaveTravelTime)
+    public void LogPlayerExitBase()
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", wave },
+            { "Wave", waveCount },
             { "Timestamp", GetLocalTime() },
-            { "Total_Travelled_Time", totalTravelTime },
-            { "This_Wave_Travelled_Time",thisWaveTravelTime },
-        };
-        WriteTxt(LogCategory.Movement, "player_travel_log", data);
-        WriteCsv(LogCategory.Movement, "player_travel_log", data);
-    }
-    public void LogExitBase(int wave, int exitCount)
-    {
-        var data = new Dictionary<string, object>
-        {
-            { "Wave", wave },
-            { "Timestamp", GetLocalTime() },
-            { "Exit_Count_Session", exitCount },
+            { "Exit_Count_Session", ++exitCount },
         };
         WriteTxt(LogCategory.Movement, "player_exit_base", data);
         WriteCsv(LogCategory.Movement, "player_exit_base", data);
     }
-    public void LogPlayerEnterBase(int wave)
+    public void LogPlayerEnterBase()
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", wave },
+            { "Wave", waveCount },
             { "Timestamp", GetLocalTime() },
         };
         WriteTxt(LogCategory.Movement, "player_enter_base", data);

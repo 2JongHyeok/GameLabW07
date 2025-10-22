@@ -221,7 +221,7 @@ public class GuidedMissile : Projectile
         if (enemy != null)
         {
             int dmg = Mathf.RoundToInt(cachedDamage);
-            enemy.TakeDamage(dmg);
+            enemy.TakeDamage(dmg,"AutoMissile");
 
             SpawnExplosion(transform.position);
             spawnExplosionOnDestroy = false;

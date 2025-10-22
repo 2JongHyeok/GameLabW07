@@ -28,6 +28,7 @@ public class WaveManager : MonoBehaviour
     private bool isSpawning = false;
     private bool isFirst = true; // 게임 시작 시 첫 번째 카운트다운인지 확인
     private bool waveEnd = false;
+    public int enemyNum = 0;
 
     [Header("UI")]
     public TMP_Text waveTimerText;
@@ -153,6 +154,12 @@ public class WaveManager : MonoBehaviour
 
                     if (waveEnd)
                     {
+                        GameAnalyticsLogger.instance.waveCount = CurrentWaveIndex+1;
+                        GameAnalyticsLogger.instance.LogPlayerDefend(currentWaveIndex,
+                            GameAnalyticsLogger.instance.playerBulletCount,
+                            GameAnalyticsLogger.instance.playerBulletHitCount);
+                        GameAnalyticsLogger.instance.playerBulletCount = 0;
+                        GameAnalyticsLogger.instance.playerBulletHitCount = 0;
                         // [Log] 이전 웨이브 완료 로그 및 자원 통계 기록
                         GameAnalyticsLogger.instance.LogWaveComplete(currentWaveIndex, Managers.Instance.core.CurrentHP);
                         GameAnalyticsLogger.instance.LogWaveResources(currentWaveIndex, Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
@@ -227,7 +234,10 @@ public class WaveManager : MonoBehaviour
         {
             enemyComponent.ResetState(); // 모든 상태 초기화
         }
-        
+        GameAnalyticsLogger.instance.LogEnemySpawn(
+            currentWaveIndex, enemyComponent.enemyData.enemyType.ToString()
+            ,enemyComponent.enemyNum++ , spawnPosition.ToString());
+
         // 스폰 시에는 카운트 증가 안 함 (미리 설정된 값 사용)
     }
 

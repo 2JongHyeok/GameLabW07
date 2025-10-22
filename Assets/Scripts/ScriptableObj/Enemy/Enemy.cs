@@ -19,7 +19,9 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public bool isDead = false;
     [HideInInspector] public bool isAttacking = false; // WaveManager에서 초기화
     [HideInInspector] public float attackTimer = 0f; // WaveManager에서 초기화
-    
+    public int enemyNum = 0;
+    private bool hasLoggedFirstAttack = false; // 첫 공격 로그 여부
+
     // 내부 상태
     private EnemyType enemyType;
     private float enemySpeed;
@@ -70,6 +72,15 @@ public class Enemy : MonoBehaviour
             {
                 enemyData.PerformAttack(this);
                 attackTimer = attackCooldown;
+
+                if (!hasLoggedFirstAttack)
+                {
+                    hasLoggedFirstAttack = true;
+
+                    GameAnalyticsLogger.instance.LogEnemyStartAttack(
+                        enemyNum
+                    );
+                }
             }
             else
             {
@@ -102,7 +113,8 @@ public class Enemy : MonoBehaviour
         isAttacking = false;
         attackTimer = 0f;
         isDead = false;
-        
+        hasLoggedFirstAttack = false;
+        enemyNum = WaveManager.Instance.enemyNum;
         // 피격 이펙트 초기화
         if (hitFlashEffect != null)
         {
@@ -138,7 +150,7 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, string weaponType)
     {
         if (isDead) return; // 이미 죽었으면 무시
 
@@ -157,6 +169,7 @@ public class Enemy : MonoBehaviour
         
         if (enemyHP <= 0)
         {
+            GameAnalyticsLogger.instance.LogEnemyKilled(WaveManager.Instance.CurrentWaveIndex, enemyType.ToString(), weaponType);
             isDead = true;
             myPool.Release(gameObject);
         }
