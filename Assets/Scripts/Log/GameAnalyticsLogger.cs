@@ -5,9 +5,10 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public enum LogCategory { Session, Stage, Combat, Progression, Movement, Ore, Core, Wave }
+public enum LogCategory { Session, Stage, Combat, Progression, Movement, Ore, Core, Wave,Build }
 
 public class GameAnalyticsLogger : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class GameAnalyticsLogger : MonoBehaviour
     { LogCategory.Progression, "progression.txt" },
     { LogCategory.Movement,    "movement.txt" },
     { LogCategory.Ore,         "ore.txt" },
-    { LogCategory.Core,        "core.txt" },
+    { LogCategory.Core,        "core.txt" }
 };
 
     readonly Dictionary<LogCategory, string[]> csvHeaders = new()
@@ -41,6 +42,7 @@ public class GameAnalyticsLogger : MonoBehaviour
     { LogCategory.Movement, new[]{"event_name","ts","t","pos_x","pos_y","vel_x","vel_y","vel_z","dt"}},
     { LogCategory.Ore, new[]{"event_name","ts","t","amount","wave","tile_x","tile_y","tile_type","cause"}},
     { LogCategory.Core, new[]{"event_name","ts","t","delta","hp_after","blocked_amount"}},
+    { LogCategory.Build , new[]{"event_name"}}  // 이거 추가해줘.
 };
 
     readonly Dictionary<LogCategory, StreamWriter> csvWriters = new();
@@ -131,14 +133,14 @@ public class GameAnalyticsLogger : MonoBehaviour
         var sw = GetCsv(cat);
         sw.WriteLine(CsvUtil.Join(row));
     }
-    string GetCurrentTime()
+    string GetCurrentTime() // 게임 시간
     {
         TimeSpan timeSpan = TimeSpan.FromSeconds(Time.time);
         string formattedTime = $"{(int)timeSpan.TotalHours:D2}:{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
         return formattedTime;
     }
 
-    string GetLocalTime()
+    string GetLocalTime() // 실제 현재 시간
     {
         DateTime startTimeUtc = DateTime.Now;
         return startTimeUtc.ToString("yyyy-MM-dd HH:mm:ss");
@@ -147,6 +149,7 @@ public class GameAnalyticsLogger : MonoBehaviour
     #endregion
     // === Session ===
     #region Session
+    //[session_start] timestamp: float
     public void LogSessionStart()
     {
         var data = new Dictionary<string, object> { 
@@ -156,17 +159,141 @@ public class GameAnalyticsLogger : MonoBehaviour
         WriteCsv(LogCategory.Session, "session_start", data);
     }
 
+    // [session_stop] timestamp: float / session_duration: float
     public void LogSessionEnd()
     {
         var data = new Dictionary<string, object> {
             {"EndTime",GetLocalTime() },
-            { "play_time_sec", Math.Round(Time.realtimeSinceStartup - sessionStartRealtime, 3)}
+            {"Session_Duration", Math.Round(Time.realtimeSinceStartup - sessionStartRealtime, 3)}
         };
         WriteTxt(LogCategory.Session, "session_end", data);
         WriteCsv(LogCategory.Session, "session_end", data);
     }
+    
+    // [wave_start] wave: int / timestamp: float / core_hp_BeforeWave: float
+    public void LogWaveStart(int waveNumber, int coreHpBefore)
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "Wave", waveNumber },
+            { "Timestamp", GetLocalTime() },
+            { "Core_Hp_Before",  coreHpBefore}
+        };
+        WriteTxt(LogCategory.Wave, "wave_start", data);
+        WriteCsv(LogCategory.Wave, "wave_start", data);
+    }
+    
+    // [wave_complete] wave: int / timestamp: float / core_hp_CompleteWave: float
+    public void LogWaveComplete(int waveNumber, int coreHpComplete)
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "Wave", waveNumber },
+            { "Timestamp", GetLocalTime() },
+            { "Core_Hp_CompleteWave",  coreHpComplete}
+        };
+        WriteTxt(LogCategory.Wave, "wave_complete", data);
+        WriteCsv(LogCategory.Wave, "wave_complete", data);
+    }
+    
+    // [wave_fail] wave: int / timestamp: float / core_hp_FailWave: float
+    public void LogWaveFail(int waveNumber, int coreHpFail)
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "Wave", waveNumber },
+            { "Timestamp", GetLocalTime() },
+            { "Core_Hp_FailWave",  coreHpFail}
+        };
+        WriteTxt(LogCategory.Wave, "wave_fail", data);
+        WriteCsv(LogCategory.Wave, "wave_fail", data);
+    }
     #endregion
+    
+    // === Build ===
+    // [build_upgrade] wave: int / timestamp: float / build_name: string 
+    public void LogBuildUpgrade(int waveNumber, float timestamp, string buildName)
+    {
+       var data = new Dictionary<string, object>
+        {
+            { "Wave", waveNumber },
+            { "Timestamp", GetLocalTime() },
+            { "Build_Name", buildName }
+        };
+        WriteTxt(LogCategory.Build, "build_upgrade", data);
+        WriteCsv(LogCategory.Build, "build_upgrade", data);
+    }
+    
+    // [Wave_Resources] wave: int / timestamp: float / mineral_type: string / total_mined_session: string / mined_this_wave: string / total_deposited_wave: string /deposited_this_wave: string
+    public void LogWaveResources(int waveNumber, string mineralType, string totalMinedSession, string minedThisWave, string totalDepositedWave, string depositedThisWave)
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "Wave", waveNumber },
+            { "Timestamp", GetLocalTime() },
+            { "Mineral_Type", mineralType },
+            { "Total_Mined_Session", totalMinedSession },
+            { "Mined_This_Wave", minedThisWave },
+            { "Total_Deposited_Wave", totalDepositedWave },
+            { "Deposited_This_Wave", depositedThisWave }
+        };
+        WriteTxt(LogCategory.Build, "wave_resources", data);
+        WriteCsv(LogCategory.Build, "wave_resources", data);
+    }
+    
+    // [Total_Resources] mineral_type: string / total_mined_session: string / total_deposited_session: string
+    public void LogTotalResources(string mineralType, string totalMinedSession, string totalDepositedSession)
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "Mineral_Type", mineralType },
+            { "Total_Mined_Session", totalMinedSession },
+            { "Total_Deposited_Session", totalDepositedSession }
+        };
+        WriteTxt(LogCategory.Build, "total_resources", data);
+        WriteCsv(LogCategory.Build, "total_resources", data);
+    }
+    
     // === Stage ===
+    // [player_travel_log] wave: int / timestamp: float / total_travelled_time: float / this_wave_travelled_time: float 
+    public void LogPlayerTravel(int waveNumber, float totalTravelledTime, float thisWaveTravelledTime)
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "Wave", waveNumber },
+            { "Timestamp", GetLocalTime() },
+            { "Total_Travelled_Time", totalTravelledTime },
+            { "This_Wave_Travelled_Time", thisWaveTravelledTime }
+        };
+        WriteTxt(LogCategory.Stage, "player_travel_log", data);
+        WriteCsv(LogCategory.Stage, "player_travel_log", data);
+    }
+    
+    // [player_exit_base] wave: int / timestamp: float / exit_count_session: int
+    public void LogPlayerExitBase(int waveNumber, int exitCountSession)
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "Wave", waveNumber },
+            { "Timestamp", GetLocalTime() },
+            { "Exit_Count_Session", exitCountSession }
+        };
+        WriteTxt(LogCategory.Stage, "player_exit_base", data);
+        WriteCsv(LogCategory.Stage, "player_exit_base", data);
+    }
+    
+    // [player_enter_base] wave: int / timestamp: float
+    public void LogPlayerEnterBase(int waveNumber)
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "Wave", waveNumber },
+            { "Timestamp", GetLocalTime() }
+        };
+        WriteTxt(LogCategory.Stage, "player_enter_base", data);
+        WriteCsv(LogCategory.Stage, "player_enter_base", data);
+    }
+    
     public void LogLevelStart(string levelId, int? wave = null)
     {
         var data = new Dictionary<string, object> { { "level_id", levelId }, { "wave", wave } };
@@ -196,6 +323,49 @@ public class GameAnalyticsLogger : MonoBehaviour
     }
 
     // === Combat ===
+    // [enemy_spawn] wave: int / timestamp: float / enemy_type: string / spawn_location: string / enemy_StartAttackTime: float 
+    public void LogEnemySpawn(int waveNumber, string enemyType, string spawnLocation, float enemyStartAttackTime)
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "Wave", waveNumber },
+            { "Timestamp", GetLocalTime() },
+            { "Enemy_Type", enemyType },
+            { "Spawn_Location", spawnLocation },
+            { "Enemy_StartAttackTime", enemyStartAttackTime }
+        };
+        WriteTxt(LogCategory.Combat, "enemy_spawn", data);
+        WriteCsv(LogCategory.Combat, "enemy_spawn", data);
+    }
+    
+    // [enemy_defeated] wave: int / timestamp: float / enemy_type: string / defeated_by: string / enemy_DestroyedTime: float
+    public void LogEnemyDefeated(int waveNumber, string enemyType, string defeatedBy, float enemyDestroyedTime)
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "Wave", waveNumber },
+            { "Timestamp", GetLocalTime() },
+            { "Enemy_Type", enemyType },
+            { "Defeated_By", defeatedBy },
+            { "Enemy_DestroyedTime", enemyDestroyedTime }
+        };
+        WriteTxt(LogCategory.Combat, "enemy_defeated", data);
+        WriteCsv(LogCategory.Combat, "enemy_defeated", data);
+    }
+    
+    // [player_Defend] wave: int / timestamp: float / player_AttackCount: int
+    public void LogPlayerDefend(int waveNumber, int playerAttackCount)
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "Wave", waveNumber },
+            { "Timestamp", GetLocalTime() },
+            { "Player_AttackCount", playerAttackCount }
+        };
+        WriteTxt(LogCategory.Combat, "player_defend", data);
+        WriteCsv(LogCategory.Combat, "player_defend", data);
+    }
+    
     public void LogBossAttempt(string bossId)
     {
         var data = new Dictionary<string, object> { { "boss_id", bossId } };
