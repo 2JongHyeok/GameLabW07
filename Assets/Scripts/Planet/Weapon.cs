@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using System.Collections;
+
 
 public class Weapon : MonoBehaviour
 {
     [Header("WeaponPivot")]
     [SerializeField] private GameObject weaponPivot;
-
+    
     [Header("Values")]
     [SerializeField] private int damage = 10;
     [SerializeField] private float rotationSpeed = 100f;
@@ -13,6 +16,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Transform firePoint;
     [SerializeField] private float explosionRadius = 1.5f;
     [SerializeField] private DockingStation dockingStation;
+    
 
     [Header("Sprite Changes")]  // 외형 변경용
     public SpriteRenderer targetRenderer;   // 없으면 GetComponent로 검색
@@ -28,6 +32,10 @@ public class Weapon : MonoBehaviour
     [Range(1, 3)] public int maxBullets = 3;
     public float spacing = 1.0f;    // 총알 사이의 거리
     public int level = 1;
+    
+    [Header("Gamepad Settings")]
+    private Coroutine rumbleCoroutine; // 현재 실행 중인 진동 코루틴
+    private float stickDeadZone = 0.1f;      // 스틱 데드존
 
     void Awake()
     {
@@ -43,42 +51,81 @@ public class Weapon : MonoBehaviour
 
     private void MoveWeapon()
     {
-        // 입력 → 회전 방향(+1 시계/반시계 여부는 기존 코드 그대로)
-        float inputDir = 0f;
+        // 게임 패드 입력 (절대 각도 조준)
+        Vector2 rotationInput = Vector2.zero;
+        bool gamepadConnected = (Gamepad.current != null);
 
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-            inputDir = 1f;
-        else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-            inputDir = -1f;
-
-        if (inputDir != 0f)
+        if (gamepadConnected)
         {
-            // 방향이 바뀌면 가속 타이머 초기화
-            if (Mathf.Sign(inputDir) != Mathf.Sign(lastDirection))
-            {
-                accelTimer = 0f;
-            }
-
-            accelTimer += Time.deltaTime;
-            float ramp = Mathf.Clamp01(accelTimer / Mathf.Max(0.0001f, accelTime)); // 0→1
-            float currentSpeed = rotationSpeed * ramp;
-
-            float rotationAmount = inputDir * currentSpeed * Time.deltaTime;
-            weaponPivot.transform.Rotate(0f, 0f, rotationAmount);
-
-            lastDirection = inputDir;
+            rotationInput = Gamepad.current.leftStick.ReadValue();
         }
-        else
+
+        // 게임패드 왼쪽 스틱 입력이 있고, 데드존을 넘어섰을 때
+        if (gamepadConnected && rotationInput.magnitude > stickDeadZone)
         {
-            // 입력이 없으면 즉시 정지(가속도 리셋)
+            // 스틱의 방향 벡터를 각도로 변환 - 스프라이트 기본 방향이 위쪽이므로 -90도 보정
+            float targetAngle = Mathf.Atan2(rotationInput.y, rotationInput.x) * Mathf.Rad2Deg - 90f;
+            Quaternion targetRotation = Quaternion.Euler(0, 0, targetAngle);
+
+            // weaponPivot을 목표 각도로 보간 회전
+            // rotationSpeed 변수를 최대 회전 속도로 사용
+            weaponPivot.transform.rotation = Quaternion.RotateTowards(weaponPivot.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+            // 패드 사용 시 키보드 가속도 관련 변수 초기화
             accelTimer = 0f;
             lastDirection = 0f;
+        }
+        
+        // 키보드 입력 (상대적 회전) - 기존 키보드 로직, 게임패드 연결 안 됨, 또는 스틱 입력이 없거나 데드존 이내일 경우
+        else 
+        {
+            float inputDir = 0f;
+
+            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+                inputDir = 1f;
+            else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+                inputDir = -1f;
+
+            if (inputDir != 0f)
+            {
+                // 방향이 바뀌면 가속 타이머 초기화
+                if (Mathf.Sign(inputDir) != Mathf.Sign(lastDirection))
+                {
+                    accelTimer = 0f;
+                }
+
+                accelTimer += Time.deltaTime;
+                float ramp = Mathf.Clamp01(accelTimer / Mathf.Max(0.0001f, accelTime)); // 0→1
+                float currentSpeed = rotationSpeed * ramp;
+
+                float rotationAmount = inputDir * currentSpeed * Time.deltaTime;
+                weaponPivot.transform.Rotate(0f, 0f, rotationAmount);
+
+                lastDirection = inputDir;
+            }
+            else
+            {
+                // 입력이 없으면 즉시 정지(가속도 리셋)
+                accelTimer = 0f;
+                lastDirection = 0f;
+            }
         }
     }
 
     void Fire()
     {
-        if (Input.GetKey(KeyCode.Space) && Time.time >= nextFireTime)
+        // 키보드 스페이스바 입력 확인
+        bool keyboardFire = Input.GetKey(KeyCode.Space);
+
+        // 게임패드 A 버튼 입력 확인
+        bool gamepadFire = false;
+        if (Gamepad.current != null)
+        {
+            gamepadFire = Gamepad.current.buttonSouth.IsPressed();
+        }
+
+        // 둘 중 하나라도 눌렸고, 발사 딜레이가 지났다면 발사
+        if ((keyboardFire || gamepadFire) && Time.time >= nextFireTime)
         {
             nextFireTime = Time.time + fireRate;
             FireBullet();
@@ -93,6 +140,17 @@ public class Weapon : MonoBehaviour
             return;
         }
 
+        // 진동 관련
+        if (Gamepad.current != null)
+        {
+            if (rumbleCoroutine != null)
+            {
+                StopCoroutine(rumbleCoroutine);
+            }
+            
+            rumbleCoroutine = StartCoroutine(Rumble(0.1f, 0.25f, 0.25f));
+        }
+        
         int count = Mathf.Clamp(level, 1, maxBullets);
         for (int i = 0; i < count; i++)
         {
@@ -101,6 +159,26 @@ public class Weapon : MonoBehaviour
             Instantiate(bulletPrefab, spawnPos, firePoint.rotation);
         }
 
+    }
+    
+    // 게임패드 진동 코루틴 - duration 초 동안 lowFrequency와 highFrequency로 진동
+    private IEnumerator Rumble(float duration, float lowFrequency, float highFrequency)
+    {
+        if (Gamepad.current == null)
+            yield break;
+
+        // 진동 시작
+        Gamepad.current.SetMotorSpeeds(lowFrequency, highFrequency);
+
+        // 지정된 시간만큼 대기
+        yield return new WaitForSeconds(duration);
+
+        // 진동 정지 (코루틴이 끝날 때 패드 연결이 끊겼을 수도 있으니 다시 한번 체크)
+        if (Gamepad.current != null)
+        {
+            Gamepad.current.SetMotorSpeeds(0f, 0f);
+        }
+        rumbleCoroutine = null; // 코루틴 완료 처리
     }
 
     #region Function Use At Other Script

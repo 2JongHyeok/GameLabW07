@@ -131,10 +131,6 @@ public class SpaceshipMotor : MonoBehaviour
         return thrustPower * multiplier;
     }
 
-
-
-
-
     public void Move(float thrustInput, float boostMultiplier)
     {
         if (Mathf.Abs(thrustInput) > 0.01f)
