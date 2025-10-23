@@ -3781,8 +3781,8 @@ MonoBehaviour:
   initialWeaponBulletLevel: 1
   initialMissileDamage: 10
   initialMissileInterval: 1
-  initialThrustPower: 50
-  initialThrustReductionPerOre: 1.5
+  initialThrustPower: 60
+  initialThrustReductionPerOre: 8
   initialMiningDamage: 2
   initialMiningAttackSpeed: 0.6
   initialMiningRadius: 0.4

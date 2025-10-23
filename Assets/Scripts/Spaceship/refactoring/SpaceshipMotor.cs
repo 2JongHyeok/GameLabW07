@@ -7,8 +7,9 @@ public class SpaceshipMotor : MonoBehaviour
     private SpaceshipCargoSystem cargoSystem;
 
     [Header("Cargo Weight Penalty")]
-    [Tooltip("광물 1개당 추력이 몇 퍼센트(%) 감소할지 설정합니다. (예: 5 입력 시 5%)")]
-    [SerializeField] private float thrustReductionPerOre = 5f;
+    [Tooltip("광물 1개당 추력이 몇 퍼센트(%) 감소할지 설정합니다.")]
+    [SerializeField] private int allowedOreCount = 5;       // 허용 가능한 광물 수
+    [SerializeField] private float overLimitPenaltyPercent = 30f; // 초과 시마다 감소율 (% 단위)
 
     [Header("Thrust Settings")]
     [SerializeField] private float thrustPower = 2000f;
@@ -120,14 +121,32 @@ public class SpaceshipMotor : MonoBehaviour
     private float CalculateEffectiveThrust()
     {
         float multiplier = 1.0f;
+
         if (cargoSystem != null)
         {
             int oreCount = cargoSystem.GetCollectedOreCount();
-            int penaltyWeight = oreCount * (oreCount + 1) / 2;
-            float totalReductionPercent = penaltyWeight * thrustReductionPerOre;
-            multiplier = 1.0f - (totalReductionPercent / 100.0f);
-            multiplier = Mathf.Max(0f, multiplier);
+
+            // 1. 허용 한도 이하라면 추력 감소 없음
+            if (oreCount <= allowedOreCount)
+            {
+                multiplier = 1.0f;
+            }
+            else
+            {
+                // 2. 초과분 계산
+                int excessCount = oreCount - allowedOreCount;
+
+                // 3. 초과 1개당 30%씩 급격히 감소 (누적 적용)
+                float reductionPercent = excessCount * overLimitPenaltyPercent;
+
+                // 4. 감소율 누적 적용 (예: 1개 초과 → -30%, 2개 초과 → -60%, ...)
+                multiplier = 1.0f - (reductionPercent / 100f);
+
+                // 5. 0% 이하로는 떨어지지 않도록 보정
+                multiplier = Mathf.Max(0f, multiplier);
+            }
         }
+
         return thrustPower * multiplier;
     }
 
@@ -228,11 +247,13 @@ public class SpaceshipMotor : MonoBehaviour
     public void SetRotationalGlideReduction(float value) { rotationalGlideReduction = Mathf.Clamp(value, 0.9f, 1f); }
     public void AddRotationalGlideReduction(float amount) { rotationalGlideReduction = Mathf.Clamp(rotationalGlideReduction + amount, 0.9f, 1f); }
 
+    public int GetAllowedOreCount() { return allowedOreCount; }
+    public void SetAllowedOreCount(int value) { allowedOreCount = Mathf.Max(0, value); }
+    public void AddAllowedOreCount(int amount) { allowedOreCount = Mathf.Max(0, allowedOreCount + amount); }
 
-// ★ 추가: 광물당 추력 감소율 업그레이드를 위한 Getter & Setter
-    public float GetThrustReductionPerOre() { return thrustReductionPerOre; }
-    public void SetThrustReductionPerOre(float value) { thrustReductionPerOre = Mathf.Max(0f, value); } // 0% 미만으로 내려가지 않도록 보정
-    public void AddThrustReductionPerOre(float amount) { SetThrustReductionPerOre(thrustReductionPerOre + amount); }
+    public float GetOverLimitPenaltyPercent() { return overLimitPenaltyPercent; }
+    public void SetOverLimitPenaltyPercent(float value) { overLimitPenaltyPercent = Mathf.Clamp(value, 0f, 100f); }
+    public void AddOverLimitPenaltyPercent(float amount) { overLimitPenaltyPercent = Mathf.Clamp(overLimitPenaltyPercent + amount, 0f, 100f); }
 
     #endregion
 
