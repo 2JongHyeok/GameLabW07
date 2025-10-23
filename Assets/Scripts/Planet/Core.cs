@@ -7,7 +7,7 @@ public class Core : MonoBehaviour
     [Header("Core 설정")]
     public int maxHP = 100;
     private int currentHP;
-    public TMP_Text CoreHpText;
+    //public TMP_Text CoreHpText;
     [SerializeField] private InventoryManger inventoryManger;
     
     // 현재 체력 읽기용 
@@ -16,21 +16,21 @@ public class Core : MonoBehaviour
     private void Awake()
     {
         currentHP = maxHP;
-        UpdateHPText();
+        //UpdateHPText();
     }
 
-    private void UpdateHPText()
-    {
-        if (CoreHpText != null)
-        {
-            CoreHpText.text = $"Core HP: {currentHP}/{maxHP}";
-        }
-    }
+    //private void UpdateHPText()
+    //{
+    //    if (CoreHpText != null)
+    //    {
+    //        CoreHpText.text = $"Core HP: {currentHP}/{maxHP}";
+    //    }
+    //}
 
     public void TakeDamage(int damage)
     {
         currentHP -= damage;
-        UpdateHPText();
+        //UpdateHPText();
 
         if (currentHP <= 0)
         {
@@ -65,7 +65,7 @@ public class Core : MonoBehaviour
     public void HealHP(int amount)
     {
         currentHP = Mathf.Min(currentHP + amount, maxHP);
-        UpdateHPText();
+        //UpdateHPText();
     }
     
     // 외부에서 MaxHP 증가 및 UI 갱신
@@ -73,12 +73,12 @@ public class Core : MonoBehaviour
     {
         maxHP += amount;
         currentHP += amount; // 현재 HP도 함께 증가
-        UpdateHPText();
+        //UpdateHPText();
     }
     
     // 외부에서 UI 갱신 호출용
     public void RefreshHPText()
     {
-        UpdateHPText();
+        //UpdateHPText();
     }
 }
