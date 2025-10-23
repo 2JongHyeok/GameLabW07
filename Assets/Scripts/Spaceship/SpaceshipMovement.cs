@@ -404,18 +404,6 @@ public class SpaceshipMovement : MonoBehaviour
         {
             rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         }
-        Vector2 currentPosition = rb.position;
-
-        // 프레임 간 이동 거리 누적
-        float frameDistance = Vector2.Distance(currentPosition, GameAnalyticsLogger.instance.playerLastPosition);
-        GameAnalyticsLogger.instance.playerMoveDistance += frameDistance;
-
-        // (0,0)에서 떨어진 거리 계산
-        float distanceFromOrigin = currentPosition.magnitude;
-        if (distanceFromOrigin > GameAnalyticsLogger.instance.maxDistanceToOrigin)
-            GameAnalyticsLogger.instance.maxDistanceToOrigin = distanceFromOrigin;
-
-        // 다음 프레임 계산을 위해 갱신
-        GameAnalyticsLogger.instance.playerLastPosition = currentPosition;
+        
     }
 }

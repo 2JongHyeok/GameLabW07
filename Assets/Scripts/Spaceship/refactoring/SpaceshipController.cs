@@ -28,7 +28,7 @@ public class SpaceshipController : MonoBehaviour
     [SerializeField] private float engineMaxVolume = 0.5f;
     [SerializeField] private float boostMaxVolume = 0.8f;
     [SerializeField] private float gasMaxVolume = 0.5f;
-
+    private Rigidbody2D rb;
     [Header("총알 발사 설정")]
     [Tooltip("발사할 총알 프리팹")]
     public GameObject bulletPrefab;
@@ -49,6 +49,7 @@ public class SpaceshipController : MonoBehaviour
         shipInput = GetComponent<SpaceshipInput>();
         shipMotor = GetComponent<SpaceshipMotor>();
         shipWeapon = GetComponent<SpaceshipWeapon>();
+        rb = GetComponent<Rigidbody2D>();   // 로그용
     }
 
     private void Start()
@@ -91,6 +92,19 @@ public class SpaceshipController : MonoBehaviour
         shipMotor.Rotate(shipInput.RotateInput);
         shipMotor.ApplyActiveDeceleration(shipInput.ThrustInput);
         shipMotor.ApplyActiveRotationalDeceleration(shipInput.RotateInput);
+        Vector2 currentPosition = rb.position;
+
+        // 프레임 간 이동 거리 누적
+        float frameDistance = Vector2.Distance(currentPosition, GameAnalyticsLogger.instance.playerLastPosition);
+        GameAnalyticsLogger.instance.playerMoveDistance += frameDistance;
+
+        // (0,0)에서 떨어진 거리 계산
+        float distanceFromOrigin = currentPosition.magnitude;
+        if (distanceFromOrigin > GameAnalyticsLogger.instance.maxDistanceToOrigin)
+            GameAnalyticsLogger.instance.maxDistanceToOrigin = distanceFromOrigin;
+
+        // 다음 프레임 계산을 위해 갱신
+        GameAnalyticsLogger.instance.playerLastPosition = currentPosition;
     }
     
     private void UpdateEffects(bool isThrusting, bool isBoosting, float rotateInput)
