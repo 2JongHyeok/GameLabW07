@@ -51,6 +51,7 @@ public class DockingStation : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) && !isSpaceshipMode)
         {
             GameAnalyticsLogger.instance.LogPlayerExitBase();
+            GameAnalyticsLogger.instance.isInSpaceShip = true;
             // 활성화 전에 위치와 회전을 먼저 적용
             dockedShip.transform.SetPositionAndRotation(nextDeparturePosition, nextDepartureRotation);
             
@@ -87,6 +88,8 @@ public class DockingStation : MonoBehaviour
         {
             isSpaceshipInRange = true; // 도킹이 발생했으므로 InRange 상태로 간주
             GameAnalyticsLogger.instance.LogPlayerEnterBase();
+            GameAnalyticsLogger.instance.isInSpaceShip = false;
+
             // --- 기존 Update()에 있던 도킹 로직을 여기로 이동 ---
             cameraSwitcher?.ToggleCameraMode();
             isSpaceshipMode = false;

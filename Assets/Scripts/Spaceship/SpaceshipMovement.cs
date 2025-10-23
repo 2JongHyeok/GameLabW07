@@ -91,7 +91,6 @@ public class SpaceshipMovement : MonoBehaviour
             gasDirectionSound.volume = 0f;
             gasDirectionSound.Play();
         }
-        // ✅ 부스터 UI(Slider)를 자동으로 찾아서 연결
         fuelGauge = GameObject.Find("BoosterBar")?.GetComponent<Slider>();
         if (fuelGauge != null)
         {
@@ -186,7 +185,7 @@ public class SpaceshipMovement : MonoBehaviour
             float speed = rb.linearVelocity.magnitude * 3.6f;
             speedText.text = speed.ToString("F1") + " km/h";
         }
-
+        
         if (directionArrow != null)
         {
             float speed = rb.linearVelocity.magnitude;
@@ -405,5 +404,18 @@ public class SpaceshipMovement : MonoBehaviour
         {
             rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         }
+        Vector2 currentPosition = rb.position;
+
+        // 프레임 간 이동 거리 누적
+        float frameDistance = Vector2.Distance(currentPosition, GameAnalyticsLogger.instance.playerLastPosition);
+        GameAnalyticsLogger.instance.playerMoveDistance += frameDistance;
+
+        // (0,0)에서 떨어진 거리 계산
+        float distanceFromOrigin = currentPosition.magnitude;
+        if (distanceFromOrigin > GameAnalyticsLogger.instance.maxDistanceToOrigin)
+            GameAnalyticsLogger.instance.maxDistanceToOrigin = distanceFromOrigin;
+
+        // 다음 프레임 계산을 위해 갱신
+        GameAnalyticsLogger.instance.playerLastPosition = currentPosition;
     }
 }

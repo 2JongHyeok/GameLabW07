@@ -26,42 +26,40 @@ public class SpaceshipLocationManager : MonoBehaviour
             interiorRenderer = spaceshipInterior.GetComponent<SpriteRenderer>();
             if (interiorRenderer != null)
             {
-                interiorRenderer.enabled = false; // 🚀 기본적으로 내부는 보이지 않도록 설정
+                interiorRenderer.enabled = false; 
             }
         }
     }
 
-    // 🚪 문 오브젝트 반환
     public GameObject GetDoor()
     {
         return door;
     }
 
-    // 🚀 내부 오브젝트 반환
+ 
     public GameObject GetInterior()
     {
         return spaceshipInterior;
     }
 
-    // 🛸 콕핏 오브젝트 반환
+  
     public GameObject GetCockpit()
     {
         return cockpit;
     }
 
-    // 🚀 플레이어가 탑승할 때 이동할 위치 반환 (우주선 기준 회전 적용)
     public Vector2 GetEnterPosition()
     {
         return transform.position + (Vector3)(transform.TransformDirection(enterOffset));
     }
 
-    // 🚀 플레이어가 내릴 때 이동할 위치 반환 (우주선 기준 회전 적용)
+  
     public Vector2 GetExitPosition()
     {
         return transform.position + (Vector3)(transform.TransformDirection(exitOffset));
     }
 
-    // 🚀 내부 렌더링 상태 변경
+   
     public void SetInteriorVisible(bool visible)
     {
         if (interiorRenderer != null)

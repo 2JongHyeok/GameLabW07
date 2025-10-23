@@ -20,6 +20,11 @@ public class GameAnalyticsLogger : MonoBehaviour
     public int playerBulletHitCount;
     public int waveCount = 0;
     public int exitCount = 0;
+    public bool isInSpaceShip = false;
+    public Vector2 playerLastPosition;
+    public float playerMoveDistance = 0f;
+    public float playerMaxMoveDistance = 0f;
+    public float maxDistanceToOrigin = 0f;
 
 
     string userId, sessionId, sessionDir;
@@ -74,9 +79,10 @@ public class GameAnalyticsLogger : MonoBehaviour
     string LoadOrCreateUserId()
     {
         const string KEY = "ANON_USER_ID";
-        if (!PlayerPrefs.HasKey(KEY)) { 
-            PlayerPrefs.SetString(KEY, Guid.NewGuid().ToString("N")); 
-            PlayerPrefs.Save(); 
+        if (!PlayerPrefs.HasKey(KEY))
+        {
+            PlayerPrefs.SetString(KEY, Guid.NewGuid().ToString("N"));
+            PlayerPrefs.Save();
         }
         return PlayerPrefs.GetString(KEY);
     }
@@ -148,12 +154,12 @@ public class GameAnalyticsLogger : MonoBehaviour
 
     }
     #endregion
-    
+
     #region Session
     public void LogSessionStart()
     {
-        var data = new Dictionary<string, object> { 
-            { "StartTime",  GetLocalTime()}, 
+        var data = new Dictionary<string, object> {
+            { "StartTime",  GetLocalTime()},
             };
         WriteTxt(LogCategory.Session, "session_start", data);
         WriteCsv(LogCategory.Session, "session_start", data);
@@ -184,7 +190,7 @@ public class GameAnalyticsLogger : MonoBehaviour
         WriteTxt(LogCategory.Wave, "wave_start", data);
         WriteCsv(LogCategory.Wave, "wave_start", data);
     }
-    
+
     // [wave_complete] wave: int / timestamp: float / core_hp_CompleteWave: float
     public void LogWaveComplete(int waveNumber, int coreHpComplete)
     {
@@ -197,7 +203,7 @@ public class GameAnalyticsLogger : MonoBehaviour
         WriteTxt(LogCategory.Wave, "wave_complete", data);
         WriteCsv(LogCategory.Wave, "wave_complete", data);
     }
-    
+
     // [wave_fail] wave: int / timestamp: float / core_hp_FailWave: float
     public void LogWaveFail(int waveNumber, int coreHpFail)
     {
@@ -215,7 +221,7 @@ public class GameAnalyticsLogger : MonoBehaviour
     #region Build
     public void LogBuildUpgrade(int waveNumber, string buildName)
     {
-       var data = new Dictionary<string, object>
+        var data = new Dictionary<string, object>
         {
             { "Wave", waveNumber },
             { "Timestamp", GetLocalTime() },
@@ -238,7 +244,7 @@ public class GameAnalyticsLogger : MonoBehaviour
         WriteTxt(LogCategory.Resources, "wave_resources", data);
         WriteCsv(LogCategory.Resources, "wave_resources", data);
     }
-    
+
     // [Total_Resources] mineral_type: string / total_mined_session: string / total_deposited_session: string
     public void LogTotalResources(string mineralType, string totalMinedSession, string totalDepositedSession)
     {
@@ -268,7 +274,7 @@ public class GameAnalyticsLogger : MonoBehaviour
         WriteCsv(LogCategory.Combat, "enemy_spawn", data);
     }
 
-   public void LogEnemyStartAttack(int enemyNum)
+    public void LogEnemyStartAttack(int enemyNum)
     {
         var data = new Dictionary<string, object>
         {
@@ -293,7 +299,7 @@ public class GameAnalyticsLogger : MonoBehaviour
         WriteCsv(LogCategory.Combat, "enemy_killed", data);
     }
 
-    public void LogPlayerDefend(int waveNumber, int playerAttackCount,int playerHitCount)
+    public void LogPlayerDefend(int waveNumber, int playerAttackCount, int playerHitCount)
     {
         var data = new Dictionary<string, object>
         {
@@ -310,6 +316,7 @@ public class GameAnalyticsLogger : MonoBehaviour
     #region Movement
     public void LogPlayerExitBase()
     {
+        ClearMovementValue();
         var data = new Dictionary<string, object>
         {
             { "Wave", waveCount },
@@ -321,17 +328,17 @@ public class GameAnalyticsLogger : MonoBehaviour
     }
     public void LogPlayerEnterBase()
     {
+
         var data = new Dictionary<string, object>
         {
             { "Wave", waveCount },
             { "Timestamp", GetLocalTime() },
+            {"Player_Move_Distance", playerMoveDistance },
+            {"Player_Max_Move_Distance", playerMaxMoveDistance },
         };
         WriteTxt(LogCategory.Movement, "player_enter_base", data);
         WriteCsv(LogCategory.Movement, "player_enter_base", data);
     }
-
-    
-
     #endregion
     bool OnWantsToQuit()
     {
@@ -358,5 +365,12 @@ public class GameAnalyticsLogger : MonoBehaviour
         }
 
         return true;
+    }
+    void ClearMovementValue()
+    {
+        playerLastPosition = new Vector2(0, 0);
+        playerMoveDistance = 0f;
+        playerMaxMoveDistance = 0f;
+        maxDistanceToOrigin = 0f;
     }
 }
