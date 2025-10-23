@@ -40,6 +40,9 @@ public class Weapon : MonoBehaviour
     void Awake()
     {
         if (!targetRenderer) targetRenderer = GetComponentInChildren<SpriteRenderer>(true);
+        
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     void Update()
@@ -76,7 +79,7 @@ public class Weapon : MonoBehaviour
             lastDirection = 0f;
         }
         
-        // 키보드 입력 (상대적 회전) - 기존 키보드 로직, 게임패드 연결 안 됨, 또는 스틱 입력이 없거나 데드존 이내일 경우
+        /*// 키보드 입력 (상대적 회전) - 기존 키보드 로직, 게임패드 연결 안 됨, 또는 스틱 입력이 없거나 데드존 이내일 경우
         else 
         {
             float inputDir = 0f;
@@ -109,6 +112,29 @@ public class Weapon : MonoBehaviour
                 accelTimer = 0f;
                 lastDirection = 0f;
             }
+        }*/
+        
+        // 게임패드 스틱 입력이 없을 경우 마우스로 조준
+        else 
+        {
+            // 마우스의 스크린 좌표 획득
+            Vector3 mouseScreenPos = Input.mousePosition;
+            
+            // Z값을 카메라에서 무기의 2D 평면까지의 거리로 설정
+            mouseScreenPos.z = -Camera.main.transform.position.z + weaponPivot.transform.position.z;
+
+            // 스크린 좌표를 월드 좌표로 변환
+            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
+
+            // 무기 피벗에서 마우스 월드 위치를 향하는 2D 방향 벡터 계산
+            Vector2 direction = (Vector2)mouseWorldPos - (Vector2)weaponPivot.transform.position;
+
+            // 방향 벡터를 각도로 변환하고 스프라이트 방향 보정 적용
+            float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+            Quaternion targetRotation = Quaternion.Euler(0, 0, targetAngle);
+            
+            // 피벗 회전 보간
+            weaponPivot.transform.rotation = Quaternion.RotateTowards(weaponPivot.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
 
