@@ -15,15 +15,23 @@ public class WorldGenerator : MonoBehaviour
 
     [Tooltip("소행성을 배치할 격자의 크기. 작을수록 촘촘하게 검사합니다.")]
     [SerializeField] private int gridCellSize = 30;
+    
+    [Tooltip("여기 설정된 반경(Radius)보다 큰 소행성은 생성되지 않습니다.")]
+    [SerializeField] private float maxAsteroidRadius = 15f;
 
     [Header("구역(Zone) 설정")]
     [Tooltip("생성할 모든 구역의 설정값(SO)들을 여기에 등록하세요.")]
     [SerializeField] private List<GenerationZoneSettingsSO> zoneSettings;
+    
+    [Header("광물 생성 설정")] // [추가]
+    [Tooltip("소행성의 중심부에 덮어쓸 광물 타일. 비워두면 생성되지 않습니다.")]
+    [SerializeField] private TileBase mineralTileToSpawn;
 
     [Tooltip("월드 타일맵에 연결된 AsteroidHealth 스크립트")]
     [SerializeField] private AsteroidHealth asteroidHealth;
     [Tooltip("씬에 있는 TilemapShadowGenerator 스크립트")]
     [SerializeField] private TilemapShadowGenerator shadowGenerator;
+    
 
     // 게임이 시작될 때 월드 생성을 자동으로 실행합니다.
     void Start()
@@ -64,6 +72,11 @@ public class WorldGenerator : MonoBehaviour
                 CircleCollider2D prefabCollider = asteroidPrefabToSpawn.GetComponent<CircleCollider2D>();
                 if (prefabCollider == null)
                 {
+                }
+                else if (prefabCollider.radius > maxAsteroidRadius)
+                {
+                    // 소행성 반경이 너무 크면 건너뜁니다.
+                    continue; 
                 }
                 else if (Physics2D.OverlapCircle(currentPosition, prefabCollider.radius))
                 {
@@ -179,13 +192,43 @@ public class WorldGenerator : MonoBehaviour
                 }
                 if (mirrorY)
                 {
-                    currentPos.y *= -1;
+                    currentPos.y *= -1; 
                 }
+                
+                
 
                 // 3. 월드 타일맵에 찍힐 최종 위치를 계산하여 타일을 찍습니다.
                 Vector3Int targetPos = worldTilemap.WorldToCell(worldPosition) + currentPos;
                 worldTilemap.SetTile(targetPos, tile);
             }
+        }
+        // --- [추가] 광물 생성 로직 (덮어쓰기) ---
+        // 1. 인스펙터에 광물 타일이 설정되었는지,
+        // 2. 그리고 프리팹의 원점(0,0,0)에 타일이 실제로 존재하는지 확인합니다.
+        //    (속이 텅 빈 도넛 모양 소행성의 중심엔 광물이 생기면 안 되므로)
+        if (mineralTileToSpawn != null && prefabTilemap.HasTile(Vector3Int.zero))
+        {
+            // 프리팹의 원점(0,0,0) 위치도 동일한 회전/반전 변환을 적용받아야 합니다.
+            // (참고: Vector3Int.zero에 회전/반전을 적용해도 항상 Vector3Int.zero 이므로
+            //  계산은 간단해지지만, 로직의 일관성을 위해 코드는 남겨둡니다.)
+            
+            Vector3Int centerPos = Vector3Int.zero; 
+            
+            // 2-1. 회전 적용
+            switch (rotationIndex)
+            {
+                case 1: centerPos = new Vector3Int(-Vector3Int.zero.y, Vector3Int.zero.x, Vector3Int.zero.z); break;
+                case 2: centerPos = new Vector3Int(-Vector3Int.zero.x, -Vector3Int.zero.y, Vector3Int.zero.z); break;
+                case 3: centerPos = new Vector3Int(Vector3Int.zero.y, -Vector3Int.zero.x, Vector3Int.zero.z); break;
+            }
+            
+            // 2-2. 반전 적용
+            if (mirrorX) centerPos.x *= -1;
+            if (mirrorY) centerPos.y *= -1;
+            
+            // 3. 월드 타일맵에 찍힐 최종 위치를 계산하여 광물 타일로 '덮어씁니다'.
+            Vector3Int targetMineralPos = worldTilemap.WorldToCell(worldPosition) + centerPos;
+            worldTilemap.SetTile(targetMineralPos, mineralTileToSpawn);
         }
     }
 }

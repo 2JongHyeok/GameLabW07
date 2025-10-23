@@ -18,7 +18,12 @@ public enum SubBranchType
     SpaceShipMiningRadius,
     // SpaceShip Move
     SpaceShipMoveMaxSpeed,
-    SpaceShipMoveOrePerSlow
+    SpaceShipMoveOrePerSlow,
+    //Planet 
+    Planet2CoreMaxHp,
+    Planet2HpRegenAmount,
+    Planet2ShieldMaxHp,
+    Planet2ShieldRegenSpeed,
 }
 [CreateAssetMenu(fileName = "SubBranchSO", menuName = "ScriptableObjects/Forge/Branch/SubBranchSO", order = 1)]
 public class SubBranchSO : BranchSO
