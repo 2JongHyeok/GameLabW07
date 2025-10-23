@@ -3779,7 +3779,7 @@ MonoBehaviour:
   initialWeaponRotationSpeed: 90
   initialWeaponExplosionRadius: 0
   initialWeaponBulletLevel: 1
-  initialMissileDamage: 10
+  initialMissileDamage: 1
   initialMissileInterval: 1
   initialThrustPower: 60
   initialThrustReductionPerOre: 8
