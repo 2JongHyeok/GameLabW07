@@ -19,7 +19,13 @@ public enum ForgeId
     SpaceShipMiningRadius,
     // SpaceShip Move
     SpaceShipMoveMaxSpeed,
-    SpaceShipMoveOrePerSlow
+    SpaceShipMoveOrePerSlow,
+
+    //Planet2 (새로 추가)
+    Planet2CoreMaxHp,
+    Planet2HpRegenAmount,
+    Planet2ShieldMaxHp,
+    Planet2ShieldRegenSpeed
 }
 public abstract class BaseForgeSO : ScriptableObject
 {
