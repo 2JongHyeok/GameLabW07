@@ -136,7 +136,7 @@ public class WaveManager : MonoBehaviour
             }
             else
             {
-                waveTimerText.text = $"Next Wave In: {Mathf.Ceil(countdown)}";
+                waveTimerText.text = $"Next Wave {currentWaveIndex+1} In: {Mathf.Ceil(countdown)}";
                 enemyCountText.text = "Mining Phase";
                 if (miningInstructionText != null)
                 {
