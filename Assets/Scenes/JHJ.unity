@@ -5917,6 +5917,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1461141694}
     m_Modifications:
+    - target: {fileID: 865010487718599184, guid: 171336894674eb54cb87cce504e4ef86, type: 3}
+      propertyPath: maxAsteroidRadius
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1797929096302266892, guid: 171336894674eb54cb87cce504e4ef86, type: 3}
       propertyPath: m_Name
       value: TileMap
@@ -10004,6 +10008,10 @@ PrefabInstance:
     - target: {fileID: 1490539693002975518, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
       propertyPath: m_Name
       value: DockingStation
+      objectReference: {fileID: 0}
+    - target: {fileID: 1490539693002975518, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7214629419806525471, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
       propertyPath: m_LocalPosition.x

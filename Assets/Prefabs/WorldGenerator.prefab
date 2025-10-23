@@ -45,10 +45,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldTilemap: {fileID: 0}
-  generationRadius: 80
-  gridCellSize: 5
+  generationRadius: 200
+  gridCellSize: 4
+  maxAsteroidRadius: 15
   zoneSettings:
   - {fileID: 11400000, guid: 46b0871851665fa45954dc8208748e57, type: 2}
   - {fileID: 11400000, guid: 890bcd27cc50acb4e9b78f6a4f02218a, type: 2}
   - {fileID: 11400000, guid: 419b0d4f12398934cb2291842151d7cb, type: 2}
   - {fileID: 11400000, guid: aeabce944f8ef5347913b49476260fef, type: 2}
+  mineralTileToSpawn: {fileID: 0}
+  asteroidHealth: {fileID: 0}
+  shadowGenerator: {fileID: 0}
