@@ -20,8 +20,8 @@ MonoBehaviour:
   depth: 4
   coalCost: 12
   ironCost: 6
-  goldCost: 2
-  diamondCost: 1
+  goldCost: 0
+  diamondCost: 0
   postSubBranches: []
   MiningDamage: 4
   MiningSpeed: -0.25

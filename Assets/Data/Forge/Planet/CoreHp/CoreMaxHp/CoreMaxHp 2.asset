@@ -19,7 +19,7 @@ MonoBehaviour:
   depth: 4
   coalCost: 11
   ironCost: 6
-  goldCost: 2
-  diamondCost: 1
+  goldCost: 0
+  diamondCost: 0
   postSubBranches: []
   CoreMaxHp: 40

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3e106c13f59574287bc2011c90fc9b, type: 3}
   m_Name: Wave 8
   m_EditorClassIdentifier: 
-  rangerCount: 0
-  rangerTankCount: 0
-  kamikazeCount: 0
-  kamikazeTankCount: 1
-  parasiteCount: 0
-  spawnInterval: 3
-  minSpawnPerInterval: 1
-  maxSpawnPerInterval: 1
+  rangerCount: 20
+  rangerTankCount: 20
+  kamikazeCount: 4
+  kamikazeTankCount: 3
+  parasiteCount: 3
+  spawnInterval: 5
+  minSpawnPerInterval: 8
+  maxSpawnPerInterval: 10

@@ -4206,7 +4206,11 @@ PrefabInstance:
       objectReference: {fileID: 3521184541650759956}
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: timeBetweenWaves
-      value: 90
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
+      propertyPath: waves.Array.size
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: miningInstructionText
@@ -5611,6 +5615,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildVersion: 6000.0.55f1
   eventSchemaVersion: 0
+  playerBulletCount: 0
+  playerBulletHitCount: 0
+  waveCount: 0
+  exitCount: 0
+  isInSpaceShip: 0
+  playerLastPosition: {x: 0, y: 0}
+  playerMoveDistance: 0
+  playerMaxMoveDistance: 0
 --- !u!4 &1414286426
 Transform:
   m_ObjectHideFlags: 0
@@ -11243,6 +11255,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1aff7f8d338cebe4e8215fe2d72c16d2, type: 2}
   OreList: 
   inventoryUI: {fileID: 4826799180745149331}
+  minedThisWave: 
+  totalMinedSession: 
+  depositedThisWave: 
+  totalDepositedSession: 
 --- !u!114 &5919944876439956754
 MonoBehaviour:
   m_ObjectHideFlags: 0

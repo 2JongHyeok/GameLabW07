@@ -16,7 +16,7 @@ MonoBehaviour:
   rangerTankCount: 0
   kamikazeCount: 3
   kamikazeTankCount: 0
-  parasiteCount: 0
+  parasiteCount: 2
   spawnInterval: 3
   minSpawnPerInterval: 2
   maxSpawnPerInterval: 1
