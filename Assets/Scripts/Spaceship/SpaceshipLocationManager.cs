@@ -113,15 +113,7 @@ public class SpaceshipLocationManager : MonoBehaviour
         {
         }
 
-        // spaceshipmovement 컴포넌트를 비활성화
-        SpaceshipMovement shipMovement = GetComponent<SpaceshipMovement>();
-        if (shipMovement != null)
-        {
-            shipMovement.enabled = false;
-        }
-        else
-        {
-        }
+      
 
         // 메인 카메라를 다시 플레이어의 자식으로 편입시키기
         Camera mainCam = Camera.main;
