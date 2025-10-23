@@ -41,8 +41,6 @@ public class Weapon : MonoBehaviour
     {
         if (!targetRenderer) targetRenderer = GetComponentInChildren<SpriteRenderer>(true);
         
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Confined;
     }
 
     void Update()
@@ -79,6 +77,7 @@ public class Weapon : MonoBehaviour
             lastDirection = 0f;
         }
         
+        #region 기존 키보드 입력 로직 (상대적 회전)
         /*// 키보드 입력 (상대적 회전) - 기존 키보드 로직, 게임패드 연결 안 됨, 또는 스틱 입력이 없거나 데드존 이내일 경우
         else 
         {
@@ -113,6 +112,7 @@ public class Weapon : MonoBehaviour
                 lastDirection = 0f;
             }
         }*/
+        #endregion
         
         // 게임패드 스틱 입력이 없을 경우 마우스로 조준
         else 
@@ -141,17 +141,23 @@ public class Weapon : MonoBehaviour
     void Fire()
     {
         // 키보드 스페이스바 입력 확인
-        bool keyboardFire = Input.GetKey(KeyCode.Space);
+        // bool keyboardFire = Input.GetKey(KeyCode.Space);
+        
+        
+        // 좌클릭 입력으로 변경
+        bool primaryFireInput = false;
+        primaryFireInput = Input.GetMouseButton(0);
 
         // 게임패드 A 버튼 입력 확인
         bool gamepadFire = false;
+        
         if (Gamepad.current != null)
         {
             gamepadFire = Gamepad.current.buttonSouth.IsPressed();
         }
 
         // 둘 중 하나라도 눌렸고, 발사 딜레이가 지났다면 발사
-        if ((keyboardFire || gamepadFire) && Time.time >= nextFireTime)
+        if ((primaryFireInput || gamepadFire) && Time.time >= nextFireTime)
         {
             nextFireTime = Time.time + fireRate;
             FireBullet();
