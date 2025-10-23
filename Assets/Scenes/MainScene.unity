@@ -3781,8 +3781,8 @@ MonoBehaviour:
   initialWeaponBulletLevel: 1
   initialMissileDamage: 10
   initialMissileInterval: 1
-  initialThrustPower: 50
-  initialThrustReductionPerOre: 1.5
+  initialThrustPower: 60
+  initialThrustReductionPerOre: 8
   initialMiningDamage: 2
   initialMiningAttackSpeed: 0.6
   initialMiningRadius: 0.4
@@ -5611,6 +5611,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildVersion: 6000.0.55f1
   eventSchemaVersion: 0
+  playerBulletCount: 0
+  playerBulletHitCount: 0
+  waveCount: 0
+  exitCount: 0
+  isInSpaceShip: 0
+  playerLastPosition: {x: 0, y: 0}
+  playerMoveDistance: 0
+  playerMaxMoveDistance: 0
 --- !u!4 &1414286426
 Transform:
   m_ObjectHideFlags: 0
@@ -11243,6 +11251,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1aff7f8d338cebe4e8215fe2d72c16d2, type: 2}
   OreList: 
   inventoryUI: {fileID: 4826799180745149331}
+  minedThisWave: 
+  totalMinedSession: 
+  depositedThisWave: 
+  totalDepositedSession: 
 --- !u!114 &5919944876439956754
 MonoBehaviour:
   m_ObjectHideFlags: 0

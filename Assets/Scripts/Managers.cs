@@ -37,8 +37,8 @@ public class Managers : MonoBehaviour
     [SerializeField] private float initialMissileInterval = 3f;
 
     [Header("Initial Tunables - Spaceship Motor")]
-    [SerializeField] private float initialThrustPower = 2000f;
-    [SerializeField] private float initialThrustReductionPerOre = 5f; // %
+    [SerializeField] private float initialThrustPower = 60f;
+    [SerializeField] private int initialThrustReductionPerOre = 8; // %
 
     [Header("Initial Tunables - Spaceship Mining (SpaceshipWeapon)")]
     [SerializeField] private int initialMiningDamage = 25;
@@ -109,7 +109,7 @@ public class Managers : MonoBehaviour
         if (spaceshipMotor != null)
         {
             spaceshipMotor.SetThrustPower(initialThrustPower);
-            spaceshipMotor.SetThrustReductionPerOre(initialThrustReductionPerOre);
+            spaceshipMotor.SetAllowedOreCount(initialThrustReductionPerOre);
         }
 
         // Spaceship Mining(SpaceshipWeapon) 기본값 셋업
