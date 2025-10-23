@@ -4194,7 +4194,7 @@ PrefabInstance:
       objectReference: {fileID: 1752708900}
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: countdown
-      value: 20
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: waveTimerText
@@ -4206,11 +4206,11 @@ PrefabInstance:
       objectReference: {fileID: 3521184541650759956}
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: timeBetweenWaves
-      value: 40
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: waves.Array.size
-      value: 8
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: miningInstructionText

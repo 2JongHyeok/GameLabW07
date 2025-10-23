@@ -102,11 +102,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f293a2fa9fa34845b26f9f87131f579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 1
   initialSpeed: 2
   maxSpeed: 15
   acceleration: 5
   turnRateDegPerSec: 360
+  searchRadius: 30
+  retargetInterval: 0.25
   keepStraightWhenLost: 1
   selfDestructAfterLost: 1.5
   damageLayers:
