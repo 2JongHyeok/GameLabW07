@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
     [Header("Enemy Data")]
     public EnemyBaseSO enemyData;
     
-    [Header("References")]
+    [Header("References")]                
     public Transform firePoint;
     
     [Header("Respawn Settings")]
@@ -66,7 +66,8 @@ public class Enemy : MonoBehaviour
         // Ranger 또는 RangerTank 타입이고 공격 중일 때
         if (isAttacking && (enemyData.enemyType == EnemyType.Ranger || 
                             enemyData.enemyType == EnemyType.RangerTank ||
-                            enemyData.enemyType == EnemyType.Parasite))
+                            enemyData.enemyType == EnemyType.Parasite || 
+                            enemyData.enemyType == EnemyType.Boss)) // 보스 추가
         {
             if (attackTimer <= 0f)
             {
@@ -236,7 +237,7 @@ public class Enemy : MonoBehaviour
 
     private void HandleKamikazeCollision(Collision2D collision)
     {
-        // 이미 비활성화되었으면(풀로 반환되었으면) 무시
+        // 이미 비활성화되었으  (풀로 반환되었으면) 무시
         if (!gameObject.activeInHierarchy) return;
 
         // Kamikaze 타입 폭발 처리 (enemyData로 직접 체크)

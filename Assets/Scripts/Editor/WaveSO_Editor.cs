@@ -9,6 +9,7 @@ public class WaveSO_Editor : Editor
     private SerializedProperty kamikazeCountProp;
     private SerializedProperty kamikazeTankCountProp;
     private SerializedProperty parasiteCountProp;
+    private SerializedProperty bossCountProp;
     private SerializedProperty spawnIntervalProp;
     private SerializedProperty minSpawnPerIntervalProp;
     private SerializedProperty maxSpawnPerIntervalProp;
@@ -23,6 +24,7 @@ public class WaveSO_Editor : Editor
         spawnIntervalProp = serializedObject.FindProperty("spawnInterval");
         minSpawnPerIntervalProp = serializedObject.FindProperty("minSpawnPerInterval");
         maxSpawnPerIntervalProp = serializedObject.FindProperty("maxSpawnPerInterval");
+        bossCountProp = serializedObject.FindProperty("bossCount");
     }
 
     public override void OnInspectorGUI()
@@ -35,7 +37,7 @@ public class WaveSO_Editor : Editor
         EditorGUILayout.ObjectField("Script", MonoScript.FromScriptableObject((ScriptableObject)target), typeof(ScriptableObject), false);
         GUI.enabled = true;
         
-        EditorGUILayout.Space(5);
+        EditorGUILayout.Space(6);
         
         EditorGUILayout.Space(10);
 
@@ -53,6 +55,7 @@ public class WaveSO_Editor : Editor
             EditorGUILayout.PropertyField(kamikazeCountProp, new GUIContent("Kamikaze"));
             EditorGUILayout.PropertyField(kamikazeTankCountProp, new GUIContent("Kamikaze Tank"));
             EditorGUILayout.PropertyField(parasiteCountProp, new GUIContent("Parasite"));
+            EditorGUILayout.PropertyField(bossCountProp, new GUIContent("Boss"));
         }
         EditorGUILayout.EndVertical();
         
