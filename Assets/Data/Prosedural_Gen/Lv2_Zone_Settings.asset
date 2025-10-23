@@ -17,8 +17,16 @@ MonoBehaviour:
   spawnChance: 0.2
   asteroidPool:
   - asteroidPrefab: {fileID: 6662504043527552974, guid: 46cb260459d791147895de8283b4d227, type: 3}
-    weight: 60
+    weight: 30
   - asteroidPrefab: {fileID: 165758702515033949, guid: 8cf4edae2b107ec479601e7c96d597dd, type: 3}
     weight: 15
   - asteroidPrefab: {fileID: 165758702515033949, guid: a961d7f1b2a75f3439ead4a91ad3c3c2, type: 3}
     weight: 5
+  - asteroidPrefab: {fileID: 6662504043527552974, guid: 490b195e71d18d64aa5f354460130e40, type: 3}
+    weight: 10
+  - asteroidPrefab: {fileID: 6662504043527552974, guid: 420735db2dd6a46419b2c3ed02cbe997, type: 3}
+    weight: 10
+  - asteroidPrefab: {fileID: 6662504043527552974, guid: 3b0df68da83958645a6c190014f234f9, type: 3}
+    weight: 15
+  - asteroidPrefab: {fileID: 6662504043527552974, guid: 8aa0d8985fc28084da2958706c140aa1, type: 3}
+    weight: 15
