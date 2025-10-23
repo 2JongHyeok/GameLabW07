@@ -100,8 +100,8 @@ public class SpaceshipController : MonoBehaviour
 
         // (0,0)에서 떨어진 거리 계산
         float distanceFromOrigin = currentPosition.magnitude;
-        if (distanceFromOrigin > GameAnalyticsLogger.instance.maxDistanceToOrigin)
-            GameAnalyticsLogger.instance.maxDistanceToOrigin = distanceFromOrigin;
+        if (distanceFromOrigin > GameAnalyticsLogger.instance.playerMaxMoveDistance)
+            GameAnalyticsLogger.instance.playerMaxMoveDistance = distanceFromOrigin;
 
         // 다음 프레임 계산을 위해 갱신
         GameAnalyticsLogger.instance.playerLastPosition = currentPosition;

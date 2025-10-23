@@ -24,7 +24,6 @@ public class GameAnalyticsLogger : MonoBehaviour
     public Vector2 playerLastPosition;
     public float playerMoveDistance = 0f;
     public float playerMaxMoveDistance = 0f;
-    public float maxDistanceToOrigin = 0f;
 
 
     string userId, sessionId, sessionDir;
@@ -368,9 +367,8 @@ public class GameAnalyticsLogger : MonoBehaviour
     }
     void ClearMovementValue()
     {
-        playerLastPosition = new Vector2(0, 0);
+        playerLastPosition = Vector2.zero;
         playerMoveDistance = 0f;
         playerMaxMoveDistance = 0f;
-        maxDistanceToOrigin = 0f;
     }
 }
