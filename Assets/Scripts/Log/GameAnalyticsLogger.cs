@@ -40,14 +40,41 @@ public class GameAnalyticsLogger : MonoBehaviour
     { LogCategory.Movement,    "movement.txt" },
 };
 
-    readonly Dictionary<LogCategory, string[]> csvHeaders = new()
+readonly Dictionary<LogCategory, string[]> csvHeaders = new()
 {
-    { LogCategory.Session, new[]{"event_name","ts","t","play_time_sec"}},
-    { LogCategory.Wave, new[]{"event_name","ts","t","wave","minute","second"}},
-    { LogCategory.Build , new[]{"event_name"}},  // 이거 추가해줘.
-    { LogCategory.Resources, new[]{"event_name","ts","t","amount","wave","tile_x","tile_y","tile_type","cause"}},
-    { LogCategory.Combat, new[]{"event_name","ts","t","play_time_sec"}},
-    { LogCategory.Movement, new[]{"event_name","ts","t","pos_x","pos_y","vel_x","vel_y","vel_z","dt"}},
+    { LogCategory.Session, new[]{
+        "event_name","ts","t",
+        "StartTime", "EndTime", "Session_Duration"
+    }},
+
+    { LogCategory.Wave, new[]{
+        "event_name","ts","t",
+        "Wave", "Timestamp", "Core_Hp_Before", "Core_Hp_CompleteWave", "Core_Hp_FailWave"
+    }},
+
+    { LogCategory.Build , new[]{
+        "event_name", "ts", "t",
+        "Wave", "Timestamp", "Build_Name"
+    }},
+
+    { LogCategory.Resources, new[]{
+        "event_name","ts","t",
+        "Wave", "Timestamp", "Mineral_Info",
+        "Mineral_Type", "Total_Mined_Session", "Total_Deposited_Session"
+    }},
+
+    { LogCategory.Combat, new[]{
+        "event_name","ts","t",
+        "Wave", "Timestamp", "Enemy_Type", "Enemy_Num", "Spawn_Location",
+        "Defeated_By", "Enemy_DestroyedTime",
+        "Player_AttackCount", "Player_AttackHitCount"
+    }},
+
+    { LogCategory.Movement, new[]{
+        "event_name","ts","t",
+        "Wave", "Timestamp", "Exit_Count_Session",
+        "Player_Move_Distance", "Player_Max_Move_Distance"
+    }},
 };
 
     readonly Dictionary<LogCategory, StreamWriter> csvWriters = new();
@@ -238,7 +265,7 @@ public class GameAnalyticsLogger : MonoBehaviour
         {
             { "Wave", waveNumber },
             { "Timestamp", GetLocalTime() },
-            { " ", mineralInfo }
+            { "Mineral_Info", mineralInfo }
         };
         WriteTxt(LogCategory.Resources, "wave_resources", data);
         WriteCsv(LogCategory.Resources, "wave_resources", data);
