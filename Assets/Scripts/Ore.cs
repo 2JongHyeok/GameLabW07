@@ -12,6 +12,6 @@ public class Ore : MonoBehaviour
 
     private void OnDestroy()
     {
-        Debug.Log("누가 지움?");
+        // Debug.Log("누가 지움?");
     }
 }
