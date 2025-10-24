@@ -17,7 +17,7 @@ public class BossSO : EnemyBaseSO
 
     public override void PerformAttack(Enemy enemy)
     {
-        Instantiate(bulletPrefab, enemy.firePoint.position, enemy.firePoint.rotation);
+   
     }
     
     public void Explode(Enemy enemy, Collision2D collision)
@@ -89,4 +89,6 @@ public class BossSO : EnemyBaseSO
             enemy.myPool.Release(enemy.gameObject);
         }
     }
+    
+    
 }
