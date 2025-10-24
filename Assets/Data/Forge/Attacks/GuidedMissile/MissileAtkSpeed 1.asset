@@ -15,12 +15,11 @@ MonoBehaviour:
   forgeId: 8
   upgradeName: "\uC7AC\uC7A5\uC804 \uC2DC\uAC04 Lv.Max"
   upgradeDescription: "\uC720\uB3C4 \uBBF8\uC0AC\uC77C \uC7AC\uBC1C\uC0AC \uC2DC\uAC04\uC744
-    \uAC1C\uC120\uD569\uB2C8\uB2E4.\\n\uC7AC\uC7A5\uC804 \uC2DC\uAC04: 1\uCD08 >
-    <color=green>0.5\uCD08</color> "
-  depth: 3
+    \uAC1C\uC120\uD569\uB2C8\uB2E4.\\n\uBC1C\uC0AC \uC2DC\uAC04: 1/s > <color=green>0.5/s</color> "
+  depth: 4
   coalCost: 10
   ironCost: 3
   goldCost: 2
   diamondCost: 1
   postSubBranches: []
-  AtkSpeed: -0.7
+  AtkSpeed: -0.5
