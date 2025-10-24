@@ -231,7 +231,7 @@ public class WaveManager : MonoBehaviour
         {
             spawnPosition = GetRandomSpawnPosition();
         }
-        
+        Debug.Log((int)type);
         GameObject prefab = enemyPrefabs[(int)type];
         GameObject enemy = Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
         enemy.GetComponent<Enemy>().SetTaget(Target);

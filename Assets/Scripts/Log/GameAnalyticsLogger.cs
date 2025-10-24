@@ -343,6 +343,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     public void LogPlayerExitBase()
     {
         ClearMovementValue();
+        waveCount = WaveManager.Instance.CurrentWaveIndex;
         var data = new Dictionary<string, object>
         {
             { "Wave", waveCount },
@@ -354,7 +355,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     }
     public void LogPlayerEnterBase()
     {
-
+        waveCount = WaveManager.Instance.CurrentWaveIndex;
         var data = new Dictionary<string, object>
         {
             { "Wave", waveCount },

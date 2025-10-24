@@ -4216,6 +4216,14 @@ PrefabInstance:
       propertyPath: miningInstructionText
       value: 
       objectReference: {fileID: 1392649552}
+    - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
+      propertyPath: enemyPrefabs.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
+      propertyPath: 'enemyPrefabs.Array.data[5]'
+      value: 
+      objectReference: {fileID: 2615078695605655245, guid: 4e15d82d4de1c3947a5b22f1b76248db, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5037,7 +5045,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  CoreHpText: {fileID: 3339140749738742925}
   inventoryManger: {fileID: 5803141803156037022}
 --- !u!212 &1190461933
 SpriteRenderer:
@@ -10803,17 +10810,6 @@ MonoBehaviour:
   forgeManager: {fileID: 851302069335967697}
   inventoryManger: {fileID: 5803141803156037022}
   tooltipUI: {fileID: 7069204562295432945}
---- !u!114 &3339140749738742925 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3339140749860316857, guid: 176e973869245f34db37da97268a237c, type: 3}
-  m_PrefabInstance: {fileID: 155267636}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3371593990476748644
 MonoBehaviour:
   m_ObjectHideFlags: 0
