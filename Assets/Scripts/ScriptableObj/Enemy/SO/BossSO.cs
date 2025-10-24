@@ -22,7 +22,7 @@ public class BossSO : EnemyBaseSO
     
     public void Explode(Enemy enemy, Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground") || collision.collider.CompareTag("Core"))
+        if (collision.gameObject.CompareTag("Ground") || collision.collider.CompareTag("Core") || collision.collider.CompareTag("Asteroid"))
         {
             GameObject ExplodeEffect = Instantiate(
                 ExplosionEffectPrefab,
