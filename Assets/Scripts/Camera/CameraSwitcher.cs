@@ -32,7 +32,7 @@ public class CameraSwitcher : MonoBehaviour
         // 시작은 행성 카메라(Planet1Cam)로
         ActivatePlanet(planetCamera);
         targetZoomSize = currentCamera != null ? currentCamera.Lens.OrthographicSize : 5f;
-        DumpLive();
+        //DumpLive();
     }
 
     void Update() => HandleZoom();
