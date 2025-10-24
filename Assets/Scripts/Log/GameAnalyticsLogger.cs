@@ -205,11 +205,13 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
 
     #region Wave
     // [wave_start] wave: int / timestamp: float / core_hp_BeforeWave: float
-    public void LogWaveStart(int waveNumber, int coreHpBefore)
+    public void LogWaveStart(int coreHpBefore)
     {
+        waveCount = WaveManager.Instance.CurrentWaveIndex;
+
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveNumber },
+            { "Wave", waveCount },
             { "Timestamp", GetLocalTime() },
             { "Core_Hp_Before",  coreHpBefore}
         };
@@ -218,11 +220,13 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     }
 
     // [wave_complete] wave: int / timestamp: float / core_hp_CompleteWave: float
-    public void LogWaveComplete(int waveNumber, int coreHpComplete)
+    public void LogWaveComplete(int coreHpComplete)
     {
+        waveCount = WaveManager.Instance.CurrentWaveIndex;
+
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveNumber },
+            { "Wave", waveCount },
             { "Timestamp", GetLocalTime() },
             { "Core_Hp_CompleteWave",  coreHpComplete}
         };
@@ -231,11 +235,12 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     }
 
     // [wave_fail] wave: int / timestamp: float / core_hp_FailWave: float
-    public void LogWaveFail(int waveNumber, int coreHpFail)
+    public void LogWaveFail(int coreHpFail)
     {
+        waveCount = WaveManager.Instance.CurrentWaveIndex;
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveNumber },
+            { "Wave", waveCount },
             { "Timestamp", GetLocalTime() },
             { "Core_Hp_FailWave",  coreHpFail}
         };
@@ -245,11 +250,11 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     #endregion
 
     #region Build
-    public void LogBuildUpgrade(int waveNumber, string buildName)
+    public void LogBuildUpgrade(string buildName)
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveNumber },
+            { "Wave", waveCount },
             { "Timestamp", GetLocalTime() },
             { "Build_Name", buildName }
         };
@@ -286,11 +291,11 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     #endregion
 
     #region Combat
-    public void LogEnemySpawn(int waveNumber, string enemyType, int enemyNum, string spawnLocation)
+    public void LogEnemySpawn( string enemyType, int enemyNum, string spawnLocation)
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveNumber },
+            { "Wave", waveCount },
             { "Timestamp", GetLocalTime() },
             { "Enemy_Type", enemyType },
             { "Enemy_Num", enemyNum },
@@ -311,11 +316,11 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         WriteCsv(LogCategory.Combat, "enemy_attack", data);
     }
 
-    public void LogEnemyKilled(int waveNumber, string enemyType, string defeatedBy)
+    public void LogEnemyKilled(string enemyType, string defeatedBy)
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveNumber },
+            { "Wave", waveCount },
             { "Timestamp", GetLocalTime() },
             { "Enemy_Type", enemyType },
             { "Defeated_By", defeatedBy },
