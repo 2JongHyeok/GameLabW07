@@ -16,12 +16,12 @@ MonoBehaviour:
   upgradeName: "\uCC44\uAD74 \uBBF8\uC0AC\uC77C \uAC15\uD654 Lv.1"
   upgradeDescription: "\uC6B0\uC8FC\uC120 \uBBF8\uC0AC\uC77C\uC758 \uB370\uBBF8\uC9C0\uC640
     \uBC1C\uC0AC \uC18D\uB3C4\uB97C \uAC1C\uC120\uD569\uB2C8\uB2E4.\\n\uD3EC \uB370\uBBF8\uC9C0:
-    1 > <color=green>2</color>\\n\uBC1C\uC0AC \uC18D\uB3C4: 0.6\uCD08 > <color=green>0.5\uCD08</color>  "
+    1 > <color=green>3</color>\\n\uBC1C\uC0AC \uC18D\uB3C4: 0.6\uCD08 > <color=green>0.5\uCD08</color>  "
   depth: 1
   coalCost: 4
   ironCost: 0
   goldCost: 0
   diamondCost: 0
   postSubBranches: []
-  MiningDamage: 4
+  MiningDamage: 2
   MiningSpeed: -0.1

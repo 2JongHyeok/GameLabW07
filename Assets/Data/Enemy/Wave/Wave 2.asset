@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Wave 2
   m_EditorClassIdentifier: 
   rangerCount: 10
-  rangerTankCount: 5
-  kamikazeCount: 0
+  rangerTankCount: 3
+  kamikazeCount: 2
   kamikazeTankCount: 0
   parasiteCount: 0
-  spawnInterval: 15
-  minSpawnPerInterval: 2
-  maxSpawnPerInterval: 4
+  spawnInterval: 4
+  minSpawnPerInterval: 3
+  maxSpawnPerInterval: 3
