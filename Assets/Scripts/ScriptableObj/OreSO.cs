@@ -4,7 +4,8 @@ public enum OreType
     Coal,
     Iron,
     Gold,
-    Diamond
+    Diamond,
+    PlanetCore
 }
 [CreateAssetMenu(fileName = "New Ore", menuName = "ScriptableObjects/Ore")]
 public class OreSO : ScriptableObject

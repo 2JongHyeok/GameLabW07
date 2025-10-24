@@ -55,7 +55,9 @@ public class Core : MonoBehaviour
         {
             if(collision.gameObject.TryGetComponent<Ore>(out var ore))
             {
-                inventoryManger.AddOre(ore.oreType, ore.amount);
+                if(collision.gameObject.GetComponent<Ore>().oreType == OreType.PlanetCore)
+                { return; }
+                inventoryManger.AddOre(ore.oreType, ore.amount);    
                 Destroy(collision.gameObject);
             }
         }

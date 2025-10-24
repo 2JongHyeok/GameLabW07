@@ -10,6 +10,7 @@ TagManager:
   - Core
   - Enemy
   - Weapon
+  - PlanetCore
   layers:
   - Default
   - TransparentFX
