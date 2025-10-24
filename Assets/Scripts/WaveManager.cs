@@ -164,7 +164,7 @@ public class WaveManager : MonoBehaviour
                         GameAnalyticsLogger.instance.playerBulletCount = 0;
                         GameAnalyticsLogger.instance.playerBulletHitCount = 0;
                         // [Log] 이전 웨이브 완료 로그 및 자원 통계 기록
-                        GameAnalyticsLogger.instance.LogWaveComplete(currentWaveIndex, Managers.Instance.core.CurrentHP);
+                        GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
                         GameAnalyticsLogger.instance.LogWaveResources(currentWaveIndex, Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
                         // [Log] 웨이브 시작 시 인벤토리 통계 초기화
                         Managers.Instance.inventory.ResetWaveStats();
@@ -269,8 +269,7 @@ public class WaveManager : MonoBehaviour
             
             enemyComponent.ResetState(); // 모든 상태 초기화
         }
-        GameAnalyticsLogger.instance.LogEnemySpawn(
-            currentWaveIndex, enemyComponent.enemyData.enemyType.ToString()
+        GameAnalyticsLogger.instance.LogEnemySpawn(enemyComponent.enemyData.enemyType.ToString()
             ,enemyComponent.enemyNum++ , spawnPosition.ToString());
 
         // 스폰 시에는 카운트 증가 안 함 (미리 설정된 값 사용)
@@ -294,7 +293,7 @@ public class WaveManager : MonoBehaviour
         
         isSpawning = true;
         // [Log] 웨이브 시작 로그 출력 
-        GameAnalyticsLogger.instance.LogWaveStart(currentWaveIndex + 1, Managers.Instance.core.CurrentHP);
+        GameAnalyticsLogger.instance.LogWaveStart(Managers.Instance.core.CurrentHP);
         WaveSO currentWave = waves[currentWaveIndex];
 
         // 현재 웨이브의 총 적 수 계산 및 EnemyCount 설정

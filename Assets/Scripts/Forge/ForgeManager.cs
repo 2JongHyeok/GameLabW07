@@ -207,7 +207,7 @@ public class ForgeManager : MonoBehaviour
     public void ForgeApply(BaseForgeSO forgeSO)
     {
         forgeSO?.Apply();
-        GameAnalyticsLogger.instance.LogBuildUpgrade(WaveManager.Instance.CurrentWaveIndex, forgeSO.upgradeName);
+        GameAnalyticsLogger.instance.LogBuildUpgrade( forgeSO.upgradeName);
         // ForgeId의 레벨 증가
         forgeLevel[(int)forgeSO.forgeId]++;
         
