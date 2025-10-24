@@ -4262,7 +4262,7 @@ PrefabInstance:
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: 'enemyPrefabs.Array.data[5]'
       value: 
-      objectReference: {fileID: 1839482599764033570, guid: 1c01edde41a14164aaacf059ff94275b, type: 3}
+      objectReference: {fileID: 1839482599764033570, guid: 0af713d654351c7409e976bd320126ed, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8584,11 +8584,10 @@ MonoBehaviour:
   spaceshipCamera: {fileID: 1430701315}
   zoomSpeed: 5
   minPlanetCamZoom: 12
+  maxPlanetCamZoom: 12
   minShipCamZoom: 2
   maxShipCamZoom: 20
-  maxPlanetCamZoom: 12
   smoothSpeed: 5
-  forgeManager: {fileID: 0}
 --- !u!4 &1778712952
 Transform:
   m_ObjectHideFlags: 0

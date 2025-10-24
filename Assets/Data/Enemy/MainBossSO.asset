@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d2b6dbd3cb05aa4ab576357ede05f49, type: 3}
+  m_Script: {fileID: 11500000, guid: 07036a65505eaee49af8cd5408739b90, type: 3}
   m_Name: MainBossSO
   m_EditorClassIdentifier: 
   enemyType: 5
   enemyHP: 3
-  enemySpeed: 0.1
+  enemySpeed: 1
   enemyPrefab: {fileID: 0}
   bulletPrefab: {fileID: 6360892650054380025, guid: ef343e70042ee1140871eafb98ce9661, type: 3}
   attackRange: 999

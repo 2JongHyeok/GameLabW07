@@ -68,9 +68,10 @@ public class Enemy : MonoBehaviour
         }
         
         // Ranger 또는 RangerTank 타입이고 공격 중일 때
-        if (isAttacking && (enemyData.enemyType == EnemyType.Ranger || 
+        if (isAttacking && (enemyData.enemyType == EnemyType.Ranger ||
                             enemyData.enemyType == EnemyType.RangerTank ||
-                            enemyData.enemyType == EnemyType.Parasite))
+                            enemyData.enemyType == EnemyType.Parasite) ||
+                            enemyData.enemyType == EnemyType.Boss)
         {
             if (attackTimer <= 0f)
             {
