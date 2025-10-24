@@ -3783,9 +3783,9 @@ MonoBehaviour:
   initialMissileInterval: 1
   initialThrustPower: 60
   initialThrustReductionPerOre: 8
-  initialMiningDamage: 2
+  initialMiningDamage: 1
   initialMiningAttackSpeed: 0.6
-  initialMiningRadius: 0.4
+  initialMiningRadius: 0.6
   initialCoreMaxHP: 100
   initialTileMaxHP: 3
   initialTileRespawnDelay: 90
