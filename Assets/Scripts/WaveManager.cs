@@ -46,6 +46,9 @@ public class WaveManager : MonoBehaviour
     
     // 읽기용 현재 웨이브 인덱스
     public int CurrentWaveIndex => currentWaveIndex;
+    
+    // 보스 스폰 위치
+    public Transform bossSpwanPoint;
 
     private void Awake()
     {
@@ -212,6 +215,23 @@ public class WaveManager : MonoBehaviour
     private GameObject CreateEnemy(EnemyType type)
     {
         Vector3 spawnPosition = GetRandomSpawnPosition();
+
+        if (type == EnemyType.Boss) // 보스 스폰 위치 처리
+        {
+            if (bossSpwanPoint == null)
+            {
+                spawnPosition = GetRandomSpawnPosition(); // 보스 스폰 포인트가 없으면 랜덤 위치
+            }
+            else
+            {
+                spawnPosition = bossSpwanPoint.position; // 보스 스폰 포인트 사용
+            }
+        }
+        else
+        {
+            spawnPosition = GetRandomSpawnPosition();
+        }
+        Debug.Log((int)type);
         GameObject prefab = enemyPrefabs[(int)type];
         GameObject enemy = Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
         enemy.GetComponent<Enemy>().SetTaget(Target);
@@ -223,15 +243,30 @@ public class WaveManager : MonoBehaviour
     {
         enemy.SetActive(true);
         Vector3 spawnPosition = GetRandomSpawnPosition();
-        enemy.transform.SetPositionAndRotation(
-            spawnPosition,
-            Quaternion.identity
-        );
-        
         // 체력 및 상태 초기화
         Enemy enemyComponent = enemy.GetComponent<Enemy>();
         if (enemyComponent != null && enemyComponent.enemyData != null)
         {
+            if (enemyComponent.enemyData.enemyType == EnemyType.Boss) // 보스 스폰 위치 처리
+            {
+                if (bossSpwanPoint == null)
+                {
+                    spawnPosition = GetRandomSpawnPosition();
+                }
+                else
+                {
+                    spawnPosition = bossSpwanPoint.position;
+                }
+            }
+            else
+            {
+                spawnPosition = GetRandomSpawnPosition();
+            }
+            enemy.transform.SetPositionAndRotation(
+                spawnPosition,
+                Quaternion.identity
+            );
+            
             enemyComponent.ResetState(); // 모든 상태 초기화
         }
         GameAnalyticsLogger.instance.LogEnemySpawn(
@@ -256,10 +291,7 @@ public class WaveManager : MonoBehaviour
     {
         if (currentWaveIndex >= waves.Length)
             yield break;
-
         
-       
-
         isSpawning = true;
         // [Log] 웨이브 시작 로그 출력 
         GameAnalyticsLogger.instance.LogWaveStart(currentWaveIndex + 1, Managers.Instance.core.CurrentHP);

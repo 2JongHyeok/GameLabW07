@@ -127,23 +127,7 @@ public class Weapon2 : MonoBehaviour
         orbitLineRenderer.numCornerVertices = 4;
         orbitLineRenderer.numCapVertices = 2;
 
-        //// 머티리얼 없으면 간단한 언릿 머티리얼 부착(프로젝트에 맞게 교체 가능)
-        //if (orbitLineRenderer.material == null)
-        //{
-        //    var shader = Shader.Find("Sprites/Default"); // URP/HDRP에서도 보통 안전
-        //    orbitLineRenderer.material = new Material(shader);
-        //    orbitLineRenderer.material.color = Color.white;
-        //}
-        //else
-        //{
-        //    // 투명도가 0이면 보이지 않으므로 방지
-        //    var c = orbitLineRenderer.material.color;
-        //    if (c.a <= 0f)
-        //    {
-        //        c.a = 1f;
-        //        orbitLineRenderer.material.color = c;
-        //    }
-        //}
+
 
         // 궤도 오브젝트를 Pivot의 자식으로 두고 로컬 원점 정렬
         if (orbitLineRenderer.transform.parent != pivotTransform)
