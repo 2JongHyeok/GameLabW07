@@ -19,6 +19,11 @@ public class DockingStation : MonoBehaviour
     private Vector3 nextDeparturePosition;
     private Quaternion nextDepartureRotation;
 
+    [Header("UI 상태 알림")]
+    [SerializeField] private BoolVariable canDepartState; // 출격 가능 상태
+    [SerializeField] private BoolVariable isFlightModeState;
+    [SerializeField] public bool isSpaceshipMode = false;
+    
     [SerializeField]private bool isShipDocked=false;
 
     void Reset()
@@ -34,6 +39,7 @@ public class DockingStation : MonoBehaviour
             CalculateNextDeparturePoint(dockedShip.transform.position);
             dockedShip.SetActive(false);
         }
+        UpdateAllUIStates();
     }
 
     void Update()
@@ -51,6 +57,9 @@ public class DockingStation : MonoBehaviour
                 Debug.Log(transform.position+" "+gameObject.name+" "+ nextDeparturePosition);
                 dockedShip.transform.SetPositionAndRotation(nextDeparturePosition, nextDepartureRotation);
                 dockedShip.SetActive(true);
+                isSpaceshipMode = true;
+
+                UpdateAllUIStates();
             }
         }
     }
@@ -75,6 +84,7 @@ public class DockingStation : MonoBehaviour
             dockedShip = other.attachedRigidbody ? other.attachedRigidbody.gameObject : other.gameObject;
             CalculateNextDeparturePoint(dockedShip.transform.position);
             if (dockedShip) dockedShip.SetActive(false);
+            UpdateAllUIStates();
 
             Debug.Log($"[DockingStation] 도킹 완료: {(planetCamera ? planetCamera.name : "null")}");
         }
@@ -83,6 +93,23 @@ public class DockingStation : MonoBehaviour
     public void DockShip(GameObject ship)
     {
 
+    }
+    
+    private void UpdateAllUIStates()
+    {
+        // 1. 출격 가능 상태 업데이트 (기존 로직)
+        if (canDepartState != null)
+        {
+            // isSpaceshipMode가 '아닐 때' 출격 가능
+            canDepartState.Value = !isSpaceshipMode;
+        }
+
+        // 2. 비행 모드 상태 업데이트 (새로운 로직)
+        if (isFlightModeState != null)
+        {
+            // isSpaceshipMode가 '맞을 때' 비행 모드
+            isFlightModeState.Value = isSpaceshipMode;
+        }
     }
 
     private void CalculateNextDeparturePoint(Vector3 basis)
