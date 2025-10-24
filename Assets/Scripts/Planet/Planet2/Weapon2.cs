@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteAlways]
 public class Weapon2 : MonoBehaviour
 {
     [Header("Pivot (공전 중심)")]
