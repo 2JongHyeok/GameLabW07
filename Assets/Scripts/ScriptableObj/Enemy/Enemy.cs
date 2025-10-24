@@ -170,7 +170,7 @@ public class Enemy : MonoBehaviour
         
         if (enemyHP <= 0)
         {
-            GameAnalyticsLogger.instance.LogEnemyKilled(WaveManager.Instance.CurrentWaveIndex, enemyType.ToString(), weaponType);
+            GameAnalyticsLogger.instance.LogEnemyKilled(enemyType.ToString(), weaponType);
             isDead = true;
             myPool.Release(gameObject);
         }
