@@ -139,6 +139,7 @@ public class Weapon2 : MonoBehaviour
 
     void Update()
     {
+        if (SpaceshipController.IsSpaceshipMode) return;
         // 1) 마우스 위치 기반 목표 반지름 계산 (즉각적)
         CalculateTargetRadiusByMouse();
 
