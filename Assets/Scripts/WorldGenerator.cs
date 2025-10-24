@@ -36,6 +36,10 @@ public class WorldGenerator : MonoBehaviour
     // 게임이 시작될 때 월드 생성을 자동으로 실행합니다.
     void Start()
     {
+        // [수정] 빌드 시 참조가 유실되는 것을 방지하기 위해 씬에서 직접 찾습니다.
+        asteroidHealth ??= FindAnyObjectByType<AsteroidHealth>();
+        shadowGenerator ??= FindAnyObjectByType<TilemapShadowGenerator>();
+
         GenerateWorld();
     }
 
