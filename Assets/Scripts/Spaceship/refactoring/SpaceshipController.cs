@@ -44,6 +44,13 @@ public class SpaceshipController : MonoBehaviour
     private bool canControl = true;
     private float currentBoostMultiplier = 1f;
 
+    public static bool IsSpaceshipMode { get; private set; } = false;
+    public static void SetIsSpaceShipMode(bool isSpaceShipMode)
+    {
+        IsSpaceshipMode = isSpaceShipMode;
+        Debug.Log("isSpaceShipMode: "+isSpaceShipMode);
+    }
+
     private void Awake()
     {
         shipInput = GetComponent<SpaceshipInput>();

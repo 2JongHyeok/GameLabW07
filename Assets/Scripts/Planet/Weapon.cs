@@ -45,7 +45,7 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
-        if (dockingStation.isSpaceshipMode) return;
+        if (SpaceshipController.IsSpaceshipMode==true) return;
         MoveWeapon();
         Fire();
     }
