@@ -107,7 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 64e90754a8322af48a9b1db74dcb78f9, type: 2}
   firePoint: {fileID: 5788168957988568316}
-  maxDistanceFromTarget: 100
+  maxDistanceFromTarget: 50
   target: {fileID: 0}
   enemyHP: 0
   isDead: 0

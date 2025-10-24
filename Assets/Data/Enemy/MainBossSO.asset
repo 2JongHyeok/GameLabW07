@@ -18,5 +18,11 @@ MonoBehaviour:
   enemyPrefab: {fileID: 0}
   bulletPrefab: {fileID: 6360892650054380025, guid: ef343e70042ee1140871eafb98ce9661, type: 3}
   attackRange: 999
-  bulletSpeed: 10
-  attackCooldown: 2
+  bulletSpeed: 1
+  attackCooldown: 1
+  ExplosionEffectPrefab: {fileID: 5807730180560662781, guid: 9b9b064fb4e0f0445a06122d7bfca6e6, type: 3}
+  damage: 20
+  explosionRadius: 3
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 8193
