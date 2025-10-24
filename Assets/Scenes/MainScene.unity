@@ -2321,6 +2321,17 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 3.31
+--- !u!114 &618168888 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3339140749860316857, guid: 176e973869245f34db37da97268a237c, type: 3}
+  m_PrefabInstance: {fileID: 155267636}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &646354830
 GameObject:
   m_ObjectHideFlags: 0
@@ -5045,6 +5056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
+  CoreHpText: {fileID: 618168888}
   inventoryManger: {fileID: 5803141803156037022}
 --- !u!212 &1190461933
 SpriteRenderer:
