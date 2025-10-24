@@ -163,14 +163,14 @@ public class WaveManager : MonoBehaviour
                     if (waveEnd)
                     {
                         GameAnalyticsLogger.instance.waveCount = CurrentWaveIndex+1;
-                        GameAnalyticsLogger.instance.LogPlayerDefend(currentWaveIndex,
+                        GameAnalyticsLogger.instance.LogPlayerDefend(
                             GameAnalyticsLogger.instance.playerBulletCount,
                             GameAnalyticsLogger.instance.playerBulletHitCount);
                         GameAnalyticsLogger.instance.playerBulletCount = 0;
                         GameAnalyticsLogger.instance.playerBulletHitCount = 0;
                         // [Log] 이전 웨이브 완료 로그 및 자원 통계 기록
                         GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
-                        GameAnalyticsLogger.instance.LogWaveResources(currentWaveIndex, Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
+                        GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
                         // [Log] 웨이브 시작 시 인벤토리 통계 초기화
                         Managers.Instance.inventory.ResetWaveStats();
                         waveEnd = false;
