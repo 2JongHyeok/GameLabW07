@@ -48,7 +48,7 @@ public class SpaceshipController : MonoBehaviour
     public static void SetIsSpaceShipMode(bool isSpaceShipMode)
     {
         IsSpaceshipMode = isSpaceShipMode;
-        Debug.Log("isSpaceShipMode: "+isSpaceShipMode);
+        // Debug.Log("isSpaceShipMode: "+isSpaceShipMode);
     }
 
     private void Awake()

@@ -22,7 +22,7 @@ public class DockingStation : MonoBehaviour
     [Header("UI 상태 알림")]
     [SerializeField] private BoolVariable canDepartState; // 출격 가능 상태
     [SerializeField] private BoolVariable isFlightModeState;
-    [SerializeField] public bool isSpaceshipMode = false;
+    // [SerializeField] public bool isSpaceshipMode = false; // [수정] 자체 상태 변수 대신 SpaceshipController의 전역 상태를 사용합니다.
     
     [SerializeField]private bool isShipDocked=false;
 
@@ -55,9 +55,11 @@ public class DockingStation : MonoBehaviour
             if (dockedShip)
             {
                 Debug.Log(transform.position+" "+gameObject.name+" "+ nextDeparturePosition);
-                dockedShip.transform.SetPositionAndRotation(nextDeparturePosition, nextDepartureRotation);
-                dockedShip.SetActive(true);
-                isSpaceshipMode = true;
+                // [수정] 출격 로직을 LaunchShip() 함수로 분리합니다.
+                // dockedShip.transform.SetPositionAndRotation(nextDeparturePosition, nextDepartureRotation);
+                // dockedShip.SetActive(true);
+                // isSpaceshipMode = true;
+                LaunchShip();
 
                 UpdateAllUIStates();
             }
@@ -81,9 +83,11 @@ public class DockingStation : MonoBehaviour
             cameraSwitcher.ActivatePlanet(planetCamera);
 
             // 우주선 보관 및 다음 출격 위치 계산
+            // [수정] 우주선 보관 로직을 StoreShip() 함수로 분리합니다.
             dockedShip = other.attachedRigidbody ? other.attachedRigidbody.gameObject : other.gameObject;
-            CalculateNextDeparturePoint(dockedShip.transform.position);
-            if (dockedShip) dockedShip.SetActive(false);
+            // CalculateNextDeparturePoint(dockedShip.transform.position);
+            // if (dockedShip) dockedShip.SetActive(false);
+            StoreShip();
             UpdateAllUIStates();
 
             Debug.Log($"[DockingStation] 도킹 완료: {(planetCamera ? planetCamera.name : "null")}");
@@ -92,7 +96,31 @@ public class DockingStation : MonoBehaviour
 
     public void DockShip(GameObject ship)
     {
+        // 1. 이 행성의 카메라 지정
+        cameraSwitcher.SetPlanetCamera(planetCamera);
+        // 2. 즉시 행성 시점으로 전환
+        cameraSwitcher.ActivatePlanet(planetCamera);
 
+        // 우주선 보관 및 다음 출격 위치 계산
+        dockedShip = ship;
+        StoreShip();
+        UpdateAllUIStates();
+    }
+
+    // [추가] 우주선 보관 로직
+    private void StoreShip()
+    {
+        if (!dockedShip) return;
+        CalculateNextDeparturePoint(dockedShip.transform.position);
+        dockedShip.SetActive(false);
+    }
+
+    // [추가] 우주선 출격 로직
+    private void LaunchShip()
+    {
+        if (!dockedShip) return;
+        dockedShip.transform.SetPositionAndRotation(nextDeparturePosition, nextDepartureRotation);
+        dockedShip.SetActive(true);
     }
     
     private void UpdateAllUIStates()
@@ -100,15 +128,15 @@ public class DockingStation : MonoBehaviour
         // 1. 출격 가능 상태 업데이트 (기존 로직)
         if (canDepartState != null)
         {
-            // isSpaceshipMode가 '아닐 때' 출격 가능
-            canDepartState.Value = !isSpaceshipMode;
+            // [수정] isSpaceshipMode 대신 SpaceshipController.IsSpaceshipMode 사용
+            canDepartState.Value = !SpaceshipController.IsSpaceshipMode;
         }
 
         // 2. 비행 모드 상태 업데이트 (새로운 로직)
         if (isFlightModeState != null)
         {
-            // isSpaceshipMode가 '맞을 때' 비행 모드
-            isFlightModeState.Value = isSpaceshipMode;
+            // [수정] isSpaceshipMode 대신 SpaceshipController.IsSpaceshipMode 사용
+            isFlightModeState.Value = SpaceshipController.IsSpaceshipMode;
         }
     }
 
