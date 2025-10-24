@@ -29,7 +29,7 @@ public class WaveManager : MonoBehaviour
     private bool isFirst = true; // 게임 시작 시 첫 번째 카운트다운인지 확인
     private bool waveEnd = false;
     public int enemyNum = 0;
-
+    private bool hasTriggeredWaveClearAction = false;
     [Header("UI")]
     public TMP_Text waveTimerText;
     public TMP_Text enemyCountText;
@@ -127,6 +127,11 @@ public class WaveManager : MonoBehaviour
         // 적이 모두 죽고, 스폰도 끝났으면 카운트다운 시작
         if (EnemyCount <= 0 && !isSpawning)
         {
+            if (!hasTriggeredWaveClearAction)
+            {
+                hasTriggeredWaveClearAction = true;
+                GameAnalyticsLogger.instance.UpdateWave();
+            }
             EnemyCount = 0;
             countdown -= Time.deltaTime;
 
@@ -337,6 +342,7 @@ public class WaveManager : MonoBehaviour
 
         isSpawning = false;
         currentWaveIndex++;
+        hasTriggeredWaveClearAction = false;
     }
 
     // 남은 총 스폰 수 계산

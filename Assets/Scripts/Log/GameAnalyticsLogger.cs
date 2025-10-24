@@ -112,7 +112,6 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         }
         return PlayerPrefs.GetString(KEY);
     }
-
     StreamWriter GetWriter(LogCategory cat)
     {
         if (writers.TryGetValue(cat, out var w) && w != null) return w;
@@ -121,7 +120,6 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         writers[cat] = sw;
         return sw;
     }
-
     StreamWriter GetCsv(LogCategory cat)
     {
         if (csvWriters.TryGetValue(cat, out var w) && w != null) return w;
@@ -130,7 +128,6 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         csvWriters[cat] = sw;
         return sw;
     }
-
     void WriteTxt(LogCategory cat, string eventName, Dictionary<string, object> data)
     {
         var w = GetWriter(cat);
@@ -144,7 +141,6 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         }
         w.WriteLine($"[{time}] [{eventName}] {kv}");
     }
-
     void WriteCsv(LogCategory cat, string eventName, Dictionary<string, object> data)
     {
         var header = csvHeaders[cat];
@@ -172,7 +168,6 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         string formattedTime = $"{(int)timeSpan.TotalHours:D2}:{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
         return formattedTime;
     }
-
     string GetLocalTime() // 실제 현재 시간
     {
         DateTime startTimeUtc = DateTime.Now;
@@ -180,6 +175,11 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
 
     }
     #endregion
+
+    public void UpdateWave()
+    {
+        waveCount = WaveManager.Instance.CurrentWaveIndex;
+    }
 
     #region Session
     public void LogSessionStart()
@@ -207,8 +207,6 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     // [wave_start] wave: int / timestamp: float / core_hp_BeforeWave: float
     public void LogWaveStart(int coreHpBefore)
     {
-        waveCount = WaveManager.Instance.CurrentWaveIndex;
-
         var data = new Dictionary<string, object>
         {
             { "Wave", waveCount },
@@ -222,8 +220,6 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     // [wave_complete] wave: int / timestamp: float / core_hp_CompleteWave: float
     public void LogWaveComplete(int coreHpComplete)
     {
-        waveCount = WaveManager.Instance.CurrentWaveIndex;
-
         var data = new Dictionary<string, object>
         {
             { "Wave", waveCount },
@@ -237,7 +233,6 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     // [wave_fail] wave: int / timestamp: float / core_hp_FailWave: float
     public void LogWaveFail(int coreHpFail)
     {
-        waveCount = WaveManager.Instance.CurrentWaveIndex;
         var data = new Dictionary<string, object>
         {
             { "Wave", waveCount },
@@ -264,11 +259,11 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     #endregion
 
     #region Resources
-    public void LogWaveResources(int waveNumber, string mineralInfo)
+    public void LogWaveResources(string mineralInfo)
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveNumber },
+            { "Wave", waveCount },
             { "Timestamp", GetLocalTime() },
             { "Mineral_Info", mineralInfo }
         };
@@ -330,11 +325,11 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         WriteCsv(LogCategory.Combat, "enemy_killed", data);
     }
 
-    public void LogPlayerDefend(int waveNumber, int playerAttackCount, int playerHitCount)
+    public void LogPlayerDefend(int playerAttackCount, int playerHitCount)
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveNumber },
+            { "Wave", waveCount },
             { "Timestamp", GetLocalTime() },
             { "Player_AttackCount", playerAttackCount },
             { "Player_AttackHitCount", playerHitCount }
@@ -348,7 +343,6 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     public void LogPlayerExitBase()
     {
         ClearMovementValue();
-        waveCount = WaveManager.Instance.CurrentWaveIndex;
         var data = new Dictionary<string, object>
         {
             { "Wave", waveCount },
@@ -360,7 +354,6 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     }
     public void LogPlayerEnterBase()
     {
-        waveCount = WaveManager.Instance.CurrentWaveIndex;
         var data = new Dictionary<string, object>
         {
             { "Wave", waveCount },
