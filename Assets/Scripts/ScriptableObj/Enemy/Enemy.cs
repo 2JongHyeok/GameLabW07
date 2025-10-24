@@ -29,6 +29,10 @@ public class Enemy : MonoBehaviour
     
     // 피격 이펙트
     private HitFlashEffect hitFlashEffect;
+    
+    // 보스 처치 시 생성될 코어
+    [SerializeField] private GameObject bossCorePrefab;
+    
     private void Start()
     {
         if (target != null)
@@ -169,6 +173,11 @@ public class Enemy : MonoBehaviour
         
         if (enemyHP <= 0)
         {
+            // 보스 처치 시 코어 생성
+            if (bossCorePrefab != null && enemyData.enemyType == EnemyType.Boss)
+            {
+                Instantiate(bossCorePrefab, gameObject.transform.position, Quaternion.identity);
+            }
             GameAnalyticsLogger.instance.LogEnemyKilled(enemyType.ToString(), weaponType);
             isDead = true;
             myPool.Release(gameObject);
@@ -194,7 +203,7 @@ public class Enemy : MonoBehaviour
             }
         }
         // 레인저/탱크는 기존대로 "Player" 태그에 반응
-        else if (enemyData.enemyType == EnemyType.Ranger || enemyData.enemyType == EnemyType.RangerTank)
+        else if (enemyData.enemyType == EnemyType.Ranger || enemyData.enemyType == EnemyType.RangerTank || enemyData.enemyType == EnemyType.Boss)
         {
             if (collision.CompareTag("Player"))
             {
