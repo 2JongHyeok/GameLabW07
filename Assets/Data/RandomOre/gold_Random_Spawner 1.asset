@@ -36,12 +36,12 @@ MonoBehaviour:
   m_ColliderType: 1
   possibleOutcomes:
   - resultingTile: {fileID: 11400000, guid: dcbf5f5aadb7cee419c5a30a22f34b5a, type: 2}
-    weight: 10
+    weight: 5
   - resultingTile: {fileID: 11400000, guid: 643ec47a9f5e33c4ab85a0de83ce0981, type: 2}
-    weight: 10
-  - resultingTile: {fileID: 11400000, guid: 3b447784cba70944d82c6e995f082550, type: 2}
-    weight: 50
-  - resultingTile: {fileID: 11400000, guid: 129ae7b627ca4d14c987b74a31c5acf1, type: 2}
-    weight: 20
+    weight: 5
   - resultingTile: {fileID: 11400000, guid: 49c059b7b93340a46bb0aad08ddc833b, type: 2}
-    weight: 10
+    weight: 22.5
+  - resultingTile: {fileID: 11400000, guid: 129ae7b627ca4d14c987b74a31c5acf1, type: 2}
+    weight: 22.5
+  - resultingTile: {fileID: 11400000, guid: 3b447784cba70944d82c6e995f082550, type: 2}
+    weight: 45

@@ -1514,6 +1514,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3954204389919689628, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: ropeSegmentPrefab
+      value: 
+      objectReference: {fileID: 1511424944892775995, guid: a003d3caee99a2044a67ae93bc63e0cf, type: 3}
     - target: {fileID: 7180292076679184082, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.25
@@ -1891,7 +1895,7 @@ Transform:
   m_GameObject: {fileID: 410484763}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 45.3, z: 0}
+  m_LocalPosition: {x: 0, y: 15.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4225,7 +4229,7 @@ PrefabInstance:
       objectReference: {fileID: 1752708900}
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: countdown
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: waveTimerText
@@ -4258,7 +4262,7 @@ PrefabInstance:
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: 'enemyPrefabs.Array.data[5]'
       value: 
-      objectReference: {fileID: 1839482599764033570, guid: 1c01edde41a14164aaacf059ff94275b, type: 3}
+      objectReference: {fileID: 1839482599764033570, guid: 0af713d654351c7409e976bd320126ed, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5080,7 +5084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  CoreHpText: {fileID: 3339140749738742925}
+  CoreHpText: {fileID: 0}
   inventoryManger: {fileID: 5803141803156037022}
 --- !u!212 &1190461933
 SpriteRenderer:
@@ -8580,11 +8584,10 @@ MonoBehaviour:
   spaceshipCamera: {fileID: 1430701315}
   zoomSpeed: 5
   minPlanetCamZoom: 12
+  maxPlanetCamZoom: 12
   minShipCamZoom: 2
   maxShipCamZoom: 20
-  maxPlanetCamZoom: 12
   smoothSpeed: 5
-  forgeManager: {fileID: 0}
 --- !u!4 &1778712952
 Transform:
   m_ObjectHideFlags: 0
@@ -10854,17 +10857,6 @@ MonoBehaviour:
   forgeManager: {fileID: 851302069335967697}
   inventoryManger: {fileID: 5803141803156037022}
   tooltipUI: {fileID: 7069204562295432945}
---- !u!114 &3339140749738742925 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3339140749860316857, guid: 176e973869245f34db37da97268a237c, type: 3}
-  m_PrefabInstance: {fileID: 155267636}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3371593990476748644
 MonoBehaviour:
   m_ObjectHideFlags: 0

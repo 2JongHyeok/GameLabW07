@@ -1,110 +1,130 @@
 using UnityEngine;
-using Unity.Cinemachine; // Cinemachine 3.x 이후 버전의 네임스페이스
-using UnityEngine.InputSystem; // New Input System을 사용할 경우
+using Unity.Cinemachine; // Unity 6 / Cinemachine 3.x
 
 public class CameraSwitcher : MonoBehaviour
 {
-    // 유니티 인스펙터에서 할당
-    public CinemachineCamera planetCamera; // 행성 고정 카메라
-    public CinemachineCamera spaceshipCamera; // 우주선 추적 카메라
+    [Header("Cameras (CM 3.x)")]
+    [Tooltip("현재 활성 '행성' 시점 카메라 (시작 시 Planet1Cam 할당)")]
+    [SerializeField] private CinemachineCamera planetCamera;
 
-    public float zoomSpeed = 5f; // 줌 속도
-    [SerializeField] private float minPlanetCamZoom = 5f; // 최소 줌 크기 (Orthographic Size)
-    [SerializeField] private float minShipCamZoom = 2f; // 최소 줌 크기 (Orthographic Size)
-    [SerializeField] private float maxShipCamZoom = 20f; // 최대 줌 크기 (Orthographic Size)
-    [SerializeField] private float maxPlanetCamZoom = 20f; // 최대 줌 크기 (Orthographic Size)
-    [Header("Smooth Zoom Settings")] // 인스펙터에서 구분하기 위한 헤더
-    public float smoothSpeed = 5f; // 목표 크기로 부드럽게 이동하는 속도 (Lerp)
+    [Tooltip("우주선 추적용 카메라 (SpaceshipCam)")]
+    [SerializeField] private CinemachineCamera spaceshipCamera;
 
-    private bool isSpaceshipMode = false;
+    [Header("Zoom")]
+    [SerializeField] private float zoomSpeed = 5f;
+    [SerializeField] private float minPlanetCamZoom = 5f;
+    [SerializeField] private float maxPlanetCamZoom = 20f;
+    [SerializeField] private float minShipCamZoom = 2f;
+    [SerializeField] private float maxShipCamZoom = 20f;
+
+    [Header("Smooth Zoom")]
+    [SerializeField] private float smoothSpeed = 5f;
+
     private CinemachineCamera currentCamera;
-    private float targetZoomSize; // 목표 Orthographic Size를 저장할 변수
+    private float targetZoomSize;
+    
 
-    // Cinemachine의 Priority를 사용하여 카메라 전환
     private const int ActivePriority = 20;
     private const int InactivePriority = 10;
 
-    // Unity의 Input System (InputManager)을 사용할 경우: "F" 키
-    private const KeyCode SwitchKey = KeyCode.F;
-    [SerializeField] ForgeManager forgeManager;
     void Start()
     {
-        // 초기에는 행성 카메라를 활성화합니다.
-        SwitchToPlanetCamera();
-        targetZoomSize = currentCamera.Lens.OrthographicSize;
+        // 시작은 행성 카메라(Planet1Cam)로
+        ActivatePlanet(planetCamera);
+        targetZoomSize = currentCamera != null ? currentCamera.Lens.OrthographicSize : 5f;
+        //DumpLive();
     }
 
-    void Update()
-    {
-        // if(forgeManger.forgeUI.isForge)
-        // {
-        //     return;
-        // }
-        // 줌 처리 (마우스 휠)
-        HandleZoom();
-    }
+    void Update() => HandleZoom();
+
     void LateUpdate()
     {
-        if (currentCamera != null)
-        {
-            var lens = currentCamera.Lens;
-
-            // 현재 크기에서 목표 크기로 smoothSpeed에 맞게 부드럽게 보간
-            lens.OrthographicSize = Mathf.Lerp(
-                lens.OrthographicSize,
-                targetZoomSize,
-                Time.deltaTime * smoothSpeed
-            );
-
-            currentCamera.Lens = lens;
-        }
+        if (currentCamera == null) return;
+        var lens = currentCamera.Lens;
+        lens.OrthographicSize = Mathf.Lerp(lens.OrthographicSize, targetZoomSize, Time.deltaTime * smoothSpeed);
+        currentCamera.Lens = lens;
     }
-    // 카메라 모드 전환 메서드
+
+    // ===== 외부 호출 =====
+
+    /// <summary>행성 <-> 우주선 모드 토글</summary>
     public void ToggleCameraMode()
     {
-        isSpaceshipMode = !isSpaceshipMode;
-
-        if (isSpaceshipMode)
-        {
-            SwitchToSpaceshipCamera();
-        }
-        else
-        {
-            SwitchToPlanetCamera();
-        }
+        if (SpaceshipController.IsSpaceshipMode == true) ActivatePlanet(planetCamera);
+        else ActivateSpaceship();
     }
 
-    private void SwitchToPlanetCamera()
+    /// <summary>도킹 스테이션이 자신(행성)의 카메라를 알려줄 때 호출</summary>
+    public void SetPlanetCamera(CinemachineCamera newPlanetCamera)
     {
-        spaceshipCamera.Priority = InactivePriority;
-        planetCamera.Priority = ActivePriority;
-        currentCamera = planetCamera;
-        targetZoomSize = currentCamera.Lens.OrthographicSize;
+        planetCamera = newPlanetCamera;
+        Debug.Log($"[CameraSwitcher] SetPlanetCamera: {(planetCamera ? planetCamera.name : "null")}");
+        // 우주선 모드가 아니라면 즉시 해당 행성으로 전환
+        if (SpaceshipController.IsSpaceshipMode==false && planetCamera != null)
+            ActivatePlanet(planetCamera);
     }
 
-    public void SwitchToSpaceshipCamera()
+    /// <summary>우주선 모드로 전환</summary>
+    public void ActivateSpaceship()
     {
-        planetCamera.Priority = InactivePriority;
-        spaceshipCamera.Priority = ActivePriority;
+        if (spaceshipCamera == null)
+        {
+            Debug.LogWarning("[CameraSwitcher] spaceshipCamera is null");
+            return;
+        }
+
+        if (planetCamera) planetCamera.Priority.Value = InactivePriority;
+        spaceshipCamera.Priority.Value = ActivePriority;
+
         currentCamera = spaceshipCamera;
+        SpaceshipController.SetIsSpaceShipMode(true);
         targetZoomSize = currentCamera.Lens.OrthographicSize;
+
+        Debug.Log($"[CameraSwitcher] 모드: 우주선 ({currentCamera.name}) prio={spaceshipCamera.Priority.Value}");
+        DumpLive();
     }
 
-    // 마우스 휠을 사용한 줌 처리
-    void HandleZoom()
+    /// <summary>지정한 행성 카메라로 전환</summary>
+    public void ActivatePlanet(CinemachineCamera planetCam)
+    {
+        if (planetCam == null)
+        {
+            Debug.LogWarning("[CameraSwitcher] ActivatePlanet: planetCam is null");
+            return;
+        }
+
+        if (spaceshipCamera) spaceshipCamera.Priority.Value = InactivePriority;
+        planetCam.Priority.Value = ActivePriority;
+
+        planetCamera = planetCam;
+        currentCamera = planetCam;
+        SpaceshipController.SetIsSpaceShipMode(false);
+        Debug.Log("ActivatePlanet");
+        targetZoomSize = currentCamera.Lens.OrthographicSize;
+
+        Debug.Log($"[CameraSwitcher] 모드: 행성 ({currentCamera.name}) prio={planetCam.Priority.Value}");
+        DumpLive();
+    }
+
+    // ===== 내부 처리 =====
+
+    private void HandleZoom()
     {
         if (currentCamera == null) return;
-
         float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (Mathf.Approximately(scroll, 0f)) return;
 
-        if (scroll != 0f)
-        {
-            float newSize = targetZoomSize - scroll * zoomSpeed;
+        float newSize = targetZoomSize - scroll * zoomSpeed;
+        targetZoomSize = SpaceshipController.IsSpaceshipMode
+            ? Mathf.Clamp(newSize, minShipCamZoom, maxShipCamZoom)
+            : Mathf.Clamp(newSize, minPlanetCamZoom, maxPlanetCamZoom);
+    }
 
-            if(isSpaceshipMode)
-                targetZoomSize = Mathf.Clamp(newSize, minShipCamZoom, maxShipCamZoom);
-            else
-                targetZoomSize = Mathf.Clamp(newSize, minPlanetCamZoom, maxPlanetCamZoom);
-        }
+    /// <summary>CM 3.x: 각 가상카메라의 IsLive로 라이브 여부 확인</summary>
+    private void DumpLive()
+    {
+        string ship = spaceshipCamera ? $"{spaceshipCamera.name} live={spaceshipCamera.IsLive} prio={spaceshipCamera.Priority.Value}" : "spaceship=null";
+        string planet = planetCamera ? $"{planetCamera.name} live={planetCamera.IsLive} prio={planetCamera.Priority.Value}" : "planet=null";
+        Debug.Log($"[LiveCheck] {ship} | {planet}");
     }
 }

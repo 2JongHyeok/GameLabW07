@@ -105,15 +105,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf552f229aecde49a3bb0aedfc498f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: 495fd34293f8d9f45ad3b4766faff533, type: 2}
+  enemyData: {fileID: 11400000, guid: 64e90754a8322af48a9b1db74dcb78f9, type: 2}
   firePoint: {fileID: 5788168957988568316}
-  maxDistanceFromTarget: 30
+  maxDistanceFromTarget: 100
   target: {fileID: 0}
   enemyHP: 0
   isDead: 0
   isAttacking: 0
   attackTimer: 0
   enemyNum: 0
+  bossCorePrefab: {fileID: 7116799097489120615, guid: ce04df9808ef81d46ae38f03e5d83033, type: 3}
 --- !u!114 &8427198145810915771
 MonoBehaviour:
   m_ObjectHideFlags: 0

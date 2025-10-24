@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 2
   enemyHP: 2
-  enemySpeed: 2.5
+  enemySpeed: 2
   enemyPrefab: {fileID: 0}
   ExplosionEffectPrefab: {fileID: 5807730180560662781, guid: 9b9b064fb4e0f0445a06122d7bfca6e6, type: 3}
   damage: 5

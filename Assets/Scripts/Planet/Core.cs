@@ -44,7 +44,7 @@ public class Core : MonoBehaviour
         Destroy(gameObject);
         // [Log] 웨이브 방어 실패 로그 출력
         GameAnalyticsLogger.instance.LogWaveFail(Managers.Instance.core.CurrentHP);
-        GameAnalyticsLogger.instance.LogWaveResources(WaveManager.Instance.CurrentWaveIndex, Managers.Instance.inventory.GetWaveResourceStats(WaveManager.Instance.CurrentWaveIndex));
+        GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(WaveManager.Instance.CurrentWaveIndex));
         Managers.Instance.RestartPanel.SetActive(true);
         // 이후에 GameOver 연출이나 Scene 전환 로직을 여기에 추가 가능
     }
@@ -55,7 +55,9 @@ public class Core : MonoBehaviour
         {
             if(collision.gameObject.TryGetComponent<Ore>(out var ore))
             {
-                inventoryManger.AddOre(ore.oreType, ore.amount);
+                if(collision.gameObject.GetComponent<Ore>().oreType == OreType.PlanetCore)
+                { return; }
+                inventoryManger.AddOre(ore.oreType, ore.amount);    
                 Destroy(collision.gameObject);
             }
         }

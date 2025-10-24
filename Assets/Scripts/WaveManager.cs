@@ -29,7 +29,7 @@ public class WaveManager : MonoBehaviour
     private bool isFirst = true; // 게임 시작 시 첫 번째 카운트다운인지 확인
     private bool waveEnd = false;
     public int enemyNum = 0;
-
+    private bool hasTriggeredWaveClearAction = false;
     [Header("UI")]
     public TMP_Text waveTimerText;
     public TMP_Text enemyCountText;
@@ -127,6 +127,11 @@ public class WaveManager : MonoBehaviour
         // 적이 모두 죽고, 스폰도 끝났으면 카운트다운 시작
         if (EnemyCount <= 0 && !isSpawning)
         {
+            if (!hasTriggeredWaveClearAction)
+            {
+                hasTriggeredWaveClearAction = true;
+                GameAnalyticsLogger.instance.UpdateWave();
+            }
             EnemyCount = 0;
             countdown -= Time.deltaTime;
 
@@ -158,14 +163,14 @@ public class WaveManager : MonoBehaviour
                     if (waveEnd)
                     {
                         GameAnalyticsLogger.instance.waveCount = CurrentWaveIndex+1;
-                        GameAnalyticsLogger.instance.LogPlayerDefend(currentWaveIndex,
+                        GameAnalyticsLogger.instance.LogPlayerDefend(
                             GameAnalyticsLogger.instance.playerBulletCount,
                             GameAnalyticsLogger.instance.playerBulletHitCount);
                         GameAnalyticsLogger.instance.playerBulletCount = 0;
                         GameAnalyticsLogger.instance.playerBulletHitCount = 0;
                         // [Log] 이전 웨이브 완료 로그 및 자원 통계 기록
                         GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
-                        GameAnalyticsLogger.instance.LogWaveResources(currentWaveIndex, Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
+                        GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
                         // [Log] 웨이브 시작 시 인벤토리 통계 초기화
                         Managers.Instance.inventory.ResetWaveStats();
                         waveEnd = false;
@@ -337,6 +342,7 @@ public class WaveManager : MonoBehaviour
 
         isSpawning = false;
         currentWaveIndex++;
+        hasTriggeredWaveClearAction = false;
     }
 
     // 남은 총 스폰 수 계산

@@ -9,10 +9,11 @@ public class WaveSO_Editor : Editor
     private SerializedProperty kamikazeCountProp;
     private SerializedProperty kamikazeTankCountProp;
     private SerializedProperty parasiteCountProp;
-    private SerializedProperty bossCountProp;
     private SerializedProperty spawnIntervalProp;
     private SerializedProperty minSpawnPerIntervalProp;
     private SerializedProperty maxSpawnPerIntervalProp;
+    private SerializedProperty bossCountProp;
+
 
     private void OnEnable()
     {
@@ -37,7 +38,7 @@ public class WaveSO_Editor : Editor
         EditorGUILayout.ObjectField("Script", MonoScript.FromScriptableObject((ScriptableObject)target), typeof(ScriptableObject), false);
         GUI.enabled = true;
         
-        EditorGUILayout.Space(6);
+        EditorGUILayout.Space(5);
         
         EditorGUILayout.Space(10);
 
@@ -56,6 +57,7 @@ public class WaveSO_Editor : Editor
             EditorGUILayout.PropertyField(kamikazeTankCountProp, new GUIContent("Kamikaze Tank"));
             EditorGUILayout.PropertyField(parasiteCountProp, new GUIContent("Parasite"));
             EditorGUILayout.PropertyField(bossCountProp, new GUIContent("Boss"));
+            
         }
         EditorGUILayout.EndVertical();
         

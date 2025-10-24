@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
     [Header("Enemy Data")]
     public EnemyBaseSO enemyData;
     
-    [Header("References")]                
+    [Header("References")]
     public Transform firePoint;
     
     [Header("Respawn Settings")]
@@ -29,6 +29,10 @@ public class Enemy : MonoBehaviour
     
     // 피격 이펙트
     private HitFlashEffect hitFlashEffect;
+    
+    // 보스 처치 시 생성될 코어
+    [SerializeField] private GameObject bossCorePrefab;
+    
     private void Start()
     {
         if (target != null)
@@ -64,10 +68,10 @@ public class Enemy : MonoBehaviour
         }
         
         // Ranger 또는 RangerTank 타입이고 공격 중일 때
-        if (isAttacking && (enemyData.enemyType == EnemyType.Ranger || 
+        if (isAttacking && (enemyData.enemyType == EnemyType.Ranger ||
                             enemyData.enemyType == EnemyType.RangerTank ||
-                            enemyData.enemyType == EnemyType.Parasite || 
-                            enemyData.enemyType == EnemyType.Boss)) // 보스 추가
+                            enemyData.enemyType == EnemyType.Parasite) ||
+                            enemyData.enemyType == EnemyType.Boss)
         {
             if (attackTimer <= 0f)
             {
@@ -170,6 +174,11 @@ public class Enemy : MonoBehaviour
         
         if (enemyHP <= 0)
         {
+            // 보스 처치 시 코어 생성
+            if (bossCorePrefab != null && enemyData.enemyType == EnemyType.Boss)
+            {
+                Instantiate(bossCorePrefab, gameObject.transform.position, Quaternion.identity);
+            }
             GameAnalyticsLogger.instance.LogEnemyKilled(enemyType.ToString(), weaponType);
             isDead = true;
             myPool.Release(gameObject);
@@ -195,7 +204,7 @@ public class Enemy : MonoBehaviour
             }
         }
         // 레인저/탱크는 기존대로 "Player" 태그에 반응
-        else if (enemyData.enemyType == EnemyType.Ranger || enemyData.enemyType == EnemyType.RangerTank)
+        else if (enemyData.enemyType == EnemyType.Ranger || enemyData.enemyType == EnemyType.RangerTank || enemyData.enemyType == EnemyType.Boss)
         {
             if (collision.CompareTag("Player"))
             {
@@ -237,7 +246,7 @@ public class Enemy : MonoBehaviour
 
     private void HandleKamikazeCollision(Collision2D collision)
     {
-        // 이미 비활성화되었으  (풀로 반환되었으면) 무시
+        // 이미 비활성화되었으면(풀로 반환되었으면) 무시
         if (!gameObject.activeInHierarchy) return;
 
         // Kamikaze 타입 폭발 처리 (enemyData로 직접 체크)

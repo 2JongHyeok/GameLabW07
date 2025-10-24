@@ -21,9 +21,10 @@ public class OreSuctionZone : MonoBehaviour
         // 오브젝트가 "Ore" 레이어에 있는지 확인
         if (other.gameObject.layer != LayerMask.NameToLayer("Ore"))
             return;
-
+        
         GameObject oreObj = other.gameObject;
-
+        
+        
         // [개선] 씬에 있는 우주선 카고 시스템을 찾습니다.
         var cargoSystem = FindAnyObjectByType<SpaceshipCargoSystem>();
         if (cargoSystem != null)
@@ -31,10 +32,17 @@ public class OreSuctionZone : MonoBehaviour
             // [개선] 위험한 리플렉션 대신, 새로 만든 공개 함수를 호출하여 안전하게 연결 해제를 요청합니다.
             cargoSystem.BreakConnectionForOre(oreObj);
         }
+
+        if (oreObj.tag == "PlanetCore")
+        {
+            oreObj.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+            return;
+        }
+        
         
         // 만약 광물이 다른 곳에서 먼저 파괴되었을 수 있으니, 확인 후 코루틴을 시작합니다.
         if (oreObj != null)
-        {
+        {    
             // 광물이 (0,0)으로 부드럽게 끌려가도록 코루틴 시작
             StartCoroutine(SuckToCenter(oreObj));
         }
@@ -69,7 +77,9 @@ public class OreSuctionZone : MonoBehaviour
         // 목표 도달 시 처리
         if (destroyOnComplete && ore != null)
         {
+ 
             Object.Destroy(ore);
+                   
         }
     }
 }
