@@ -10,7 +10,7 @@ public class Planet2ShieldRegenSO : BaseForgeSO
     {
         if (Managers.Instance?.planet != null)
         {
-            Managers.Instance.ReduceTileRespawnDelay(ShieldRegen);
+            Managers.Instance.Reduce2TileRespawnDelay(ShieldRegen);
         }
     }
 }

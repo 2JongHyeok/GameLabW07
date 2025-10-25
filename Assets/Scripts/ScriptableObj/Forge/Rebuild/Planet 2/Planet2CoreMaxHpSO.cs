@@ -1,6 +1,6 @@
 using UnityEngine;
 [CreateAssetMenu(fileName = "Planet2CoreMaxHpSO", menuName = "ScriptableObjects/Forge/Planet2/Planet2CoreMaxHpSO", order = 1)]
-public class Plane2tCoreMaxHpSO : BaseForgeSO
+public class Planet2CoreMaxHpSO : BaseForgeSO
 {
     public float CoreMaxHp;
     

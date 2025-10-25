@@ -41,6 +41,7 @@ public class Planet2Manager : MonoBehaviour
             planet2.SetActive(true); 
             planet2Sheild.SetActive(true);
             planet2DockingStation.SetActive(true);
+            WaveManager.Instance?.NotifyPlanet2Activated();
         }
     }
 

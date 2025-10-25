@@ -993,6 +993,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2565020052216766252, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       insertIndex: -1
       addedObject: {fileID: 184272240}
+    - targetCorrespondingSourceObject: {fileID: 2565020052216766252, guid: 23ad2668fd171794ebb5513081490024, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 184272241}
   m_SourcePrefab: {fileID: 100100000, guid: 23ad2668fd171794ebb5513081490024, type: 3}
 --- !u!4 &184272238 stripped
 Transform:
@@ -1016,6 +1019,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7efc4d0a12cb54e4f9775e237db42ab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &184272241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184272239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d403993ea54192429cca2981f59b216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefabs:
+  - {fileID: 2615078695605655245, guid: f9b76da067c362d4b9f9525ae7495563, type: 3}
+  - {fileID: 2615078695605655245, guid: 71b2860df2cd00a4dbdabb1ee68337e5, type: 3}
+  - {fileID: 3732918253183833171, guid: 2f4e763b99dd012449e0fc9d0eed412b, type: 3}
+  - {fileID: 3732918253183833171, guid: 40a0db0a5f174c24fb6d97ba6f46cb1b, type: 3}
+  - {fileID: 3732918253183833171, guid: 40a0db0a5f174c24fb6d97ba6f46cb1b, type: 3}
+  - {fileID: 3732918253183833171, guid: 40a0db0a5f174c24fb6d97ba6f46cb1b, type: 3}
+  Target: {fileID: 1770977318}
+  maxCameraSize: 15
+  spawnDistanceOffset: 2
+  waves:
+  - {fileID: 11400000, guid: 66a6658e18527f94eb87b7729eb63815, type: 2}
+  - {fileID: 11400000, guid: 764ff3157e0360542bada92cc6de648d, type: 2}
+  - {fileID: 11400000, guid: 529e9ad077d4ff044b29078ccc3ebfd3, type: 2}
+  timeBetweenWaves: 100
+  countdown: 10
+  enemyNum: 0
+  waveTimerText: {fileID: 0}
+  enemyCountText: {fileID: 0}
+  miningInstructionText: {fileID: 0}
+  EnemyCount: 0
+  planet1Core: {fileID: 0}
+  planet2Core: {fileID: 0}
+  bossSpwanPoint: {fileID: 0}
 --- !u!1 &217500877
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,7 +1179,7 @@ GameObject:
   - component: {fileID: 244828935}
   - component: {fileID: 244828936}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Planet1FireArea
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2152,6 +2191,74 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
+--- !u!1 &684506652
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 684506653}
+  - component: {fileID: 684506654}
+  m_Layer: 0
+  m_Name: Planet2FireArea
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &684506653
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684506652}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 50, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1461141694}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &684506654
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684506652}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 7
 --- !u!1 &688005876
 GameObject:
   m_ObjectHideFlags: 0
@@ -3946,7 +4053,7 @@ PrefabInstance:
       objectReference: {fileID: 1752708900}
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: countdown
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: bossHpSlider
@@ -3998,6 +4105,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1452659752750618764, guid: 23ad2668fd171794ebb5513081490024, type: 3}
   m_PrefabInstance: {fileID: 1044340067}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1044340069 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
+  m_PrefabInstance: {fileID: 1044340067}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2118ab6c336b154bbfb5892afa7f529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1050191023
 GameObject:
   m_ObjectHideFlags: 0
@@ -4831,6 +4949,7 @@ MonoBehaviour:
   maxHP: 100
   CoreHpText: {fileID: 618168888}
   inventoryManger: {fileID: 5803141803156037022}
+  endGameOnDie: 1
 --- !u!212 &1190461933
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5850,6 +5969,7 @@ Transform:
   - {fileID: 1752708900}
   - {fileID: 1770977318}
   - {fileID: 244828935}
+  - {fileID: 684506653}
   - {fileID: 539969116}
   - {fileID: 961268642}
   m_Father: {fileID: 0}
@@ -11612,6 +11732,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2050996197}
+  - component: {fileID: 2050996198}
   m_Layer: 0
   m_Name: WaveManager
   m_TagString: Untagged
@@ -11636,6 +11757,29 @@ Transform:
   - {fileID: 184272238}
   m_Father: {fileID: 994011218}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2050996198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050996196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43e102023a67d9f47bc22ccccde84b8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  planet1: {fileID: 1044340069}
+  planet2: {fileID: 184272241}
+  planet1GateWave: 4
+  planet1FinalWave: 8
+  planet2FinalWave: 4
+  phase: 2
+  planet2Activated: 0
+  planet1PausedAfterGate: 0
+  autoDetectPlanet2Activation: 1
+  debugSkipGate: 0
+  debugForceCombinedKey: 290
 --- !u!1 &2113192864
 GameObject:
   m_ObjectHideFlags: 0
