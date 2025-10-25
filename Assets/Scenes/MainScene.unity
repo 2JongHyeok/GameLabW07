@@ -1592,6 +1592,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 296047434}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &302044737 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 595345176470139976, guid: 7d26a2b1c6b29aa4ba28aa5a7a704883, type: 3}
+  m_PrefabInstance: {fileID: 1140068668}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d8a2ced51fbfdc49af7c4bdc6a834de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &316621229
 GameObject:
   m_ObjectHideFlags: 0
@@ -3756,6 +3767,7 @@ MonoBehaviour:
   planet: {fileID: 1752708901}
   planet2: {fileID: 1770977319}
   subWeaponManager: {fileID: 0}
+  weapon2: {fileID: 302044737}
   dontDestroyOnLoad: 1
   autoResolveInAwake: 1
   initialWeaponDamage: 1
@@ -5956,6 +5968,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 957085165}
   - {fileID: 7907013339988846321}
   - {fileID: 9079969434131795871}
   - {fileID: 7358467089834189285}
@@ -5965,7 +5978,6 @@ RectTransform:
   - {fileID: 2033415646}
   - {fileID: 1242118322}
   - {fileID: 751763972}
-  - {fileID: 957085165}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

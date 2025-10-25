@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
@@ -180,6 +181,24 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
         
         SetVisualLocked(isLocked);
+        
+        /*// 특정 노드는 특수조건 적용 - 행성 2 관련
+        if(forgeSO.forgeId == ForgeId.Planet2CoreMaxHp || forgeSO.forgeId == ForgeId.Planet2ShieldMaxHp
+                                                       || forgeSO.forgeId == ForgeId.Planet2HpRegenAmount || forgeSO.forgeId == ForgeId.Planet2ShieldRegenSpeed
+                                                       || forgeSO.forgeId == ForgeId.Planet2MainCannonUpgrade || forgeSO.forgeId == ForgeId.Planet2MainCannonBulletNumber)
+        {
+            
+            if (Planet2Manager.instance.IsPlanetActive)
+            {
+                isLocked = false;
+                SetVisualLocked(false);
+            }
+            else
+            {
+                isLocked = true;
+                SetVisualLocked(true);
+            }
+        }*/
     }
     
     // 시각적 잠금 상태 설정

@@ -22,6 +22,7 @@ public class Managers : MonoBehaviour
     public Planet planet;
     public Planet planet2;
     public SubWeaponManager subWeaponManager;
+    public Weapon2 weapon2; 
 
     [Header("Options")]
     [SerializeField] private bool dontDestroyOnLoad = true;

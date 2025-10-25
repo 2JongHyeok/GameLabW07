@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ffc067897671d04fa641fe01a67676c, type: 3}
   m_Name: Planet20_CannonUpgrade
   m_EditorClassIdentifier: 
-  branchName: "\uD3EC \uAC15\uD654"
+  branchName: "\uADA4\uB3C4 \uD3EC\uD0D1 \uAC15\uD654"
   subBranchType: 16
   baseForgeSOs:
-  - {fileID: 11400000, guid: 170bcc07c2b5ddc4d9c0542ff7f53867, type: 2}
-  - {fileID: 11400000, guid: a4e9c24a412fcc34989fab0beff029fc, type: 2}
+  - {fileID: 11400000, guid: e95e6d5430d24274f8862cd9e1caa8dc, type: 2}
+  - {fileID: 11400000, guid: 550d65fa524e1ef44bb5c98157bd4359, type: 2}

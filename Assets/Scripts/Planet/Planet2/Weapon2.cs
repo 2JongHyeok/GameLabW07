@@ -27,6 +27,8 @@ public class Weapon2 : MonoBehaviour
 
     private float currentRadius; // 현재 위성들이 공전하는 반지름 (부드럽게 변화)
     private float targetRadius;  // 마우스 위치에 의해 계산된 목표 반지름 (즉각적 변화)
+    
+    private int addSatelliteCallCount = 0;
 
     // 위성의 상태를 저장하는 내부 클래스
     private class Satellite
@@ -206,5 +208,83 @@ public class Weapon2 : MonoBehaviour
             // useWorldSpace=false → Pivot 로컬 좌표로 기록
             orbitLineRenderer.SetPosition(i, new Vector3(x, y, 0f));
         }
+    }
+    
+    /// <summary>
+    /// 외부에서 호출하여 위성을 추가하는 함수. 최대 2번까지만 호출됩니다.
+    /// 첫 호출 시 2개, 두 번째 호출 시 4개로 위성 개수를 맞춥니다.
+    /// </summary>
+    public void AddSatellite()
+    {
+        // 이미 2번 호출되었다면 더 이상 추가하지 않음
+        if (addSatelliteCallCount >= 2)
+        {
+            Debug.Log("위성은 최대 4개까지만 추가할 수 있습니다.");
+            return;
+        }
+
+        addSatelliteCallCount++; // 호출 횟수 증가
+
+        // 목표 위성 개수 결정 (최대값은 maxSatellites로 제한)
+        int targetSatelliteCount = (addSatelliteCallCount == 1) ? 2 : 4;
+        targetSatelliteCount = Mathf.Min(targetSatelliteCount, 4);
+
+        // 현재 위성 개수 확인
+        int currentSatelliteCount = satellites.Count;
+        int satellitesToAdd = targetSatelliteCount - currentSatelliteCount;
+
+        // 추가할 위성이 있다면 생성
+        if (satellitesToAdd > 0)
+        {
+            if (satellitePrefab == null)
+            {
+                Debug.LogError("Satellite Prefab이 설정되지 않았습니다!");
+                return;
+            }
+            if (pivotTransform == null) pivotTransform = transform;
+
+            for (int i = 0; i < satellitesToAdd; i++)
+            {
+                GameObject satGO = Instantiate(satellitePrefab, pivotTransform);
+                satGO.name = "Satellite_" + (currentSatelliteCount + i); // 이름 중복 방지
+
+                Satellite newSat = new Satellite
+                {
+                    transform = satGO.transform,
+                    angle = 0f // 각도는 Redistribute에서 설정
+                };
+                satellites.Add(newSat);
+            }
+        }
+
+        // 모든 위성 재배치
+        RedistributeSatellites();
+    }
+
+    /// <summary>
+    /// 현재 존재하는 모든 위성을 궤도상에 균등하게 재배치합니다.
+    /// </summary>
+    private void RedistributeSatellites()
+    {
+        int count = satellites.Count;
+        if (count == 0) return;
+
+        // 위성 간 균등한 각도 계산 (라디안)
+        float angleStep = (Mathf.PI * 2f) / count;
+
+        for (int i = 0; i < count; i++)
+        {
+            // 각 위성의 새 각도 설정
+            satellites[i].angle = angleStep * i;
+
+            // 새 각도에 따른 위치 계산 및 적용 (현재 반지름 사용)
+            float x = currentRadius * Mathf.Cos(satellites[i].angle);
+            float y = currentRadius * Mathf.Sin(satellites[i].angle);
+            satellites[i].transform.localPosition = new Vector3(x, y, 0f);
+        }
+
+        Debug.Log($"위성 {count}개를 균등하게 재배치했습니다.");
+        // 재배치 후 궤도 업데이트 (선택 사항이지만 시각적으로 즉시 반영)
+        UpdateOrbitPath();
     }
 }
