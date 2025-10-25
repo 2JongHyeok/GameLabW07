@@ -11,10 +11,10 @@ public class WorldWarper : MonoBehaviour
 
     [Header("맵 경계 설정")]
     [Tooltip("우주선이 이 Y좌표보다 위로 가면 아래에서 나타남")]
-    public float topBoundary = 50f;
+    public float topBoundary = 270f;
 
     [Tooltip("우주선이 이 Y좌표보다 아래로 가면 위에서 나타남")]
-    public float bottomBoundary = -50f;
+    public float bottomBoundary = -90f;
 
     [Tooltip("우주선이 이 X좌표보다 왼쪽으로 가면 오른쪽에서 나타남")]
     public float leftBoundary = -90f;

@@ -70,8 +70,7 @@ public class Enemy : MonoBehaviour
         // Ranger 또는 RangerTank 타입이고 공격 중일 때
         if (isAttacking && (enemyData.enemyType == EnemyType.Ranger ||
                             enemyData.enemyType == EnemyType.RangerTank ||
-                            enemyData.enemyType == EnemyType.Parasite) ||
-                            enemyData.enemyType == EnemyType.Boss)
+                            enemyData.enemyType == EnemyType.Parasite))
         {
             if (attackTimer <= 0f)
             {
@@ -204,7 +203,7 @@ public class Enemy : MonoBehaviour
             }
         }
         // 레인저/탱크는 기존대로 "Player" 태그에 반응
-        else if (enemyData.enemyType == EnemyType.Ranger || enemyData.enemyType == EnemyType.RangerTank || enemyData.enemyType == EnemyType.Boss)
+        else if (enemyData.enemyType == EnemyType.Ranger || enemyData.enemyType == EnemyType.RangerTank)
         {
             if (collision.CompareTag("Player"))
             {
@@ -226,7 +225,7 @@ public class Enemy : MonoBehaviour
             }
         }
         // 레인저/탱크는 "Player" 태그에서 벗어났을 때
-        else if (enemyData.enemyType == EnemyType.Ranger || enemyData.enemyType == EnemyType.RangerTank)
+        else if (enemyData.enemyType == EnemyType.Ranger || enemyData.enemyType == EnemyType.RangerTank )
         {
             if (collision.CompareTag("Player"))
             {
@@ -257,6 +256,9 @@ public class Enemy : MonoBehaviour
         else if (enemyData != null && enemyData.enemyType == EnemyType.KamikazeTank)
         {
             (enemyData as KamikazeTankSO).Explode(this, collision);
+        }else if (enemyData != null && enemyData.enemyType == EnemyType.Boss)
+        {
+            (enemyData as BossSO).Explode(this, collision);
         }
     }
 

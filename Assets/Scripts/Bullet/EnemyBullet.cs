@@ -33,7 +33,7 @@ public class EnemyBullet : MonoBehaviour
             // Vector3Int cellPos = tilemap.WorldToCell(correctedHitPoint);
             Vector3Int cellPos2 = tilemap.WorldToCell(correctedHitPoint);
             // 매니저 찾기
-            Planet manager = FindAnyObjectByType<Planet>();
+            Planet manager = tilemap.GetComponent<Planet>();
             manager?.DamageTile(cellPos2, damage);
             Destroy(gameObject);
         }
