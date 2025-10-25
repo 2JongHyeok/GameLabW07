@@ -21,5 +21,4 @@ MonoBehaviour:
   ironCost: 1
   goldCost: 0
   diamondCost: 0
-  postSubBranches:
-  - {fileID: 11400000, guid: 69d5820356c33d545a3b7d7b7d7832b5, type: 2}
+  postSubBranches: []
