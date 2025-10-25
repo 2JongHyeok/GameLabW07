@@ -107,30 +107,22 @@ public class InventoryManger : MonoBehaviour
     }
 
     // 웨이브 종료 시 자원 통계 문자열 반환
-    public string GetWaveResourceStats(int waveNumber)
+    public List<MineralData> GetWaveResourceStats(int waveNumber)
     {
-        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        var mineralDataList = new List<MineralData>();
 
         for (int i = 0; i < orePools.Length; i++)
         {
             OreType oreType = (OreType)i;
-            sb.Append($"{oreType.ToString()} / ");
-            sb.Append($"{totalMinedSession[i]} / ");
-            sb.Append($"{minedThisWave[i]} / ");
-            sb.Append($"{totalDepositedSession[i]} / ");
-            sb.Append($"{depositedThisWave[i]}");
-            
-            /*
-            sb.Append($"total_mined_session: {totalMinedSession[i]} / ");
-            sb.Append($"mined_this_wave: {minedThisWave[i]} / ");
-            sb.Append($"total_deposited_session: {totalDepositedSession[i]} / ");
-            sb.Append($"deposited_this_wave: {depositedThisWave[i]}");
-            */
-            if (i < orePools.Length - 1)
+            mineralDataList.Add(new MineralData
             {
-                sb.Append(" | "); // 각 광물 타입별 구분을 위한 구분자
-            }
+                MineralType = oreType.ToString(),
+                TotalMinedSession = totalMinedSession[i],
+                MinedThisWave = minedThisWave[i],
+                TotalDepositedSession = totalDepositedSession[i],
+                DepositedThisWave = depositedThisWave[i]
+            });
         }
-        return sb.ToString();
+        return mineralDataList;
     }
 }

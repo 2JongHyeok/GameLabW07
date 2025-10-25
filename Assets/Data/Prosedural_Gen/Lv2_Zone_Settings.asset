@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e70b6b271346ce4482030dc99a04d58, type: 3}
   m_Name: Lv2_Zone_Settings
   m_EditorClassIdentifier: 
-  minDistance: 27.5
+  minDistance: 25
   maxDistance: 45
   spawnChance: 0.2
   asteroidPool:
   - asteroidPrefab: {fileID: 6662504043527552974, guid: 46cb260459d791147895de8283b4d227, type: 3}
     weight: 30
   - asteroidPrefab: {fileID: 165758702515033949, guid: 8cf4edae2b107ec479601e7c96d597dd, type: 3}
-    weight: 15
+    weight: 25
   - asteroidPrefab: {fileID: 165758702515033949, guid: a961d7f1b2a75f3439ead4a91ad3c3c2, type: 3}
-    weight: 5
+    weight: 20
   - asteroidPrefab: {fileID: 6662504043527552974, guid: 490b195e71d18d64aa5f354460130e40, type: 3}
     weight: 10
   - asteroidPrefab: {fileID: 6662504043527552974, guid: 420735db2dd6a46419b2c3ed02cbe997, type: 3}
     weight: 10
   - asteroidPrefab: {fileID: 6662504043527552974, guid: 3b0df68da83958645a6c190014f234f9, type: 3}
-    weight: 15
+    weight: 10
   - asteroidPrefab: {fileID: 6662504043527552974, guid: 8aa0d8985fc28084da2958706c140aa1, type: 3}
-    weight: 15
+    weight: 10

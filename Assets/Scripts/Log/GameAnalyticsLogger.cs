@@ -59,8 +59,9 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
 
     { LogCategory.Resources, new[]{
         "event_name","ts","t",
-        "Wave", "Timestamp", "Mineral_Info",
-        "Mineral_Type", "Total_Mined_Session", "Total_Deposited_Session"
+        "Wave", "Timestamp", "Mineral_Type",
+        "Total_Mined_Session", "Mined_This_Wave",
+        "Total_Deposited_Session", "Deposited_This_Wave"
     }},
 
     { LogCategory.Combat, new[]{
@@ -261,30 +262,23 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     #endregion
 
     #region Resources
-    public void LogWaveResources(string mineralInfo)
+    public void LogWaveResources(List<MineralData> mineralDataList)
     {
-        var data = new Dictionary<string, object>
+        foreach (var mineralData in mineralDataList)
         {
-            // { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex > 0 ? Planet1WaveManager.Instance.CurrentWaveIndex - 1 : 0 }
-            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex },
-            { "Timestamp", GetLocalTime() },
-            { "Mineral_Info", mineralInfo }
-        };
-        WriteTxt(LogCategory.Resources, "wave_resources", data);
-        WriteCsv(LogCategory.Resources, "wave_resources", data);
-    }
-
-    // [Total_Resources] mineral_type: string / total_mined_session: string / total_deposited_session: string
-    public void LogTotalResources(string mineralType, string totalMinedSession, string totalDepositedSession)
-    {
-        var data = new Dictionary<string, object>
-        {
-            { "Mineral_Type", mineralType },
-            { "Total_Mined_Session", totalMinedSession },
-            { "Total_Deposited_Session", totalDepositedSession }
-        };
-        WriteTxt(LogCategory.Resources, "total_resources", data);
-        WriteCsv(LogCategory.Resources, "total_resources", data);
+            var data = new Dictionary<string, object>
+            {
+                { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex },
+                { "Timestamp", GetLocalTime() },
+                { "Mineral_Type", mineralData.MineralType },
+                { "Total_Mined_Session", mineralData.TotalMinedSession },
+                { "Mined_This_Wave", mineralData.MinedThisWave },
+                { "Total_Deposited_Session", mineralData.TotalDepositedSession },
+                { "Deposited_This_Wave", mineralData.DepositedThisWave }
+            };
+            WriteTxt(LogCategory.Resources, "wave_resources", data);
+            WriteCsv(LogCategory.Resources, "wave_resources", data);
+        }
     }
     #endregion
 
@@ -400,4 +394,13 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         playerMoveDistance = 0f;
         playerMaxMoveDistance = 0f;
     }
+}
+
+public class MineralData
+{
+    public string MineralType { get; set; }
+    public int TotalMinedSession { get; set; }
+    public int MinedThisWave { get; set; }
+    public int TotalDepositedSession { get; set; }
+    public int DepositedThisWave { get; set; }
 }
