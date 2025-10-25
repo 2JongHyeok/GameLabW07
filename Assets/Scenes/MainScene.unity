@@ -1048,12 +1048,13 @@ MonoBehaviour:
   timeBetweenWaves: 100
   countdown: 10
   enemyNum: 0
+  spawnCenter: {fileID: 0}
   waveTimerText: {fileID: 0}
   enemyCountText: {fileID: 0}
   miningInstructionText: {fileID: 0}
   EnemyCount: 0
-  planet1Core: {fileID: 0}
-  planet2Core: {fileID: 0}
+  planet1Core: {fileID: 1190461932}
+  planet2Core: {fileID: 586435983}
   bossSpwanPoint: {fileID: 0}
 --- !u!1 &217500877
 GameObject:
