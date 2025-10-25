@@ -18,7 +18,9 @@ public class Managers : MonoBehaviour
     public SpaceshipWeapon spaceshipWeapon;
     public TilemapManager tilemapManager;
     public Core core;
+    public Core core2;
     public Planet planet;
+    public Planet planet2;
     public SubWeaponManager subWeaponManager;
 
     [Header("Options")]
@@ -77,8 +79,10 @@ public class Managers : MonoBehaviour
         spaceshipMotor ??= FindAnyObjectByType<SpaceshipMotor>();
         spaceshipWeapon ??= FindAnyObjectByType<SpaceshipWeapon>();
         tilemapManager ??= FindAnyObjectByType<TilemapManager>();
-        core ??= FindAnyObjectByType<Core>();
+        /*core ??= FindAnyObjectByType<Core>();
+        core2 ??= FindAnyObjectByType<Core>();
         planet ??= FindAnyObjectByType<Planet>();
+        planet2 ?? FindAnyObjectByType<Planet>(); // 누가 주입됨? 1? 2?*/
         subWeaponManager ??= FindAnyObjectByType<SubWeaponManager>();
     }
 
@@ -130,6 +134,17 @@ public class Managers : MonoBehaviour
         if (planet != null)
         {
             planet.SetDelay(initialTileRespawnDelay);
+        }
+        
+        if (core2 != null)
+        {
+            core2.maxHP = initialCoreMaxHP;
+        }
+
+        // Planet Tiles (Shield) 기본값 셋업 - Planet.cs의 SerializedField 사용
+        if (planet2 != null)
+        {
+            planet2.SetDelay(initialTileRespawnDelay);
         }
         // (Planet.cs에서 직접 설정하므로 여기서는 별도 설정 불필요)
     }
@@ -188,6 +203,18 @@ public class Managers : MonoBehaviour
         if (core == null) return;
         core.HealHP(amount);
     }
+    
+    public void Add2CoreMaxHP(int amount)
+    {
+        if (core2 == null) return;
+        core2.AddMaxHP(amount);
+    }
+    
+    public void Heal2CoreHP(int amount)
+    {
+        if (core2 == null) return;
+        core2.HealHP(amount);
+    }
 
     // ========== Planet 타일(실드) 관련 메서드 ==========
     public void AddTileMaxHP(int amount)
@@ -200,6 +227,18 @@ public class Managers : MonoBehaviour
     {
         if (planet == null) return;
         planet.ReduceRespawnDelay(reductionAmount);
+    }
+    
+    public void Add2TileMaxHP(int amount)
+    {
+        if (planet2 == null) return;
+        planet2.AddTileMaxHP(amount);
+    }
+    
+    public void Reduce2TileRespawnDelay(float reductionAmount)
+    {
+        if (planet2 == null) return;
+        planet2.ReduceRespawnDelay(reductionAmount);
     }
 
     // ========== 게임 재시작 ==========

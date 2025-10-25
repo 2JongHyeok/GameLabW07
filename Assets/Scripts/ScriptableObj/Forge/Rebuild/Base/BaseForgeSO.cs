@@ -25,7 +25,9 @@ public enum ForgeId
     Planet2CoreMaxHp,
     Planet2HpRegenAmount,
     Planet2ShieldMaxHp,
-    Planet2ShieldRegenSpeed
+    Planet2ShieldRegenSpeed,
+    Planet2MainCannonUpgrade,
+    Planet2MainCannonBulletNumber,
 }
 public abstract class BaseForgeSO : ScriptableObject
 {

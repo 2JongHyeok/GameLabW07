@@ -8,9 +8,9 @@ public class Planet2ShieldMaxHpSO : BaseForgeSO
     
     public override void Apply()
     {
-        if (Managers.Instance?.planet != null)
+        if (Managers.Instance?.planet2 != null)
         {
-            Managers.Instance.AddTileMaxHP((int)ShieldMaxHp);
+            Managers.Instance.Add2TileMaxHP((int)ShieldMaxHp);
         }
     }
 }

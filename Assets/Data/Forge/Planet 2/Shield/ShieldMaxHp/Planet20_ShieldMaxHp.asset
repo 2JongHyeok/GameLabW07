@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ffc067897671d04fa641fe01a67676c, type: 3}
-  m_Name: 0_ShieldRegenSpeed
+  m_Name: Planet20_ShieldMaxHp
   m_EditorClassIdentifier: 
-  branchName: "\uC274\uB4DC \uC7AC\uC0DD\uC131"
-  subBranchType: 15
+  branchName: "\uC274\uB4DC \uB0B4\uAD6C\uB3C4"
+  subBranchType: 14
   baseForgeSOs:
-  - {fileID: 11400000, guid: ca58c558712dce641a1050c13a9b2988, type: 2}
-  - {fileID: 11400000, guid: e6181472bcafb5740ac192b9a488fa09, type: 2}
+  - {fileID: 11400000, guid: e93f3ca04f771e5498675a6aa04c81aa, type: 2}
+  - {fileID: 11400000, guid: a8775104669c3cd4c8e3d83d6b2d19c3, type: 2}
