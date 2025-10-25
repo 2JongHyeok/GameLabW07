@@ -31,11 +31,13 @@ public class Planet2WaveManager : MonoBehaviour
     private bool waveEnd = false;
     public int enemyNum = 0;
     private bool hasTriggeredWaveClearAction = false;
+    private bool holdAfterGate = false;
 
     [Header("UI")]
     public TMP_Text waveTimerText;
     public TMP_Text enemyCountText;
     public TMP_Text miningInstructionText; // 채굴 안내 텍스트
+    private bool forceStartRequested = false;
 
     [HideInInspector] public int EnemyCount = 0;
     private int totalEnemiesInWave = 0; // 현재 웨이브의 총 적 수
@@ -53,7 +55,6 @@ public class Planet2WaveManager : MonoBehaviour
     public int CurrentWaveIndex => currentWaveIndex;
 
     public Transform bossSpwanPoint;
-
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -101,6 +102,13 @@ public class Planet2WaveManager : MonoBehaviour
 
         if (EnemyCount <= 0 && !isSpawning)
         {
+            if (forceStartRequested) { 
+                StartCoroutine(SpawnWave()); 
+                countdown = timeBetweenWaves;
+                isFirst = false; 
+                forceStartRequested = false; 
+                return; 
+            }
             if (currentWaveIndex >= waves.Length)
             {
                 if (waveEnd)
@@ -329,7 +337,11 @@ public class Planet2WaveManager : MonoBehaviour
             if (e != null) e.SetTaget(newTarget);   // 런타임 타깃 전환
         }
     }
-
+    public void ForceStartNextWaveByCentral()
+    {
+        enabled = true;              // 안전: 혹시 꺼져 있으면 켜기
+        holdAfterGate = false;
+    }
     private void HandlePlanet2CoreRevive()
     {
         planet2CoreAlive = true;

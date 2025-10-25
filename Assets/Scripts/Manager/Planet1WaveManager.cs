@@ -43,6 +43,14 @@ public class Planet1WaveManager : MonoBehaviour
     [HideInInspector] public int EnemyCount = 0;
     private int totalEnemiesInWave = 0; // 현재 웨이브의 총 적 수
 
+    [SerializeField] private bool holdAfterGate = false;
+    private bool forceStartRequested = false;
+    [SerializeField] private bool gateAutoHoldArmed = false;
+    // [API] 추가: 중앙에서 게이트 홀드 토글
+
+    public void PauseByCentral() => enabled = false;
+    public void SetGateHold(bool v) => holdAfterGate = v;
+
     // 각 EnemyType별 ObjectPool 관리용 딕셔너리
     public Dictionary<EnemyType, IObjectPool<GameObject>> enemyPools = new();
 
@@ -100,7 +108,6 @@ public class Planet1WaveManager : MonoBehaviour
             }
             return;
         }
-
         // 스폰이 끝났지만 적이 남아있으면 대기
         if (EnemyCount > 0 && !isSpawning)
         {
@@ -113,9 +120,11 @@ public class Planet1WaveManager : MonoBehaviour
             return;
         }
 
+        
         // 적이 모두 죽고, 스폰도 끝났으면 카운트다운 시작
         if (EnemyCount <= 0 && !isSpawning)
         {
+           
             // 마지막 웨이브까지 모두 클리어한 경우
             if (currentWaveIndex >= waves.Length)
             {
@@ -158,6 +167,26 @@ public class Planet1WaveManager : MonoBehaviour
             // 카운트다운이 끝나면 다음 웨이브 시작
             if (countdown <= 0f)
             {
+                if (currentWaveIndex >= 4) // 0-based: 4면 Wave4까지 완료
+                {
+                    if (!gateAutoHoldArmed) { 
+                        holdAfterGate = true; gateAutoHoldArmed = true; 
+                        if (waveTimerText) waveTimerText.text = "Waiting Planet2 activation..."; 
+                        return; 
+                    }
+                    if (holdAfterGate)
+                    {
+                        if (waveTimerText) waveTimerText.text = "Waiting Planet2 activation...";
+                        return; // 계속 대기
+                    }
+                }
+                if (forceStartRequested) { 
+                    StartCoroutine(SpawnWave()); 
+                    countdown = timeBetweenWaves; 
+                    isFirst = false; 
+                    forceStartRequested = false; 
+                    return; 
+                }
                 StartCoroutine(SpawnWave());
                 countdown = timeBetweenWaves;
                 isFirst = false; // 첫 번째 웨이브가 시작되면 더 이상 첫 시작이 아님
@@ -191,19 +220,18 @@ public class Planet1WaveManager : MonoBehaviour
         }
     }
 
-    // --- 중앙 WaveManager 호환 훅(추가) ---
-    /// <summary>중앙에서 안전 정지. 내부 상태는 유지되고 Update만 멈춤.</summary>
-    public void PauseByCentral() => enabled = false;
 
-    /// <summary>중앙에서 재개 + 다음 웨이브를 즉시 시작하도록 트리거.</summary>
+    public void ForceStartNextWaveByCentral()
+    {
+        enabled = true;              // 안전: 혹시 꺼져 있으면 켜기
+        holdAfterGate = false;
+    }
     public void ResumeNextWaveByCentral()
     {
         enabled = true;
         countdown = 0f; // 다음 Update에서 즉시 SpawnWave()
     }
-    // -------------------------------------
-
-    // 특정 타입의 풀 생성
+    
     private IObjectPool<GameObject> CreatePool(EnemyType type)
     {
         return new ObjectPool<GameObject>(
@@ -283,13 +311,11 @@ public class Planet1WaveManager : MonoBehaviour
             spawnPosition.ToString()
         );
     }
-
     private void OnReleaseEnemy(GameObject enemy)
     {
         enemy.SetActive(false);
         EnemyCount--; // 적이 죽을 때마다 카운트 감소
     }
-
     private void OnDestroyEnemy(GameObject enemy) { }
 
     private IEnumerator SpawnWave()
@@ -338,7 +364,6 @@ public class Planet1WaveManager : MonoBehaviour
         hasTriggeredWaveClearAction = false;
     }
 
-    // 남은 총 스폰 수 계산
     private int GetTotalRemainingSpawns()
     {
         int total = 0;
@@ -346,7 +371,6 @@ public class Planet1WaveManager : MonoBehaviour
         return total;
     }
 
-    // 남은 스폰 수가 있는 타입 중 랜덤 선택
     private EnemyType SelectRandomEnemyType(WaveSO wave)
     {
         List<EnemyType> availableTypes = new List<EnemyType>();
@@ -359,7 +383,7 @@ public class Planet1WaveManager : MonoBehaviour
         return availableTypes[Random.Range(0, availableTypes.Count)];
     }
 
-    // Scene 뷰에서 스폰 범위를 시각화
+
     private void OnDrawGizmos()
     {
         Camera mainCamera = Camera.main;

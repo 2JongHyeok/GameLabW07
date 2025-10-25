@@ -73,7 +73,12 @@ public class WaveManager : MonoBehaviour
         {
             case Phase.Planet1Phase1To4:
                 if (HasPlanet1FinishedGateWave())
-                    PausePlanet1UntilPlanet2();
+                {
+                    if (planet2Activated || debugSkipGate)
+                        StartCombinedPhase(); 
+                    else
+                        PausePlanet1UntilPlanet2(); // 기존: 대기 상태로 전환
+                }
                 break;
 
             case Phase.WaitingPlanet2Activate:
@@ -98,12 +103,15 @@ public class WaveManager : MonoBehaviour
     public void NotifyPlanet2Activated()
     {
         planet2Activated = true;
-
-        // 게이트 미완료라도 디버그 플래그가 켜져 있으면 바로 Combined 시작
-        if (phase == Phase.WaitingPlanet2Activate || (debugSkipGate && phase == Phase.Planet1Phase1To4))
+        if (planet1 != null) planet1.SetGateHold(true);
+        if (phase == Phase.WaitingPlanet2Activate
+        || HasPlanet1FinishedGateWave()
+        || debugSkipGate)
+        {
             StartCombinedPhase();
-        else
-            Debug.Log("[WaveSync] Planet2 activated signal received, waiting for gate...");
+            return;
+        }
+        Debug.Log("[WaveSync] Planet2 activated. Gate not yet cleared; holding P1 at Wave4.");
     }
 
     // Planet1이 Wave4를 끝냈고(0-based index >= 4), 적이 전멸했는지
@@ -121,6 +129,7 @@ public class WaveManager : MonoBehaviour
         planet1PausedAfterGate = true;
         phase = Phase.WaitingPlanet2Activate;
 
+        planet1.SetGateHold(true);
         // 카운트다운/스폰 루프를 멈추기 위해 비활성화(내부 상태는 그대로 유지)
         if (planet1) planet1.PauseByCentral();
         Debug.Log("[WaveSync] Gate reached (P1 Wave4 clear). Waiting for Planet2 activation...");
@@ -130,17 +139,23 @@ public class WaveManager : MonoBehaviour
     {
         // Planet1 → Wave5 즉시 시작
         if (planet1)
-            planet1.ResumeNextWaveByCentral(); // enabled=true + countdown=0
+        {
+            planet1.SetGateHold(false);            // ← 잠금 해제 (중요)
+            planet1.ForceStartNextWaveByCentral(); // ← 즉시 SpawnWave() 예약
+        }
 
         // Planet2 → Wave1 즉시 시작
         if (planet2)
         {
-            planet2.enabled = true;            // 첫 기동 보장
-            planet2.ResumeNextWaveByCentral(); // countdown=0
-        }
+            if (!planet2.gameObject.activeSelf)
+                planet2.gameObject.SetActive(true);
 
+            planet2.enabled = true;
+            planet2.ForceStartNextWaveByCentral(); // ← 즉시 SpawnWave() 예약
+
+            Debug.Log("[WaveSync] Combined start triggered (P1 Wave5 + P2 Wave1).");
+        }
         phase = Phase.CombinedPhase;
-        Debug.Log("[WaveSync] Combined start triggered (P1 Wave5 + P2 Wave1).");
     }
 
     private bool HasPlanet1CompletedFinal()

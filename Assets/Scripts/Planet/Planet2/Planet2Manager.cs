@@ -42,9 +42,9 @@ public class Planet2Manager : MonoBehaviour
             planet2Sheild.SetActive(true);
             planet2DockingStation.SetActive(true);
             WaveManager.Instance?.NotifyPlanet2Activated();
+
         }
     }
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
