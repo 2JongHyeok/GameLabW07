@@ -12,6 +12,12 @@ public class WorldGenerator : MonoBehaviour
     [Header("월드 생성 설정")]
     [Tooltip("중심(0,0)에서부터 생성할 월드의 전체 반경")]
     [SerializeField] private float generationRadius = 1000f;
+    
+    [Header("월드 생성 설정")] // 직사각형 버전
+    [Tooltip("생성할 월드의 가로 길이 (X축)")]
+    [SerializeField] private float generationWidth = 100f;
+    [Tooltip("생성할 월드의 세로 길이 (Y축)")]
+    [SerializeField] private float generationHeight = 300f;
 
     [Tooltip("소행성을 배치할 격자의 크기. 작을수록 촘촘하게 검사합니다.")]
     [SerializeField] private int gridCellSize = 30;
@@ -50,11 +56,14 @@ public class WorldGenerator : MonoBehaviour
     {
         // 테스트를 위해 기존 타일을 모두 지웁니다.
         worldTilemap.ClearAllTiles();
+        
+        float halfWidth = generationWidth / 2f;
+        float halfHeight = generationHeight / 2f;
 
         // generationRadius와 gridCellSize에 따라 격자를 순회합니다.
-        for (float x = -generationRadius; x < generationRadius; x += gridCellSize)
+        for (float x = -halfWidth; x < halfWidth; x += gridCellSize)
         {
-            for (float y = -generationRadius; y < generationRadius; y += gridCellSize)
+            for (float y = -halfHeight; y < halfHeight; y += gridCellSize)
             {
                 Vector2 currentPosition = new Vector2(x, y);
 

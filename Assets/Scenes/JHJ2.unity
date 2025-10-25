@@ -1514,6 +1514,26 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3954204389919689628, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: ropeSegmentPrefab
+      value: 
+      objectReference: {fileID: 1511424944892775995, guid: a003d3caee99a2044a67ae93bc63e0cf, type: 3}
+    - target: {fileID: 6283716779563996143, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: topBoundary
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283716779563996143, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: leftBoundary
+      value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283716779563996143, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: rightBoundary
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283716779563996143, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: bottomBoundary
+      value: -150
+      objectReference: {fileID: 0}
     - target: {fileID: 7180292076679184082, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.25
@@ -11526,6 +11546,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BackGround
       objectReference: {fileID: 0}
+    - target: {fileID: 4680769123657125207, guid: 58590a97ca835624892a76eba1574937, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: bc7a2f107b3349b4d8adaa508511a27a, type: 2}
     - target: {fileID: 8524224490415814344, guid: 58590a97ca835624892a76eba1574937, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -11544,15 +11568,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8524224490415814344, guid: 58590a97ca835624892a76eba1574937, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8524224490415814344, guid: 58590a97ca835624892a76eba1574937, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8524224490415814344, guid: 58590a97ca835624892a76eba1574937, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8524224490415814344, guid: 58590a97ca835624892a76eba1574937, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
