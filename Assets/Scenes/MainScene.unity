@@ -1971,6 +1971,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7214629419806525471, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
   m_PrefabInstance: {fileID: 583798100}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &586435983 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8400077734484539953, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
+  m_PrefabInstance: {fileID: 677233933}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abdeada3bd857434da0d3c771db2d035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &618168888 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3339140749860316857, guid: 176e973869245f34db37da97268a237c, type: 3}
@@ -2184,6 +2195,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3401776995559114420, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8400077734484539953, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
+      propertyPath: endGameOnDie
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3731,8 +3746,10 @@ MonoBehaviour:
   spaceshipMotor: {fileID: 0}
   spaceshipWeapon: {fileID: 0}
   tilemapManager: {fileID: 0}
-  core: {fileID: 0}
-  planet: {fileID: 0}
+  core: {fileID: 1190461932}
+  core2: {fileID: 586435983}
+  planet: {fileID: 1752708901}
+  planet2: {fileID: 1770977319}
   subWeaponManager: {fileID: 0}
   dontDestroyOnLoad: 1
   autoResolveInAwake: 1
@@ -3744,7 +3761,7 @@ MonoBehaviour:
   initialMissileDamage: 1
   initialMissileInterval: 1
   initialThrustPower: 60
-  initialThrustReductionPerOre: 8
+  initialThrustReductionPerOre: 10
   initialMiningDamage: 1
   initialMiningAttackSpeed: 0.6
   initialMiningRadius: 0.6
@@ -4053,7 +4070,7 @@ PrefabInstance:
       objectReference: {fileID: 1752708900}
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: countdown
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: bossHpSlider
@@ -4073,12 +4090,28 @@ PrefabInstance:
       objectReference: {fileID: 3521184541650759956}
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: timeBetweenWaves
-      value: 100
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: waves.Array.size
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
+      propertyPath: 'waves.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 66a6658e18527f94eb87b7729eb63815, type: 2}
+    - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
+      propertyPath: 'waves.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 66a6658e18527f94eb87b7729eb63815, type: 2}
+    - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
+      propertyPath: 'waves.Array.data[6]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 66a6658e18527f94eb87b7729eb63815, type: 2}
+    - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
+      propertyPath: 'waves.Array.data[7]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 66a6658e18527f94eb87b7729eb63815, type: 2}
     - target: {fileID: 6559816729868818941, guid: 23ad2668fd171794ebb5513081490024, type: 3}
       propertyPath: miningInstructionText
       value: 
