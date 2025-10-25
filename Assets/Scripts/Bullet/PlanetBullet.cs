@@ -24,14 +24,14 @@ public class PlanetBullet : MonoBehaviour
     }
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.collider.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             // GameAnalyticsLogger.instance.playerBulletHitCount++;
-            collision.collider.GetComponent<Enemy>().TakeDamage(Managers.Instance.weapon[0].GetDamage(), "PlanetBullet");
+            collision.gameObject.GetComponent<Enemy>()
+                .TakeDamage(Managers.Instance.weapon[0].GetDamage(), "PlanetBullet");
             Destroy(gameObject);
         }
-        Destroy(gameObject); // 폭발 후 미사일 파괴
     }
 }

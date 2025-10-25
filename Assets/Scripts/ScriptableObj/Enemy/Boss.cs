@@ -19,7 +19,7 @@ public class Boss : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    
+
     private void OnCollisionStay2D(Collision2D collision)
     {
         AsteroidHealth targetAsteroid = collision.collider.GetComponentInParent<AsteroidHealth>();
@@ -46,13 +46,15 @@ public class Boss : MonoBehaviour
                     {
                         Vector3Int offset = new Vector3Int(x, y, 0);
                         Vector3Int cellToCheck = impactCell + offset;
-                        
+
                         // 2. [추가] 현재 확인하려는 셀이 '뒤쪽'인지 판별합니다.
                         //    중심에서 현재 셀로의 방향 벡터를 구합니다.
-                        Vector2 directionToCell = (Vector2)(targetTilemap.GetCellCenterWorld(cellToCheck) - (Vector3)explosionCenterWorld);
+                        Vector2 directionToCell = (Vector2)(targetTilemap.GetCellCenterWorld(cellToCheck) -
+                                                            (Vector3)explosionCenterWorld);
 
                         //    만약 미사일 방향과 셀 방향의 내적이 음수이면, 그 셀은 '뒤쪽'에 있다는 의미입니다.
-                        if (Vector2.Dot(missileDirection, directionToCell.normalized) < 0 && directionToCell.sqrMagnitude > 0.1f)
+                        if (Vector2.Dot(missileDirection, directionToCell.normalized) < 0 &&
+                            directionToCell.sqrMagnitude > 0.1f)
                         {
                             continue; // 뒤쪽이면 무시하고 다음 셀로 넘어갑니다!
                         }
@@ -61,12 +63,12 @@ public class Boss : MonoBehaviour
                         if (targetTilemap.HasTile(cellToCheck))
                         {
                             Color potentialColor = targetTilemap.GetColor(cellToCheck);
-                            
+
                             if (potentialColor.a > 0.1f)
                             {
                                 foundColor = potentialColor;
                                 colorFound = true;
-                                goto Found; 
+                                goto Found;
                             }
                         }
                     }
@@ -74,14 +76,15 @@ public class Boss : MonoBehaviour
 
                 Found:
 
-                    if (colorFound)
-                    {
-                        Vector3 particleSpawnPosition = explosionCenterWorld;
-                        ParticleSystem debrisInstance = Instantiate(debrisParticlePrefab, particleSpawnPosition, Quaternion.identity);
-                        
-                        var main = debrisInstance.main;
-                        main.startColor = foundColor;
-                    }
+                if (colorFound)
+                {
+                    Vector3 particleSpawnPosition = explosionCenterWorld;
+                    ParticleSystem debrisInstance =
+                        Instantiate(debrisParticlePrefab, particleSpawnPosition, Quaternion.identity);
+
+                    var main = debrisInstance.main;
+                    main.startColor = foundColor;
+                }
             }
 
             targetTilemap.CompressBounds();
@@ -94,19 +97,21 @@ public class Boss : MonoBehaviour
                 Vector3 cellCenterWorld = targetTilemap.GetCellCenterWorld(cellPos);
 
                 // 폭발 범위 내에 있는지 확인
-                if (Vector3.Distance(cellCenterWorld, explosionCenterWorld) <= Managers.Instance.spaceshipWeapon.GetExplosionRadius())
+                if (Vector3.Distance(cellCenterWorld, explosionCenterWorld) <=
+                    Managers.Instance.spaceshipWeapon.GetExplosionRadius())
                 {
                     // 이벤트 방송 대신, 타겟 소행성의 ApplyDamage 함수를 직접 호출합니다.
                     targetAsteroid.ApplyDamage(cellPos, bossTileDamage);
                 }
             }
+
             if (TilemapShadowGenerator.Instance != null)
             {
-                        Vector3Int explosionCenterCell = targetAsteroid.myTilemap.WorldToCell(collision.GetContact(0).point);
-                        float explosionRadius = Managers.Instance.spaceshipWeapon.GetExplosionRadius();
+                Vector3Int explosionCenterCell = targetAsteroid.myTilemap.WorldToCell(collision.GetContact(0).point);
+                float explosionRadius = Managers.Instance.spaceshipWeapon.GetExplosionRadius();
 
-                        // 월드 단위의 float 반경을 그대로 전달합니다.
-                        TilemapShadowGenerator.Instance.UpdateShadowsAround(explosionCenterCell, explosionRadius);
+                // 월드 단위의 float 반경을 그대로 전달합니다.
+                TilemapShadowGenerator.Instance.UpdateShadowsAround(explosionCenterCell, explosionRadius);
 
             }
         }
