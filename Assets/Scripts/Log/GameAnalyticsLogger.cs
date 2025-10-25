@@ -16,8 +16,8 @@ public class GameAnalyticsLogger : MonoBehaviour
     [Header("Build/Schema")]
     [SerializeField] string buildVersion = "6000.0.55f1";   // 빌드 버전
     [SerializeField] int eventSchemaVersion = 0;            // 로그 구조 버전
-    public int playerBulletCount;
-    public int playerBulletHitCount;
+    // public int playerBulletCount;
+    // public int playerBulletHitCount;
     public int waveCount = 0;
     public int exitCount = 0;
     public bool isInSpaceShip = false;
@@ -66,8 +66,8 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     { LogCategory.Combat, new[]{
         "event_name","ts","t",
         "Wave", "Timestamp", "Enemy_Type", "Enemy_Num", "Spawn_Location",
-        "Defeated_By", "Enemy_DestroyedTime",
-        "Player_AttackCount", "Player_AttackHitCount"
+        "Defeated_By", "Enemy_DestroyedTime"
+        // "Player_AttackCount", "Player_AttackHitCount"
     }},
 
     { LogCategory.Movement, new[]{
@@ -318,7 +318,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
+            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex },
             { "Timestamp", GetLocalTime() },
             { "Enemy_Type", enemyType },
             { "Defeated_By", defeatedBy },
@@ -328,18 +328,18 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         WriteCsv(LogCategory.Combat, "enemy_killed", data);
     }
 
-    public void LogPlayerDefend(int playerAttackCount, int playerHitCount)
-    {
-        var data = new Dictionary<string, object>
-        {
-            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
-            { "Timestamp", GetLocalTime() },
-            { "Player_AttackCount", playerAttackCount },
-            { "Player_AttackHitCount", playerHitCount }
-        };
-        WriteTxt(LogCategory.Combat, "player_defend", data);
-        WriteCsv(LogCategory.Combat, "player_defend", data);
-    }
+    // public void LogPlayerDefend(int playerAttackCount, int playerHitCount)
+    // {
+    //     var data = new Dictionary<string, object>
+    //     {
+    //         { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex },
+    //         { "Timestamp", GetLocalTime() },
+    //         { "Player_AttackCount", playerAttackCount },
+    //         { "Player_AttackHitCount", playerHitCount }
+    //     };
+    //     WriteTxt(LogCategory.Combat, "player_defend", data);
+    //     WriteCsv(LogCategory.Combat, "player_defend", data);
+    // }
     #endregion
 
     #region Movement

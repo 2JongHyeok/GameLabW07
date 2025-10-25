@@ -19,7 +19,7 @@ public class PlanetBullet : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = transform.up * speed;
-        GameAnalyticsLogger.instance.playerBulletCount++;
+        // GameAnalyticsLogger.instance.playerBulletCount++;
         Destroy(gameObject, lifeTime);
     }
 
@@ -28,7 +28,7 @@ public class PlanetBullet : MonoBehaviour
     {
         if (collision.collider.CompareTag("Enemy"))
         {
-            GameAnalyticsLogger.instance.playerBulletHitCount++;
+            // GameAnalyticsLogger.instance.playerBulletHitCount++;
             collision.collider.GetComponent<Enemy>().TakeDamage(Managers.Instance.weapon[0].GetDamage(), "PlanetBullet");
             Destroy(gameObject);
         }

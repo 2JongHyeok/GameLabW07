@@ -191,12 +191,12 @@ public class Planet1WaveManager : MonoBehaviour
 
                     if (waveEnd)
                     {
-                        // GameAnalyticsLogger.instance.waveCount = CurrentWaveIndex; [각주 2]
-                        GameAnalyticsLogger.instance.LogPlayerDefend(
-                            GameAnalyticsLogger.instance.playerBulletCount,
-                            GameAnalyticsLogger.instance.playerBulletHitCount);
-                        GameAnalyticsLogger.instance.playerBulletCount = 0;
-                        GameAnalyticsLogger.instance.playerBulletHitCount = 0;
+                        // GameAnalyticsLogger.instance.waveCount = CurrentWaveIndex;
+                        // GameAnalyticsLogger.instance.LogPlayerDefend(
+                        //     GameAnalyticsLogger.instance.playerBulletCount,
+                        //     GameAnalyticsLogger.instance.playerBulletHitCount);
+                        // GameAnalyticsLogger.instance.playerBulletCount = 0;
+                        // GameAnalyticsLogger.instance.playerBulletHitCount = 0;
                         // [Log] 웨이브 시작 시 인벤토리 통계 초기화
                         Managers.Instance.inventory.ResetWaveStats();
                         waveEnd = false;
