@@ -33,9 +33,6 @@ public class Planet2WaveManager : MonoBehaviour
     private bool hasTriggeredWaveClearAction = false;
     private bool holdAfterGate = false;
 
-    [Header("Spawn Center")]
-    [SerializeField] private Transform spawnCenter;
-
     [Header("UI")]
     public TMP_Text waveTimerText;
     public TMP_Text enemyCountText;
@@ -200,10 +197,7 @@ public class Planet2WaveManager : MonoBehaviour
         float spawnRadius = Mathf.Max(maxCameraSize, horizontalSize) + spawnDistanceOffset;
         float x = Mathf.Cos(randomAngle) * spawnRadius;
         float y = Mathf.Sin(randomAngle) * spawnRadius;
-        Vector3 center = spawnCenter
-                     ? spawnCenter.position
-                     : (planet2Core ? planet2Core.transform.position : transform.position);
-        return center + new Vector3(x, y, 0f);
+        return new Vector3(x, y, 0f);
     }
 
     private GameObject CreateEnemy(EnemyType type)
@@ -340,10 +334,7 @@ public class Planet2WaveManager : MonoBehaviour
         Transform newTarget = planet1Core.transform;
         foreach (var e in activeEnemies)
         {
-            if (!e) continue;
-            e.isAttacking = false;
-            e.attackTimer = 0f;
-            e.SetTaget(newTarget);
+            if (e != null) e.SetTaget(newTarget);   // 런타임 타깃 전환
         }
     }
     public void ForceStartNextWaveByCentral()

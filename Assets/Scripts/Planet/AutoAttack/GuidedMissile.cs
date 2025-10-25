@@ -64,7 +64,7 @@ public class GuidedMissile : Projectile
         // 3. 변경된 위치를 오브젝트에 다시 적용합니다.
         transform.position = currentPosition;
         // 수명 타이머: 10초 뒤 파괴 → OnDestroy에서 폭발 이펙트 재생
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, 10f);
     }
 
     // 기존 API 유지: 외부에서 주는 타겟은 '초기 잠금' 정도로만 사용
