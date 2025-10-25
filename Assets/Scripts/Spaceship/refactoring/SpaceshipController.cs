@@ -55,8 +55,18 @@ public class SpaceshipController : MonoBehaviour
     {
         shipInput = GetComponent<SpaceshipInput>();
         shipMotor = GetComponent<SpaceshipMotor>();
-        shipWeapon = GetComponent<SpaceshipWeapon>();
+        shipWeapon = GetComponent<SpaceshipWeapon>(); 
         rb = GetComponent<Rigidbody2D>();   // 로그용
+    }
+
+    void OnEnable()
+    {
+        shipMotor.OnThrustValueChanged += SetBoostParticleScale;
+    }
+    
+    void OnDisable()
+    {
+        shipMotor.OnThrustValueChanged -= SetBoostParticleScale;
     }
 
     private void Start()
@@ -142,6 +152,11 @@ public class SpaceshipController : MonoBehaviour
         if (particle == null) return;
         if (state && !particle.isPlaying) particle.Play();
         else if (!state && particle.isPlaying) particle.Stop();
+    }
+
+    private void SetBoostParticleScale(float thrustValue)
+    {
+        // 파티클 크기조정
     }
 
     private void SetupLoopingAudio(AudioSource audio)

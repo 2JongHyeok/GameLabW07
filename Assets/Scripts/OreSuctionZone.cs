@@ -36,6 +36,7 @@ public class OreSuctionZone : MonoBehaviour
         if (oreObj.tag == "PlanetCore")
         {
             oreObj.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+            Planet2Manager.instance.SetCoreStatus(false);
             return;
         }
         
