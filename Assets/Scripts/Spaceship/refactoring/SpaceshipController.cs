@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 // 역할: 모든 Spaceship 컴포넌트들을 연결하고 조율하며, 효과를 직접 제어합니다.
@@ -43,6 +44,7 @@ public class SpaceshipController : MonoBehaviour
 
     private bool canControl = true;
     private float currentBoostMultiplier = 1f;
+    private float particleMuiltiplier = 1f;
 
     public static bool IsSpaceshipMode { get; private set; } = false;
     public static void SetIsSpaceShipMode(bool isSpaceShipMode)
@@ -57,16 +59,7 @@ public class SpaceshipController : MonoBehaviour
         shipMotor = GetComponent<SpaceshipMotor>();
         shipWeapon = GetComponent<SpaceshipWeapon>(); 
         rb = GetComponent<Rigidbody2D>();   // 로그용
-    }
-
-    void OnEnable()
-    {
         shipMotor.OnThrustValueChanged += SetBoostParticleScale;
-    }
-    
-    void OnDisable()
-    {
-        shipMotor.OnThrustValueChanged -= SetBoostParticleScale;
     }
 
     private void Start()
@@ -74,6 +67,11 @@ public class SpaceshipController : MonoBehaviour
         SetupLoopingAudio(engineSound);
         SetupLoopingAudio(boostSound);
         SetupLoopingAudio(gasDirectionSound);
+    }
+
+    private void OnDestroy()
+    {
+        shipMotor.OnThrustValueChanged -= SetBoostParticleScale;
     }
 
     private void Update()
@@ -136,7 +134,6 @@ public class SpaceshipController : MonoBehaviour
 
         
         // 오디오
-    
         bool isApplyingThrust = canControl && Mathf.Abs(shipInput.ThrustInput) > 0.1f;
         float targetEngineVol = (isApplyingThrust && !isBoosting) ? engineMaxVolume : 0f;
         float targetBoostVol = isBoosting ? boostMaxVolume : 0f;
@@ -154,9 +151,38 @@ public class SpaceshipController : MonoBehaviour
         else if (!state && particle.isPlaying) particle.Stop();
     }
 
-    private void SetBoostParticleScale(float thrustValue)
+    private void SetBoostParticleScale()
     {
-        // 파티클 크기조정
+        if (thrusterParticle == null) return;
+
+        particleMuiltiplier += 4; 
+        thrusterParticle.transform.localScale = new Vector3(particleMuiltiplier, particleMuiltiplier, particleMuiltiplier);
+        thrusterParticle.startSize *= particleMuiltiplier;
+
+
+        if (particleMuiltiplier >= 8)
+        {
+            var colorModule = thrusterParticle.colorOverLifetime;
+            
+
+            Gradient newGradient = new Gradient();
+
+            newGradient.SetKeys(
+                new GradientColorKey[]
+                {
+                    new GradientColorKey(new Color(20, 20, 255), 0.0f),
+                    new GradientColorKey(new Color(0, 0, 255), 1.0f)
+                },
+                // 알파(투명도) 키 설정 (현재는 불투명 유지)
+                new GradientAlphaKey[]
+                {
+                    new GradientAlphaKey(1.0f, 0.0f),
+                    new GradientAlphaKey(1.0f, 1.0f)
+                }
+            );
+
+            colorModule.color = new ParticleSystem.MinMaxGradient(newGradient);
+        }
     }
 
     private void SetupLoopingAudio(AudioSource audio)
