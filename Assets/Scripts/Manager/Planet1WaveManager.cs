@@ -134,6 +134,10 @@ public class Planet1WaveManager : MonoBehaviour
                 {
                     GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP); 
                     // 리소스 로그는 아래 hasTriggeredWaveClearAction에서 처리
+                    // [수정] 마지막 웨이브 클리어 시 로그 기록
+                    GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
+                    GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
+                    GameAnalyticsLogger.instance.UpdateWave();
                     waveEnd = false;
                 }
 

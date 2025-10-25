@@ -1266,6 +1266,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3954204389919689628, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: ropeSegmentPrefab
+      value: 
+      objectReference: {fileID: 1511424944892775995, guid: a003d3caee99a2044a67ae93bc63e0cf, type: 3}
     - target: {fileID: 7180292076679184082, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.25
