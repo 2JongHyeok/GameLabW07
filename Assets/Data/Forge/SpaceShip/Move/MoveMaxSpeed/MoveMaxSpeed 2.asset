@@ -17,7 +17,7 @@ MonoBehaviour:
   upgradeDescription: "\uC6B0\uC8FC\uC120\uC758 \uCD9C\uB825\uC744 \uD5A5\uC0C1\uC2DC\uD0B5\uB2C8\uB2E4.\\n\uCD5C\uB300
     \uCD9C\uB825: <color=green>+15</color> "
   depth: 3
-  coalCost: 6
+  coalCost: 3
   ironCost: 2
   goldCost: 0
   diamondCost: 0

@@ -19,7 +19,7 @@ MonoBehaviour:
     1 > <color=green>2</color>\\n\uBC1C\uC0AC \uC18D\uB3C4: 0.6\uCD08 > <color=green>0.5\uCD08</color>  "
   depth: 1
   coalCost: 3
-  ironCost: 1
+  ironCost: 0
   goldCost: 0
   diamondCost: 0
   postSubBranches: []

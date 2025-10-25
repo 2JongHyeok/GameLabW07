@@ -17,9 +17,9 @@ MonoBehaviour:
   upgradeDescription: "\uC720\uB3C4 \uBBF8\uC0AC\uC77C \uC7AC\uBC1C\uC0AC \uC2DC\uAC04\uC744
     \uAC1C\uC120\uD569\uB2C8\uB2E4.\\n\uBC1C\uC0AC \uC2DC\uAC04: 0.7/s > <color=green>0.2/s</color> "
   depth: 5
-  coalCost: 6
-  ironCost: 2
-  goldCost: 0
-  diamondCost: 0
+  coalCost: 10
+  ironCost: 10
+  goldCost: 10
+  diamondCost: 10
   postSubBranches: []
   AtkSpeed: -0.5
