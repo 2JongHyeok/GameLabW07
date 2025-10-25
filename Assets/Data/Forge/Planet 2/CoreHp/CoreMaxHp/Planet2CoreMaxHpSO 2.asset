@@ -22,4 +22,4 @@ MonoBehaviour:
   goldCost: 0
   diamondCost: 0
   postSubBranches: []
-  CoreMaxHp: 0
+  CoreMaxHp: 40
