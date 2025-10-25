@@ -163,6 +163,12 @@ public class Enemy : MonoBehaviour
             return;
         }
 
+        if (enemyData.enemyType == EnemyType.Boss)
+        {
+            // 보스 체력 슬라이더 감소 - 보스 최대 체력 대비 비율로 감소
+            Planet1WaveManager.Instance.bossHpSlider.value  -= (float)damage / enemyData.enemyHP;
+        }
+
         enemyHP -= damage;
         
         // 피격 이펙트 재생

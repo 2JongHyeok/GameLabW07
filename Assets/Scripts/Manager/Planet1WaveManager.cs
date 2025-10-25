@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.UI;
+
 public class Planet1WaveManager : MonoBehaviour
 {
     public static Planet1WaveManager Instance;
@@ -34,6 +36,7 @@ public class Planet1WaveManager : MonoBehaviour
     public TMP_Text waveTimerText;
     public TMP_Text enemyCountText;
     public TMP_Text miningInstructionText; // 채굴 안내 텍스트
+    public Slider bossHpSlider; // 슬라이더 오브젝트
 
     [HideInInspector] public int EnemyCount = 0;
     private int totalEnemiesInWave = 0; // 현재 웨이브의 총 적 수
@@ -74,6 +77,10 @@ public class Planet1WaveManager : MonoBehaviour
             miningInstructionText.text = "";
             miningInstructionText.color = Color.green; // 초록색으로 설정
         }
+        
+        // 보스 체력바 초기화
+        bossHpSlider.gameObject.SetActive(false);
+        bossHpSlider.value = bossHpSlider.maxValue;
     }
 
     private void Update()
@@ -138,6 +145,11 @@ public class Planet1WaveManager : MonoBehaviour
                     GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
                     GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
                     GameAnalyticsLogger.instance.UpdateWave();
+                    
+                    // 웨이브 종료 후 보스 체력바 비활성화 및 초기화
+                    bossHpSlider.gameObject.SetActive(false);
+                    bossHpSlider.value = bossHpSlider.maxValue;
+                    
                     waveEnd = false;
                 }
 
@@ -255,6 +267,8 @@ public class Planet1WaveManager : MonoBehaviour
             }
             else
             {
+                bossHpSlider.gameObject.SetActive(true); // 보스 체력바 활성화
+                bossHpSlider.value = bossHpSlider.maxValue;
                 spawnPosition = bossSpwanPoint.position; // 보스 스폰 포인트 사용
             }
         }
