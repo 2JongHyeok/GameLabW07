@@ -1,3 +1,5 @@
+// Core.cs (교체/추가 부분)
+
 using System;
 using TMPro;
 using UnityEngine;
@@ -12,13 +14,17 @@ public class Core : MonoBehaviour
 
     // 현재 체력 읽기용 
     public int CurrentHP => currentHP;
-    
+
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // 이벤트 정의
     public event Action OnDie;
     public event Action<int> OnHpChanged;
-    private bool isDead = false; // 게임 오버 처리가 한 번만 실행되도록 보장하는 플래그
+    public event Action OnRevive;              //  추가: 부활 이벤트
+    private bool isDead = false;
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    [Header("Game Over 설정")]
+    public bool endGameOnDie = true;           //  추가: Planet2는 false로 설정
 
     private void Awake()
     {
@@ -29,80 +35,74 @@ public class Core : MonoBehaviour
     private void UpdateHPText()
     {
         if (CoreHpText != null)
-        {
             CoreHpText.text = $"Core HP: {currentHP}/{maxHP}";
-        }
     }
 
     public void TakeDamage(int damage)
     {
         currentHP -= damage;
+        if (currentHP < 0) currentHP = 0;
+        OnHpChanged?.Invoke(currentHP);
         UpdateHPText();
 
-
-        // 아직 죽지 않았고, 체력이 0 이하일 때 딱 한 번만 실행
         if (!isDead && CurrentHP <= 0)
-        {
             Die();
-        }
-
-
-        // if (currentHP <= 0)
-        // {
-        //     currentHP = 0;
-        //     GameOver();
-        // }
     }
 
     public void Die()
     {
-        isDead = true; // 사망 상태로 변경하여 중복 호출 방지
+        if (isDead) return;
+        isDead = true;
         OnDie?.Invoke();
-        GameOver();
+
+        //  Planet1은 true → 기존처럼 GameOver, Planet2는 false → 게임은 계속
+        if (endGameOnDie)
+            GameOver();
+        // else: 비파괴 상태로 유지(부활 가능)
     }
 
     private void GameOver()
     {
-        // [Log] 웨이브 방어 실패 로그 출력
         GameAnalyticsLogger.instance.LogWaveFail(Managers.Instance.core.CurrentHP);
-        GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(Planet1WaveManager.Instance.CurrentWaveIndex));
+        GameAnalyticsLogger.instance.LogWaveResources(
+            Managers.Instance.inventory.GetWaveResourceStats(Planet1WaveManager.Instance.CurrentWaveIndex));
         Managers.Instance.RestartPanel.SetActive(true);
-        // 이후에 GameOver 연출이나 Scene 전환 로직을 여기에 추가 가능
         Destroy(gameObject);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if ( inventoryManger != null)
-        {
-            if(collision.gameObject.TryGetComponent<Ore>(out var ore))
-            {
-                if(collision.gameObject.GetComponent<Ore>().oreType == OreType.PlanetCore)
-                { return; }
-                inventoryManger.AddOre(ore.oreType, ore.amount);    
-                Destroy(collision.gameObject);
-            }
-        }
-    }
-    
     // 1회성 HP 회복 메서드
     public void HealHP(int amount)
     {
+        int prev = currentHP;
         currentHP = Mathf.Min(currentHP + amount, maxHP);
+        OnHpChanged?.Invoke(currentHP);
         UpdateHPText();
+
+        //  죽어있던 코어가 0→양수로 회복되면 부활 처리
+        if (isDead && prev <= 0 && currentHP > 0)
+        {
+            isDead = false;
+            OnRevive?.Invoke();
+        }
     }
-    
-    // 외부에서 MaxHP 증가 및 UI 갱신
+
     public void AddMaxHP(int amount)
     {
         maxHP += amount;
-        currentHP += amount; // 현재 HP도 함께 증가
+        currentHP += amount;
+        OnHpChanged?.Invoke(currentHP);
         UpdateHPText();
     }
-    
-    // 외부에서 UI 갱신 호출용
-    public void RefreshHPText()
+
+    public void RefreshHPText() => UpdateHPText();
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        UpdateHPText();
+        if (inventoryManger != null && collision.gameObject.TryGetComponent<Ore>(out var ore))
+        {
+            if (collision.gameObject.GetComponent<Ore>().oreType == OreType.PlanetCore) return;
+            inventoryManger.AddOre(ore.oreType, ore.amount);
+            Destroy(collision.gameObject);
+        }
     }
 }

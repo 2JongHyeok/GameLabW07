@@ -35,10 +35,6 @@ public class Enemy : MonoBehaviour
     
     private void Start()
     {
-        if (target != null)
-        {
-            target.position = Vector2.zero;
-        }
         
         // HitFlashEffect 컴포넌트 찾기
         hitFlashEffect = GetComponent<HitFlashEffect>();
