@@ -9,6 +9,9 @@ public class Planet2Manager : MonoBehaviour
     bool isPlanetActive = false;
     bool isSpaceShipInRange = false;    // 우주선이 행성을 새로 생성할 수 있는 거리 내에 있는지.
     bool hasPlanet2Core = false;
+    
+    // hasPlanet2Core 읽기용 변수
+    public bool HasPlanet2Core => hasPlanet2Core;
 
     void Awake()
     {

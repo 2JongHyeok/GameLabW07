@@ -35,7 +35,18 @@ public class TargetIndicator : MonoBehaviour
     private Transform parentTransform;
     private SpriteRenderer visualSpriteRenderer;
     private Vector3 initialScale;
+    
+    [SerializeField] private bool isPlanet1Indicator = false;
+    [SerializeField] private bool isPlanet2Indicator = false;
+    private bool OnceGetPlanet2Core = false;
 
+    void Awake()
+    {
+        if(gameObject.name == "Planet1TargetIndicator")
+            isPlanet1Indicator = true;
+        else if(gameObject.name == "Planet2TargetIndicator")
+            isPlanet2Indicator = true;
+    }
     void Start()
     {
         parentTransform = transform.parent;
@@ -56,22 +67,51 @@ public class TargetIndicator : MonoBehaviour
     void Update()
     {
         if (parentTransform == null) return;
-
-        // --- 회전 및 위치 로직 (변경 없음) ---
-        Vector2 direction = targetPosition - (Vector2)parentTransform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, 0f, angle);
-        transform.position = (Vector2)parentTransform.position + direction.normalized * indicatorRadius;
         
-        // --- 시각 효과 로직 (수정됨) ---
-        float distance = direction.magnitude;
-        float t = Mathf.InverseLerp(maxDistance, minDistance, distance);
-        t = Mathf.Clamp01(t);
+        if(Planet2Manager.instance.HasPlanet2Core)
+            OnceGetPlanet2Core = true;
 
-        // --- 이 부분이 핵심이야. 최소/최대 크기를 보간하는 로직으로 바꿨어. ---
-        float currentScaleMultiplier = Mathf.Lerp(minScale, maxScale, t);
-        indicatorVisual.localScale = initialScale * currentScaleMultiplier;
-        
-        visualSpriteRenderer.color = Color.Lerp(farColor, closeColor, t);
+        if (isPlanet1Indicator)
+        {
+            targetPosition = Vector2.zero;
+            
+            // --- 회전 및 위치 로직 (변경 없음) ---
+            Vector2 direction = targetPosition - (Vector2)parentTransform.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0f, 0f, angle);
+            transform.position = (Vector2)parentTransform.position + direction.normalized * indicatorRadius;
+
+            // --- 시각 효과 로직 (수정됨) ---
+            float distance = direction.magnitude;
+            float t = Mathf.InverseLerp(maxDistance, minDistance, distance);
+            t = Mathf.Clamp01(t);
+
+            // --- 이 부분이 핵심이야. 최소/최대 크기를 보간하는 로직으로 바꿨어. ---
+            float currentScaleMultiplier = Mathf.Lerp(minScale, maxScale, t);
+            indicatorVisual.localScale = initialScale * currentScaleMultiplier;
+
+            visualSpriteRenderer.color = Color.Lerp(farColor, closeColor, t);
+        }
+        else if (isPlanet2Indicator && OnceGetPlanet2Core)
+        {
+            targetPosition = Planet2Manager.instance.transform.position;
+            
+            // --- 회전 및 위치 로직 (변경 없음) ---
+            Vector2 direction = targetPosition - (Vector2)parentTransform.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0f, 0f, angle);
+            transform.position = (Vector2)parentTransform.position + direction.normalized * indicatorRadius;
+
+            // --- 시각 효과 로직 (수정됨) ---
+            float distance = direction.magnitude;
+            float t = Mathf.InverseLerp(maxDistance, minDistance, distance);
+            t = Mathf.Clamp01(t);
+
+            // --- 이 부분이 핵심이야. 최소/최대 크기를 보간하는 로직으로 바꿨어. ---
+            float currentScaleMultiplier = Mathf.Lerp(minScale, maxScale, t);
+            indicatorVisual.localScale = initialScale * currentScaleMultiplier;
+
+            visualSpriteRenderer.color = Color.Lerp(farColor, closeColor, t);
+        }
     }
 }
