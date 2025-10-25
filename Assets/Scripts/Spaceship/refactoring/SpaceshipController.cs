@@ -151,7 +151,7 @@ public class SpaceshipController : MonoBehaviour
     void HandleShooting()
     {
         // 누르고 있는 동안 계속 발사를 '시도'합니다.
-        if (canControl && Input.GetKey(KeyCode.Space))
+        if (canControl && Input.GetKey(KeyCode.Mouse0)) // 스페이스 -> 마우스 왼쪽 버튼
         {
             // 실제 발사 가능 여부는 '손'이 결정합니다. 뇌는 명령만 내릴 뿐.
             if (shipWeapon != null)
