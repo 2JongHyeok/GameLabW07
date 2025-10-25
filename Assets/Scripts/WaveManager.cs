@@ -78,25 +78,25 @@ public class WaveManager : MonoBehaviour
 
     private void Update()
     {
-        // 웨이브가 모두 끝났으면 더 이상 스폰하지 않음
-        if (currentWaveIndex >= waves.Length)
-        {
-            if (EnemyCount <= 0)
-            {
-                waveTimerText.text = "All Waves Completed!";
-                enemyCountText.text = "Victory!";
-                if (miningInstructionText != null)
-                    miningInstructionText.text = "";
-            }
-            else
-            {
-                waveTimerText.text = $"Final Wave";
-                enemyCountText.text = $"Enemies: {EnemyCount}";
-                if (miningInstructionText != null)
-                    miningInstructionText.text = "";
-            }
-            return;
-        }
+        // // 웨이브가 모두 끝났으면 더 이상 스폰하지 않음
+        // if (currentWaveIndex >= waves.Length)
+        // {
+        //     if (EnemyCount <= 0)
+        //     {
+        //         waveTimerText.text = "All Waves Completed!";
+        //         enemyCountText.text = "Victory!";
+        //         if (miningInstructionText != null)
+        //             miningInstructionText.text = "";
+        //     }
+        //     else
+        //     {
+        //         waveTimerText.text = $"Final Wave";
+        //         enemyCountText.text = $"Enemies: {EnemyCount}";
+        //         if (miningInstructionText != null)
+        //             miningInstructionText.text = "";
+        //     }
+        //     return;
+        // }
 
         // 스폰 중이면 웨이브 진행 중 표시
         if (isSpawning)
@@ -127,10 +127,35 @@ public class WaveManager : MonoBehaviour
         // 적이 모두 죽고, 스폰도 끝났으면 카운트다운 시작
         if (EnemyCount <= 0 && !isSpawning)
         {
+            // 마지막 웨이브까지 모두 클리어한 경우
+            if (currentWaveIndex >= waves.Length)
+            {
+                if (waveEnd) // waveEnd 플래그로 한 번만 실행되도록 보장
+                {
+                    GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP); 
+                    // 리소스 로그는 아래 hasTriggeredWaveClearAction에서 처리
+                    waveEnd = false;
+                }
+
+                waveTimerText.text = "All Waves Completed!";
+                enemyCountText.text = "Victory!";
+                if (miningInstructionText != null)
+                {
+                    miningInstructionText.text = "";
+                }
+                return; // 모든 로직 종료
+            }
+
             if (!hasTriggeredWaveClearAction)
             {
                 hasTriggeredWaveClearAction = true;
-                GameAnalyticsLogger.instance.UpdateWave();
+                if (!isFirst) // 첫 웨이브 시작 전(isFirst=true)에는 로그를 기록하지 않음
+                {
+                    // [Log] 이전 웨이브 완료 로그 및 자원 통계 기록
+                    GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
+                    GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
+                    GameAnalyticsLogger.instance.UpdateWave();
+                }
             }
             EnemyCount = 0;
             countdown -= Time.deltaTime;
@@ -144,7 +169,7 @@ public class WaveManager : MonoBehaviour
             }
             else
             {
-                waveTimerText.text = $"Next Wave {currentWaveIndex+1} In: {Mathf.Ceil(countdown)}";
+                waveTimerText.text = $"Next Wave {currentWaveIndex + 1} In: {Mathf.Ceil(countdown)}";
                 enemyCountText.text = "Mining Phase";
                 if (miningInstructionText != null)
                 {
@@ -162,15 +187,12 @@ public class WaveManager : MonoBehaviour
 
                     if (waveEnd)
                     {
-                        GameAnalyticsLogger.instance.waveCount = CurrentWaveIndex+1;
+                        // GameAnalyticsLogger.instance.waveCount = CurrentWaveIndex; [각주 2]
                         GameAnalyticsLogger.instance.LogPlayerDefend(
                             GameAnalyticsLogger.instance.playerBulletCount,
                             GameAnalyticsLogger.instance.playerBulletHitCount);
                         GameAnalyticsLogger.instance.playerBulletCount = 0;
                         GameAnalyticsLogger.instance.playerBulletHitCount = 0;
-                        // [Log] 이전 웨이브 완료 로그 및 자원 통계 기록
-                        GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
-                        GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
                         // [Log] 웨이브 시작 시 인벤토리 통계 초기화
                         Managers.Instance.inventory.ResetWaveStats();
                         waveEnd = false;

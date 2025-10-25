@@ -209,7 +209,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveCount },
+            { "Wave", WaveManager.Instance.CurrentWaveIndex + 1 },
             { "Timestamp", GetLocalTime() },
             { "Core_Hp_Before",  coreHpBefore}
         };
@@ -222,7 +222,8 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveCount },
+            // { "Wave", WaveManager.Instance.CurrentWaveIndex > 0 ? WaveManager.Instance.CurrentWaveIndex - 1 : 0 }
+            { "Wave", WaveManager.Instance.CurrentWaveIndex },
             { "Timestamp", GetLocalTime() },
             { "Core_Hp_CompleteWave",  coreHpComplete}
         };
@@ -235,7 +236,8 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveCount },
+            // { "Wave", WaveManager.Instance.CurrentWaveIndex > 0 ? WaveManager.Instance.CurrentWaveIndex - 1 : 0 }
+            { "Wave", WaveManager.Instance.CurrentWaveIndex },
             { "Timestamp", GetLocalTime() },
             { "Core_Hp_FailWave",  coreHpFail}
         };
@@ -249,7 +251,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveCount },
+            { "Wave", WaveManager.Instance.CurrentWaveIndex },
             { "Timestamp", GetLocalTime() },
             { "Build_Name", buildName }
         };
@@ -263,7 +265,8 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveCount },
+            // { "Wave", WaveManager.Instance.CurrentWaveIndex > 0 ? WaveManager.Instance.CurrentWaveIndex - 1 : 0 }
+            { "Wave", WaveManager.Instance.CurrentWaveIndex },
             { "Timestamp", GetLocalTime() },
             { "Mineral_Info", mineralInfo }
         };
@@ -290,7 +293,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveCount },
+            { "Wave", WaveManager.Instance.CurrentWaveIndex + 1 },
             { "Timestamp", GetLocalTime() },
             { "Enemy_Type", enemyType },
             { "Enemy_Num", enemyNum },
@@ -315,7 +318,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveCount },
+            { "Wave", WaveManager.Instance.CurrentWaveIndex + 1 },
             { "Timestamp", GetLocalTime() },
             { "Enemy_Type", enemyType },
             { "Defeated_By", defeatedBy },
@@ -329,7 +332,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveCount },
+            { "Wave", WaveManager.Instance.CurrentWaveIndex + 1 },
             { "Timestamp", GetLocalTime() },
             { "Player_AttackCount", playerAttackCount },
             { "Player_AttackHitCount", playerHitCount }
@@ -345,7 +348,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         ClearMovementValue();
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveCount },
+            { "Wave", WaveManager.Instance.CurrentWaveIndex + 1 },
             { "Timestamp", GetLocalTime() },
             { "Exit_Count_Session", ++exitCount },
         };
@@ -356,7 +359,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", waveCount },
+            { "Wave", WaveManager.Instance.CurrentWaveIndex + 1 },
             { "Timestamp", GetLocalTime() },
             {"Player_Move_Distance", playerMoveDistance },
             {"Player_Max_Move_Distance", playerMaxMoveDistance },
