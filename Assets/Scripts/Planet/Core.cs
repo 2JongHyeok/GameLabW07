@@ -96,13 +96,13 @@ public class Core : MonoBehaviour
 
     // [수정] 이 기능은 OreSuctionZone.cs로 이전되었으므로 주석 처리 또는 삭제합니다.
     // 광물이 직접 Core에 부딪혀서 들어오는 로직은 중복 계산의 위험이 있습니다.
-    // private void OnCollisionEnter2D(Collision2D collision)
-    // {
-    //     if (inventoryManger != null && collision.gameObject.TryGetComponent<Ore>(out var ore))
-    //     {
-    //         if (collision.gameObject.GetComponent<Ore>().oreType == OreType.PlanetCore) return;
-    //         inventoryManger.AddOre(ore.oreType, ore.amount);
-    //         Destroy(collision.gameObject);
-    //     }
-    // }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (inventoryManger != null && collision.gameObject.TryGetComponent<Ore>(out var ore))
+        {
+             if (collision.gameObject.GetComponent<Ore>().oreType == OreType.PlanetCore) return;
+             inventoryManger.AddOre(ore.oreType, ore.amount);
+             Destroy(collision.gameObject);
+        }
+    }
 }
