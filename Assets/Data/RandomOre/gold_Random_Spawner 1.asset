@@ -40,8 +40,10 @@ MonoBehaviour:
   - resultingTile: {fileID: 11400000, guid: 643ec47a9f5e33c4ab85a0de83ce0981, type: 2}
     weight: 5
   - resultingTile: {fileID: 11400000, guid: 49c059b7b93340a46bb0aad08ddc833b, type: 2}
-    weight: 22.5
+    weight: 20
   - resultingTile: {fileID: 11400000, guid: 129ae7b627ca4d14c987b74a31c5acf1, type: 2}
-    weight: 22.5
+    weight: 20
   - resultingTile: {fileID: 11400000, guid: 3b447784cba70944d82c6e995f082550, type: 2}
     weight: 45
+  - resultingTile: {fileID: 11400000, guid: c048e5dd8cde01b4abb6612266ca188f, type: 2}
+    weight: 5

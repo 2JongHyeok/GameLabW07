@@ -44,6 +44,6 @@ MonoBehaviour:
   - resultingTile: {fileID: 11400000, guid: 129ae7b627ca4d14c987b74a31c5acf1, type: 2}
     weight: 15
   - resultingTile: {fileID: 11400000, guid: 3b447784cba70944d82c6e995f082550, type: 2}
-    weight: 20
+    weight: 25
   - resultingTile: {fileID: 11400000, guid: c048e5dd8cde01b4abb6612266ca188f, type: 2}
-    weight: 45
+    weight: 50
