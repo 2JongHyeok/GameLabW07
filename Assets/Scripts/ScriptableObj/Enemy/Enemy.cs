@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     
     [Header("Respawn Settings")]
     [SerializeField] private float maxDistanceFromTarget = 30f; // 타겟으로부터 최대 거리
-    
+    [SerializeField] private float respawnDistanceOffset = 2f;
     // 런타임 상태 (외부에서 접근 필요)
     [HideInInspector] public Transform target;
     [HideInInspector] public IObjectPool<GameObject> myPool;
@@ -267,41 +267,22 @@ public class Enemy : MonoBehaviour
     // 타겟으로부터 너무 멀어졌을 때 랜덤 스폰 포인트로 리스폰
     private void RespawnAtRandomPosition()
     {
-        if (Planet1WaveManager.Instance == null) return;
-        
-        // Planet1WaveManager의 GetRandomSpawnPosition 메서드를 public으로 만들어야 함
-        // 또는 여기서 직접 계산
+        if (target == null) return;
+
         float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-        
+
         Camera mainCamera = Camera.main;
-        float aspect = mainCamera != null ? mainCamera.aspect : 16f / 9f;
-        float maxCameraSize = Planet1WaveManager.Instance.maxCameraSize;
-        float spawnDistanceOffset = Planet1WaveManager.Instance.spawnDistanceOffset;
-        
-        float horizontalSize = maxCameraSize * aspect;
-        float spawnRadius = Mathf.Max(maxCameraSize, horizontalSize) + spawnDistanceOffset;
-        
+        float aspect = mainCamera ? mainCamera.aspect : 16f / 9f;
+        float size = mainCamera ? mainCamera.orthographicSize : 20f;
+
+        float horizontalSize = size * aspect;
+        float spawnRadius = Mathf.Max(size, horizontalSize) + respawnDistanceOffset;
+
         float x = Mathf.Cos(randomAngle) * spawnRadius;
         float y = Mathf.Sin(randomAngle) * spawnRadius;
-        
-        transform.position = new Vector3(x, y, 0f);
+
+        transform.position = target.position + new Vector3(x, y, 0f);
     }
     
-    // EnemyCount는 Planet1WaveManager의 풀 시스템에서 관리
-    // void OnEnable()
-    // {
-    //     Planet1WaveManager.Instance.EnemyCount++;
-    // }
-    // void OnDestroy()
-    // {
-    //     Planet1WaveManager.Instance.EnemyCount--;
-    // }
-    // public void OnDrawGizmos()
-    // {
-    //     if (enemyType == EnemyType.Ranger)
-    //     {
-    //         Gizmos.color = Color.red;
-    //         Gizmos.DrawWireSphere(transform.position, (enemyData as RangerEnemySO).attackRange);
-    //     }
-    // }
+   
 }
