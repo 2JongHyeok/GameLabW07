@@ -16,7 +16,7 @@ MonoBehaviour:
   upgradeName: "\uD3EC \uAC74\uC124 Lv.Max"
   upgradeDescription: "\uCD94\uAC00 \uD3EC\uB97C \uAC74\uC124\uD569\uB2C8\uB2E4.\\n\uD3EC:
     2\uAC1C > <color=green>4\uAC1C</color>"
-  depth: 4
+  depth: 5
   coalCost: 6
   ironCost: 2
   goldCost: 0

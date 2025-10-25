@@ -15,11 +15,11 @@ MonoBehaviour:
   forgeId: 12
   upgradeName: "\uC6B4\uBC18\uB825 Lv.1"
   upgradeDescription: "\uC6B0\uC8FC\uC120\uC774 \uB04C \uC218 \uC788\uB294 \uAD11\uBB3C\uB7C9\uC744
-    \uB298\uB9BD\uB2C8\uB2E4.\\n\uCD5C\uB300\uB7C9: <color=green>+2\uAC1C</color> "
+    \uB298\uB9BD\uB2C8\uB2E4.\\n\uCD5C\uB300\uB7C9: <color=green>+3\uAC1C</color> "
   depth: 1
   coalCost: 3
   ironCost: 1
   goldCost: 0
   diamondCost: 0
   postSubBranches: []
-  allowedOreCount: 2
+  allowedOreCount: 3

@@ -150,9 +150,10 @@ public class ForgeUI : MonoBehaviour
         // 노드(BaseForgeSO) 생성 - Grid Layout에 순서대로 배치
         if (subBranchSO.baseForgeSOs != null)
         {
-            // Depth별로 노드 분류 (1~4)
+            // Depth별로 노드 분류 (1~5)
+            const int maxDepth = 5; // 최대 깊이를 5로 정의
             Dictionary<int, List<BaseForgeSO>> nodesByDepth = new Dictionary<int, List<BaseForgeSO>>();
-            for (int d = 1; d <= 4; d++)
+            for (int d = 1; d <= maxDepth; d++)
             {
                 nodesByDepth[d] = new List<BaseForgeSO>();
             }
@@ -162,13 +163,13 @@ public class ForgeUI : MonoBehaviour
             
             foreach (var forgeSO in subBranchSO.baseForgeSOs)
             {
-                int nodeDepth = Mathf.Clamp(forgeSO.depth, 1, 4);
+                int nodeDepth = Mathf.Clamp(forgeSO.depth, 1, maxDepth);
                 nodesByDepth[nodeDepth].Add(forgeSO);
             }
             
             // 노드가 있는 최대 Depth 찾기
             int maxDepthWithNodes = 0;
-            for (int d = 4; d >= 1; d--)
+            for (int d = maxDepth; d >= 1; d--)
             {
                 if (nodesByDepth[d].Count > 0)
                 {

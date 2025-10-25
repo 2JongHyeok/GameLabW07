@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4150fc41a4f5f3645b47ba74e3c92766, type: 3}
-  m_Name: MoveMaxSpeed 2
+  m_Name: MoveMaxSpeed 3
   m_EditorClassIdentifier: 
   forgeId: 11
-  upgradeName: "\uC6B0\uC8FC\uC120 \uCD9C\uB825 Lv.2"
+  upgradeName: "\uC6B0\uC8FC\uC120 \uCD9C\uB825 Lv.Max"
   upgradeDescription: "\uC6B0\uC8FC\uC120\uC758 \uCD9C\uB825\uC744 \uD5A5\uC0C1\uC2DC\uD0B5\uB2C8\uB2E4.\\n1\uCD5C\uB300
-    \uCD9C\uB825: <color=green>+15</color> "
-  depth: 3
+    \uCD9C\uB825: <color=green>+30</color> "
+  depth: 5
   coalCost: 6
   ironCost: 2
   goldCost: 0
   diamondCost: 0
   postSubBranches: []
-  MaxSpeed: 15
+  MaxSpeed: 30

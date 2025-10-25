@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d384677d119519a45ba2919425165469, type: 3}
-  m_Name: MiningUpgrade 2
+  m_Name: MiningUpgrade 3
   m_EditorClassIdentifier: 
   forgeId: 9
-  upgradeName: "\uCC44\uAD74 \uBBF8\uC0AC\uC77C \uAC15\uD654 Lv.2"
+  upgradeName: "\uCC44\uAD74 \uBBF8\uC0AC\uC77C \uAC15\uD654 Lv.Max"
   upgradeDescription: "\uC6B0\uC8FC\uC120 \uBBF8\uC0AC\uC77C\uC758 \uB370\uBBF8\uC9C0\uC640
     \uBC1C\uC0AC \uC18D\uB3C4\uB97C \uAC1C\uC120\uD569\uB2C8\uB2E4.\\n\uD3EC \uB370\uBBF8\uC9C0:
-    3 > <color=green>6</color>\\n\uBC1C\uC0AC \uC18D\uB3C4: 0.5\uCD08 > <color=green>0.4\uCD08</color>  "
-  depth: 3
+    6 > <color=green>10</color>\\n\uBC1C\uC0AC \uC18D\uB3C4: 0.4\uCD08 > <color=green>0.2\uCD08</color>  "
+  depth: 5
   coalCost: 6
   ironCost: 2
   goldCost: 0
   diamondCost: 0
   postSubBranches: []
-  MiningDamage: 3
-  MiningSpeed: -0.1
+  MiningDamage: 4
+  MiningSpeed: -0.2

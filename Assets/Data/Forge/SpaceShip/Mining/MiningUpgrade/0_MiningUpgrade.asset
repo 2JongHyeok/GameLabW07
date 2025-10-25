@@ -17,3 +17,4 @@ MonoBehaviour:
   baseForgeSOs:
   - {fileID: 11400000, guid: 49c21b34461c79447a8c807f739b995c, type: 2}
   - {fileID: 11400000, guid: 54f83f6d68716b740808697f8d7b9f4b, type: 2}
+  - {fileID: 11400000, guid: 3c4fe9f565a7c224cb851e1f180ed97f, type: 2}

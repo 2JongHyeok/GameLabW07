@@ -15,7 +15,7 @@ MonoBehaviour:
   forgeId: 11
   upgradeName: "\uC6B0\uC8FC\uC120 \uCD9C\uB825 Lv.1"
   upgradeDescription: "\uC6B0\uC8FC\uC120\uC758 \uCD9C\uB825\uC744 \uD5A5\uC0C1\uC2DC\uD0B5\uB2C8\uB2E4.\\n1\uCD5C\uB300
-    \uCD9C\uB825: 50 > <color=green>65</color> "
+    \uCD9C\uB825: <color=green>+15</color> "
   depth: 1
   coalCost: 3
   ironCost: 1
