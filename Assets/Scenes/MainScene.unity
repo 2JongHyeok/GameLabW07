@@ -2158,6 +2158,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planet2Core
       objectReference: {fileID: 0}
+    - target: {fileID: 1864967592556681818, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3401776995559114420, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
