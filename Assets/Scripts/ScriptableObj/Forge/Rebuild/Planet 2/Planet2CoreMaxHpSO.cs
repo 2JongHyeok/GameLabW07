@@ -11,7 +11,7 @@ public class Planet2CoreMaxHpSO : BaseForgeSO
         if (Managers.Instance != null)
         {
             // 여기 수정하면됨
-            Managers.Instance.AddCoreMaxHP((int)CoreMaxHp);
+            Managers.Instance.Add2CoreMaxHP((int)CoreMaxHp);
         }
     }
 }

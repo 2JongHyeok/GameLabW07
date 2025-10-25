@@ -22,4 +22,4 @@ MonoBehaviour:
   goldCost: 0
   diamondCost: 0
   postSubBranches: []
-  HpRegenAmount: 0
+  HpRegenAmount: 10

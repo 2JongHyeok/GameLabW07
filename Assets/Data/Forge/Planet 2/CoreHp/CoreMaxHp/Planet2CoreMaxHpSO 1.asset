@@ -23,4 +23,4 @@ MonoBehaviour:
   diamondCost: 0
   postSubBranches:
   - {fileID: 11400000, guid: f45dc3b7a44c5154b8d86099abac6430, type: 2}
-  CoreMaxHp: 0
+  CoreMaxHp: 20

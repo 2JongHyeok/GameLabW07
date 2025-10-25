@@ -13,7 +13,7 @@ public class Planet2HpRegenAmountSO : BaseForgeSO, IReuse
     {
         if (Managers.Instance != null)
         {
-            Managers.Instance.HealCoreHP((int)HpRegenAmount);
+            Managers.Instance.Heal2CoreHP((int)HpRegenAmount);
         }
     }
 }

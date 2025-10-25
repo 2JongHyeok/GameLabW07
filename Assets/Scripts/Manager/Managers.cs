@@ -79,10 +79,11 @@ public class Managers : MonoBehaviour
         spaceshipMotor ??= FindAnyObjectByType<SpaceshipMotor>();
         spaceshipWeapon ??= FindAnyObjectByType<SpaceshipWeapon>();
         tilemapManager ??= FindAnyObjectByType<TilemapManager>();
+        // 수동 할당으로 변경
         /*core ??= FindAnyObjectByType<Core>();
         core2 ??= FindAnyObjectByType<Core>();
         planet ??= FindAnyObjectByType<Planet>();
-        planet2 ?? FindAnyObjectByType<Planet>(); // 누가 주입됨? 1? 2?*/
+        planet2 ?? FindAnyObjectByType<Planet>(); */ 
         subWeaponManager ??= FindAnyObjectByType<SubWeaponManager>();
     }
 

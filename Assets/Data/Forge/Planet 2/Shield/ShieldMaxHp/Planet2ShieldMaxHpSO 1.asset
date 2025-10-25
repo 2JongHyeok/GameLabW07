@@ -22,4 +22,4 @@ MonoBehaviour:
   goldCost: 0
   diamondCost: 0
   postSubBranches: []
-  ShieldMaxHp: 0
+  ShieldMaxHp: 1

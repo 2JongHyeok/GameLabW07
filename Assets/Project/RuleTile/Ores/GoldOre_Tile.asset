@@ -279,6 +279,6 @@ MonoBehaviour:
     - {x: 0, y: 1, z: 0}
     - {x: 0, y: -1, z: 0}
     m_RuleTransform: 1
-  maxDurability: 8
+  maxDurability: 10
   mineralColor: {r: 1, g: 0.90748876, b: 0, a: 1}
   itemDropPrefab: {fileID: 4956772213239516559, guid: e4d6f51fd786d90408d2d892eabbc19a, type: 3}
