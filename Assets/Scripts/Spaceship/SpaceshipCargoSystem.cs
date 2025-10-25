@@ -160,6 +160,10 @@ public class SpaceshipCargoSystem : MonoBehaviour
             if (info.OreObject.TryGetComponent<Ore>(out var ore) && ore.oreType == OreType.PlanetCore)
             {
                 Destroy(info.OreObject);
+                BreakConnection(info);
+
+                // 3) 플래그 다운
+                Planet2Manager.instance?.SetCoreStatus(false);
             }
             else
             {
@@ -271,7 +275,6 @@ public class SpaceshipCargoSystem : MonoBehaviour
         }
     }
 
-    // [추가] 하이라이트를 끄는 역할을 전담하는 함수 (버그 방지에 매우 중요!)
     private void ClearHighlight()
     {
         if (currentlyHighlightedOre != null)
@@ -284,7 +287,6 @@ public class SpaceshipCargoSystem : MonoBehaviour
             currentlyHighlightedOre = null; // 추적 변수 비우기
         }
     }
-
 
     private void CollectNearestOre()
     {
@@ -583,7 +585,7 @@ public class SpaceshipCargoSystem : MonoBehaviour
                 Ore oreComponent = oreInfo.OreObject.GetComponent<Ore>();
                 if (oreComponent != null)
                 {
-                    if (oreComponent.oreType == OreType.PlanetCore) return; // 행성 핵은 무시
+                    if (oreComponent.oreType == OreType.PlanetCore) continue; // 행성 핵은 무시
                     // 1. 인벤토리에 광물을 추가.
                     inventory.AddOre(oreComponent.oreType, oreComponent.amount);
                 }
