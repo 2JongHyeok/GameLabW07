@@ -319,71 +319,16 @@ public class SpaceshipCargoSystem : MonoBehaviour
         LineRenderer line = lineObj.GetComponent<LineRenderer>();
         collectedOres.Add(new CollectedOreInfo(oreToCollect, line, ropeSegments));
 
+        if(oreToCollect.TryGetComponent<Ore>(out var oreComponent))
+        {
+            if(oreComponent.oreType == OreType.PlanetCore)
+            {
+                Planet2Manager.instance.SetCoreStatus(true);
+            }
+        }
         UpdateCarryingState();
     }
     
-    // 씬 내에 있는 planetcore 태그 탐색 후 해당 오브젝트는 플레이거 입력하지 않더라도 자동으로 획득하고 줄로 연결하는 함수
-    public void CollectPlanetCore()
-    {
-        
-        GameObject oreToCollect = GameObject.FindGameObjectWithTag("PlanetCore");
-        
-        if (oreToCollect != null)
-        {
-            oreToCollect.transform.position = cargoHook.position; // 행성 핵을 후크 위치로 이동
-            
-            List<GameObject> ropeSegments = new List<GameObject>();
-            Rigidbody2D previousSegmentRB = this.rb;
-
-            Vector2 hookPos = cargoHook.position;
-            Vector2 orePos = oreToCollect.transform.position;
-            float totalDistance = Vector2.Distance(hookPos, orePos);
-            Vector2 direction = (orePos - hookPos).normalized;
-            float segmentLength = totalDistance / (numberOfSegments + 1);
-        
-            Vector2 shipLocalHook = rb.transform.InverseTransformPoint(cargoHook.position);
-
-            for (int i = 0; i < numberOfSegments; i++)
-            {
-                Vector2 spawnPos = hookPos + direction * segmentLength * i;
-                GameObject segmentObj = Instantiate(ropeSegmentPrefab, spawnPos, Quaternion.identity);
-                ropeSegments.Add(segmentObj);
-            
-                var segRB = segmentObj.GetComponent<Rigidbody2D>();
-                if (segRB == null) segRB = segmentObj.AddComponent<Rigidbody2D>();
-
-                HingeJoint2D joint = segmentObj.GetComponent<HingeJoint2D>();
-                if (joint == null) joint = segmentObj.AddComponent<HingeJoint2D>();
-
-                joint.connectedBody = previousSegmentRB;
-
-                if (i == 0)
-                {
-                    joint.autoConfigureConnectedAnchor = false;
-                    joint.connectedAnchor = shipLocalHook;
-                }
-                else
-                {
-                    joint.autoConfigureConnectedAnchor = true;
-                }
-                previousSegmentRB = segRB;
-            }
-
-            var oreRB = oreToCollect.GetComponent<Rigidbody2D>();
-            if (oreRB == null) oreRB = oreToCollect.AddComponent<Rigidbody2D>();
-
-            HingeJoint2D oreJoint = oreToCollect.GetComponent<HingeJoint2D>();
-            if (oreJoint == null) oreJoint = oreToCollect.AddComponent<HingeJoint2D>();
-            oreJoint.connectedBody = previousSegmentRB;
-            oreJoint.autoConfigureConnectedAnchor = true;
-
-            GameObject lineObj = Instantiate(linePrefab, Vector3.zero, Quaternion.identity);
-            LineRenderer line = lineObj.GetComponent<LineRenderer>();
-            collectedOres.Add(new CollectedOreInfo(oreToCollect, line, ropeSegments));
-
-            UpdateCarryingState();
-        }
-    }
     
     private void DropLastCollectedOre()
     {

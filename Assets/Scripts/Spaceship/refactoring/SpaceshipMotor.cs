@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 // 역할: Rigidbody2D를 제어하여 실제 우주선의 모든 물리적 움직임을 담당.
 [RequireComponent(typeof(Rigidbody2D))]
@@ -51,6 +52,7 @@ public class SpaceshipMotor : MonoBehaviour
     [Range(0f, 100f)]
     [SerializeField] private float overweightThresholdPercent = 80f;
 
+    public event Action<float> OnThrustValueChanged;
 
     public Rigidbody2D Rb { get; private set; }
 
@@ -214,7 +216,8 @@ public class SpaceshipMotor : MonoBehaviour
 
     // --- 직선 운동 관련 ---
     public float GetThrustPower() { return thrustPower; }
-    public void SetThrustPower(float value) { thrustPower = value; }
+    public void SetThrustPower(float value) { OnThrustValueChanged?.Invoke(value);
+        ; thrustPower = value; }
     public void AddThrustPower(float amount) { thrustPower += amount; }
 
     public float GetMovementDrag() { return movementDrag; }
