@@ -210,24 +210,34 @@ public class Weapon2 : MonoBehaviour
         }
     }
     
-    /// <summary>
-    /// 외부에서 호출하여 위성을 추가하는 함수. 최대 2번까지만 호출됩니다.
-    /// 첫 호출 시 2개, 두 번째 호출 시 4개로 위성 개수를 맞춥니다.
-    /// </summary>
+    // 외부에서 호출하여 위성 추가
+    // 총 3회 호출 가능 
     public void AddSatellite()
     {
-        // 이미 2번 호출되었다면 더 이상 추가하지 않음
-        if (addSatelliteCallCount >= 2)
+        if (addSatelliteCallCount >= 3)
         {
             Debug.Log("위성은 최대 4개까지만 추가할 수 있습니다.");
             return;
         }
 
         addSatelliteCallCount++; // 호출 횟수 증가
+        int targetSatelliteCount = 0;
+        
+        // 목표 위성 개수 결정 
+        switch (addSatelliteCallCount)
+        {
+            case 1:
+                targetSatelliteCount = 2;
+                break;
+            case 2:
+                targetSatelliteCount = 4;
+                break;
+            default:
+                targetSatelliteCount = 8;
+                break;
+        }
 
-        // 목표 위성 개수 결정 (최대값은 maxSatellites로 제한)
-        int targetSatelliteCount = (addSatelliteCallCount == 1) ? 2 : 4;
-        targetSatelliteCount = Mathf.Min(targetSatelliteCount, 4);
+        targetSatelliteCount = Mathf.Min(targetSatelliteCount, 8);
 
         // 현재 위성 개수 확인
         int currentSatelliteCount = satellites.Count;
@@ -238,7 +248,6 @@ public class Weapon2 : MonoBehaviour
         {
             if (satellitePrefab == null)
             {
-                Debug.LogError("Satellite Prefab이 설정되지 않았습니다!");
                 return;
             }
             if (pivotTransform == null) pivotTransform = transform;
@@ -246,7 +255,6 @@ public class Weapon2 : MonoBehaviour
             for (int i = 0; i < satellitesToAdd; i++)
             {
                 GameObject satGO = Instantiate(satellitePrefab, pivotTransform);
-                satGO.name = "Satellite_" + (currentSatelliteCount + i); // 이름 중복 방지
 
                 Satellite newSat = new Satellite
                 {
@@ -261,15 +269,14 @@ public class Weapon2 : MonoBehaviour
         RedistributeSatellites();
     }
 
-    /// <summary>
-    /// 현재 존재하는 모든 위성을 궤도상에 균등하게 재배치합니다.
-    /// </summary>
+
+    // 현재 존재하는 모든 위성을 궤도상에 균등하게 재배치
     private void RedistributeSatellites()
     {
         int count = satellites.Count;
         if (count == 0) return;
 
-        // 위성 간 균등한 각도 계산 (라디안)
+        // 위성 간 균등한 각도 계산
         float angleStep = (Mathf.PI * 2f) / count;
 
         for (int i = 0; i < count; i++)
@@ -282,9 +289,9 @@ public class Weapon2 : MonoBehaviour
             float y = currentRadius * Mathf.Sin(satellites[i].angle);
             satellites[i].transform.localPosition = new Vector3(x, y, 0f);
         }
-
-        Debug.Log($"위성 {count}개를 균등하게 재배치했습니다.");
-        // 재배치 후 궤도 업데이트 (선택 사항이지만 시각적으로 즉시 반영)
+        
+        
+        // 재배치 후 궤도 업데이트 
         UpdateOrbitPath();
     }
 }

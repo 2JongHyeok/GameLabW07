@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cb6849eb8aa7714197a1718875921c2, type: 3}
+  m_Name: Planet2MainCannonBulletNumberSO 3
+  m_EditorClassIdentifier: 
+  forgeId: 18
+  upgradeName: "\uADA4\uB3C4 \uD3EC\uD0D1 \uAC74\uC124 Lv.Max"
+  upgradeDescription: "\uCD94\uAC00 \uADA4\uB3C4 \uD3EC\uD0D1\uC744 \uAC74\uC124\uD569\uB2C8\uB2E4.\\n\uD3EC:
+    2\uAC1C > <color=green>4\uAC1C</color>"
+  depth: 5
+  coalCost: 6
+  ironCost: 2
+  goldCost: 0
+  diamondCost: 0
+  postSubBranches: []

@@ -101,6 +101,7 @@ public class ForgeManager : MonoBehaviour
             if (forgeUI != null)
             {
                 forgeUI.UpdateAllNodeTextColors();
+                forgeUI.RefreshAllNodes();
             }
         }
     }
@@ -259,8 +260,31 @@ public class ForgeManager : MonoBehaviour
         if (!IsSubBranchUnlocked(subBranchType))
             return false;
         
-        // 2. 현재 ForgeId의 레벨이 forgeIndexInSameId와 일치해야 함
+        /*// 2. 현재 ForgeId의 레벨이 forgeIndexInSameId와 일치해야 함
         int currentLevel = GetForgeLevel(forgeId);
-        return currentLevel == forgeIndexInSameId;
+        return currentLevel == forgeIndexInSameId;*/
+        int currentLevel = GetForgeLevel(forgeId);
+        bool basePurchasable = currentLevel == forgeIndexInSameId;
+
+        // 3. Planet2 관련 노드에 대한 추가 조건
+        bool isPlanet2RelatedForge =
+            forgeId == ForgeId.Planet2CoreMaxHp ||
+            forgeId == ForgeId.Planet2ShieldMaxHp ||
+            forgeId == ForgeId.Planet2HpRegenAmount ||
+            forgeId == ForgeId.Planet2ShieldRegenSpeed ||
+            forgeId == ForgeId.Planet2MainCannonUpgrade ||
+            forgeId == ForgeId.Planet2MainCannonBulletNumber;
+
+        if (isPlanet2RelatedForge)
+        {
+            // Planet2Manager.instance가 null이 아니고, IsPlanetActive가 false이면 구매 불가능
+            // Planet2Manager.instance는 싱글톤이므로 직접 접근합니다.
+            if (Planet2Manager.instance != null && !Planet2Manager.instance.IsPlanetActive)
+            {
+                return false; // Planet2가 활성화되지 않았으면 구매 불가
+            }
+        }
+
+        return basePurchasable;
     }
 }
