@@ -22,17 +22,25 @@ public class TurretActivationManager : MonoBehaviour
     // 공격 전략 인스턴스 (메모리 효율을 위해 한 번만 생성)
     private GuidedMissileAttack missileStrategy;
     private IAttackStrategy bulletStrategy;
-    private IAttackStrategy laserStrategy;
+    private AutoTurretLaserAttack laserStrategy;
 
     [SerializeField] private GameObject missileTurretPrefab;
-
+    private bool laserActivated = false;
 
     void Awake()
     {
         // 각 공격 전략을 미리 인스턴스화합니다.
         missileStrategy = new GuidedMissileAttack(guidedMissilePrefab, baseDamage: 20f, interval: 3f);
         bulletStrategy = new AutoTurretBulletAttack(bulletPrefab, 5f, 0.5f);
-        laserStrategy = new AutoTurretLaserAttack();
+        laserStrategy = new AutoTurretLaserAttack(
+            laserPrefab,
+            10f,
+            interval: 5f,
+            duration: 0.5f,
+            length: 15f,
+            maxWidth: 1.0f,
+            targetTag: "Enemy"
+        );
         missileTurretPrefab.SetActive(false);
     }
     public float GetMissileDamage() => missileStrategy.Damage;
@@ -54,45 +62,34 @@ public class TurretActivationManager : MonoBehaviour
         missileTurretPrefab.SetActive(true);
         guidedMissileTurret.ActivateTurret(missileStrategy);
     }
+
+    public float GetLaserInterval() => laserStrategy.IntervalSec;
+    public void SetLaserInterval(float v) => laserStrategy.IntervalSec = v;
+    public float GetLaserDamage() => laserStrategy.Damage;
+    public void SetLaserDamage(float v) => laserStrategy.Damage = v;
+
+    public void ActivateLaserTurret()
+    {
+        if (laserActivated) return;                 // 중복 방지
+        if (laserTurret == null)
+        {
+            Debug.LogError("[Laser] laserTurret 미할당");
+            return;
+        }
+        var go = laserTurret.gameObject;
+        if (!go.activeSelf) go.SetActive(true);
+        if (!laserTurret.enabled) laserTurret.enabled = true;
+
+        // 그 다음 전략 활성화(코루틴 시작)
+        laserTurret.ActivateTurret(laserStrategy);
+        laserActivated = true;
+        Debug.Log("[Laser] 레이저 포탑 활성화 완료");
+    }
     void Update()
     {
-        
-
-        // === 2. X 키 입력: 총알 포탑 활성화 ===
-        //if (Input.GetKeyDown(KeyCode.X))
-        //{
-        //    if (bulletTurret != null)
-        //    {
-        //        bulletTurret.ActivateTurret(bulletStrategy);
-        //        Debug.Log("[X] 총알 포탑이 활성화되었습니다.");
-        //    }
-        //    else
-        //    {
-        //        Debug.LogError("[X] 총알 포탑이 할당되지 않았습니다!");
-        //    }
-        //}
 
         //// === 3. C 키 입력: 레이저 포탑 활성화 ===
-        //if (Input.GetKeyDown(KeyCode.C))
-        //{
-        //    if (laserTurret != null)
-        //    {
-        //        laserTurret.ActivateTurret(laserStrategy);
-        //        Debug.Log("[C] 레이저 포탑이 활성화되었습니다.");
-        //    }
-        //    else
-        //    {
-        //        Debug.LogError("[C] 레이저 포탑이 할당되지 않았습니다!");
-        //    }
-        //}
+        if (Input.GetKeyDown(KeyCode.C)) ActivateLaserTurret();
 
-        //// (선택 사항) P 키를 눌러 모든 포탑을 비활성화
-        //if (Input.GetKeyDown(KeyCode.P))
-        //{
-        //    guidedMissileTurret?.DeactivateTurret();
-        //    bulletTurret?.DeactivateTurret();
-        //    laserTurret?.DeactivateTurret();
-        //    Debug.Log("모든 포탑이 비활성화되었습니다.");
-        //}
     }
 }

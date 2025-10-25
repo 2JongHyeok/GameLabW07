@@ -1,156 +1,244 @@
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
+// AutoTurretLaserAttack: IAttackStrategy 명시적 구현 포함 (CS0535 방지)
 public class AutoTurretLaserAttack : IAttackStrategy
 {
-    // ===== 주입 가능한 파라미터 =====
-    private readonly float baseDamage;
-    private readonly float interval;       // 쿨타임
-    private readonly float duration;       // 빔 유지 시간
-    private readonly float maxDistance;    // 레이저 사거리
-    private readonly float turnRateDegPerSec;
-    private readonly float aimOffsetDeg;   // 스프라이트 전방 보정(위=+Y면 -90)
+    // ------- 주입 파라미터 -------
+    [SerializeField] private GameObject laserPrefab;
+    [SerializeField] private float damage = 10f;     // 1회 피해
+    [SerializeField] private float interval = 5f;    // 발사 주기
+    [SerializeField] private float duration = 0.5f;  // 빔 유지 시간
+    [SerializeField] private float length = 5f;      // 빔 길이(+Y 기준)
+    [SerializeField] private float maxWidth = 0.6f;  // 빔 최대 폭(시각/판정 동기)
+    [SerializeField] private string targetTag = "Enemy";
+    [SerializeField] private LayerMask hitMask;      // 비워두면 전체
+    [SerializeField] private float searchRadius = 0f; // 0이면 length 사용
 
-    private Coroutine attackCoroutine;
+    // ------- 런타임 -------
+    private MonoBehaviour host;
+    private Coroutine attackCo;
+    private WaitForSeconds cachedWait;
+    private bool waitDirty = true;
 
-    // 빔 시각화용
-    private LineRenderer cachedLR;
-    private Material lineMaterial; // 선택: 외부 전달 안 하면 기본 머티리얼 생성
+    // GC 최소화를 위한 버퍼
+    private static readonly Collider2D[] overlapBuf = new Collider2D[128];
+
 
     public AutoTurretLaserAttack(
-        float baseDamage = 100f,
-        float interval = 8.0f,
-        float duration = 0.2f,
-        float maxDistance = 30f,
-        float turnRateDegPerSec = 720f,
-        float aimOffsetDeg = -90f,
-        Material lineMaterial = null
-    )
+    GameObject laserPrefab,
+    float damage,
+    float interval,
+    float duration,
+    float length,
+    float maxWidth,
+    string targetTag)
     {
-        this.baseDamage = baseDamage;
-        this.interval = interval;
-        this.duration = duration;
-        this.maxDistance = maxDistance;
-        this.turnRateDegPerSec = turnRateDegPerSec;
-        this.aimOffsetDeg = aimOffsetDeg;
-        this.lineMaterial = lineMaterial;
+        this.laserPrefab = laserPrefab;
+        this.damage = Mathf.Max(0f, damage);
+        this.interval = Mathf.Max(0.01f, interval);
+        this.duration = Mathf.Max(0.01f, duration);
+        this.length = Mathf.Max(0.01f, length);
+        this.maxWidth = Mathf.Max(0.01f, maxWidth);
+        this.targetTag = targetTag;
+        waitDirty = true; // interval 캐시 갱신 플래그
     }
 
-    public void StartAttack(MonoBehaviour host, Transform turretTransform, string _)
+    // ---------------- API ----------------
+    public float Damage { get => damage; set => damage = Mathf.Max(0f, value); }
+    public float IntervalSec
     {
-        if (attackCoroutine != null) return;
-        var turret = host.GetComponent<AutoTurret>();
-        attackCoroutine = host.StartCoroutine(AttackRoutine(host, turretTransform, turret));
+        get => interval;
+        set { interval = Mathf.Max(0.01f, value); waitDirty = true; }
     }
 
-    public void StopAttack(MonoBehaviour host)
+    // ===== IAttackStrategy: public 구현 =====
+    public void StartAttack(MonoBehaviour host, Transform turretTransform, string targetTag)
     {
-        if (attackCoroutine == null) return;
-        host.StopCoroutine(attackCoroutine);
-        attackCoroutine = null;
+        if (attackCo != null) return;
+        this.host = host;
+        if (!string.IsNullOrEmpty(targetTag)) this.targetTag = targetTag;
+        attackCo = host.StartCoroutine(AttackRoutine(turretTransform));
+    }
 
-        // 잔여 라인 정리
-        if (cachedLR != null) cachedLR.enabled = false;
+    public void StopAttack(MonoBehaviour hostRef)
+    {
+        if (attackCo == null) return;
+        hostRef.StopCoroutine(attackCo);
+        attackCo = null;
     }
 
     public void Attack(Transform turretTransform, Transform targetEnemy)
     {
-        if (!turretTransform || !targetEnemy) return;
-
-        // 1) 2D 회전(부드럽게는 루틴에서 처리 중)
-        LookAt2DInstant(turretTransform, targetEnemy, aimOffsetDeg);
-
-        // 2) 히트스캔(Physics2D.Raycast)
-        Vector2 origin = turretTransform.position;
-        Vector2 dir = (targetEnemy.position - turretTransform.position).normalized;
-
-        RaycastHit2D hit = Physics2D.Raycast(origin, dir, maxDistance, ~0); // 레이어는 상황에 맞게 마스크 지정
-        Vector3 endPoint = (Vector3)origin + (Vector3)dir * maxDistance;
-
-        if (hit.collider != null)
-        {
-            endPoint = hit.point;
-
-            // 데미지 적용(게임 구조에 맞게 바꿔도 됨)
-            // 예: IDamageable, EnemyHealth 등
-            //hit.collider.GetComponent<EnemyScript>()?.TakeDamage(baseDamage);
-        }
-
-        // 3) 시각효과(라인표시) 잠깐 켜기
-        turretTransform.gameObject.GetComponent<MonoBehaviour>().StartCoroutine(ShowBeam(turretTransform, origin, endPoint));
+        if (host == null) return;
+        host.StartCoroutine(FireOnce(turretTransform, targetEnemy));
     }
 
-    private IEnumerator AttackRoutine(MonoBehaviour host, Transform turretTransform, AutoTurret turret)
-    {
-        var wait = new WaitForSeconds(interval);
-        EnsureLineRenderer(turretTransform);
+    // ===== IAttackStrategy: 명시적 구현(컴파일러 확실히 인식) =====
+    void IAttackStrategy.StartAttack(MonoBehaviour host, Transform turretTransform, string targetTag)
+        => StartAttack(host, turretTransform, targetTag);
 
+    void IAttackStrategy.StopAttack(MonoBehaviour host)
+        => StopAttack(host);
+
+    void IAttackStrategy.Attack(Transform turretTransform, Transform targetEnemy)
+        => Attack(turretTransform, targetEnemy);
+
+    // ---------------- 내부 로직 ----------------
+    private IEnumerator AttackRoutine(Transform turretTransform)
+    {
         while (true)
         {
-            if (!turretTransform || !turret) yield break;
+            if (!turretTransform) yield break;
 
-            var target = turret.GetCurrentTarget();
-            if (target != null)
+            yield return FireOnce(turretTransform, null);
+
+            if (waitDirty || cachedWait == null)
             {
-                // 부드러운 조준
-                SmoothLookAt2D(turretTransform, target, turnRateDegPerSec, aimOffsetDeg);
+                cachedWait = new WaitForSeconds(interval);
+                waitDirty = false;
+            }
+            yield return cachedWait;
+        }
+    }
 
-                // 발사
-                Attack(turretTransform, target);
+    // 1회 레이저
+    private IEnumerator FireOnce(Transform turret, Transform explicitTarget)
+    {
+        if (!turret) yield break;
+
+        // 1) 표적 선택: 명시 타겟 우선, 없으면 최단거리 탐색
+        Transform nearest = explicitTarget ? explicitTarget : FindNearestTarget(turret.position);
+        if (!nearest) yield break;
+
+        // 2) 조준(+Y 전방 기준)
+        Vector2 aimDir = ((Vector2)nearest.position - (Vector2)turret.position).normalized;
+        float angleDeg = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg - 90f;
+
+        // 3) 시각 오브젝트
+        GameObject beam = null;
+        LineRenderer lr = null;
+
+        if (laserPrefab)
+        {
+            beam = Object.Instantiate(laserPrefab);
+            beam.name = "AutoLaserBeam";
+            beam.transform.SetPositionAndRotation(
+                turret.position + (Vector3)(aimDir * (length * 0.5f)),
+                Quaternion.AngleAxis(angleDeg, Vector3.forward)
+            );
+            beam.transform.localScale = new Vector3(0.001f, length, 1f); // x=폭, y=길이
+        }
+        else
+        {
+            beam = new GameObject("AutoLaserLine");
+            lr = beam.AddComponent<LineRenderer>();
+            lr.useWorldSpace = true;
+            lr.positionCount = 2;
+            lr.SetPosition(0, turret.position);
+            lr.SetPosition(1, turret.position + (Vector3)(aimDir * length));
+            lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            lr.receiveShadows = false;
+            lr.textureMode = LineTextureMode.Stretch;
+            lr.alignment = LineAlignment.TransformZ;
+            lr.numCapVertices = 4;
+            lr.numCornerVertices = 4;
+            lr.widthMultiplier = 0.001f;
+            if (!lr.material) lr.material = new Material(Shader.Find("Sprites/Default"));
+        }
+
+        // 4) 관통 판정 + 1회 피해 보장
+        var hitOnce = HashSetPool<Enemy>.Get();
+        float t = 0f;
+
+        var filter = new ContactFilter2D();
+        filter.NoFilter();
+        if (hitMask.value != 0) filter.SetLayerMask(hitMask);
+        filter.useTriggers = Physics2D.queriesHitTriggers;
+
+        while (t < duration)
+        {
+            // 0 -> 1 -> 0 두께 애니메이션
+            float f = Mathf.Sin((t / duration) * Mathf.PI);
+            float currentWidth = Mathf.Max(0.001f, maxWidth * f);
+
+            // 시각 갱신
+            if (lr != null)
+            {
+                lr.widthMultiplier = currentWidth;
+                lr.SetPosition(0, turret.position);
+                lr.SetPosition(1, turret.position + (Vector3)(aimDir * length));
+            }
+            else
+            {
+                beam.transform.position = turret.position + (Vector3)(aimDir * (length * 0.5f));
+                beam.transform.rotation = Quaternion.AngleAxis(angleDeg, Vector3.forward);
+                var s = beam.transform.localScale; s.x = currentWidth; s.y = length; beam.transform.localScale = s;
             }
 
-            yield return wait;
+            // OverlapBox 관통 판정
+            Vector2 center = (Vector2)turret.position + (aimDir * (length * 0.5f));
+            Vector2 size = new Vector2(currentWidth, length);
+
+            int count = Physics2D.OverlapBox(center, size, angleDeg, filter, overlapBuf);
+            for (int i = 0; i < count; i++)
+            {
+                var col = overlapBuf[i];
+                if (!col) continue;
+                if (!string.IsNullOrEmpty(targetTag) && !col.CompareTag(targetTag)) continue;
+
+                var enemy = col.GetComponentInParent<Enemy>();
+                if (!enemy) continue;
+
+                if (hitOnce.Add(enemy))
+                    enemy.TakeDamage(Mathf.RoundToInt(damage), "AutoLaser");
+            }
+
+            t += Time.deltaTime;
+            yield return null;
         }
+
+        HashSetPool<Enemy>.Release(hitOnce);
+        Object.Destroy(beam);
     }
 
-    // ===== 시각효과 =====
-    private void EnsureLineRenderer(Transform owner)
+    // 최단거리 표적 탐색
+    private Transform FindNearestTarget(Vector3 origin)
     {
-        if (cachedLR != null) return;
+        int mask = (hitMask.value != 0) ? hitMask.value : ~0;
+        float r = (searchRadius > 0f) ? searchRadius : length;
 
-        cachedLR = owner.GetComponent<LineRenderer>();
-        if (cachedLR == null) cachedLR = owner.gameObject.AddComponent<LineRenderer>();
+        // r 반경 내 모든 콜라이더를 배열로 수집
+        Collider2D[] cols = Physics2D.OverlapCircleAll(origin, r, mask);
 
-        cachedLR.positionCount = 2;
-        cachedLR.enabled = false;
-        cachedLR.widthMultiplier = 0.08f;
+        float bestDistSq = float.PositiveInfinity;
+        Transform best = null;
 
-        if (lineMaterial == null)
+        foreach (var col in cols)
         {
-            // 기본 머티리얼
-            lineMaterial = new Material(Shader.Find("Sprites/Default"));
+            if (!col) continue;
+            if (!string.IsNullOrEmpty(targetTag) && !col.CompareTag(targetTag)) continue;
+
+            var enemy = col.GetComponentInParent<Enemy>();
+            if (!enemy) continue;
+
+            float d2 = (enemy.transform.position - origin).sqrMagnitude;
+            if (d2 < bestDistSq)
+            {
+                bestDistSq = d2;
+                best = enemy.transform;
+            }
         }
-        cachedLR.material = lineMaterial;
-        cachedLR.sortingOrder = 1000; // UI 위로 보이게 하고 싶으면 조정
+        return best;
     }
 
-    private IEnumerator ShowBeam(Transform owner, Vector3 start, Vector3 end)
-    {
-        if (cachedLR == null) EnsureLineRenderer(owner);
+}
 
-        cachedLR.SetPosition(0, start);
-        cachedLR.SetPosition(1, end);
-        cachedLR.enabled = true;
-
-        yield return new WaitForSeconds(duration);
-
-        if (cachedLR != null) cachedLR.enabled = false;
-    }
-
-    // ===== 2D 회전 유틸 =====
-    private static void SmoothLookAt2D(Transform t, Transform target, float turnRateDegPerSec, float offsetDeg)
-    {
-        Vector2 dir = (target.position - t.position);
-        float desired = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + offsetDeg;
-        float current = t.eulerAngles.z;
-        float next = Mathf.MoveTowardsAngle(current, desired, turnRateDegPerSec * Time.deltaTime);
-        t.rotation = Quaternion.Euler(0f, 0f, next);
-    }
-
-    private static void LookAt2DInstant(Transform t, Transform target, float offsetDeg)
-    {
-        Vector2 dir = (target.position - t.position);
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + offsetDeg;
-        t.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-    }
+// 간단한 HashSet 풀 (중복피격 방지용)
+static class HashSetPool<T>
+{
+    static readonly Stack<HashSet<T>> pool = new Stack<HashSet<T>>();
+    public static HashSet<T> Get() => pool.Count > 0 ? pool.Pop() : new HashSet<T>();
+    public static void Release(HashSet<T> set) { set.Clear(); pool.Push(set); }
 }

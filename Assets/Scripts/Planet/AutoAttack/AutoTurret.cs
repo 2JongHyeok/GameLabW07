@@ -5,7 +5,7 @@ public class AutoTurret : MonoBehaviour
 {
     [Header("타겟 설정 (2D)")]
     public string targetTag = "Enemy";
-    public float scanRange = 10f;
+    public float scanRange = 15f;
     public LayerMask targetLayers;
 
     private IAttackStrategy attackStrategy;
