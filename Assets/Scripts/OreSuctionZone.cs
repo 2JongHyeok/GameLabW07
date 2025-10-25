@@ -78,9 +78,17 @@ public class OreSuctionZone : MonoBehaviour
         // 목표 도달 시 처리
         if (destroyOnComplete && ore != null)
         {
- 
+            // [수정] 파괴하기 전에 광물 정보를 가져와 인벤토리에 추가합니다.
+            Ore oreComponent = ore.GetComponent<Ore>();
+            if (oreComponent != null && Managers.Instance != null && Managers.Instance.inventory != null)
+            {
+                // 행성 핵은 인벤토리에 추가하지 않습니다.
+                if (oreComponent.oreType != OreType.PlanetCore)
+                {
+                    Managers.Instance.inventory.AddOre(oreComponent.oreType, oreComponent.amount);
+                }
+            }
             Object.Destroy(ore);
-                   
         }
     }
 }

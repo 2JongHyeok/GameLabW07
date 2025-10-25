@@ -114,15 +114,7 @@ public class Planet2WaveManager : MonoBehaviour
             }
             if (currentWaveIndex >= waves.Length)
             {
-                if (waveEnd)
-                {
-                    GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
-                    GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
-                    GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
-                    GameAnalyticsLogger.instance.UpdateWave();
-                    waveEnd = false;
-                }
-
+                // 모든 웨이브가 완료된 후에는 더 이상 로그를 기록하지 않음
                 if (waveTimerText != null) waveTimerText.text = "All Waves Completed!";
                 if (enemyCountText != null) enemyCountText.text = "Victory!";
                 if (miningInstructionText != null) miningInstructionText.text = "";
@@ -134,9 +126,7 @@ public class Planet2WaveManager : MonoBehaviour
                 hasTriggeredWaveClearAction = true;
                 if (!isFirst)
                 {
-                    GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
-                    GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
-                    GameAnalyticsLogger.instance.UpdateWave();
+                    LogAndResetWaveStats(); // 웨이브 클리어 시점에 로그 기록
                 }
             }
 
@@ -156,16 +146,20 @@ public class Planet2WaveManager : MonoBehaviour
                 if (miningInstructionText != null)
                 {
                     if (isFirst) miningInstructionText.text = "";
-                    else { miningInstructionText.color = Color.green; miningInstructionText.text = "자원을 탐색하세요"; }
-
-                    if (waveEnd)
-                    {
-                        Managers.Instance.inventory.ResetWaveStats();
-                        waveEnd = false;
-                    }
+                    else { miningInstructionText.color = Color.green; miningInstructionText.text = "자원을 탐색하세요"; } 
                 }
             }
         }
+    }
+
+    private void LogAndResetWaveStats() // 메서드 이름은 유지하되, 내부 로직을 단순화
+    {
+        // 웨이브 완료 및 광물 로그 기록
+        GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
+
+        // 웨이브 통계 리셋
+        Managers.Instance.inventory.ResetWaveStats();
+        GameAnalyticsLogger.instance.UpdateWave();
     }
 
     // --- 중앙 WaveManager 호환 훅(추가) ---

@@ -14,14 +14,12 @@ public class Core : MonoBehaviour
 
     // 현재 체력 읽기용 
     public int CurrentHP => currentHP;
-
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
     // 이벤트 정의
     public event Action OnDie;
     public event Action<int> OnHpChanged;
     public event Action OnRevive;              //  추가: 부활 이벤트
     private bool isDead = false;
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     [Header("Game Over 설정")]
     public bool endGameOnDie = true;           //  추가: Planet2는 false로 설정
@@ -96,13 +94,15 @@ public class Core : MonoBehaviour
 
     public void RefreshHPText() => UpdateHPText();
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (inventoryManger != null && collision.gameObject.TryGetComponent<Ore>(out var ore))
-        {
-            if (collision.gameObject.GetComponent<Ore>().oreType == OreType.PlanetCore) return;
-            inventoryManger.AddOre(ore.oreType, ore.amount);
-            Destroy(collision.gameObject);
-        }
-    }
+    // [수정] 이 기능은 OreSuctionZone.cs로 이전되었으므로 주석 처리 또는 삭제합니다.
+    // 광물이 직접 Core에 부딪혀서 들어오는 로직은 중복 계산의 위험이 있습니다.
+    // private void OnCollisionEnter2D(Collision2D collision)
+    // {
+    //     if (inventoryManger != null && collision.gameObject.TryGetComponent<Ore>(out var ore))
+    //     {
+    //         if (collision.gameObject.GetComponent<Ore>().oreType == OreType.PlanetCore) return;
+    //         inventoryManger.AddOre(ore.oreType, ore.amount);
+    //         Destroy(collision.gameObject);
+    //     }
+    // }
 }
