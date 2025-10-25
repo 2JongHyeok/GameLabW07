@@ -1514,6 +1514,34 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3169440467224192093, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.ctime1
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 3169440467224192093, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3169440467224192093, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.g
+      value: 0.91679966
+      objectReference: {fileID: 0}
+    - target: {fileID: 3169440467224192093, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3169440467224192093, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3169440467224192093, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.g
+      value: 0.043181278
+      objectReference: {fileID: 0}
+    - target: {fileID: 3169440467224192093, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3954204389919689628, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
       propertyPath: ropeSegmentPrefab
       value: 
@@ -2601,7 +2629,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1504068590506934482, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1314865510}
   m_SourcePrefab: {fileID: 100100000, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
 --- !u!1 &688005876
 GameObject:
@@ -2616,6 +2647,7 @@ GameObject:
   - component: {fileID: 688005879}
   - component: {fileID: 688005878}
   - component: {fileID: 688005877}
+  - component: {fileID: 688005882}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2773,6 +2805,71 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1020572472}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &688005882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688005876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeTrigger: {fileID: 688005881}
+  volumeLayer:
+    m_Bits: 131072
+  stopNaNPropagation: 1
+  finalBlitToCameraTarget: 0
+  antialiasingMode: 1
+  temporalAntialiasing:
+    jitterSpread: 0.75
+    sharpness: 0.25
+    stationaryBlending: 0.95
+    motionBlending: 0.85
+    <jitter>k__BackingField: {x: 0, y: 0}
+    m_ResetHistory: 1
+    <sampleIndex>k__BackingField: 0
+  subpixelMorphologicalAntialiasing:
+    quality: 2
+  fastApproximateAntialiasing:
+    fastMode: 0
+    keepAlpha: 0
+  fog:
+    enabled: 1
+    excludeSkybox: 1
+  dithering:
+    m_NoiseTextureIndex: 0
+  debugLayer:
+    lightMeter: {<output>k__BackingField: {fileID: 0}, requested: 0, width: 512, height: 256, showCurves: 1}
+    histogram: {<output>k__BackingField: {fileID: 0}, requested: 0, width: 512, height: 256, channel: 3}
+    waveform: {<output>k__BackingField: {fileID: 0}, requested: 0, exposure: 0.12, height: 256}
+    vectorscope: {<output>k__BackingField: {fileID: 0}, requested: 0, size: 256, exposure: 0.12}
+    frameWidth: 0
+    frameHeight: 0
+    <debugOverlayTarget>k__BackingField: {fileID: 0}
+    <debugOverlayActive>k__BackingField: 0
+    <debugOverlay>k__BackingField: 0
+    overlaySettings:
+      linearDepth: 0
+      motionColorIntensity: 4
+      motionGridSize: 64
+      colorBlindnessType: 0
+      colorBlindnessStrength: 1
+  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
+  m_ShowToolkit: 1
+  m_ShowCustomSorter: 0
+  breakBeforeColorGrading: 0
+  m_BeforeTransparentBundles: []
+  m_BeforeStackBundles: []
+  m_AfterStackBundles: []
+  <cameraDepthFlags>k__BackingField: 0
+  <haveBundlesBeenInited>k__BackingField: 0
+  m_Camera: {fileID: 0}
+  m_SettingsUpdateNeeded: 1
+  m_IsRenderingInSceneView: 0
+  m_NaNKilled: 0
 --- !u!1 &690837345
 GameObject:
   m_ObjectHideFlags: 0
@@ -4566,7 +4663,7 @@ Transform:
   m_GameObject: {fileID: 1050191023}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 26.07, z: 0}
+  m_LocalPosition: {x: 0, y: 15.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5384,7 +5481,8 @@ GameObject:
   - component: {fileID: 1190461933}
   - component: {fileID: 1190461932}
   - component: {fileID: 1190461931}
-  m_Layer: 0
+  - component: {fileID: 1190461935}
+  m_Layer: 17
   m_Name: Planet1Core
   m_TagString: Core
   m_Icon: {fileID: 0}
@@ -5512,6 +5610,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1670292530}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1190461935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190461930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: 22c1344d15fe5f14a9dc1c13411f2381, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 0
+  m_PreviousLayer: 17
+  m_PreviousPriority: 0
+  m_TempColliders: []
+  m_InternalProfile: {fileID: 0}
 --- !u!1 &1195811762
 GameObject:
   m_ObjectHideFlags: 0
@@ -5676,6 +5795,32 @@ MonoBehaviour:
   targetLayers:
     serializedVersion: 2
     m_Bits: 0
+--- !u!1 &1314865505 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1504068590506934482, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
+  m_PrefabInstance: {fileID: 677233933}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1314865510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314865505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: 51355dbf9e9f1cd469f9a0be6dd59f7e, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 0
+  m_PreviousLayer: 0
+  m_PreviousPriority: 0
+  m_TempColliders: []
+  m_InternalProfile: {fileID: 0}
 --- !u!224 &1320251498 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7462341379551324535, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}

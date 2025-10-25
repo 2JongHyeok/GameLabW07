@@ -52,7 +52,7 @@ public class SpaceshipMotor : MonoBehaviour
     [Range(0f, 100f)]
     [SerializeField] private float overweightThresholdPercent = 80f;
 
-    public event Action<float> OnThrustValueChanged;
+    public event Action OnThrustValueChanged;
 
     public Rigidbody2D Rb { get; private set; }
 
@@ -216,9 +216,8 @@ public class SpaceshipMotor : MonoBehaviour
 
     // --- 직선 운동 관련 ---
     public float GetThrustPower() { return thrustPower; }
-    public void SetThrustPower(float value) { OnThrustValueChanged?.Invoke(value);
-        ; thrustPower = value; }
-    public void AddThrustPower(float amount) { thrustPower += amount; }
+    public void SetThrustPower(float value) {  thrustPower = value; }
+    public void AddThrustPower(float amount) { OnThrustValueChanged?.Invoke(); thrustPower += amount; }
 
     public float GetMovementDrag() { return movementDrag; }
     public void SetMovementDrag(float value) { movementDrag = value; }
