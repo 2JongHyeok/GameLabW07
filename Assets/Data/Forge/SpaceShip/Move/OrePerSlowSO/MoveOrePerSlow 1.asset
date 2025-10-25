@@ -18,7 +18,7 @@ MonoBehaviour:
     \uB298\uB9BD\uB2C8\uB2E4.\\n\uCD5C\uB300\uB7C9: <color=green>+2\uAC1C</color> "
   depth: 1
   coalCost: 3
-  ironCost: 0
+  ironCost: 1
   goldCost: 0
   diamondCost: 0
   postSubBranches: []

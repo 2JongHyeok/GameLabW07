@@ -17,8 +17,8 @@ MonoBehaviour:
   upgradeDescription: "\uCF54\uC5B4\uC758 \uCD5C\uB300 \uCCB4\uB825\uC744 \uC0C1\uC2B9\uC2DC\uD0B5\uB2C8\uB2E4.\\n\uCD5C\uB300
     \uCCB4\uB825: 120 > <color=green>160</color> "
   depth: 4
-  coalCost: 11
-  ironCost: 6
+  coalCost: 6
+  ironCost: 2
   goldCost: 0
   diamondCost: 0
   postSubBranches: []

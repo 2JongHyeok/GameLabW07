@@ -18,8 +18,8 @@ MonoBehaviour:
     \uD5A5\uC0C1\uC2DC\uD0B5\uB2C8\uB2E4.\\n\uD68C\uBCF5 \uC18D\uB3C4: 85\uCD08 >
     <color=green>60\uCD08</color> "
   depth: 4
-  coalCost: 12
-  ironCost: 4
+  coalCost: 6
+  ironCost: 2
   goldCost: 0
   diamondCost: 0
   postSubBranches: []
