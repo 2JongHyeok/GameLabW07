@@ -12,6 +12,9 @@ public class Planet2Manager : MonoBehaviour
     
     // hasPlanet2Core 읽기용 변수
     public bool HasPlanet2Core => hasPlanet2Core;
+    
+    // 행성 활성화 변수
+    public bool IsPlanetActive => isPlanetActive;
 
     void Awake()
     {

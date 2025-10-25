@@ -124,7 +124,10 @@ public class Planet1WaveManager : MonoBehaviour
         // 적이 모두 죽고, 스폰도 끝났으면 카운트다운 시작
         if (EnemyCount <= 0 && !isSpawning)
         {
-           
+            // 웨이브 종료 후 보스 체력바 비활성화 및 초기화
+            bossHpSlider.gameObject.SetActive(false);
+            bossHpSlider.value = bossHpSlider.maxValue;
+            
             // 마지막 웨이브까지 모두 클리어한 경우
             if (currentWaveIndex >= waves.Length)
             {
@@ -137,9 +140,7 @@ public class Planet1WaveManager : MonoBehaviour
                     GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
                     GameAnalyticsLogger.instance.UpdateWave();
                     
-                    // 웨이브 종료 후 보스 체력바 비활성화 및 초기화
-                    bossHpSlider.gameObject.SetActive(false);
-                    bossHpSlider.value = bossHpSlider.maxValue;
+                    
                     
                     waveEnd = false;
                 }
@@ -261,6 +262,7 @@ public class Planet1WaveManager : MonoBehaviour
     private GameObject CreateEnemy(EnemyType type)
     {
         Vector3 spawnPosition = GetRandomSpawnPosition();
+        
 
         if (type == EnemyType.Boss) // 보스 스폰 위치 처리
         {
@@ -274,7 +276,6 @@ public class Planet1WaveManager : MonoBehaviour
                 bossHpSlider.value = bossHpSlider.maxValue;
                 spawnPosition = bossSpwanPoint.position; // 보스 스폰 포인트 사용
             }
-
         }
         else
         {
@@ -349,6 +350,11 @@ public class Planet1WaveManager : MonoBehaviour
                 EnemyType typeToSpawn = SelectRandomEnemyType(currentWave);
                 if (typeToSpawn != (EnemyType)(-1))
                 {
+                    if (typeToSpawn == EnemyType.Boss)
+                    {
+                        bossHpSlider.gameObject.SetActive(true);
+                        bossHpSlider.value = bossHpSlider.maxValue;
+                    }
                     var pool = enemyPools[typeToSpawn];
                     pool.Get();
                     remainingSpawnCounts[typeToSpawn]--;

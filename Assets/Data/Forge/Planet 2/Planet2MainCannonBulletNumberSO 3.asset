@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9cb6849eb8aa7714197a1718875921c2, type: 3}
-  m_Name: Planet2MainCannonBulletNumberSO 2
+  m_Name: Planet2MainCannonBulletNumberSO 3
   m_EditorClassIdentifier: 
   forgeId: 18
   upgradeName: "\uADA4\uB3C4 \uD3EC\uD0D1 \uAC74\uC124 Lv.Max"

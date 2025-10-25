@@ -412,7 +412,7 @@ public class ForgeUI : MonoBehaviour
     }
     
     // 모든 노드의 잠금 상태 갱신
-    private void RefreshAllNodes()
+    public void RefreshAllNodes()
     {
         foreach (var nodeUI in forgeNodeUIObjects.Values)
         {

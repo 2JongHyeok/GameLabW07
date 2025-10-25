@@ -6,7 +6,6 @@ public class Planet2MainCannonBulletNumberSO : BaseForgeSO
     
     public override void Apply()
     {
-
-        Managers.Instance.subWeaponManager.LevelUp();
+        Managers.Instance.weapon2.AddSatellite();
     }
 }
