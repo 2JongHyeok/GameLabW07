@@ -17,8 +17,8 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public IObjectPool<GameObject> myPool;
     [HideInInspector] public int enemyHP;
     [HideInInspector] public bool isDead = false;
-    [HideInInspector] public bool isAttacking = false; // WaveManager에서 초기화
-    [HideInInspector] public float attackTimer = 0f; // WaveManager에서 초기화
+    [HideInInspector] public bool isAttacking = false; // Planet1WaveManager에서 초기화
+    [HideInInspector] public float attackTimer = 0f; // Planet1WaveManager에서 초기화
     public int enemyNum = 0;
     private bool hasLoggedFirstAttack = false; // 첫 공격 로그 여부
 
@@ -118,7 +118,7 @@ public class Enemy : MonoBehaviour
         attackTimer = 0f;
         isDead = false;
         hasLoggedFirstAttack = false;
-        enemyNum = WaveManager.Instance.enemyNum;
+        enemyNum = Planet1WaveManager.Instance.enemyNum;
         // 피격 이펙트 초기화
         if (hitFlashEffect != null)
         {
@@ -265,16 +265,16 @@ public class Enemy : MonoBehaviour
     // 타겟으로부터 너무 멀어졌을 때 랜덤 스폰 포인트로 리스폰
     private void RespawnAtRandomPosition()
     {
-        if (WaveManager.Instance == null) return;
+        if (Planet1WaveManager.Instance == null) return;
         
-        // WaveManager의 GetRandomSpawnPosition 메서드를 public으로 만들어야 함
+        // Planet1WaveManager의 GetRandomSpawnPosition 메서드를 public으로 만들어야 함
         // 또는 여기서 직접 계산
         float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
         
         Camera mainCamera = Camera.main;
         float aspect = mainCamera != null ? mainCamera.aspect : 16f / 9f;
-        float maxCameraSize = WaveManager.Instance.maxCameraSize;
-        float spawnDistanceOffset = WaveManager.Instance.spawnDistanceOffset;
+        float maxCameraSize = Planet1WaveManager.Instance.maxCameraSize;
+        float spawnDistanceOffset = Planet1WaveManager.Instance.spawnDistanceOffset;
         
         float horizontalSize = maxCameraSize * aspect;
         float spawnRadius = Mathf.Max(maxCameraSize, horizontalSize) + spawnDistanceOffset;
@@ -285,14 +285,14 @@ public class Enemy : MonoBehaviour
         transform.position = new Vector3(x, y, 0f);
     }
     
-    // EnemyCount는 WaveManager의 풀 시스템에서 관리
+    // EnemyCount는 Planet1WaveManager의 풀 시스템에서 관리
     // void OnEnable()
     // {
-    //     WaveManager.Instance.EnemyCount++;
+    //     Planet1WaveManager.Instance.EnemyCount++;
     // }
     // void OnDestroy()
     // {
-    //     WaveManager.Instance.EnemyCount--;
+    //     Planet1WaveManager.Instance.EnemyCount--;
     // }
     // public void OnDrawGizmos()
     // {

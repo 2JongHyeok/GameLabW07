@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
-public class WaveManager : MonoBehaviour
+public class Planet1WaveManager : MonoBehaviour
 {
-    public static WaveManager Instance;
+    public static Planet1WaveManager Instance;
 
     [Header("Enemy Settings")]
     [Tooltip("Enum 순서와 일치해야 합니다!")]

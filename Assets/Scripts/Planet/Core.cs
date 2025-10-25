@@ -65,7 +65,7 @@ public class Core : MonoBehaviour
     {
         // [Log] 웨이브 방어 실패 로그 출력
         GameAnalyticsLogger.instance.LogWaveFail(Managers.Instance.core.CurrentHP);
-        GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(WaveManager.Instance.CurrentWaveIndex));
+        GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(Planet1WaveManager.Instance.CurrentWaveIndex));
         Managers.Instance.RestartPanel.SetActive(true);
         // 이후에 GameOver 연출이나 Scene 전환 로직을 여기에 추가 가능
         Destroy(gameObject);
