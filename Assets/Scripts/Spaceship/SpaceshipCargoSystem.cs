@@ -141,6 +141,49 @@ public class SpaceshipCargoSystem : MonoBehaviour
         }
     }
     
+    public void CallBreakConnectionForPlanetCore()
+    {
+        // 2. [수정] 도킹 시, 리스트를 순회하며 일반 광물과 행성 핵을 다르게 처리합니다.
+        for (int i = collectedOres.Count - 1; i >= 0; i--)
+        {
+            CollectedOreInfo info = collectedOres[i];
+            
+            // 안전 장치
+            if (info == null || info.OreObject == null)
+            {
+                // 정보가 깨졌으면 리스트에서 일단 제거
+                if (info != null) collectedOres.RemoveAt(i); 
+                continue;
+            }
+            
+            // 행성 핵인지 확인
+            if (info.OreObject.TryGetComponent<Ore>(out var ore) && ore.oreType == OreType.PlanetCore)
+            {
+                Destroy(info.OreObject);
+            }
+            else
+            {
+                // [일반 광물]: BreakConnection을 호출하여 파괴하고 리스트에서 제거합니다.
+                // (BreakConnection이 리스트를 수정하므로 뒤에서부터 순회하는 것이 필수)
+                BreakConnection(info);
+            }
+        }
+        // 루프가 끝나면 collectedOres 리스트에는 '행성 핵'만 (비활성화된 상태로) 남아있게 됩니다.
+
+        // 3. 하이라이트가 남아있었다면 확실하게 제거합니다.
+        ClearHighlight();
+
+        // 4. UI 상태를 '없음'으로 되돌립니다.
+        if (hasPotentialOresState != null)
+        {
+            hasPotentialOresState.Value = false;
+        }
+        if (isCarryingOresState != null)
+        {
+            isCarryingOresState.Value = false; // 도킹 중에는 '안들고있음'
+        }
+    }
+    
     /// <summary>
     /// 현재 행성 핵을 수집한(보유한) 상태인지 확인합니다.
     /// </summary>

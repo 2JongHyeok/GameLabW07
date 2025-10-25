@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Planet2MainCannonBulletNumberSO 2
   m_EditorClassIdentifier: 
   forgeId: 18
-  upgradeName: "\uADA4\uB3C4 \uD3EC\uD0D1 \uAC74\uC124 Lv.Max"
+  upgradeName: "\uADA4\uB3C4 \uD3EC\uD0D1 \uAC74\uC124 Lv.2"
   upgradeDescription: "\uCD94\uAC00 \uADA4\uB3C4 \uD3EC\uD0D1\uC744 \uAC74\uC124\uD569\uB2C8\uB2E4.\\n\uD3EC:
     2\uAC1C > <color=green>4\uAC1C</color>"
-  depth: 5
+  depth: 3
   coalCost: 6
   ironCost: 2
   goldCost: 0

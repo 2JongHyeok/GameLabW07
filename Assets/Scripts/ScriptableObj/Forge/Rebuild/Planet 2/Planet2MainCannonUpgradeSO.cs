@@ -9,7 +9,7 @@ public class Planet2MainCannonUpgradeSO : BaseForgeSO
 
     public override void Apply()
     {
-        Managers.Instance.AddWeaponDamage((int)AtkDamage);
-        Managers.Instance.AddWeaponAttackSpeed(AtkSpeed);
+        Managers.Instance.weapon2.AddPlanet2WeaponDamage((int)AtkDamage);
+        Managers.Instance.weapon2.AddPlanet2WeaponSpeed(AtkSpeed);
     }
 }

@@ -22,7 +22,7 @@ public class SatelliteDamage : MonoBehaviour
         if (enemy == null) return;
 
         // 총알과 동일한 방식으로 데미지 적용
-        int damage = Managers.Instance.weapon[0].GetDamage();
+        int damage = Managers.Instance.weapon2.GetDamage();
         enemy.TakeDamage(damage, damageSourceName);
     }
 }

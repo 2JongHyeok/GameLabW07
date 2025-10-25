@@ -29,6 +29,10 @@ public class Weapon2 : MonoBehaviour
     private float targetRadius;  // 마우스 위치에 의해 계산된 목표 반지름 (즉각적 변화)
     
     private int addSatelliteCallCount = 0;
+    
+    [Header("궤도 포탑 전투 설정")]
+    [SerializeField] private int weaponDamage = 10; // 위성 포탑의 기본 데미지
+    [SerializeField] private float speedMultiplier = 1.0f; // 위성 포탑의 공격 속도 배율
 
     // 위성의 상태를 저장하는 내부 클래스
     private class Satellite
@@ -153,7 +157,8 @@ public class Weapon2 : MonoBehaviour
         UpdateOrbitPath();
 
         // 4) 위성 공전 업데이트 (반지름이 클수록 느림)
-        float angularSpeed = speedConstantK / currentRadius;
+        float angularSpeed = speedConstantK / currentRadius; 
+        angularSpeed *= speedMultiplier;
 
         foreach (var sat in satellites)
         {
@@ -293,5 +298,21 @@ public class Weapon2 : MonoBehaviour
         
         // 재배치 후 궤도 업데이트 
         UpdateOrbitPath();
+    }
+    
+    public void AddPlanet2WeaponDamage(int amount)
+    {
+        weaponDamage += amount;
+    }
+    
+    public void AddPlanet2WeaponSpeed(float rate)
+    {
+        speedMultiplier += rate;
+    }
+    
+    // 궤도 포탑 데미지 전달 메서드
+    public int GetDamage()
+    {
+        return weaponDamage;
     }
 }

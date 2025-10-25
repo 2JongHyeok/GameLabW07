@@ -24,4 +24,4 @@ MonoBehaviour:
   diamondCost: 0
   postSubBranches: []
   AtkDamage: 2
-  AtkSpeed: -0.35
+  AtkSpeed: 2

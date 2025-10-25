@@ -52,6 +52,7 @@ public class OreSuctionZone : MonoBehaviour
     private IEnumerator SuckToCenter(GameObject ore)
     {
         Rigidbody2D rb = ore.GetComponent<Rigidbody2D>();
+        
         if (rb != null)
         {
             rb.gravityScale = 0;       // 중력 영향 제거
@@ -78,9 +79,7 @@ public class OreSuctionZone : MonoBehaviour
         // 목표 도달 시 처리
         if (destroyOnComplete && ore != null)
         {
- 
             Object.Destroy(ore);
-                   
         }
     }
 }
