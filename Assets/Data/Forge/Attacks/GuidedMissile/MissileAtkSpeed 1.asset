@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MissileAtkSpeed 1
   m_EditorClassIdentifier: 
   forgeId: 8
-  upgradeName: "\uC7AC\uC7A5\uC804 \uC2DC\uAC04 Lv.Max"
+  upgradeName: "\uC7AC\uC7A5\uC804 \uC2DC\uAC04 Lv.2"
   upgradeDescription: "\uC720\uB3C4 \uBBF8\uC0AC\uC77C \uC7AC\uBC1C\uC0AC \uC2DC\uAC04\uC744
     \uAC1C\uC120\uD569\uB2C8\uB2E4.\\n\uBC1C\uC0AC \uC2DC\uAC04: 1.0/s > <color=green>0.7/s</color> "
   depth: 3

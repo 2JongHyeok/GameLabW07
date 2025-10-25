@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e70b6b271346ce4482030dc99a04d58, type: 3}
   m_Name: Lv3_Zone_Settings
   m_EditorClassIdentifier: 
-  minDistance: 40
-  maxDistance: 65
+  minDistance: 45
+  maxDistance: 70
   spawnChance: 0.2
   asteroidPool:
   - asteroidPrefab: {fileID: 4021950633781993007, guid: 67e15c0b3df4c9b4d985c35dde886239, type: 3}
