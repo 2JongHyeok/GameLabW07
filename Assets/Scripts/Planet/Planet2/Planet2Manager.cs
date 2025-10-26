@@ -84,10 +84,14 @@ public class Planet2Manager : MonoBehaviour
             
             WaveManager.Instance?.NotifyPlanet2Activated();
             cargoSystem.UnloadAllOres(inventoryManger);
-            
+            StartCoroutine(DeactivateSelfNextFrame());
         }
     }
-
+    private System.Collections.IEnumerator DeactivateSelfNextFrame()
+    {
+        yield return null;          // 다음 프레임까지 대기
+        gameObject.SetActive(false);
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag("Spaceship")) return;
