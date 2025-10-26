@@ -100,22 +100,22 @@ public class Planet1WaveManager : MonoBehaviour
         {
             waveEnd = true;
             if (waveTimerText != null) waveTimerText.text = $"Wave {currentWaveIndex + 1}";
-            if (enemyCountText != null) enemyCountText.text = $"Enemies: {EnemyCount}";
+            if (enemyCountText != null) enemyCountText.text = $"Core 1 : {EnemyCount}";
             if (miningInstructionText != null)
             {
                 miningInstructionText.color = Color.red; // 빨간색으로 변경
-                miningInstructionText.text = "적이 오고 있다! 기지로 돌아가라!";
+                miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!";
             }
             return;
         }
         // 스폰이 끝났지만 적이 남아있으면 대기
         if (EnemyCount > 0 && !isSpawning)
         {
-            if (enemyCountText != null) enemyCountText.text = $"Enemies: {EnemyCount}";
+            if (enemyCountText != null) enemyCountText.text = $"Core 1 : {EnemyCount}";
             if (miningInstructionText != null)
             {
                 miningInstructionText.color = Color.red; // 빨간색으로 변경
-                miningInstructionText.text = "적이 오고 있다! 기지로 돌아가라!";
+                miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!";
             }
             return;
         }

@@ -91,15 +91,15 @@ public class Planet2WaveManager : MonoBehaviour
         {
             waveEnd = true;
             if (waveTimerText != null) waveTimerText.text = $"Wave {currentWaveIndex + 1}";
-            if (enemyCountText != null) enemyCountText.text = $"Enemies: {EnemyCount}";
-            if (miningInstructionText != null) { miningInstructionText.color = Color.red; miningInstructionText.text = "적이 오고 있다! 기지로 돌아가라!"; }
+            if (enemyCountText != null) enemyCountText.text = $"Core2 : {EnemyCount}";
+            if (miningInstructionText != null) { miningInstructionText.color = Color.red; miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!"; }
             return;
         }
 
         if (EnemyCount > 0 && !isSpawning)
         {
-            if (enemyCountText != null) enemyCountText.text = $"Enemies: {EnemyCount}";
-            if (miningInstructionText != null) { miningInstructionText.color = Color.red; miningInstructionText.text = "적이 오고 있다! 기지로 돌아가라!"; }
+            if (enemyCountText != null) enemyCountText.text = $"Core2 : {EnemyCount}";
+            if (miningInstructionText != null) { miningInstructionText.color = Color.red; miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!"; }
             return;
         }
 

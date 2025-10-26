@@ -7,6 +7,7 @@ using UnityEngine;
 public class Core : MonoBehaviour
 {
     [Header("Core 설정")]
+    public int coreNumber = 1;                 // 추가: 코어 번호 (UI 표시용)
     public int maxHP = 100;
     private int currentHP;
     public TMP_Text CoreHpText;
@@ -33,7 +34,7 @@ public class Core : MonoBehaviour
     private void UpdateHPText()
     {
         if (CoreHpText != null)
-            CoreHpText.text = $"Core HP: {currentHP}/{maxHP}";
+            CoreHpText.text = $"Core {coreNumber} : {currentHP}/{maxHP}";
     }
 
     public void TakeDamage(int damage)
@@ -94,8 +95,6 @@ public class Core : MonoBehaviour
 
     public void RefreshHPText() => UpdateHPText();
 
-    // [수정] 이 기능은 OreSuctionZone.cs로 이전되었으므로 주석 처리 또는 삭제합니다.
-    // 광물이 직접 Core에 부딪혀서 들어오는 로직은 중복 계산의 위험이 있습니다.
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (inventoryManger != null && collision.gameObject.TryGetComponent<Ore>(out var ore))
