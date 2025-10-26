@@ -19,7 +19,7 @@ MonoBehaviour:
   depth: 5
   coalCost: 0
   ironCost: 0
-  goldCost: 4
+  goldCost: 2
   diamondCost: 2
   postSubBranches: []
   LaserAtkInterval: -2
