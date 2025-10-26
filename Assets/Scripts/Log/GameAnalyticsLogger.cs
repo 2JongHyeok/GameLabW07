@@ -59,7 +59,8 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
 
     { LogCategory.Build , new[]{
         "event_name", "ts", "t",
-        "Wave", "Timestamp", "Build_Name"
+        "Wave", "Timestamp", "Build_Name", "Build_ID",
+        "Cost_Coal", "Cost_Iron", "Cost_Gold", "Cost_Diamond"
     }},
 
     { LogCategory.Resources, new[]{
@@ -265,13 +266,17 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     #endregion
 
     #region Build
-    public void LogBuildUpgrade(string buildName)
+    public void LogBuildUpgrade(BaseForgeSO upgradeData)
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex },
+            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
             { "Timestamp", GetLocalTime() },
-            { "Build_Name", buildName }
+            { "Build_Name", upgradeData.upgradeName },
+            { "Cost_Coal", upgradeData.coalCost },
+            { "Cost_Iron", upgradeData.ironCost },
+            { "Cost_Gold", upgradeData.goldCost },
+            { "Cost_Diamond", upgradeData.diamondCost }
         };
         WriteTxt(LogCategory.Build, "build_upgrade", data);
         WriteCsv(LogCategory.Build, "build_upgrade", data);

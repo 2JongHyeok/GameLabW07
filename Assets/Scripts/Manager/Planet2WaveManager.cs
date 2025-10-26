@@ -117,7 +117,7 @@ public class Planet2WaveManager : MonoBehaviour
             {
                 // 모든 웨이브가 완료된 후에는 더 이상 로그를 기록하지 않음
                 if (waveTimerText != null) waveTimerText.text = "All Waves Completed!";
-                if (enemyCountText != null) enemyCountText.text = "Victory!";
+                if (enemyCountText != null) enemyCountText.text = "";
                 if (miningInstructionText != null) miningInstructionText.text = "";
                 return;
             }
