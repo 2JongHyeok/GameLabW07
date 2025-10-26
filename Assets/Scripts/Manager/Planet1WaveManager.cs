@@ -10,6 +10,13 @@ public class Planet1WaveManager : MonoBehaviour
 {
     public static Planet1WaveManager Instance;
 
+    [Header("Wave Pre-start Delays (sec)")]
+    [Tooltip("각 웨이브 시작 '직전'에 기다릴 시간(초). 비어있거나 음수면 defaultPreDelay 사용")]
+    [SerializeField] private List<float> preStartDelays = new List<float>();
+
+    [Tooltip("preStartDelays에 항목이 없거나 음수일 때 사용할 기본 지연값(초)")]
+    [SerializeField] private float defaultPreDelay = 5f;
+
     [Header("Enemy Settings")]
     [Tooltip("Enum 순서와 일치해야 합니다!")]
     public GameObject[] enemyPrefabs; // 인덱스 = EnemyType 순서
@@ -62,7 +69,19 @@ public class Planet1WaveManager : MonoBehaviour
     private bool countdownLockedByCentral = false;
     private bool countdownArmedByCentral = false; // 중앙이 seconds를 넣어줬다는 표시
 
+    public float GetPreDelayForWaveIndex(int waveIndex)
+    {
+        if (preStartDelays != null &&
+            waveIndex >= 0 &&
+            waveIndex < preStartDelays.Count &&
+            preStartDelays[waveIndex] >= 0f)
+            return preStartDelays[waveIndex];
 
+        return defaultPreDelay;
+    }
+
+    // [추가] "다음에 시작될" 웨이브의 인덱스 = currentWaveIndex
+    public float GetUpcomingPreDelay() => GetPreDelayForWaveIndex(currentWaveIndex);
     public void LockCountdownByCentral(bool v)
     {
         countdownLockedByCentral = v;
@@ -118,6 +137,7 @@ public class Planet1WaveManager : MonoBehaviour
         // 보스 체력바 초기화
         bossHpSlider.gameObject.SetActive(false);
         bossHpSlider.value = bossHpSlider.maxValue;
+        countdown = GetPreDelayForWaveIndex(0);
     }
 
     private void Update()
@@ -234,15 +254,15 @@ public class Planet1WaveManager : MonoBehaviour
             {
                 
                 if (forceStartRequested) { 
-                    StartCoroutine(SpawnWave()); 
-                    countdown = timeBetweenWaves; 
+                    StartCoroutine(SpawnWave());
+                    countdown = GetPreDelayForWaveIndex(currentWaveIndex + 1);
                     isFirst = false; 
                     forceStartRequested = false; 
                     return; 
                 }
                 StartCoroutine(SpawnWave());
                 countdownArmedByCentral = false;
-                countdown = timeBetweenWaves;
+                countdown = GetPreDelayForWaveIndex(currentWaveIndex + 1);
                 isFirst = false; // 첫 번째 웨이브가 시작되면 더 이상 첫 시작이 아님
             }
             else

@@ -32,6 +32,10 @@ public class WaveManager : MonoBehaviour
     [Tooltip("디버그 강제 동시 시작 핫키")]
     [SerializeField] private KeyCode debugForceCombinedKey = KeyCode.F9;
 
+    [Header("Combined Pre-delay Control")]
+    [Tooltip("Combined에서 두 행성의 웨이브 시작 전 지연을 Planet1 값으로 동기화할지")]
+    [SerializeField] private bool usePlanet1AsMasterPreDelay = true;
+
     private bool lastPlanet2Enabled; // 활성화 변화 감지용
 
     [Header("Combined Sync")]
@@ -120,12 +124,24 @@ public class WaveManager : MonoBehaviour
                     // (2) 둘 다 BetweenWaves인 “그 프레임”에 동시에 카운트다운을 무장 & 해제
                     else if (!simulCountdownArmed)
                     {
-                        float cd = combinedCooldownOverride > 0f
-                            ? combinedCooldownOverride
-                            : Mathf.Max(
-                                planet1 != null ? planet1.TimeBetweenWaves : 0f,
-                                planet2 != null ? planet2.TimeBetweenWaves : 0f
-                              );
+                        float cd;
+                        if (combinedCooldownOverride > 0f)
+                        {
+                            cd = combinedCooldownOverride;
+                        }
+                        else if (usePlanet1AsMasterPreDelay && planet1 != null)
+                        {
+                            // 두 행성이 모두 BetweenWaves인 그 프레임에, P1의 "다가올 웨이브" 지연값으로 동시 무장
+                            int p1Next = planet1.CurrentWaveIndex; // 다음에 시작될 웨이브 인덱스
+                            cd = planet1.GetPreDelayForWaveIndex(p1Next);
+                        }
+                        else
+                        {
+                            cd = Mathf.Max(
+                                planet1 ? planet1.TimeBetweenWaves : 0f,
+                                planet2 ? planet2.TimeBetweenWaves : 0f
+                            );
+                        }
 
                         if (planet1 != null)
                         {
@@ -189,25 +205,53 @@ public class WaveManager : MonoBehaviour
 
     private void StartCombinedPhase()
     {
-        // Planet1 → Wave5 즉시 시작
-        if (planet1)
-        {
-            planet1.SetGateHold(false);            // ← 잠금 해제 (중요)
-            planet1.ForceStartNextWaveByCentral(); // ← 즉시 SpawnWave() 예약
-        }
-
-        // Planet2 → Wave1 즉시 시작
+        // Planet2 활성화
         if (planet2)
         {
-            if (!planet2.gameObject.activeSelf)
-                planet2.gameObject.SetActive(true);
-
+            if (!planet2.gameObject.activeSelf) planet2.gameObject.SetActive(true);
             planet2.enabled = true;
-            planet2.ForceStartNextWaveByCentral(); // ← 즉시 SpawnWave() 예약
-
-            Debug.Log("[WaveSync] Combined start triggered (P1 Wave5 + P2 Wave1).");
         }
+
+        // Planet1 게이트 해제
+        if (planet1) planet1.SetGateHold(false);
+
+        // ----- 동시 카운트다운 주입 -----
+        float cd;
+        if (combinedCooldownOverride > 0f)
+        {
+            cd = combinedCooldownOverride;
+        }
+        else if (usePlanet1AsMasterPreDelay && planet1 != null)
+        {
+            // Combined 진입 직후 Planet1의 "다음 웨이브"(=Wave5) 시작 전 지연을 마스터로 사용
+            int p1Next = planet1.CurrentWaveIndex; // 게이트 통과 직후면 4(=Wave5 직전)일 것
+            cd = planet1.GetPreDelayForWaveIndex(p1Next);
+        }
+        else
+        {
+            // 하위 호환: 둘 중 큰 값
+            cd = Mathf.Max(
+                planet1 ? planet1.TimeBetweenWaves : 0f,
+                planet2 ? planet2.TimeBetweenWaves : 0f
+            );
+        }
+
+        // 두 행성에 동일 카운트다운 무장(같은 프레임부터 감소)
+        if (planet1)
+        {
+            planet1.ResumeNextWaveByCentral();      // 안전하게 enable & countdown 경로 열기
+            planet1.StartSimulCountdownFromCentral(cd);
+            planet1.LockCountdownByCentral(false);
+        }
+        if (planet2)
+        {
+            planet2.ResumeNextWaveByCentral();
+            planet2.StartSimulCountdownFromCentral(cd);
+            planet2.LockCountdownByCentral(false);
+        }
+
         phase = Phase.CombinedPhase;
+        Debug.Log($"[WaveSync] Combined armed. Both planets will start in {cd:0.##}s.");
     }
 
     private bool HasPlanet1CompletedFinal()

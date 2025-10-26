@@ -51,7 +51,25 @@ public class Planet2WaveManager : MonoBehaviour
     [Header("Core Targets")]
     [SerializeField] private Core planet1Core;        
     [SerializeField] private Core planet2Core;          
-    private bool planet2CoreAlive = true;                
+    private bool planet2CoreAlive = true;
+    [Header("Wave Pre-start Delays (sec)")]
+    [Tooltip("각 웨이브 시작 '직전'에 기다릴 시간(초). 비어있거나 음수면 defaultPreDelay 사용")]
+    [SerializeField] private List<float> preStartDelays = new List<float>();
+
+    [Tooltip("preStartDelays에 항목이 없거나 음수일 때 사용할 기본 지연값(초)")]
+    [SerializeField] private float defaultPreDelay = 5f;
+
+    public float GetPreDelayForWaveIndex(int waveIndex)
+    {
+        if (preStartDelays != null &&
+            waveIndex >= 0 &&
+            waveIndex < preStartDelays.Count &&
+            preStartDelays[waveIndex] >= 0f)
+            return preStartDelays[waveIndex];
+        return defaultPreDelay;
+    }
+
+    public float GetUpcomingPreDelay() => GetPreDelayForWaveIndex(currentWaveIndex);
 
     private readonly HashSet<Enemy> activeEnemies = new();
 
@@ -167,7 +185,7 @@ public class Planet2WaveManager : MonoBehaviour
             {
                 StartCoroutine(SpawnWave());
                 countdownArmedByCentral = false; // [SYNC]
-                countdown = timeBetweenWaves;
+                countdown = GetPreDelayForWaveIndex(currentWaveIndex + 1);
                 isFirst = false;
             }
             else
