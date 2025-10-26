@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Test Wave 1
   m_EditorClassIdentifier: 
   rangerCount: 5
-  rangerTankCount: 0
-  kamikazeCount: 0
-  kamikazeTankCount: 10
+  rangerTankCount: 5
+  kamikazeCount: 5
+  kamikazeTankCount: 5
   parasiteCount: 0
   bossCount: 0
+  mainBossCount: 0
   spawnInterval: 1
   minSpawnPerInterval: 1
   maxSpawnPerInterval: 1
