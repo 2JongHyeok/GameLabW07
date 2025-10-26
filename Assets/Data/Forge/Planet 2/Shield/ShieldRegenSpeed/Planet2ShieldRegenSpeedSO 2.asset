@@ -20,7 +20,7 @@ MonoBehaviour:
   depth: 4
   coalCost: 0
   ironCost: 0
-  goldCost: 0
-  diamondCost: 0
+  goldCost: 2
+  diamondCost: 3
   postSubBranches: []
   ShieldRegen: -25

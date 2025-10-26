@@ -19,7 +19,7 @@ MonoBehaviour:
   depth: 1
   coalCost: 0
   ironCost: 0
-  goldCost: 0
+  goldCost: 2
   diamondCost: 0
   postSubBranches:
   - {fileID: 11400000, guid: f45dc3b7a44c5154b8d86099abac6430, type: 2}

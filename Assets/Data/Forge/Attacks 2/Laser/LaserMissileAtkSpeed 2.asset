@@ -17,10 +17,10 @@ MonoBehaviour:
   upgradeDescription: "\uB808\uC774\uC800 \uD130\uB81B\uC758 \uC131\uB2A5\uC744 \uAC1C\uC120\uD569\uB2C8\uB2E4.\\n\uBC1C\uC0AC
     \uC2DC\uAC04: 0.7/s > <color=green>0.2/s</color> "
   depth: 5
-  coalCost: 10
-  ironCost: 10
-  goldCost: 10
-  diamondCost: 10
+  coalCost: 0
+  ironCost: 0
+  goldCost: 4
+  diamondCost: 2
   postSubBranches: []
   LaserAtkInterval: 7.2
   LaserAtkDamage: 26

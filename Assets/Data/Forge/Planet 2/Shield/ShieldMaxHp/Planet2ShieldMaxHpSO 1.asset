@@ -19,7 +19,7 @@ MonoBehaviour:
   depth: 1
   coalCost: 0
   ironCost: 0
-  goldCost: 0
+  goldCost: 2
   diamondCost: 0
   postSubBranches: []
   ShieldMaxHp: 1
