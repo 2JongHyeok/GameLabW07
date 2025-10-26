@@ -54,11 +54,11 @@ public class Core : MonoBehaviour
         isDead = true;
         OnDie?.Invoke();
 
+        Destroy(gameObject);
         //  Planet1은 true → 기존처럼 GameOver, Planet2는 false → 게임은 계속
         if (endGameOnDie)
         {
             GameOver();
-            Destroy(gameObject);
         }
             
         // else: 비파괴 상태로 유지(부활 가능)
