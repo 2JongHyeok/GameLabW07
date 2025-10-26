@@ -19,6 +19,6 @@ MonoBehaviour:
   parasiteCount: 0
   bossCount: 0
   mainBossCount: 0
-  spawnInterval: 1
+  spawnInterval: 1.5
   minSpawnPerInterval: 3
   maxSpawnPerInterval: 3
