@@ -241,8 +241,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            // { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex > 0 ? Planet1WaveManager.Instance.CurrentWaveIndex - 1 : 0 }
-            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex },
+            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
             { "Timestamp", GetLocalTime() },
             { "Core_Hp_CompleteWave",  coreHpComplete}
         };
@@ -255,8 +254,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            // { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex > 0 ? Planet1WaveManager.Instance.CurrentWaveIndex - 1 : 0 }
-            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex },
+            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
             { "Timestamp", GetLocalTime() },
             { "Core_Hp_FailWave",  coreHpFail}
         };
@@ -290,7 +288,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         {
             var data = new Dictionary<string, object>
             {
-                { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex },
+                { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
                 { "Timestamp", GetLocalTime() },
                 { "Mineral_Type", mineralData.MineralType },
                 { "Total_Mined_Session", mineralData.TotalMinedSession },
@@ -308,7 +306,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex },
+            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
             { "Timestamp", GetLocalTime() },
         };
         WriteTxt(LogCategory.Resources, "planet_core_collected", data);
@@ -319,7 +317,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex },
+            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
             { "Timestamp", GetLocalTime() },
         };
         WriteTxt(LogCategory.Resources, "planet_core_activated", data);
@@ -358,7 +356,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex },
+            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
             { "Timestamp", GetLocalTime() },
             { "Enemy_Type", enemyType },
             { "Defeated_By", defeatedBy },
