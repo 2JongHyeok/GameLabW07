@@ -27,7 +27,11 @@ public class AutoTurret : MonoBehaviour
 
     private void Start()
     {
-        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        if(gameObject.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+        {
+            spriteRenderer.enabled = false;
+        }
+
     }
     public void ActivateTurret(IAttackStrategy strategy)
     {
@@ -35,7 +39,10 @@ public class AutoTurret : MonoBehaviour
         attackStrategy = strategy;
         isAttacking = true;
         attackStrategy.StartAttack(this, transform, targetTag);
-        gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        if (gameObject.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+        {
+            spriteRenderer.enabled = false;
+        }
     }
 
     public void DeactivateTurret()
