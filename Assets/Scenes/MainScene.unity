@@ -142,14 +142,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: KeyBoardUI
       objectReference: {fileID: 0}
-    - target: {fileID: 4149372771228957618, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6214854579610009607, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7415876484083531816, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1606,7 +1598,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &416559575
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1957,7 +1949,7 @@ RectTransform:
   m_Father: {fileID: 1936425200}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3119,6 +3111,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 834478112}
   m_CullTransparentMesh: 1
+--- !u!1 &840141163 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 204459937307487353, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
+  m_PrefabInstance: {fileID: 32770124}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &870671692
 GameObject:
   m_ObjectHideFlags: 0
@@ -3454,7 +3451,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &957085165
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4947,7 +4944,7 @@ RectTransform:
   m_Father: {fileID: 645130610}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5286,7 +5283,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 50, z: -0.10452539}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -5308,6 +5305,7 @@ MonoBehaviour:
   planet2DockingStation: {fileID: 229442894}
   planet2Hp: {fileID: 155267638}
   planet2Wave: {fileID: 155267637}
+  constructionPromptUI: {fileID: 840141163}
 --- !u!58 &1254265769
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5389,7 +5387,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ce07bba95d7a7f4458e057990e293e5e, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.5006435, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

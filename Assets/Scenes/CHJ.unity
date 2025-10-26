@@ -142,14 +142,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: KeyBoardUI
       objectReference: {fileID: 0}
-    - target: {fileID: 4149372771228957618, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6214854579610009607, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7415876484083531816, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -938,29 +930,9 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
-      propertyPath: waves.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
       propertyPath: mainBossSpwanPoint
       value: 
       objectReference: {fileID: 956665701}
-    - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
-      propertyPath: 'waves.Array.data[0]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 3d5a8d7751b9e31478f80b898db4133c, type: 2}
-    - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
-      propertyPath: 'waves.Array.data[1]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 86a967a3813f3ea46814a0212ba5af82, type: 2}
-    - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
-      propertyPath: 'waves.Array.data[2]'
-      value: 
-      objectReference: {fileID: 11400000, guid: cf4dde942666cd940855918beed6b377, type: 2}
-    - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
-      propertyPath: 'waves.Array.data[3]'
-      value: 
-      objectReference: {fileID: 11400000, guid: caf7fe88af9cccc40ba3b8a676770a1f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1634,7 +1606,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &416559575
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1985,7 +1957,7 @@ RectTransform:
   m_Father: {fileID: 1936425200}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3147,6 +3119,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 834478112}
   m_CullTransparentMesh: 1
+--- !u!1 &840141163 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 204459937307487353, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
+  m_PrefabInstance: {fileID: 32770124}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &870671692
 GameObject:
   m_ObjectHideFlags: 0
@@ -3482,7 +3459,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &957085165
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4126,45 +4103,25 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
-      propertyPath: waves.Array.size
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: mainBossSpwanPoint
       value: 
       objectReference: {fileID: 956665701}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: 'waves.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 66a6658e18527f94eb87b7729eb63815, type: 2}
+      objectReference: {fileID: 11400000, guid: ba582544ebd923049b09275ff3471301, type: 2}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: 'waves.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: 764ff3157e0360542bada92cc6de648d, type: 2}
+      objectReference: {fileID: 11400000, guid: fe802965ae2e9684cafc7f80773eabca, type: 2}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: 'waves.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: 529e9ad077d4ff044b29078ccc3ebfd3, type: 2}
+      objectReference: {fileID: 11400000, guid: 8763d7818660fc64c889cc87e0a7f785, type: 2}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: 'waves.Array.data[3]'
       value: 
-      objectReference: {fileID: 11400000, guid: 2a1bab23227d38a4d991f980c784f5a2, type: 2}
-    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
-      propertyPath: 'waves.Array.data[4]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 17eb63598b44e08489a335ab5661a0b2, type: 2}
-    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
-      propertyPath: 'waves.Array.data[5]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 22848f109b17da842be2a96031d8eeb7, type: 2}
-    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
-      propertyPath: 'waves.Array.data[6]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 3206c7fe7f8047a4e9cf7fe633905f72, type: 2}
-    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
-      propertyPath: 'waves.Array.data[7]'
-      value: 
-      objectReference: {fileID: 11400000, guid: f56b47968ce933546bca3c3bfe8c83dc, type: 2}
+      objectReference: {fileID: 11400000, guid: 4161bb3d052788346826ad3eb96ee42e, type: 2}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: miningInstructionText
       value: 
@@ -4223,17 +4180,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1452659752750618764, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
   m_PrefabInstance: {fileID: 1044340067}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1044340069 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
-  m_PrefabInstance: {fileID: 1044340067}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2118ab6c336b154bbfb5892afa7f529, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1050191023
 GameObject:
   m_ObjectHideFlags: 0
@@ -5030,7 +4976,7 @@ RectTransform:
   m_Father: {fileID: 645130610}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5369,7 +5315,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 50, z: -0.10452539}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -5391,6 +5337,7 @@ MonoBehaviour:
   planet2DockingStation: {fileID: 229442894}
   planet2Hp: {fileID: 155267638}
   planet2Wave: {fileID: 155267637}
+  constructionPromptUI: {fileID: 840141163}
 --- !u!58 &1254265769
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5472,7 +5419,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ce07bba95d7a7f4458e057990e293e5e, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.4202261, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -11847,8 +11794,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43e102023a67d9f47bc22ccccde84b8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planet1: {fileID: 1044340069}
-  planet2: {fileID: 2070491468}
+  planet1: {fileID: 0}
+  planet2: {fileID: 0}
   planet1GateWave: 4
   planet1FinalWave: 8
   planet2FinalWave: 4
@@ -11858,17 +11805,6 @@ MonoBehaviour:
   autoDetectPlanet2Activation: 1
   debugSkipGate: 0
   debugForceCombinedKey: 290
---- !u!114 &2070491468 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
-  m_PrefabInstance: {fileID: 184272237}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d403993ea54192429cca2981f59b216, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2113192864
 GameObject:
   m_ObjectHideFlags: 0

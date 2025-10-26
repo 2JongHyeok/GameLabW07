@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf552f229aecde49a3bb0aedfc498f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: 64e90754a8322af48a9b1db74dcb78f9, type: 2}
+  enemyData: {fileID: 11400000, guid: aaf70698f876bf54192b4ee3c7fa5612, type: 2}
   firePoint: {fileID: 0}
   maxDistanceFromTarget: 50
   respawnDistanceOffset: 2
