@@ -72,7 +72,7 @@ public class CameraSwitcher : MonoBehaviour
             Debug.LogWarning("[CameraSwitcher] spaceshipCamera is null");
             return;
         }
-
+        
         if (planetCamera) planetCamera.Priority.Value = InactivePriority;
         spaceshipCamera.Priority.Value = ActivePriority;
 

@@ -54,6 +54,9 @@ public class DockingStation : MonoBehaviour
             SpaceshipController.SetIsSpaceShipMode(true);
             if (dockedShip)
             {
+                //[Log] 출격 로그 출력
+                GameAnalyticsLogger.instance.LogPlayerExitBase();
+                
                 Debug.Log(transform.position+" "+gameObject.name+" "+ nextDeparturePosition);
                 // [수정] 출격 로직을 LaunchShip() 함수로 분리합니다.
                 // dockedShip.transform.SetPositionAndRotation(nextDeparturePosition, nextDepartureRotation);
@@ -91,6 +94,9 @@ public class DockingStation : MonoBehaviour
             UpdateAllUIStates();
 
             Debug.Log($"[DockingStation] 도킹 완료: {(planetCamera ? planetCamera.name : "null")}");
+            
+            // [Log] 도킹 로그 출력
+            GameAnalyticsLogger.instance.LogPlayerEnterBase();
         }
     }
 
