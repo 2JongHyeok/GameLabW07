@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ffc067897671d04fa641fe01a67676c, type: 3}
+  m_Name: Laser_Missile
+  m_EditorClassIdentifier: 
+  branchName: "\uB808\uC774\uC800 \uD130\uB81B"
+  subBranchType: 18
+  baseForgeSOs:
+  - {fileID: 11400000, guid: 57040947443f82d42bd776467f45a329, type: 2}
+  - {fileID: 11400000, guid: 7eccb8fd834b9704487ee27a7cd6915d, type: 2}
+  - {fileID: 11400000, guid: 92a08e08bd5b5a64ebb39cee3af4b69c, type: 2}

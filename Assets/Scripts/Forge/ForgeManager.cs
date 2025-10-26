@@ -273,7 +273,9 @@ public class ForgeManager : MonoBehaviour
             forgeId == ForgeId.Planet2HpRegenAmount ||
             forgeId == ForgeId.Planet2ShieldRegenSpeed ||
             forgeId == ForgeId.Planet2MainCannonUpgrade ||
-            forgeId == ForgeId.Planet2MainCannonBulletNumber;
+            forgeId == ForgeId.Planet2MainCannonBulletNumber ||
+            forgeId == ForgeId.LaserMissileUnlock ||
+            forgeId == ForgeId.LaserMissileAtkSpeed;
 
         if (isPlanet2RelatedForge)
         {

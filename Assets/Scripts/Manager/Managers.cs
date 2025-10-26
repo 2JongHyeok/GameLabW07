@@ -87,7 +87,7 @@ public class Managers : MonoBehaviour
         planet2 ?? FindAnyObjectByType<Planet>(); */ 
         subWeaponManager ??= FindAnyObjectByType<SubWeaponManager>();
     }
-
+    
     // 씬 시작 시, 강화 기반 수치들의 기준값을 한 번에 셋팅합니다.
     private void ApplyInitialTunables()
     {

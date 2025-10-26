@@ -25,7 +25,8 @@ public enum SubBranchType
     Planet2ShieldMaxHp,
     Planet2ShieldRegenSpeed,
     Planet2MainCannonUpgrade,
-    Planet2MainCannonBulletNumber
+    Planet2MainCannonBulletNumber,
+    LaserMissile
 }
 [CreateAssetMenu(fileName = "SubBranchSO", menuName = "ScriptableObjects/Forge/Branch/SubBranchSO", order = 1)]
 public class SubBranchSO : BranchSO

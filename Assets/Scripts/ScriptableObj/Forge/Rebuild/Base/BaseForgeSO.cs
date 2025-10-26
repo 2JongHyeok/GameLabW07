@@ -28,6 +28,8 @@ public enum ForgeId
     Planet2ShieldRegenSpeed,
     Planet2MainCannonUpgrade,
     Planet2MainCannonBulletNumber,
+    LaserMissileUnlock,
+    LaserMissileAtkSpeed,
 }
 public abstract class BaseForgeSO : ScriptableObject
 {
