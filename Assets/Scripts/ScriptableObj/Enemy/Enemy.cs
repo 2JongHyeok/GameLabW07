@@ -164,6 +164,11 @@ public class Enemy : MonoBehaviour
             // 보스 체력 슬라이더 감소 - 보스 최대 체력 대비 비율로 감소
             Planet1WaveManager.Instance.bossHpSlider.value  -= (float)damage / enemyData.enemyHP;
         }
+        if (enemyData.enemyType == EnemyType.MainBoss)
+        {
+            // 보스 체력 슬라이더 감소 - 보스 최대 체력 대비 비율로 감소
+            Planet1WaveManager.Instance.mainBossHpSlider.value  -= (float)damage / enemyData.enemyHP;
+        }
 
         enemyHP -= damage;
         
@@ -183,6 +188,11 @@ public class Enemy : MonoBehaviour
             GameAnalyticsLogger.instance.LogEnemyKilled(enemyType.ToString(), weaponType);
             isDead = true;
             myPool.Release(gameObject);
+
+            if (enemyData.enemyType == EnemyType.MainBoss)
+            {
+                // 게임 승리 처리
+            }
         }
     }
 
@@ -258,10 +268,15 @@ public class Enemy : MonoBehaviour
         else if (enemyData != null && enemyData.enemyType == EnemyType.KamikazeTank)
         {
             (enemyData as KamikazeTankSO).Explode(this, collision);
-        }else if (enemyData != null && enemyData.enemyType == EnemyType.Boss)
+        }
+        else if (enemyData != null && enemyData.enemyType == EnemyType.Boss)
         {
             (enemyData as BossSO).Explode(this, collision);
-        }
+        } 
+        else if(enemyData != null && enemyData.enemyType == EnemyType.MainBoss)
+        {
+            (enemyData as MainBossSO).Explode(this, collision);
+        } 
     }
 
     // 타겟으로부터 너무 멀어졌을 때 랜덤 스폰 포인트로 리스폰

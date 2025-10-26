@@ -39,6 +39,7 @@ public class Planet1WaveManager : MonoBehaviour
     public TMP_Text enemyCountText;
     public TMP_Text miningInstructionText; // 채굴 안내 텍스트
     public Slider bossHpSlider; // 슬라이더 오브젝트
+    public Slider mainBossHpSlider;
 
     [HideInInspector] public int EnemyCount = 0;
     private int totalEnemiesInWave = 0; // 현재 웨이브의 총 적 수
@@ -62,6 +63,7 @@ public class Planet1WaveManager : MonoBehaviour
 
     // 보스 스폰 위치
     public Transform bossSpwanPoint;
+    public Transform mainBossSpwanPoint;
 
     private void Awake()
     {
@@ -100,22 +102,22 @@ public class Planet1WaveManager : MonoBehaviour
         {
             waveEnd = true;
             if (waveTimerText != null) waveTimerText.text = $"Wave {currentWaveIndex + 1}";
-            if (enemyCountText != null) enemyCountText.text = $"Enemies: {EnemyCount}";
+            if (enemyCountText != null) enemyCountText.text = $"Planet 1: {EnemyCount}";
             if (miningInstructionText != null)
             {
                 miningInstructionText.color = Color.red; // 빨간색으로 변경
-                miningInstructionText.text = "적이 오고 있다! 기지로 돌아가라!";
+                miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!";
             }
             return;
         }
         // 스폰이 끝났지만 적이 남아있으면 대기
         if (EnemyCount > 0 && !isSpawning)
         {
-            if (enemyCountText != null) enemyCountText.text = $"Enemies: {EnemyCount}";
+            if (enemyCountText != null) enemyCountText.text = $"Planet 1: {EnemyCount}";
             if (miningInstructionText != null)
             {
                 miningInstructionText.color = Color.red; // 빨간색으로 변경
-                miningInstructionText.text = "적이 오고 있다! 기지로 돌아가라!";
+                miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!";
             }
             return;
         }
@@ -278,6 +280,19 @@ public class Planet1WaveManager : MonoBehaviour
                 spawnPosition = bossSpwanPoint.position; // 보스 스폰 포인트 사용
             }
         }
+        else if (type == EnemyType.MainBoss)
+        {
+            if(mainBossSpwanPoint == null)
+            {
+                spawnPosition = GetRandomSpawnPosition();
+            }
+            else
+            {
+                mainBossHpSlider.gameObject.SetActive(true);
+                mainBossHpSlider.value = mainBossHpSlider.maxValue;
+                spawnPosition = mainBossSpwanPoint.position;
+            }
+        }
         else
         {
             spawnPosition = GetRandomSpawnPosition();
@@ -299,6 +314,10 @@ public class Planet1WaveManager : MonoBehaviour
             if (enemyComponent.enemyData.enemyType == EnemyType.Boss)
             {
                 spawnPosition = bossSpwanPoint == null ? GetRandomSpawnPosition() : bossSpwanPoint.position;
+            }
+            else if (enemyComponent.enemyData.enemyType == EnemyType.MainBoss)
+            {
+                spawnPosition = mainBossSpwanPoint == null ? GetRandomSpawnPosition() : mainBossSpwanPoint.position;
             }
             else
             {

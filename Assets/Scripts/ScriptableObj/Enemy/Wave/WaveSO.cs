@@ -12,7 +12,7 @@ public class WaveSO : ScriptableObject
     public int kamikazeTankCount = 0;
     public int parasiteCount = 0;
     public int bossCount = 0;
-
+    public int mainBossCount = 0;
 
     [Header("Spawn Timing")]
     [Tooltip("스폰 간격 (초)")]
@@ -47,6 +47,8 @@ public class WaveSO : ScriptableObject
                 return parasiteCount;
             case EnemyType.Boss:
                 return bossCount;
+            case EnemyType.MainBoss:
+                return mainBossCount;
             default:
                 return 0;
         }
@@ -74,6 +76,9 @@ public class WaveSO : ScriptableObject
             
         if (bossCount > 0)
             infos.Add(new EnemySpawnInfo { enemyType = EnemyType.Boss, count = bossCount });
+        
+        if (mainBossCount > 0)
+            infos.Add(new EnemySpawnInfo { enemyType = EnemyType.MainBoss, count = mainBossCount });
 
 
         return infos.ToArray();

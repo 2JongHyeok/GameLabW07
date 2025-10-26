@@ -58,6 +58,7 @@ public class Planet2WaveManager : MonoBehaviour
     public int CurrentWaveIndex => currentWaveIndex;
 
     public Transform bossSpwanPoint;
+    public Transform mainBossSpwanPoint;
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -91,15 +92,15 @@ public class Planet2WaveManager : MonoBehaviour
         {
             waveEnd = true;
             if (waveTimerText != null) waveTimerText.text = $"Wave {currentWaveIndex + 1}";
-            if (enemyCountText != null) enemyCountText.text = $"Enemies: {EnemyCount}";
-            if (miningInstructionText != null) { miningInstructionText.color = Color.red; miningInstructionText.text = "적이 오고 있다! 기지로 돌아가라!"; }
+            if (enemyCountText != null) enemyCountText.text = $"Planet2: {EnemyCount}";
+            if (miningInstructionText != null) { miningInstructionText.color = Color.red; miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!"; }
             return;
         }
 
         if (EnemyCount > 0 && !isSpawning)
         {
-            if (enemyCountText != null) enemyCountText.text = $"Enemies: {EnemyCount}";
-            if (miningInstructionText != null) { miningInstructionText.color = Color.red; miningInstructionText.text = "적이 오고 있다! 기지로 돌아가라!"; }
+            if (enemyCountText != null) enemyCountText.text = $"Planet2: {EnemyCount}";
+            if (miningInstructionText != null) { miningInstructionText.color = Color.red; miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!"; }
             return;
         }
 
@@ -208,6 +209,10 @@ public class Planet2WaveManager : MonoBehaviour
         {
             spawnPosition = bossSpwanPoint == null ? GetRandomSpawnPosition() : bossSpwanPoint.position;
         }
+        else if (type == EnemyType.MainBoss)
+        {
+            spawnPosition = mainBossSpwanPoint == null ? GetRandomSpawnPosition() : mainBossSpwanPoint.position;
+        }
         else
         {
             spawnPosition = GetRandomSpawnPosition();
@@ -229,6 +234,8 @@ public class Planet2WaveManager : MonoBehaviour
         {
             if (enemyComponent.enemyData.enemyType == EnemyType.Boss)
                 spawnPosition = bossSpwanPoint == null ? GetRandomSpawnPosition() : bossSpwanPoint.position;
+            else if(enemyComponent.enemyData.enemyType == EnemyType.MainBoss)
+                spawnPosition = mainBossSpwanPoint == null ? GetRandomSpawnPosition() : mainBossSpwanPoint.position;
             else
                 spawnPosition = GetRandomSpawnPosition();
 

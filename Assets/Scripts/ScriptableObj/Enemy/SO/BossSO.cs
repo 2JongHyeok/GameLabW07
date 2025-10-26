@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[CreateAssetMenu(fileName = "MainBossSO", menuName = "ScriptableObjects/Enemy/MainBossSO", order = 1)]
+[CreateAssetMenu(fileName = "BossSO", menuName = "ScriptableObjects/Enemy/BossSO", order = 1)]
 public class BossSO : EnemyBaseSO
 {
     [Header("Boss Stats")]
@@ -89,6 +89,4 @@ public class BossSO : EnemyBaseSO
             enemy.myPool.Release(enemy.gameObject);
         }
     }
-    
-    
 }
