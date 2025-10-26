@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2b6dbd3cb05aa4ab576357ede05f49, type: 3}
   m_Name: MainBossSO
   m_EditorClassIdentifier: 
-  enemyType: 5
+  enemyType: 6
   enemyHP: 3
   enemySpeed: 1
   enemyPrefab: {fileID: 0}

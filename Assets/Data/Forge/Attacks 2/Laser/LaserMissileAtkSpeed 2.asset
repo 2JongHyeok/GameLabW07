@@ -22,5 +22,5 @@ MonoBehaviour:
   goldCost: 4
   diamondCost: 2
   postSubBranches: []
-  LaserAtkInterval: 7.2
-  LaserAtkDamage: 26
+  LaserAtkInterval: -2
+  LaserAtkDamage: 5

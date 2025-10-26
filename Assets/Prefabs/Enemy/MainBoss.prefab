@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 437391125565763967}
   - component: {fileID: 8427198145810915771}
   - component: {fileID: -8156759246738593337}
-  - component: {fileID: -3754099707056154710}
   - component: {fileID: -4699109520770792368}
+  - component: {fileID: -3903662457287490136}
   m_Layer: 16
   m_Name: MainBoss
   m_TagString: Enemy
@@ -106,7 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: aaf70698f876bf54192b4ee3c7fa5612, type: 2}
   firePoint: {fileID: 0}
-  maxDistanceFromTarget: 50
+  maxDistanceFromTarget: 1000
   respawnDistanceOffset: 2
   target: {fileID: 0}
   enemyHP: 0
@@ -156,21 +156,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-3754099707056154710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1839482599764033570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f83fc468041bf764fb6e65255fc5c38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  debrisParticlePrefab: {fileID: 3833818897760939570, guid: 2ceb632170e3a5642816da2cf44a0053, type: 3}
-  colorSearchRadius: 1
-  bossTileDamage: 50
 --- !u!70 &-4699109520770792368
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -208,3 +193,18 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
+--- !u!114 &-3903662457287490136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839482599764033570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1ca785f1d5c76f43946ba3cf8106a2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debrisParticlePrefab: {fileID: 3833818897760939570, guid: 2ceb632170e3a5642816da2cf44a0053, type: 3}
+  colorSearchRadius: 1
+  bossTileDamage: 50

@@ -107,6 +107,10 @@ public class Planet1WaveManager : MonoBehaviour
             {
                 miningInstructionText.color = Color.red; // 빨간색으로 변경
                 miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!";
+                if(currentWaveIndex >= 4)
+                {
+                    miningInstructionText.text = "강적이 출현했다! 즉시 기지로 복귀하라!";
+                }
             }
             return;
         }
@@ -118,6 +122,11 @@ public class Planet1WaveManager : MonoBehaviour
             {
                 miningInstructionText.color = Color.red; // 빨간색으로 변경
                 miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!";
+                
+                if(currentWaveIndex >= 4)
+                {
+                    miningInstructionText.text = "강적이 출현했다! 즉시 기지로 복귀하라!";
+                }
             }
             return;
         }
@@ -299,6 +308,7 @@ public class Planet1WaveManager : MonoBehaviour
         }
         GameObject prefab = enemyPrefabs[(int)type];
         GameObject enemy = Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
+        Debug.LogError(spawnPosition + "에 " + type + " 스폰" + "CreateEnemy");
         enemy.GetComponent<Enemy>().SetTaget(Target);
         enemy.GetComponent<Enemy>().SetPool(enemyPools[type]); // 자신이 속한 풀 저장
         return enemy;
@@ -323,6 +333,7 @@ public class Planet1WaveManager : MonoBehaviour
             {
                 spawnPosition = GetRandomSpawnPosition();
             }
+            Debug.LogError(spawnPosition + "에 " + enemyComponent.enemyData.enemyType + " 스폰");
             enemy.transform.SetPositionAndRotation(spawnPosition, Quaternion.identity);
             enemyComponent.ResetState();
         }
