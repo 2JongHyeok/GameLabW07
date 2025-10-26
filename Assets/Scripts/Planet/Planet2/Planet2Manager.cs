@@ -6,6 +6,8 @@ public class Planet2Manager : MonoBehaviour
     [SerializeField] private GameObject planet2;
     [SerializeField] private GameObject planet2Sheild;
     [SerializeField] private GameObject planet2DockingStation;
+    [SerializeField] private GameObject planet2Hp;
+    [SerializeField] private GameObject planet2Wave;
     bool isPlanetActive = false;
     bool isSpaceShipInRange = false;    // 우주선이 행성을 새로 생성할 수 있는 거리 내에 있는지.
     bool hasPlanet2Core = false;
@@ -33,6 +35,8 @@ public class Planet2Manager : MonoBehaviour
         planet2.SetActive(false);
         planet2Sheild.SetActive(false);
         planet2DockingStation.SetActive(false);
+        planet2Hp.SetActive(false);
+        planet2Wave.SetActive(false);
     }
 
     private void Update()
@@ -44,6 +48,9 @@ public class Planet2Manager : MonoBehaviour
             planet2.SetActive(true); 
             planet2Sheild.SetActive(true);
             planet2DockingStation.SetActive(true);
+            planet2Hp.SetActive(true);
+            planet2Wave.SetActive(true);
+
             var cargoSystem = FindAnyObjectByType<SpaceshipCargoSystem>();
             cargoSystem.CallBreakConnectionForPlanetCore();
             WaveManager.Instance?.NotifyPlanet2Activated();

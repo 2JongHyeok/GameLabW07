@@ -600,7 +600,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Core 1 : 1'
+  m_text: 'Planet 1 : 1'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7bc7b8ed8f303da4ab50a3e575f9c685, type: 2}
   m_sharedMaterial: {fileID: 4076698761830521688, guid: 7bc7b8ed8f303da4ab50a3e575f9c685, type: 2}
@@ -907,7 +907,7 @@ GameObject:
   - component: {fileID: 4733534629934268934}
   - component: {fileID: 2427457375700061605}
   m_Layer: 5
-  m_Name: CoreHP1
+  m_Name: Core1HpTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -960,7 +960,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Core 1 : 0/0'
+  m_text: 'Planet 1 : 0/0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7bc7b8ed8f303da4ab50a3e575f9c685, type: 2}
   m_sharedMaterial: {fileID: 4076698761830521688, guid: 7bc7b8ed8f303da4ab50a3e575f9c685, type: 2}
@@ -1145,7 +1145,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Core 2 : 1'
+  m_text: 'Planet 2 : 1'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7bc7b8ed8f303da4ab50a3e575f9c685, type: 2}
   m_sharedMaterial: {fileID: 4076698761830521688, guid: 7bc7b8ed8f303da4ab50a3e575f9c685, type: 2}
@@ -1403,7 +1403,7 @@ GameObject:
   - component: {fileID: 6303552714050754145}
   - component: {fileID: 2282747567608152554}
   m_Layer: 5
-  m_Name: CoreHP2
+  m_Name: Core2HPTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1456,7 +1456,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Core 2 : 0/0'
+  m_text: 'Planet 2 : 0/0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7bc7b8ed8f303da4ab50a3e575f9c685, type: 2}
   m_sharedMaterial: {fileID: 4076698761830521688, guid: 7bc7b8ed8f303da4ab50a3e575f9c685, type: 2}
