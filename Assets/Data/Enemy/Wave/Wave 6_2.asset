@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d3e106c13f59574287bc2011c90fc9b, type: 3}
-  m_Name: Wave 11
+  m_Name: Wave 6_2
   m_EditorClassIdentifier: 
-  rangerCount: 0
+  rangerCount: 4
   rangerTankCount: 0
-  kamikazeCount: 0
-  kamikazeTankCount: 0
-  parasiteCount: 5
-  spawnInterval: 1
+  kamikazeCount: 2
+  kamikazeTankCount: 1
+  parasiteCount: 0
+  spawnInterval: 3
   minSpawnPerInterval: 1
   maxSpawnPerInterval: 1
