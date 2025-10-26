@@ -282,7 +282,7 @@ public class Enemy : MonoBehaviour
     // 타겟으로부터 너무 멀어졌을 때 랜덤 스폰 포인트로 리스폰
     private void RespawnAtRandomPosition()
     {
-        if (target == null) return;
+        /*if (target == null) return;
 
         float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
 
@@ -296,7 +296,7 @@ public class Enemy : MonoBehaviour
         float x = Mathf.Cos(randomAngle) * spawnRadius;
         float y = Mathf.Sin(randomAngle) * spawnRadius;
 
-        transform.position = target.position + new Vector3(x, y, 0f);
+        transform.position = target.position + new Vector3(x, y, 0f);*/
     }
     
    

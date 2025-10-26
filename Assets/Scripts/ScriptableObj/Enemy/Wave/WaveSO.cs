@@ -27,7 +27,7 @@ public class WaveSO : ScriptableObject
     // 이 웨이브에서 스폰할 총 적의 수 계산
     public int GetTotalEnemyCount()
     {
-        return rangerCount + rangerTankCount + kamikazeCount + kamikazeTankCount + parasiteCount + bossCount;
+        return rangerCount + rangerTankCount + kamikazeCount + kamikazeTankCount + parasiteCount + bossCount + mainBossCount;
     }
 
     // 특정 적 타입의 스폰 수 가져오기
