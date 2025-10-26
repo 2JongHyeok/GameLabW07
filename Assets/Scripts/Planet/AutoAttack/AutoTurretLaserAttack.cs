@@ -52,6 +52,7 @@ public class AutoTurretLaserAttack : IAttackStrategy
         get => interval;
         set { interval = Mathf.Max(0.01f, value); waitDirty = true; }
     }
+    
 
     // ===== IAttackStrategy: public 구현 =====
     public void StartAttack(MonoBehaviour host, Transform turretTransform, string targetTag)

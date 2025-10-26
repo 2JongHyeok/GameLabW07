@@ -87,9 +87,6 @@ public class TurretActivationManager : MonoBehaviour
     }
     void Update()
     {
-
-        //// === 3. C 키 입력: 레이저 포탑 활성화 ===
-        if (Input.GetKeyDown(KeyCode.C)) ActivateLaserTurret();
-
+        
     }
 }
