@@ -25,12 +25,17 @@ public class AutoTurret : MonoBehaviour
         contactFilter.useTriggers = true; // 트리거도 탐지하려면 true (상황에 맞게)
     }
 
+    private void Start()
+    {
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+    }
     public void ActivateTurret(IAttackStrategy strategy)
     {
         if (isAttacking) return;
         attackStrategy = strategy;
         isAttacking = true;
         attackStrategy.StartAttack(this, transform, targetTag);
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
 
     public void DeactivateTurret()
