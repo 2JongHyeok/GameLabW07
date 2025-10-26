@@ -71,7 +71,8 @@ public class KamikazeSO : EnemyBaseSO
                         // Vector3 hitPoint = collision.GetContact(0).point;
                         // Vector3Int cellPos2 = tilemap.WorldToCell(hitPoint);
                         // 매니저 찾기
-                        Planet manager = FindAnyObjectByType<Planet>();
+                        Planet manager = tilemap.GetComponent<Planet>();
+                        Debug.Log(manager.gameObject.name);
                         manager?.DamageTile(cellPos, damage);
                         // else에 대한 Debug.LogError는 매번 루프에서 발생하는 것을 막기 위해 생략했습니다.
                     }

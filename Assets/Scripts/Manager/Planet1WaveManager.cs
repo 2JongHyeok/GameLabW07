@@ -308,7 +308,6 @@ public class Planet1WaveManager : MonoBehaviour
         }
         GameObject prefab = enemyPrefabs[(int)type];
         GameObject enemy = Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
-        Debug.LogError(spawnPosition + "에 " + type + " 스폰" + "CreateEnemy");
         enemy.GetComponent<Enemy>().SetTaget(Target);
         enemy.GetComponent<Enemy>().SetPool(enemyPools[type]); // 자신이 속한 풀 저장
         return enemy;
@@ -333,7 +332,6 @@ public class Planet1WaveManager : MonoBehaviour
             {
                 spawnPosition = GetRandomSpawnPosition();
             }
-            Debug.LogError(spawnPosition + "에 " + enemyComponent.enemyData.enemyType + " 스폰");
             enemy.transform.SetPositionAndRotation(spawnPosition, Quaternion.identity);
             enemyComponent.ResetState();
         }

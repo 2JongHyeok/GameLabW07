@@ -3429,7 +3429,7 @@ Transform:
   m_GameObject: {fileID: 956665700}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 26.07, z: 0}
+  m_LocalPosition: {x: 0, y: 61.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4067,6 +4067,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1752708900}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
+      propertyPath: countdown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: bossHpSlider
       value: 
       objectReference: {fileID: 957085166}
@@ -4086,6 +4090,10 @@ PrefabInstance:
       propertyPath: mainBossHpSlider
       value: 
       objectReference: {fileID: 416559576}
+    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
+      propertyPath: timeBetweenWaves
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: mainBossSpwanPoint
       value: 
