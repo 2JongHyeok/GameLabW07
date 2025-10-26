@@ -5,6 +5,7 @@ public class AutoTurret : MonoBehaviour
 {
     [Header("타겟 설정 (2D)")]
     public string targetTag = "Enemy";
+    public string targetTag2 = "Boss";
     public float scanRange = 15f;
     public LayerMask targetLayers;
 
@@ -81,7 +82,7 @@ public class AutoTurret : MonoBehaviour
             if (col == null) continue;
 
             // 태그 필터(비워두면 무시)
-            if (!string.IsNullOrEmpty(targetTag) && !col.CompareTag(targetTag))
+            if (!string.IsNullOrEmpty(targetTag) && !col.CompareTag(targetTag) && !col.CompareTag(targetTag2))
                 continue;
 
             float sqr = ((Vector2)col.transform.position - (Vector2)transform.position).sqrMagnitude;
