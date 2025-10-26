@@ -49,6 +49,31 @@ public class Planet1WaveManager : MonoBehaviour
     [SerializeField] private bool gateAutoHoldArmed = false;
     // [API] 추가: 중앙에서 게이트 홀드 토글
 
+    [Header("Central Sync (P1)")]
+    public bool AllWavesCompleted => currentWaveIndex >= waves.Length;
+
+    // 현재 웨이브와 다음 웨이브 사이(= 적 전멸 && 스폰 종료 && 아직 마지막 웨이브 아님)
+    public bool IsBetweenWaves() => (EnemyCount <= 0 && !isSpawning && currentWaveIndex < waves.Length);
+
+    // 읽기 전용: P1의 기본 쿨다운 초
+    public float TimeBetweenWaves => timeBetweenWaves;
+
+    // 중앙에서 카운트다운을 잠그고(대기), 동시에 시작 신호가 오면 해제한다
+    private bool countdownLockedByCentral = false;
+    private bool countdownArmedByCentral = false; // 중앙이 seconds를 넣어줬다는 표시
+
+
+    public void LockCountdownByCentral(bool v)
+    {
+        countdownLockedByCentral = v;
+        if (v) countdownArmedByCentral = false; // 잠글 땐 무장 해제
+    }
+
+    public void StartSimulCountdownFromCentral(float seconds)
+    {
+        countdown = seconds;
+        countdownArmedByCentral = true; // 이제 카운트다운을 돌려도 됨(해제 신호와 함께 사용)
+    }
     public void PauseByCentral() => enabled = false;
     public void SetGateHold(bool v) => holdAfterGate = v;
 
@@ -135,6 +160,33 @@ public class Planet1WaveManager : MonoBehaviour
         // 적이 모두 죽고, 스폰도 끝났으면 카운트다운 시작
         if (EnemyCount <= 0 && !isSpawning)
         {
+            if (currentWaveIndex >= 4) // Wave4 클리어(0-based로 4 이상)
+            {
+                if (!gateAutoHoldArmed)
+                {
+                    holdAfterGate = true;
+                    gateAutoHoldArmed = true;
+                    if (waveTimerText) waveTimerText.text = "Waiting Planet2 activation...";
+                    if (enemyCountText) enemyCountText.text = "Mining Phase";
+                    return; // 카운트다운 시작 자체를 막아 즉시 대기 상태
+                }
+                if (holdAfterGate)
+                {
+                    if (waveTimerText) waveTimerText.text = "Waiting Planet2 activation...";
+                    if (enemyCountText) enemyCountText.text = "Mining Phase";
+                    return; // 여전히 대기
+                }
+            }
+            if (WaveManager.Instance != null
+                && WaveManager.Instance.IsCombinedPhase
+                && countdownLockedByCentral
+                && !countdownArmedByCentral)
+            {
+                if (waveTimerText != null) waveTimerText.text = "Waiting other planet...";
+                if (enemyCountText != null) enemyCountText.text = "Mining Phase";
+                // 보스 HP바는 기존 로직대로 숨김 처리됨
+                return; // 카운트다운/스폰 전부 보류
+            }
             // 웨이브 종료 후 보스 체력바 비활성화 및 초기화
             bossHpSlider.gameObject.SetActive(false);
             bossHpSlider.value = bossHpSlider.maxValue;
@@ -180,19 +232,7 @@ public class Planet1WaveManager : MonoBehaviour
             // 카운트다운이 끝나면 다음 웨이브 시작
             if (countdown <= 0f)
             {
-                if (currentWaveIndex >= 4) // 0-based: 4면 Wave4까지 완료
-                {
-                    if (!gateAutoHoldArmed) { 
-                        holdAfterGate = true; gateAutoHoldArmed = true; 
-                        if (waveTimerText) waveTimerText.text = "Waiting Planet2 activation..."; 
-                        return; 
-                    }
-                    if (holdAfterGate)
-                    {
-                        if (waveTimerText) waveTimerText.text = "Waiting Planet2 activation...";
-                        return; // 계속 대기
-                    }
-                }
+                
                 if (forceStartRequested) { 
                     StartCoroutine(SpawnWave()); 
                     countdown = timeBetweenWaves; 
@@ -201,6 +241,7 @@ public class Planet1WaveManager : MonoBehaviour
                     return; 
                 }
                 StartCoroutine(SpawnWave());
+                countdownArmedByCentral = false;
                 countdown = timeBetweenWaves;
                 isFirst = false; // 첫 번째 웨이브가 시작되면 더 이상 첫 시작이 아님
             }
