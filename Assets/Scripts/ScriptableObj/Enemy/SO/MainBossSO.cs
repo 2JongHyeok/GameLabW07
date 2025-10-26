@@ -13,6 +13,7 @@ public class MainBossSO : EnemyBaseSO
     public GameObject ExplosionEffectPrefab;
     public int damage = 10;
     public float explosionRadius = 3f; // 폭발 범위
+    public float effectExplosionRadius = 1.5f; // 폭발 이펙트 크기
     public LayerMask damageLayer;      // 데미지 적용할 레이어
 
     public override void PerformAttack(Enemy enemy)
@@ -29,7 +30,7 @@ public class MainBossSO : EnemyBaseSO
                 enemy.transform.position,
                 Quaternion.identity
             );
-            ExplodeEffect.transform.GetChild(0).localScale = new Vector3(explosionRadius, explosionRadius,1f);
+            ExplodeEffect.transform.GetChild(0).localScale = new Vector3(effectExplosionRadius, effectExplosionRadius,1f);
             Destroy(ExplodeEffect, 1f);
             
             if (collision.collider.CompareTag("Core"))
@@ -69,14 +70,13 @@ public class MainBossSO : EnemyBaseSO
                         // Vector3 hitPoint = collision.GetContact(0).point;
                         // Vector3Int cellPos2 = tilemap.WorldToCell(hitPoint);
                         // 매니저 찾기
-                        Planet manager = FindAnyObjectByType<Planet>();
+                        Planet manager = tilemap.GetComponentInParent<Planet>();
                         manager?.DamageTile(cellPos, damage);
                         // else에 대한 Debug.LogError는 매번 루프에서 발생하는 것을 막기 위해 생략했습니다.
                     }
                 }
 
             }
-            enemy.myPool.Release(enemy.gameObject);
         }
     }
     
