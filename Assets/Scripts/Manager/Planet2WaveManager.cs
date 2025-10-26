@@ -59,6 +59,26 @@ public class Planet2WaveManager : MonoBehaviour
 
     public Transform bossSpwanPoint;
     public Transform mainBossSpwanPoint;
+
+    [Header("Central Sync (P2)")]
+    public bool AllWavesCompleted => currentWaveIndex >= waves.Length;
+    public bool IsBetweenWaves() => (EnemyCount <= 0 && !isSpawning && currentWaveIndex < waves.Length);
+    public float TimeBetweenWaves => timeBetweenWaves;
+
+    private bool countdownLockedByCentral = false;
+    private bool countdownArmedByCentral = false;
+
+    public void LockCountdownByCentral(bool v)
+    {
+        countdownLockedByCentral = v;
+        if (v) countdownArmedByCentral = false;
+    }
+
+    public void StartSimulCountdownFromCentral(float seconds)
+    {
+        countdown = seconds;
+        countdownArmedByCentral = true;
+    }
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -106,6 +126,15 @@ public class Planet2WaveManager : MonoBehaviour
 
         if (EnemyCount <= 0 && !isSpawning)
         {
+            if (WaveManager.Instance != null
+                && WaveManager.Instance.IsCombinedPhase
+                && countdownLockedByCentral
+                && !countdownArmedByCentral)
+            {
+                if (waveTimerText != null) waveTimerText.text = "Waiting other planet...";
+                if (enemyCountText != null) enemyCountText.text = "Mining Phase";
+                return;
+            }
             if (forceStartRequested) { 
                 StartCoroutine(SpawnWave()); 
                 countdown = timeBetweenWaves;
@@ -137,6 +166,7 @@ public class Planet2WaveManager : MonoBehaviour
             if (countdown <= 0f)
             {
                 StartCoroutine(SpawnWave());
+                countdownArmedByCentral = false; // [SYNC]
                 countdown = timeBetweenWaves;
                 isFirst = false;
             }

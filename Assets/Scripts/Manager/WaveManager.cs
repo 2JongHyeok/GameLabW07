@@ -34,6 +34,17 @@ public class WaveManager : MonoBehaviour
 
     private bool lastPlanet2Enabled; // 활성화 변화 감지용
 
+    [Header("Combined Sync")]
+    [SerializeField] private bool syncInterWaveCooldown = true;
+
+    // <= 0 이면 자동(Max(P1,P2)), 양수면 강제 동일 쿨다운(예: 7f)
+    [SerializeField] private float combinedCooldownOverride = -1f;
+
+    private bool simulCountdownArmed = false;
+
+    // 외부에서 읽기용
+    public bool IsCombinedPhase => phase == Phase.CombinedPhase;
+
     private enum Phase { Planet1Phase1To4, WaitingPlanet2Activate, CombinedPhase, Done }
 
     private void Awake()
@@ -88,6 +99,47 @@ public class WaveManager : MonoBehaviour
             case Phase.CombinedPhase:
                 if (HasPlanet1CompletedFinal() && HasPlanet2CompletedFinal())
                     phase = Phase.Done;
+                if (!syncInterWaveCooldown) break;
+
+                bool p1Valid = planet1 != null && !planet1.AllWavesCompleted;
+                bool p2Valid = planet2 != null && !planet2.AllWavesCompleted;
+
+                // 하나라도 아직 진행 중이라면(완주 전이라면) 동기화 로직 가동
+                if (p1Valid || p2Valid)
+                {
+                    bool p1Between = planet1 != null && planet1.IsBetweenWaves();
+                    bool p2Between = planet2 != null && planet2.IsBetweenWaves();
+
+                    // (1) 둘 다 BetweenWaves가 아니면 개별 쿨다운을 잠가서 기다리게 한다
+                    if (!(p1Between && p2Between))
+                    {
+                        if (planet1 != null) planet1.LockCountdownByCentral(true);
+                        if (planet2 != null) planet2.LockCountdownByCentral(true);
+                        simulCountdownArmed = false; // 다시 무장 가능 상태로 되돌림
+                    }
+                    // (2) 둘 다 BetweenWaves인 “그 프레임”에 동시에 카운트다운을 무장 & 해제
+                    else if (!simulCountdownArmed)
+                    {
+                        float cd = combinedCooldownOverride > 0f
+                            ? combinedCooldownOverride
+                            : Mathf.Max(
+                                planet1 != null ? planet1.TimeBetweenWaves : 0f,
+                                planet2 != null ? planet2.TimeBetweenWaves : 0f
+                              );
+
+                        if (planet1 != null)
+                        {
+                            planet1.StartSimulCountdownFromCentral(cd);
+                            planet1.LockCountdownByCentral(false); // 해제 → 로컬 Update에서 같은 프레임부터 감소
+                        }
+                        if (planet2 != null)
+                        {
+                            planet2.StartSimulCountdownFromCentral(cd);
+                            planet2.LockCountdownByCentral(false);
+                        }
+                        simulCountdownArmed = true;
+                    }
+                }
                 break;
 
             case Phase.Done:

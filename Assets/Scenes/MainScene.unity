@@ -2842,6 +2842,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 470069141484109306, guid: 801f5c2d43240ee469c9de4804e48643, type: 3}
   m_PrefabInstance: {fileID: 751763971}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &764815604 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
+  m_PrefabInstance: {fileID: 184272237}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d403993ea54192429cca2981f59b216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &789015012
 GameObject:
   m_ObjectHideFlags: 0
@@ -4156,6 +4167,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1452659752750618764, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
   m_PrefabInstance: {fileID: 1044340067}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1044340069 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
+  m_PrefabInstance: {fileID: 1044340067}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2118ab6c336b154bbfb5892afa7f529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1050191023
 GameObject:
   m_ObjectHideFlags: 0
@@ -5313,6 +5335,8 @@ MonoBehaviour:
   planet2DockingStation: {fileID: 229442894}
   planet2Hp: {fileID: 155267638}
   planet2Wave: {fileID: 155267637}
+  cargoSystem: {fileID: 1908056906}
+  inventoryManger: {fileID: 5803141803156037022}
   constructionPromptUI: {fileID: 840141163}
 --- !u!58 &1254265769
 CircleCollider2D:
@@ -11179,6 +11203,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7960328737568620720, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
   m_PrefabInstance: {fileID: 266651899}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1908056906 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3954204389919689628, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+  m_PrefabInstance: {fileID: 266651899}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908056905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f231bfb3e0a05f4f9c50cf87196242e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1916156670 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1473244694981854541, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
@@ -11770,8 +11805,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43e102023a67d9f47bc22ccccde84b8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planet1: {fileID: 0}
-  planet2: {fileID: 0}
+  planet1: {fileID: 1044340069}
+  planet2: {fileID: 764815604}
   planet1GateWave: 4
   planet1FinalWave: 8
   planet2FinalWave: 4
@@ -11781,6 +11816,8 @@ MonoBehaviour:
   autoDetectPlanet2Activation: 1
   debugSkipGate: 0
   debugForceCombinedKey: 290
+  syncInterWaveCooldown: 1
+  combinedCooldownOverride: -1
 --- !u!1 &2113192864
 GameObject:
   m_ObjectHideFlags: 0
