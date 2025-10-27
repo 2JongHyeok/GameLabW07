@@ -177,6 +177,16 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         
         if (isReusable)
         {
+            if (forgeSO.forgeId == ForgeId.Planet2HpRegenAmount)
+            {
+                // 행성 2 체력 재생 노드는 행성 2가 활성화되어야 구매 가능
+                if (Planet2Manager.instance != null && !Planet2Manager.instance.IsPlanetActive)
+                {
+                    isLocked = true;
+                    SetVisualLocked(true);
+                    return;
+                }
+            }
             // 재사용 가능한 노드는 항상 구매 가능 (비용만 체크)
             isLocked = false;
         }
