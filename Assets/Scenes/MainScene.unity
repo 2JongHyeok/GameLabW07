@@ -5585,6 +5585,8 @@ MonoBehaviour:
   planet2Wave: {fileID: 155267637}
   cargoSystem: {fileID: 1908056906}
   inventoryManger: {fileID: 5803141803156037022}
+  planet2DockingStationScript: {fileID: 1660408333}
+  planet2Weapon: {fileID: 302044737}
   constructionPromptUI: {fileID: 840141163}
 --- !u!58 &1254265769
 CircleCollider2D:
@@ -6698,6 +6700,17 @@ MonoBehaviour:
   speedData: {fileID: 11400000, guid: 6f4526b49f62f3247bd5c11a6d8c174f, type: 2}
   currentSpeedBar: {fileID: 892614862}
   effectiveMaxSpeedIndicator: {fileID: 1050697628}
+--- !u!114 &1660408333 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
+  m_PrefabInstance: {fileID: 583798100}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229442894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b4769e901c7989488fa30cd3ec8bde8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1665135616
 GameObject:
   m_ObjectHideFlags: 0

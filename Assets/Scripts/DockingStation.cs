@@ -31,6 +31,10 @@ public class DockingStation : MonoBehaviour
     [SerializeField] private Weapon2 planet2Weapon;
     [SerializeField] private AutoTurret planetAutoTurret;
 
+    public void SetShipDockedState(bool val)
+    {
+        isShipDocked = val;
+    }
     void Reset()
     {
         var col = GetComponent<Collider2D>();

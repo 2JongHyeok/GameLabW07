@@ -10,9 +10,11 @@ public class Planet2Manager : MonoBehaviour
     [SerializeField] private GameObject planet2Wave;
     [SerializeField] private SpaceshipCargoSystem cargoSystem;
     [SerializeField] private InventoryManger inventoryManger;
+    [SerializeField] private DockingStation planet2DockingStationScript;
     bool isPlanetActive = false;
     bool isSpaceShipInRange = false;    // 우주선이 행성을 새로 생성할 수 있는 거리 내에 있는지.
     bool hasPlanet2Core = false;
+    [SerializeField] private Weapon2 planet2Weapon;
 
     [Header("UI")]
     [SerializeField] private GameObject constructionPromptUI; // 추가: 건설 안내 UI
@@ -85,6 +87,12 @@ public class Planet2Manager : MonoBehaviour
             WaveManager.Instance?.NotifyPlanet2Activated();
             cargoSystem.UnloadAllOres(inventoryManger);
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            if (planet2Weapon != null)
+            {
+                planet2Weapon.ActivateWeapon();
+            }
+            SpaceshipController.SetIsSpaceShipMode(false);
+            planet2DockingStationScript.SetShipDockedState(true);
         }
     }
    
