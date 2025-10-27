@@ -192,7 +192,7 @@ public class Planet1WaveManager : MonoBehaviour
                     bossHpSlider.value = bossHpSlider.maxValue;
                     holdAfterGate = true;
                     gateAutoHoldArmed = true;
-                    if (waveTimerText) waveTimerText.text = "Waiting Planet2 activation...";
+                    if (waveTimerText) waveTimerText.text = "코어를 획득하여 콜로니를 활성화하세요...";
                     if (enemyCountText) enemyCountText.text = "Mining Phase";
                     return; // 카운트다운 시작 자체를 막아 즉시 대기 상태
                 }
@@ -200,7 +200,7 @@ public class Planet1WaveManager : MonoBehaviour
                 {
                     bossHpSlider.gameObject.SetActive(false);
                     bossHpSlider.value = bossHpSlider.maxValue;
-                    if (waveTimerText) waveTimerText.text = "Waiting Planet2 activation...";
+                    if (waveTimerText) waveTimerText.text = "코어를 획득하여 콜로니를 활성화하세요...";
                     if (enemyCountText) enemyCountText.text = "Mining Phase";
                     return; // 여전히 대기
                 }
