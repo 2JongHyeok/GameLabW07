@@ -137,14 +137,14 @@ public class Planet2WaveManager : MonoBehaviour
         {
             waveEnd = true;
             if (waveTimerText != null) waveTimerText.text = $"Wave {currentWaveIndex + 1}";
-            if (enemyCountText != null) enemyCountText.text = $"Planet2: {EnemyCount}";
+            if (enemyCountText != null) enemyCountText.text = $"Colony : {EnemyCount}";
             if (miningInstructionText != null) { miningInstructionText.color = Color.red; miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!"; }
             return;
         }
 
         if (EnemyCount > 0 && !isSpawning)
         {
-            if (enemyCountText != null) enemyCountText.text = $"Planet2: {EnemyCount}";
+            if (enemyCountText != null) enemyCountText.text = $"Colony : {EnemyCount}";
             if (miningInstructionText != null) { miningInstructionText.color = Color.red; miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!"; }
             return;
         }
@@ -157,7 +157,7 @@ public class Planet2WaveManager : MonoBehaviour
                 && !countdownArmedByCentral)
             {
                 if (waveTimerText != null) waveTimerText.text = "Waiting other planet...";
-                if (enemyCountText != null) enemyCountText.text = "Mining Phase";
+                if (enemyCountText != null) enemyCountText.text = "";
                 return;
             }
             if (forceStartRequested) { 

@@ -151,7 +151,7 @@ public class Planet1WaveManager : MonoBehaviour
         {
             waveEnd = true;
             if (waveTimerText != null) waveTimerText.text = $"Wave {currentWaveIndex + 1}";
-            if (enemyCountText != null) enemyCountText.text = $"Planet 1: {EnemyCount}";
+            if (enemyCountText != null) enemyCountText.text = $"Planet : {EnemyCount}";
             if (miningInstructionText != null)
             {
                 miningInstructionText.color = Color.red; // 빨간색으로 변경
@@ -166,7 +166,7 @@ public class Planet1WaveManager : MonoBehaviour
         // 스폰이 끝났지만 적이 남아있으면 대기
         if (EnemyCount > 0 && !isSpawning)
         {
-            if (enemyCountText != null) enemyCountText.text = $"Planet 1: {EnemyCount}";
+            if (enemyCountText != null) enemyCountText.text = $"Planet : {EnemyCount}";
             if (miningInstructionText != null)
             {
                 miningInstructionText.color = Color.red; // 빨간색으로 변경
