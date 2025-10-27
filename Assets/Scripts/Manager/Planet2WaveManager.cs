@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.UI;
 
 public class Planet2WaveManager : MonoBehaviour
 {
@@ -58,6 +59,8 @@ public class Planet2WaveManager : MonoBehaviour
 
     [Tooltip("preStartDelays에 항목이 없거나 음수일 때 사용할 기본 지연값(초)")]
     [SerializeField] private float defaultPreDelay = 5f;
+    
+    public Slider mainbossHpSlider;
 
     public float GetPreDelayForWaveIndex(int waveIndex)
     {
@@ -122,6 +125,10 @@ public class Planet2WaveManager : MonoBehaviour
             planet2Core.OnDie += HandlePlanet2CoreDie;
             planet2Core.OnRevive += HandlePlanet2CoreRevive;
         }
+
+        // 메인 보스 ui 초기화
+        mainbossHpSlider.gameObject.SetActive(false);
+        mainbossHpSlider.value = mainbossHpSlider.maxValue;
     }
 
     private void Update()
@@ -203,8 +210,12 @@ public class Planet2WaveManager : MonoBehaviour
 
     private void LogAndResetWaveStats() // 메서드 이름은 유지하되, 내부 로직을 단순화
     {
+        mainbossHpSlider.gameObject.SetActive(false);
+        mainbossHpSlider.value = mainbossHpSlider.maxValue;
+        
         // 웨이브 완료 및 광물 로그 기록
-        GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
+        // 중복되는 wave 로그 주석 처리
+        // GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
 
         // 웨이브 통계 리셋
         Managers.Instance.inventory.ResetWaveStats();
@@ -320,7 +331,8 @@ public class Planet2WaveManager : MonoBehaviour
             yield break;
 
         isSpawning = true;
-        GameAnalyticsLogger.instance.LogWaveStart(Managers.Instance.core.CurrentHP);
+        // 중복되는 wave 로그 주석 처리
+        // GameAnalyticsLogger.instance.LogWaveStart(Managers.Instance.core.CurrentHP);
         WaveSO currentWave = waves[currentWaveIndex];
 
         totalEnemiesInWave = currentWave.GetTotalEnemyCount();
@@ -341,6 +353,11 @@ public class Planet2WaveManager : MonoBehaviour
                 EnemyType typeToSpawn = SelectRandomEnemyType(currentWave);
                 if (typeToSpawn != (EnemyType)(-1))
                 {
+                    if (typeToSpawn == EnemyType.MainBoss)
+                    {
+                        mainbossHpSlider.gameObject.SetActive(true);
+                        mainbossHpSlider.value = mainbossHpSlider.maxValue;
+                    }
                     var pool = enemyPools[typeToSpawn];
                     pool.Get();
                     remainingSpawnCounts[typeToSpawn]--;
