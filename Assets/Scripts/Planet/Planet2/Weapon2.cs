@@ -61,11 +61,22 @@ public class Weapon2 : MonoBehaviour
     public void ActivateWeapon()
     {
         isWeaponActive = true;
+        foreach (var sat in satellites)
+        {
+            if (sat.transform != null)
+                sat.transform.gameObject.SetActive(true);
+        }
+
         // (선택 사항: 포탑이 즉시 공격을 시작해야 한다면 여기서 AutoTurret의 ActivateTurret 호출)
     }
     public void DeactivateWeapon()
     {
         isWeaponActive = false;
+        foreach (var sat in satellites)
+        {
+            if (sat.transform != null)
+                sat.transform.gameObject.SetActive(false);
+        }
         // (선택 사항: 포탑 비활성화 로직 추가)
     }
     void OnValidate()
