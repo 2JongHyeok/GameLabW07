@@ -23,7 +23,18 @@ public class MainBranchUI : MonoBehaviour
         // 브랜치 이름 표시
         if (branchNameText != null)
         {
-            branchNameText.text = mainBranchSO.branchType.ToString();
+            string branchName = mainBranchSO.branchType.ToString();
+            // 특정 브랜치 타입의 경우 이름을 커스텀하게 변경
+            if (mainBranchSO.branchType == MainBranchType.PlanetAttacks)
+            {
+                branchName = "Planet\nAttacks";
+            }
+            else if (mainBranchSO.branchType == MainBranchType.ColonyAttacks)
+            {
+                branchName = "Colony\nAttacks";
+            }
+            
+            branchNameText.text = branchName;
         }
 
         // 브랜치 아이콘 표시 (있다면)

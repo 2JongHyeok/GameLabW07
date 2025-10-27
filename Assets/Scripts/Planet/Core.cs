@@ -37,7 +37,10 @@ public class Core : MonoBehaviour
     private void UpdateHPText()
     {
         if (CoreHpText != null)
-            CoreHpText.text = $"Core {coreNumber} : {currentHP}/{maxHP}";
+            if (coreNumber == 1)
+                CoreHpText.text = $"Plane : {currentHP}/{maxHP}";
+            else
+                CoreHpText.text = $"Colony : {currentHP}/{maxHP}";
     }
 
     public void TakeDamage(int damage)
