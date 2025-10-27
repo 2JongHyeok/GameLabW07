@@ -170,7 +170,6 @@ public class WaveManager : MonoBehaviour
             StartCombinedPhase();
             return;
         }
-        Debug.Log("[WaveSync] Planet2 activated. Gate not yet cleared; holding P1 at Wave4.");
     }
 
     // Planet1이 Wave4를 끝냈고(0-based index >= 4), 적이 전멸했는지
@@ -191,7 +190,6 @@ public class WaveManager : MonoBehaviour
         planet1.SetGateHold(true);
         // 카운트다운/스폰 루프를 멈추기 위해 비활성화(내부 상태는 그대로 유지)
         if (planet1) planet1.PauseByCentral();
-        Debug.Log("[WaveSync] Gate reached (P1 Wave4 clear). Waiting for Planet2 activation...");
     }
 
     private void StartCombinedPhase()
@@ -242,7 +240,6 @@ public class WaveManager : MonoBehaviour
         }
 
         phase = Phase.CombinedPhase;
-        Debug.Log($"[WaveSync] Combined armed. Both planets will start in {cd:0.##}s.");
     }
 
     private bool HasPlanet1CompletedFinal()

@@ -54,10 +54,7 @@ public class AutoTurretLaserAttack : IAttackStrategy
         { 
             float previousValue = interval;
             interval += value; 
-            if (interval != previousValue) // 값이 실제로 변경되었을 때만 로그 출력
-            {
-                Debug.LogWarning($"Laser Interval changed from {previousValue} to {interval} (requested: {value})", host?.gameObject); 
-            }
+           
             waitDirty = true; 
         }
     }

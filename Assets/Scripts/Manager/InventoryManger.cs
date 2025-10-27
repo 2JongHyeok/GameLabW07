@@ -40,7 +40,6 @@ public class InventoryManger : MonoBehaviour
             AddOre(OreType.Iron, 100);
             AddOre(OreType.Gold, 100);
             AddOre(OreType.Diamond, 100);
-            Debug.Log("Added 100 of each ore type.");
         }
     }
     public void AddOre(OreType oreType, int amount)

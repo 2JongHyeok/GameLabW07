@@ -241,7 +241,6 @@ public class Weapon2 : MonoBehaviour
     {
         if (addSatelliteCallCount >= 3)
         {
-            Debug.Log("위성은 최대 4개까지만 추가할 수 있습니다.");
             return;
         }
 

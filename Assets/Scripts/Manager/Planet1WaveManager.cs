@@ -235,15 +235,6 @@ public class Planet1WaveManager : MonoBehaviour
             {
                 if (waveEnd) // waveEnd 플래그로 한 번만 실행되도록 보장
                 {
-                    GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
-                    // 리소스 로그는 아래 hasTriggeredWaveClearAction에서 처리
-                    // [수정] 마지막 웨이브 클리어 시 로그 기록
-                    // InventoryManger에서 직접 List<MineralData>를 받아 로그 기록
-                    GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
-                    GameAnalyticsLogger.instance.UpdateWave();
-                    
-                    
-                    
                     waveEnd = false;
                 }
 
@@ -256,14 +247,7 @@ public class Planet1WaveManager : MonoBehaviour
             if (!hasTriggeredWaveClearAction)
             {
                 hasTriggeredWaveClearAction = true;
-                if (!isFirst) // 첫 웨이브 시작 전(isFirst=true)에는 로그를 기록하지 않음
-                {
-                    // [Log] 이전 웨이브 완료 로그 및 자원 통계 기록
-                    GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
-                    // InventoryManger에서 직접 List<MineralData>를 받아 로그 기록
-                    GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
-                    GameAnalyticsLogger.instance.UpdateWave();
-                }
+                
             }
             if (waveGuard)
             {
@@ -435,11 +419,6 @@ public class Planet1WaveManager : MonoBehaviour
             enemy.transform.SetPositionAndRotation(spawnPosition, Quaternion.identity);
             enemyComponent.ResetState();
         }
-        GameAnalyticsLogger.instance.LogEnemySpawn(
-            enemyComponent.enemyData.enemyType.ToString(),
-            enemyComponent.enemyNum++,
-            spawnPosition.ToString()
-        );
     }
     private void OnReleaseEnemy(GameObject enemy)
     {
@@ -454,8 +433,6 @@ public class Planet1WaveManager : MonoBehaviour
             yield break;
 
         isSpawning = true;
-        // [Log] 웨이브 시작 로그 출력 
-        GameAnalyticsLogger.instance.LogWaveStart(Managers.Instance.core.CurrentHP);
         WaveSO currentWave = waves[currentWaveIndex];
 
         // 현재 웨이브의 총 적 수 계산 및 EnemyCount 설정

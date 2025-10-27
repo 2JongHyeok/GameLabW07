@@ -226,13 +226,9 @@ public class Planet2WaveManager : MonoBehaviour
         mainbossHpSlider.gameObject.SetActive(false);
         mainbossHpSlider.value = mainbossHpSlider.maxValue;
         
-        // 웨이브 완료 및 광물 로그 기록
-        // 중복되는 wave 로그 주석 처리
-        // GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
 
         // 웨이브 통계 리셋
         Managers.Instance.inventory.ResetWaveStats();
-        GameAnalyticsLogger.instance.UpdateWave();
     }
 
     // --- 중앙 WaveManager 호환 훅(추가) ---
@@ -320,11 +316,7 @@ public class Planet2WaveManager : MonoBehaviour
                 enemyComponent.SetTaget(spawnTarget);
         }
         if (enemyComponent != null) activeEnemies.Add(enemyComponent);
-        GameAnalyticsLogger.instance.LogEnemySpawn(
-            enemyComponent.enemyData.enemyType.ToString(),
-            enemyComponent.enemyNum++,
-            spawnPosition.ToString()
-        );
+      
     }
 
     private void OnReleaseEnemy(GameObject enemy)
@@ -345,7 +337,6 @@ public class Planet2WaveManager : MonoBehaviour
 
         isSpawning = true;
         // 중복되는 wave 로그 주석 처리
-        // GameAnalyticsLogger.instance.LogWaveStart(Managers.Instance.core.CurrentHP);
         WaveSO currentWave = waves[currentWaveIndex];
 
         totalEnemiesInWave = currentWave.GetTotalEnemyCount();

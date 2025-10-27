@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -16,13 +16,7 @@ public class ParticleEffectsLibrary : MonoBehaviour {
 
 		CurrentParticleEffectNum = 1;
 
-		// Warn About Lengths of Arrays not matching
-		if (ParticleEffectSpawnOffsets.Length != TotalEffects) {
-			Debug.LogError ("ParticleEffectsLibrary-ParticleEffectSpawnOffset: Not all arrays match length, double check counts.");
-		}
-		if (ParticleEffectPrefabs.Length != TotalEffects) {
-			Debug.LogError ("ParticleEffectsLibrary-ParticleEffectPrefabs: Not all arrays match length, double check counts.");
-		}
+		
 
 		// Setup Starting PE Name String
 		effectNameString = ParticleEffectPrefabs [CurrentParticleEffectIndex].name + " (" + CurrentParticleEffectNum.ToString() + " of " + TotalEffects.ToString() + ")";

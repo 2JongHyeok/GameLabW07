@@ -54,7 +54,6 @@ public class SpaceshipController : MonoBehaviour
     public static void SetIsSpaceShipMode(bool isSpaceShipMode)
     {
         IsSpaceshipMode = isSpaceShipMode;
-        // Debug.Log("isSpaceShipMode: "+isSpaceShipMode);
     }
 
     private void Awake()
@@ -112,25 +111,6 @@ public class SpaceshipController : MonoBehaviour
         shipMotor.ApplyActiveDeceleration(shipInput.ThrustInput);
         shipMotor.ApplyActiveRotationalDeceleration(shipInput.RotateInput);
         Vector2 currentPosition = rb.position;
-        
-        // 프레임 간 이동 거리 누적
-        float frameDistance = Vector2.Distance(currentPosition, GameAnalyticsLogger.instance.playerLastPosition);
-        GameAnalyticsLogger.instance.playerMoveDistance += frameDistance;
-
-        // (0,0)에서 떨어진 거리 계산
-        float distanceFromOrigin = currentPosition.magnitude;
-        if (distanceFromOrigin > GameAnalyticsLogger.instance.playerMaxMoveDistance)
-            GameAnalyticsLogger.instance.playerMaxMoveDistance = distanceFromOrigin;
-
-        // 다음 프레임 계산을 위해 갱신
-        GameAnalyticsLogger.instance.playerLastPosition = currentPosition;
-        
-        if (Vector2.Distance(currentPosition, playerLastLoggedPosition) >= loggingThreshold)
-        {
-            GameAnalyticsLogger.instance.LogPlayerMovement(currentPosition);
-            // 로그를 기록했으므로, 마지막 로그 위치를 현재 위치로 갱신
-            playerLastLoggedPosition = currentPosition;
-        }
     }
     
     private void UpdateEffects(bool isThrusting, bool isBoosting, float rotateInput)

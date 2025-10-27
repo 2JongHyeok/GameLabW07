@@ -78,9 +78,7 @@ public class Enemy : MonoBehaviour
                 {
                     hasLoggedFirstAttack = true;
 
-                    GameAnalyticsLogger.instance.LogEnemyStartAttack(
-                        enemyNum
-                    );
+                   
                 }
             }
             else
@@ -186,7 +184,6 @@ public class Enemy : MonoBehaviour
             {
                 Instantiate(bossCorePrefab, gameObject.transform.position, Quaternion.identity);
             }
-            GameAnalyticsLogger.instance.LogEnemyKilled(enemyType.ToString(), weaponType);
             isDead = true;
             myPool.Release(gameObject);
 

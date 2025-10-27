@@ -61,7 +61,6 @@ public class CameraSwitcher : MonoBehaviour
     public void SetPlanetCamera(CinemachineCamera newPlanetCamera)
     {
         planetCamera = newPlanetCamera;
-        Debug.Log($"[CameraSwitcher] SetPlanetCamera: {(planetCamera ? planetCamera.name : "null")}");
         // 우주선 모드가 아니라면 즉시 해당 행성으로 전환
         if (SpaceshipController.IsSpaceshipMode==false && planetCamera != null)
             ActivatePlanet(planetCamera);
@@ -72,7 +71,6 @@ public class CameraSwitcher : MonoBehaviour
     {
         if (spaceshipCamera == null)
         {
-            Debug.LogWarning("[CameraSwitcher] spaceshipCamera is null");
             return;
         }
         
@@ -83,7 +81,6 @@ public class CameraSwitcher : MonoBehaviour
         SpaceshipController.SetIsSpaceShipMode(true);
         targetZoomSize = currentCamera.Lens.OrthographicSize;
 
-        Debug.Log($"[CameraSwitcher] 모드: 우주선 ({currentCamera.name}) prio={spaceshipCamera.Priority.Value}");
         DumpLive();
     }
 
@@ -92,7 +89,6 @@ public class CameraSwitcher : MonoBehaviour
     {
         if (planetCam == null)
         {
-            Debug.LogWarning("[CameraSwitcher] ActivatePlanet: planetCam is null");
             return;
         }
 
@@ -102,10 +98,8 @@ public class CameraSwitcher : MonoBehaviour
         planetCamera = planetCam;
         currentCamera = planetCam;
         SpaceshipController.SetIsSpaceShipMode(false);
-        Debug.Log("ActivatePlanet");
         targetZoomSize = currentCamera.Lens.OrthographicSize;
 
-        Debug.Log($"[CameraSwitcher] 모드: 행성 ({currentCamera.name}) prio={planetCam.Priority.Value}");
         DumpLive();
     }
 
@@ -128,6 +122,6 @@ public class CameraSwitcher : MonoBehaviour
     {
         string ship = spaceshipCamera ? $"{spaceshipCamera.name} live={spaceshipCamera.IsLive} prio={spaceshipCamera.Priority.Value}" : "spaceship=null";
         string planet = planetCamera ? $"{planetCamera.name} live={planetCamera.IsLive} prio={planetCamera.Priority.Value}" : "planet=null";
-        Debug.Log($"[LiveCheck] {ship} | {planet}");
+       
     }
 }

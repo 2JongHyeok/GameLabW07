@@ -84,7 +84,7 @@ public class BossSO : EnemyBaseSO
                         // 매니저 찾기
                         Planet manager = tilemap.GetComponentInParent<Planet>();
                         manager?.DamageTile(cellPos, damage);
-                        // else에 대한 Debug.LogError는 매번 루프에서 발생하는 것을 막기 위해 생략했습니다.
+                       
                     }
                 }
 
