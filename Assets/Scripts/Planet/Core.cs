@@ -12,6 +12,9 @@ public class Core : MonoBehaviour
     private int currentHP;
     public TMP_Text CoreHpText;
     [SerializeField] private InventoryManger inventoryManger;
+    [SerializeField] private GameObject dockingSystem;
+    [SerializeField] private GameObject autoTurret;
+    [SerializeField] private GameObject sucksionZone;
 
     // 현재 체력 읽기용 
     public int CurrentHP => currentHP;
@@ -53,8 +56,10 @@ public class Core : MonoBehaviour
         if (isDead) return;
         isDead = true;
         OnDie?.Invoke();
-
-        Destroy(gameObject);
+        dockingSystem.SetActive(false);
+        sucksionZone.SetActive(false);
+        autoTurret.SetActive(false);
+        //Destroy(gameObject);
         //  Planet1은 true → 기존처럼 GameOver, Planet2는 false → 게임은 계속
         if (endGameOnDie)
         {
@@ -86,6 +91,9 @@ public class Core : MonoBehaviour
         {
             isDead = false;
             OnRevive?.Invoke();
+            dockingSystem.SetActive(true);
+            sucksionZone.SetActive(true);
+            autoTurret.SetActive(true);
         }
     }
 
