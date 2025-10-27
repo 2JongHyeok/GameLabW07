@@ -935,6 +935,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 504635895}
     - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
+      propertyPath: mainbossHpSlider
+      value: 
+      objectReference: {fileID: 416559576}
+    - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
       propertyPath: timeBetweenWaves
       value: 1
       objectReference: {fileID: 0}
@@ -5125,6 +5129,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1313229399}
     m_Modifications:
+    - target: {fileID: 595345176470139976, guid: 7d26a2b1c6b29aa4ba28aa5a7a704883, type: 3}
+      propertyPath: weaponDamage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 628286659923199200, guid: 7d26a2b1c6b29aa4ba28aa5a7a704883, type: 3}
       propertyPath: m_Name
       value: Planet2WeaponPivot
