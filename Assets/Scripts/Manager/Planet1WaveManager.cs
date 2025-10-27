@@ -199,7 +199,7 @@ public class Planet1WaveManager : MonoBehaviour
                     bossHpSlider.value = bossHpSlider.maxValue;
                     holdAfterGate = true;
                     gateAutoHoldArmed = true;
-                    if (waveTimerText) waveTimerText.text = "행성코어로 콜로니를 활성화하세요";
+                    if (waveTimerText) waveTimerText.text = "보스의 코어로 콜로니를 건설하세요";
                     if (enemyCountText) enemyCountText.text = "Mining Phase";
                     isAfterBossWave = true;
                     // 여기
@@ -209,7 +209,7 @@ public class Planet1WaveManager : MonoBehaviour
                 {
                     bossHpSlider.gameObject.SetActive(false);
                     bossHpSlider.value = bossHpSlider.maxValue;
-                    if (waveTimerText) waveTimerText.text = "행성코어로 콜로니를 활성화하세요";
+                    if (waveTimerText) waveTimerText.text = "보스의 코어로 콜로니를 건설하세요";
                     if (enemyCountText) enemyCountText.text = "Mining Phase";
                     return; // 여전히 대기
                 }
@@ -318,6 +318,10 @@ public class Planet1WaveManager : MonoBehaviour
                         // 웨이브 사이에는 초록색으로 자원 탐색 메시지 표시
                         miningInstructionText.color = Color.green;
                         miningInstructionText.text = "자원을 탐색하세요";
+                        if(currentWaveIndex == 4)
+                        {
+                            miningInstructionText.text = "상단에 보스 코어가 생성되었습니다.";
+                        }
                     }
 
                     if (waveEnd)
