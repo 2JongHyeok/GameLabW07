@@ -15,7 +15,7 @@ MonoBehaviour:
   forgeId: 20
   upgradeName: "\uC7AC\uC7A5\uC804 \uC2DC\uAC04 Lv.2"
   upgradeDescription: "\uB808\uC774\uC800 \uD130\uB81B\uC758 \uC131\uB2A5\uC744 \uAC1C\uC120\uD569\uB2C8\uB2E4.\\n\uBC1C\uC0AC
-    \uC2DC\uAC04: 1.0/s > <color=green>0.7/s</color> "
+    \uC2DC\uAC04: 5.0/s > <color=green>4.0/s</color> "
   depth: 3
   coalCost: 0
   ironCost: 0
