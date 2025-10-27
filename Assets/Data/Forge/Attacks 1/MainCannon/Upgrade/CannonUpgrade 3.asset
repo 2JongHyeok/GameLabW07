@@ -16,7 +16,7 @@ MonoBehaviour:
   upgradeName: "\uD3EC \uAC15\uD654 Lv.Max"
   upgradeDescription: "\uD3EC\uB97C \uAC15\uD654\uD574 \uB370\uBBF8\uC9C0\uC640 \uBC1C\uC0AC
     \uC18D\uB3C4\uB97C \uAC1C\uC120\uD569\uB2C8\uB2E4.\\n\uD3EC \uB370\uBBF8\uC9C0:
-    3 > <color=green>4</color>\\n\uBC1C\uC0AC \uC18D\uB3C4: 0.4\uCD08 > <color=green>0.2\uCD08</color>  "
+    3 > <color=green>4</color>\\n\uBC1C\uC0AC \uC18D\uB3C4: 0.4\uCD08 > <color=green>0.3\uCD08</color>  "
   depth: 5
   coalCost: 5
   ironCost: 3
@@ -24,4 +24,4 @@ MonoBehaviour:
   diamondCost: 0
   postSubBranches: []
   AtkDamage: 1
-  AtkSpeed: -0.2
+  AtkSpeed: -0.1
