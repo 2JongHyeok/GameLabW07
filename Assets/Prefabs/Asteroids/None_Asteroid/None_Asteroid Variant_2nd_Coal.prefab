@@ -2262,7 +2262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4021950633781993007, guid: 1d695ca0ee353a445a239ecaa71a2ad1, type: 3}
       propertyPath: m_Name
-      value: None_Asteroid Variant_2nd
+      value: None_Asteroid Variant_2nd_Coal
       objectReference: {fileID: 0}
     - target: {fileID: 6347528354586162424, guid: 1d695ca0ee353a445a239ecaa71a2ad1, type: 3}
       propertyPath: m_LocalPosition.x
