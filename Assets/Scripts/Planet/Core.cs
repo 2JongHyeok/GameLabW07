@@ -38,7 +38,7 @@ public class Core : MonoBehaviour
     {
         if (CoreHpText != null)
             if (coreNumber == 1)
-                CoreHpText.text = $"Plane : {currentHP}/{maxHP}";
+                CoreHpText.text = $"Planet : {currentHP}/{maxHP}";
             else
                 CoreHpText.text = $"Colony : {currentHP}/{maxHP}";
     }
