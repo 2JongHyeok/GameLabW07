@@ -235,14 +235,14 @@ public class Weapon2 : MonoBehaviour
                 targetSatelliteCount = 2;
                 break;
             case 2:
-                targetSatelliteCount = 4;
+                targetSatelliteCount = 3;
                 break;
             default:
-                targetSatelliteCount = 8;
+                targetSatelliteCount = 4;
                 break;
         }
 
-        targetSatelliteCount = Mathf.Min(targetSatelliteCount, 8);
+        targetSatelliteCount = Mathf.Min(targetSatelliteCount, 4);
 
         // 현재 위성 개수 확인
         int currentSatelliteCount = satellites.Count;

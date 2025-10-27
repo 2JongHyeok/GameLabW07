@@ -137,6 +137,10 @@ public class Planet1WaveManager : MonoBehaviour
         // 보스 체력바 초기화
         bossHpSlider.gameObject.SetActive(false);
         bossHpSlider.value = bossHpSlider.maxValue;
+        
+        mainBossHpSlider.gameObject.SetActive(false);
+        mainBossHpSlider.value = mainBossHpSlider.maxValue;
+        
         countdown = GetPreDelayForWaveIndex(0);
     }
 
@@ -154,7 +158,7 @@ public class Planet1WaveManager : MonoBehaviour
                 miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!";
                 if(currentWaveIndex >= 4)
                 {
-                    miningInstructionText.text = "강적이 출현했다! 즉시 기지로 복귀하라!";
+                    miningInstructionText.text = "적의 공격이다! 즉시 기지로 복귀하라!";
                 }
             }
             return;
@@ -170,7 +174,7 @@ public class Planet1WaveManager : MonoBehaviour
                 
                 if(currentWaveIndex >= 4)
                 {
-                    miningInstructionText.text = "강적이 출현했다! 즉시 기지로 복귀하라!";
+                    miningInstructionText.text = "적의 공격이다! 즉시 기지로 복귀하라!";
                 }
             }
             return;
@@ -210,6 +214,9 @@ public class Planet1WaveManager : MonoBehaviour
             // 웨이브 종료 후 보스 체력바 비활성화 및 초기화
             bossHpSlider.gameObject.SetActive(false);
             bossHpSlider.value = bossHpSlider.maxValue;
+            
+            mainBossHpSlider.gameObject.SetActive(false);
+            mainBossHpSlider.value = mainBossHpSlider.maxValue;
             
             // 마지막 웨이브까지 모두 클리어한 경우
             if (currentWaveIndex >= waves.Length)
@@ -445,6 +452,13 @@ public class Planet1WaveManager : MonoBehaviour
                         bossHpSlider.gameObject.SetActive(true);
                         bossHpSlider.value = bossHpSlider.maxValue;
                     }
+                    
+                    if(typeToSpawn == EnemyType.MainBoss)
+                    {
+                        mainBossHpSlider.gameObject.SetActive(true);
+                        mainBossHpSlider.value = mainBossHpSlider.maxValue;
+                    }
+                    
                     var pool = enemyPools[typeToSpawn];
                     pool.Get();
                     remainingSpawnCounts[typeToSpawn]--;
