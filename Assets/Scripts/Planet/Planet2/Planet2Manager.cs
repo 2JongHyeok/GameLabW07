@@ -19,6 +19,7 @@ public class Planet2Manager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject constructionPromptUI; // 추가: 건설 안내 UI
 
+    public GameObject VisibleEffect;
     
     // hasPlanet2Core 읽기용 변수
     public bool HasPlanet2Core => hasPlanet2Core;
@@ -83,7 +84,7 @@ public class Planet2Manager : MonoBehaviour
             cargoSystem.CallBreakConnectionForPlanetCore();
             
             GameAnalyticsLogger.instance.LogPlanetCoreActivated();
-            
+            VisibleEffect.SetActive(false);
             WaveManager.Instance?.NotifyPlanet2Activated();
             cargoSystem.UnloadAllOres(inventoryManger);
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
