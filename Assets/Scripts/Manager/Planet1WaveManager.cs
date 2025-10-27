@@ -40,6 +40,7 @@ public class Planet1WaveManager : MonoBehaviour
     private bool waveEnd = false;
     public int enemyNum = 0;
     private bool hasTriggeredWaveClearAction = false;
+    private bool waveGuard = false;
 
     [Header("UI")]
     public TMP_Text waveTimerText;
@@ -184,6 +185,7 @@ public class Planet1WaveManager : MonoBehaviour
         // 적이 모두 죽고, 스폰도 끝났으면 카운트다운 시작
         if (EnemyCount <= 0 && !isSpawning)
         {
+            
             if (currentWaveIndex >= 4) // Wave4 클리어(0-based로 4 이상)
             {
                 if (!gateAutoHoldArmed)
@@ -255,8 +257,13 @@ public class Planet1WaveManager : MonoBehaviour
                     // InventoryManger에서 직접 List<MineralData>를 받아 로그 기록
                     GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
                     GameAnalyticsLogger.instance.UpdateWave();
-                    currentWaveIndex++;
                 }
+            }
+            if (waveGuard)
+            {
+                currentWaveIndex++;
+                countdown = GetPreDelayForWaveIndex(currentWaveIndex);
+                waveGuard = false;
             }
             EnemyCount = 0;
             countdown -= Time.deltaTime;
@@ -267,15 +274,15 @@ public class Planet1WaveManager : MonoBehaviour
                 
                 if (forceStartRequested) { 
                     StartCoroutine(SpawnWave());
-                    countdown = GetPreDelayForWaveIndex(currentWaveIndex + 1);
+
                     isFirst = false; 
                     forceStartRequested = false; 
                     return; 
                 }
                 StartCoroutine(SpawnWave());
                 countdownArmedByCentral = false;
-                countdown = GetPreDelayForWaveIndex(currentWaveIndex + 1);
                 isFirst = false; // 첫 번째 웨이브가 시작되면 더 이상 첫 시작이 아님
+                waveGuard = true;
             }
             else
             {
@@ -475,7 +482,6 @@ public class Planet1WaveManager : MonoBehaviour
         }
 
         isSpawning = false;
-        // currentWaveIndex++;
         hasTriggeredWaveClearAction = false;
     }
 
