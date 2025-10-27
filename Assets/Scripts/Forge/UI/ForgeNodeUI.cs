@@ -154,7 +154,14 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (upgradeNameText != null)
             upgradeNameText.color = textColor;
     }
-    
+
+    private void OnDisable()
+    {
+        if (isCharging)
+        {
+            StopCharging();
+        }
+    }
     // 잠금 상태 업데이트
     private void UpdateLockState()
     {
