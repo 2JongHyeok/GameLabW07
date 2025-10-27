@@ -132,27 +132,18 @@ public class WaveManager : MonoBehaviour
                         else if (usePlanet1AsMasterPreDelay && planet1 != null)
                         {
                             // 두 행성이 모두 BetweenWaves인 그 프레임에, P1의 "다가올 웨이브" 지연값으로 동시 무장
-                            int p1Next = planet1.CurrentWaveIndex; // 다음에 시작될 웨이브 인덱스
-                            cd = planet1.GetPreDelayForWaveIndex(p1Next);
+                            cd = planet1.GetUpcomingPreDelay();
                         }
                         else
                         {
-                            cd = Mathf.Max(
-                                planet1 ? planet1.TimeBetweenWaves : 0f,
-                                planet2 ? planet2.TimeBetweenWaves : 0f
-                            );
+                            cd = Mathf.Max(planet1 ? planet1.TimeBetweenWaves : 0f,
+                                            planet2 ? planet2.TimeBetweenWaves : 0f);
                         }
 
-                        if (planet1 != null)
-                        {
-                            planet1.StartSimulCountdownFromCentral(cd);
-                            planet1.LockCountdownByCentral(false); // 해제 → 로컬 Update에서 같은 프레임부터 감소
-                        }
-                        if (planet2 != null)
-                        {
-                            planet2.StartSimulCountdownFromCentral(cd);
-                            planet2.LockCountdownByCentral(false);
-                        }
+                        planet1?.StartSimulCountdownFromCentral(cd);
+                        planet1?.LockCountdownByCentral(false);
+                        planet2?.StartSimulCountdownFromCentral(cd);
+                        planet2?.LockCountdownByCentral(false);
                         simulCountdownArmed = true;
                     }
                 }

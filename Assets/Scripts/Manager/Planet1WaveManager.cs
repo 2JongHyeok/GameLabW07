@@ -82,7 +82,11 @@ public class Planet1WaveManager : MonoBehaviour
     }
 
     // [추가] "다음에 시작될" 웨이브의 인덱스 = currentWaveIndex
-    public float GetUpcomingPreDelay() => GetPreDelayForWaveIndex(currentWaveIndex);
+    public float GetUpcomingPreDelay()
+    {
+        int upcoming = waveGuard ? currentWaveIndex + 1 : currentWaveIndex;
+        return GetPreDelayForWaveIndex(upcoming);
+    }
     public void LockCountdownByCentral(bool v)
     {
         countdownLockedByCentral = v;
@@ -262,7 +266,9 @@ public class Planet1WaveManager : MonoBehaviour
             if (waveGuard)
             {
                 currentWaveIndex++;
-                countdown = GetPreDelayForWaveIndex(currentWaveIndex);
+                if (WaveManager.Instance == null || !WaveManager.Instance.IsCombinedPhase)
+                    countdown = GetPreDelayForWaveIndex(currentWaveIndex);
+
                 waveGuard = false;
             }
             EnemyCount = 0;

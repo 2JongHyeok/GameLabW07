@@ -192,8 +192,18 @@ public class Planet2WaveManager : MonoBehaviour
             {
                 StartCoroutine(SpawnWave());
                 countdownArmedByCentral = false; // [SYNC]
-                countdown = GetPreDelayForWaveIndex(currentWaveIndex + 1);
+                if (WaveManager.Instance == null || !WaveManager.Instance.IsCombinedPhase)
+                {
+                    countdown = GetPreDelayForWaveIndex(currentWaveIndex + 1);
+                }
+                else
+                {
+                    // 중앙이 두 행성이 같은 프레임에 BetweenWaves가 되었을 때 주입함
+                    LockCountdownByCentral(true);     // 내 카운트는 중앙 신호까지 대기
+                                                      // countdown은 건드리지 않음
+                }
                 isFirst = false;
+                return;
             }
             else
             {
