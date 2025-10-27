@@ -626,7 +626,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 60
-    OrthographicSize: 12
+    OrthographicSize: 20
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -2504,7 +2504,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 12
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -12393,6 +12393,38 @@ PrefabInstance:
       propertyPath: inventoryManger
       value: 
       objectReference: {fileID: 5803141803156037022}
+    - target: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
+      propertyPath: planet1Weapon.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
+      propertyPath: 'planet1Weapon.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1512247140}
+    - target: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
+      propertyPath: 'planet1Weapon.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1019673337}
+    - target: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
+      propertyPath: 'planet1Weapon.Array.data[2]'
+      value: 
+      objectReference: {fileID: 107794005}
+    - target: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
+      propertyPath: 'planet1Weapon.Array.data[3]'
+      value: 
+      objectReference: {fileID: 1870193647}
+    - target: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
+      propertyPath: 'planet1Weapon.Array.data[4]'
+      value: 
+      objectReference: {fileID: 1065963883}
+    - target: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
+      propertyPath: 'planet1Weapon.Array.data[5]'
+      value: 
+      objectReference: {fileID: 1104671157}
+    - target: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
+      propertyPath: 'planet1Weapon.Array.data[6]'
+      value: 
+      objectReference: {fileID: 870671694}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
