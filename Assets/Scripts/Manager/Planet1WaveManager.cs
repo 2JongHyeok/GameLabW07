@@ -219,9 +219,18 @@ public class Planet1WaveManager : MonoBehaviour
                 && countdownLockedByCentral
                 && !countdownArmedByCentral)
             {
-                if (waveTimerText != null) waveTimerText.text = "Waiting other planet...";
-                if (enemyCountText != null) enemyCountText.text = "Mining Phase";
-                // 보스 HP바는 기존 로직대로 숨김 처리됨
+                if (countdown <= 0f)
+                {
+                    StartCoroutine(SpawnWave());
+                    countdownArmedByCentral = false; // 중앙 카운트다운 사용 완료
+                    isFirst = false;
+                    waveGuard = true;
+                }
+                else
+                {
+                    if (waveTimerText != null) waveTimerText.text = "Waiting other planet...";
+                    if (enemyCountText != null) enemyCountText.text = "Mining Phase";
+                }
                 return; // 카운트다운/스폰 전부 보류
             }
             // 웨이브 종료 후 보스 체력바 비활성화 및 초기화
