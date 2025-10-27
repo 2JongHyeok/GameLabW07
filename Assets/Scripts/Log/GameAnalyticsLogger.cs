@@ -7,7 +7,7 @@ using System.IO.Compression;
 using System.Text;
 using UnityEngine;
 using System.Collections;
-public enum LogCategory { Session, Wave, Build, Resources, Combat, Movement, Coordinate }
+public enum LogCategory { Session, Wave, Build, Resources, Combat, Movement, Coordinate, TilemapInfo }
 
 public class GameAnalyticsLogger : MonoBehaviour
 {
@@ -43,6 +43,7 @@ public class GameAnalyticsLogger : MonoBehaviour
     { LogCategory.Combat,      "combat.txt" },
     { LogCategory.Movement,    "movement.txt" },
     {LogCategory.Coordinate,    "Coordinate.txt" },
+    {LogCategory.TilemapInfo, "TilemapInfo.txt" },
 };
 
 readonly Dictionary<LogCategory, string[]> csvHeaders = new()
@@ -87,6 +88,10 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         "event_name","ts","t",
         "Wave", "Timestamp",
         "Player_Coodinate"
+    }},
+    { LogCategory.TilemapInfo , new[]{
+        "event_name","ts","t",
+        "Tilemap"
     }},
 };
 
@@ -425,8 +430,18 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         
         WriteTxt(LogCategory.Coordinate, "player_movement", data);
         WriteCsv(LogCategory.Coordinate, "player_movement", data);
-    }   
-    
+    }
+
+    public void LogTilemapInfo(string tilemapName)
+    {
+        var data = new Dictionary<string, object>
+        {
+            {"Tilemap", tilemapName },
+        };
+        
+        WriteTxt(LogCategory.TilemapInfo, "tileMapInfo", data);
+        WriteCsv(LogCategory.TilemapInfo, "tileMapInfo", data);
+    }
     
     #endregion
     
