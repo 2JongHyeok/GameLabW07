@@ -4882,7 +4882,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: 'preStartDelays.Array.data[0]'
-      value: 60
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: 'preStartDelays.Array.data[1]'
@@ -4902,15 +4902,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: 'preStartDelays.Array.data[5]'
-      value: 90
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: 'preStartDelays.Array.data[6]'
-      value: 90
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: 'preStartDelays.Array.data[7]'
-      value: 90
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 1452659752750618764, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: m_LocalPosition.x
