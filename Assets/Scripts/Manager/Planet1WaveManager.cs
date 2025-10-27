@@ -251,6 +251,7 @@ public class Planet1WaveManager : MonoBehaviour
                     // InventoryManger에서 직접 List<MineralData>를 받아 로그 기록
                     GameAnalyticsLogger.instance.LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(currentWaveIndex));
                     GameAnalyticsLogger.instance.UpdateWave();
+                    currentWaveIndex++;
                 }
             }
             EnemyCount = 0;
@@ -470,7 +471,7 @@ public class Planet1WaveManager : MonoBehaviour
         }
 
         isSpawning = false;
-        currentWaveIndex++;
+        // currentWaveIndex++;
         hasTriggeredWaveClearAction = false;
     }
 
