@@ -21,6 +21,6 @@ MonoBehaviour:
   coalCost: 0
   ironCost: 0
   goldCost: 2
-  diamondCost: 3
+  diamondCost: 2
   postSubBranches: []
   ShieldRegen: -25
