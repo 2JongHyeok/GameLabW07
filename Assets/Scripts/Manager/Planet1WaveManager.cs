@@ -114,6 +114,7 @@ public class Planet1WaveManager : MonoBehaviour
     public Transform bossSpwanPoint;
     public Transform mainBossSpwanPoint;
 
+    public bool isAfterBossWave = false;
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -200,6 +201,8 @@ public class Planet1WaveManager : MonoBehaviour
                     gateAutoHoldArmed = true;
                     if (waveTimerText) waveTimerText.text = "행성코어로 콜로니를 활성화하세요";
                     if (enemyCountText) enemyCountText.text = "Mining Phase";
+                    isAfterBossWave = true;
+                    // 여기
                     return; // 카운트다운 시작 자체를 막아 즉시 대기 상태
                 }
                 if (holdAfterGate)

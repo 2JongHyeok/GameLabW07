@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Planet2Manager : MonoBehaviour
@@ -20,6 +21,7 @@ public class Planet2Manager : MonoBehaviour
     [SerializeField] private GameObject constructionPromptUI; // 추가: 건설 안내 UI
 
     public GameObject VisibleEffect;
+    public TMP_Text cantPlanetBuildText;
     
     // hasPlanet2Core 읽기용 변수
     public bool HasPlanet2Core => hasPlanet2Core;
@@ -73,13 +75,18 @@ public class Planet2Manager : MonoBehaviour
         // 건설 실행: 건설 가능한 상태에서 F키를 누르면 행성을 활성화합니다.
         if (canConstruct && Input.GetKeyDown(KeyCode.F))
         {
+            if (!Managers.Instance.planet1WaveManager.isAfterBossWave)
+            {
+                return;
+            }
+
             isPlanetActive = true;
             planet2.SetActive(true); 
             planet2Sheild.SetActive(true);
             planet2DockingStation.SetActive(true);
             planet2Hp.SetActive(true);
             planet2Wave.SetActive(true);
-
+            
             var cargoSystem = FindAnyObjectByType<SpaceshipCargoSystem>();
             cargoSystem.CallBreakConnectionForPlanetCore();
             
