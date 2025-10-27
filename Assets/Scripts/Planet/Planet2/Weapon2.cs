@@ -33,7 +33,7 @@ public class Weapon2 : MonoBehaviour
     [Header("궤도 포탑 전투 설정")]
     [SerializeField] private int weaponDamage = 10; // 위성 포탑의 기본 데미지
     [SerializeField] private float speedMultiplier = 1.0f; // 위성 포탑의 공격 속도 배율
-
+    private bool isWeaponActive = false; // 새로운 개별 무기 활성화 상태
     // 위성의 상태를 저장하는 내부 클래스
     private class Satellite
     {
@@ -58,7 +58,16 @@ public class Weapon2 : MonoBehaviour
         // 4) 시작 시 한 번 그려주기(에디터에서도 미리 확인)
         UpdateOrbitPath();
     }
-
+    public void ActivateWeapon()
+    {
+        isWeaponActive = true;
+        // (선택 사항: 포탑이 즉시 공격을 시작해야 한다면 여기서 AutoTurret의 ActivateTurret 호출)
+    }
+    public void DeactivateWeapon()
+    {
+        isWeaponActive = false;
+        // (선택 사항: 포탑 비활성화 로직 추가)
+    }
     void OnValidate()
     {
         // 에디터 값 변경 시에도 안정적으로 유지
@@ -145,7 +154,7 @@ public class Weapon2 : MonoBehaviour
 
     void Update()
     {
-        if (SpaceshipController.IsSpaceshipMode) return;
+        if (!isWeaponActive) return;
         // 1) 마우스 위치 기반 목표 반지름 계산 (즉각적)
         CalculateTargetRadiusByMouse();
 

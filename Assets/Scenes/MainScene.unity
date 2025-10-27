@@ -1991,6 +1991,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1819013918}
     - target: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
+      propertyPath: planet2Weapon
+      value: 
+      objectReference: {fileID: 302044737}
+    - target: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
       propertyPath: cameraSwitcher
       value: 
       objectReference: {fileID: 1778712951}
@@ -12377,6 +12381,10 @@ PrefabInstance:
       propertyPath: planetCamera
       value: 
       objectReference: {fileID: 137777106}
+    - target: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
+      propertyPath: planet1Weapon
+      value: 
+      objectReference: {fileID: 1512247140}
     - target: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
       propertyPath: cameraSwitcher
       value: 

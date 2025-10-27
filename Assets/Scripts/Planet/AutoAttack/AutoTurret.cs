@@ -15,7 +15,6 @@ public class AutoTurret : MonoBehaviour
 
     private static readonly List<Collider2D> overlapResults = new List<Collider2D>(64);
     private ContactFilter2D contactFilter;
-
     private void Awake()
     {
         // ContactFilter2D 셋업 (레이어 마스크/트리거 포함 여부 등)
@@ -44,7 +43,6 @@ public class AutoTurret : MonoBehaviour
             spriteRenderer.enabled = false;
         }
     }
-
     public void DeactivateTurret()
     {
         if (!isAttacking) return;

@@ -26,6 +26,11 @@ public class DockingStation : MonoBehaviour
     
     [SerializeField]private bool isShipDocked=false;
 
+    [Header("이 행성의 무기")]
+    [SerializeField] private Weapon[] planet1Weapon;
+    [SerializeField] private Weapon2 planet2Weapon;
+    [SerializeField] private AutoTurret planetAutoTurret;
+
     void Reset()
     {
         var col = GetComponent<Collider2D>();
@@ -65,6 +70,18 @@ public class DockingStation : MonoBehaviour
                 LaunchShip();
 
                 UpdateAllUIStates();
+            }
+            if (planet1Weapon != null && planet1Weapon.Length > 0)
+            {
+                foreach (var weapon in planet1Weapon)
+                {
+                    if (weapon != null)
+                        weapon.DeactivateWeapon();
+                }
+            }
+            else if (planet2Weapon != null)
+            {
+                planet2Weapon.DeactivateWeapon(); // Weapon2에 새 메서드 추가 필요
             }
         }
     }
@@ -119,6 +136,18 @@ public class DockingStation : MonoBehaviour
         if (!dockedShip) return;
         CalculateNextDeparturePoint(dockedShip.transform.position);
         dockedShip.SetActive(false);
+        if (planet1Weapon != null && planet1Weapon.Length > 0)
+        {
+            foreach (var weapon in planet1Weapon)
+            {
+                if (weapon != null)
+                    weapon.ActivateWeapon();
+            }
+        }
+        else if (planet2Weapon != null)
+        {
+            planet2Weapon.ActivateWeapon();
+        }
     }
 
     // [추가] 우주선 출격 로직
