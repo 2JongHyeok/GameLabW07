@@ -142,6 +142,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1416700720085230214, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 77.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1473244694981854541, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
       propertyPath: m_Name
       value: KeyBoardUI
@@ -162,6 +166,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4781275408985084678, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 119.1
+      objectReference: {fileID: 0}
     - target: {fileID: 5080996990538143578, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -533.8
@@ -169,6 +177,10 @@ PrefabInstance:
     - target: {fileID: 5155658659376970088, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -629.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6214854579610009607, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7415876484083531816, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
       propertyPath: m_Pivot.x
@@ -4367,7 +4379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RestartPanel: {fileID: 2033415645}
-  WeaponModeText: {fileID: 0}
+  WeaponModeText: {fileID: 1128446992}
   inventory: {fileID: 0}
   turretActivationManager: {fileID: 0}
   weapon:
@@ -5509,7 +5521,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -560.9, y: 33.7}
+  m_AnchoredPosition: {x: -653.9, y: 35.8}
   m_SizeDelta: {x: 25, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1128446994
