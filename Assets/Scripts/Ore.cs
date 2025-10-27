@@ -10,8 +10,8 @@ public class Ore : MonoBehaviour
     [Tooltip("이 광물 덩어리 하나가 몇 개로 취급될지 설정하세요.")]
     public int amount = 1;
     [Header("세계 좌표 경계 (기본값: top=270, bottom=-90, left=-90, right=90)")]
-    [SerializeField] private float topBoundary = 150f;
-    [SerializeField] private float bottomBoundary = -150f;
+    [SerializeField] private float topBoundary = 250f;
+    [SerializeField] private float bottomBoundary = -250f;
     [SerializeField] private float leftBoundary = -100f;
     [SerializeField] private float rightBoundary = 100f;
     [Header("벽 충돌 느낌 옵션")]
