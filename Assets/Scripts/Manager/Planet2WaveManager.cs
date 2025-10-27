@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.UI;
 
 public class Planet2WaveManager : MonoBehaviour
 {
@@ -51,13 +52,55 @@ public class Planet2WaveManager : MonoBehaviour
     [Header("Core Targets")]
     [SerializeField] private Core planet1Core;        
     [SerializeField] private Core planet2Core;          
-    private bool planet2CoreAlive = true;                
+    private bool planet2CoreAlive = true;
+    [Header("Wave Pre-start Delays (sec)")]
+    [Tooltip("각 웨이브 시작 '직전'에 기다릴 시간(초). 비어있거나 음수면 defaultPreDelay 사용")]
+    [SerializeField] private List<float> preStartDelays = new List<float>();
+
+    [Tooltip("preStartDelays에 항목이 없거나 음수일 때 사용할 기본 지연값(초)")]
+    [SerializeField] private float defaultPreDelay = 5f;
+    
+    public Slider mainbossHpSlider;
+    public Slider bossHpSlider;
+    
+    public float GetPreDelayForWaveIndex(int waveIndex)
+    {
+        if (preStartDelays != null &&
+            waveIndex >= 0 &&
+            waveIndex < preStartDelays.Count &&
+            preStartDelays[waveIndex] >= 0f)
+            return preStartDelays[waveIndex];
+        return defaultPreDelay;
+    }
+
+    public float GetUpcomingPreDelay() => GetPreDelayForWaveIndex(currentWaveIndex);
 
     private readonly HashSet<Enemy> activeEnemies = new();
 
     public int CurrentWaveIndex => currentWaveIndex;
 
     public Transform bossSpwanPoint;
+    public Transform mainBossSpwanPoint;
+
+    [Header("Central Sync (P2)")]
+    public bool AllWavesCompleted => currentWaveIndex >= waves.Length;
+    public bool IsBetweenWaves() => (EnemyCount <= 0 && !isSpawning && currentWaveIndex < waves.Length);
+    public float TimeBetweenWaves => timeBetweenWaves;
+
+    private bool countdownLockedByCentral = false;
+    private bool countdownArmedByCentral = false;
+
+    public void LockCountdownByCentral(bool v)
+    {
+        countdownLockedByCentral = v;
+        if (v) countdownArmedByCentral = false;
+    }
+
+    public void StartSimulCountdownFromCentral(float seconds)
+    {
+        countdown = seconds;
+        countdownArmedByCentral = true;
+    }
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -83,6 +126,10 @@ public class Planet2WaveManager : MonoBehaviour
             planet2Core.OnDie += HandlePlanet2CoreDie;
             planet2Core.OnRevive += HandlePlanet2CoreRevive;
         }
+
+        // 메인 보스 ui 초기화
+        mainbossHpSlider.gameObject.SetActive(false);
+        mainbossHpSlider.value = mainbossHpSlider.maxValue;
     }
 
     private void Update()
@@ -91,20 +138,30 @@ public class Planet2WaveManager : MonoBehaviour
         {
             waveEnd = true;
             if (waveTimerText != null) waveTimerText.text = $"Wave {currentWaveIndex + 1}";
-            if (enemyCountText != null) enemyCountText.text = $"Enemies: {EnemyCount}";
-            if (miningInstructionText != null) { miningInstructionText.color = Color.red; miningInstructionText.text = "적이 오고 있다! 기지로 돌아가라!"; }
+            if (enemyCountText != null) enemyCountText.text = $"Planet2: {EnemyCount}";
+            if (miningInstructionText != null) { miningInstructionText.color = Color.red; miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!"; }
             return;
         }
 
         if (EnemyCount > 0 && !isSpawning)
         {
-            if (enemyCountText != null) enemyCountText.text = $"Enemies: {EnemyCount}";
-            if (miningInstructionText != null) { miningInstructionText.color = Color.red; miningInstructionText.text = "적이 오고 있다! 기지로 돌아가라!"; }
+            if (enemyCountText != null) enemyCountText.text = $"Planet2: {EnemyCount}";
+            if (miningInstructionText != null) { miningInstructionText.color = Color.red; miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!"; }
             return;
         }
 
         if (EnemyCount <= 0 && !isSpawning)
         {
+            if (WaveManager.Instance != null
+                && WaveManager.Instance.IsCombinedPhase
+                && countdownLockedByCentral
+                && !countdownArmedByCentral)
+            {
+                if (waveTimerText != null) waveTimerText.text = "Waiting other planet...";
+                if (enemyCountText != null) enemyCountText.text = "Mining Phase";
+                return;
+            }
+            
             if (forceStartRequested) { 
                 StartCoroutine(SpawnWave()); 
                 countdown = timeBetweenWaves;
@@ -112,11 +169,13 @@ public class Planet2WaveManager : MonoBehaviour
                 forceStartRequested = false; 
                 return; 
             }
+            
             if (currentWaveIndex >= waves.Length)
             {
+                
                 // 모든 웨이브가 완료된 후에는 더 이상 로그를 기록하지 않음
                 if (waveTimerText != null) waveTimerText.text = "All Waves Completed!";
-                if (enemyCountText != null) enemyCountText.text = "Victory!";
+                if (enemyCountText != null) enemyCountText.text = "";
                 if (miningInstructionText != null) miningInstructionText.text = "";
                 return;
             }
@@ -132,11 +191,14 @@ public class Planet2WaveManager : MonoBehaviour
 
             EnemyCount = 0;
             countdown -= Time.deltaTime;
+            bossHpSlider.gameObject.SetActive(false);
+            bossHpSlider.value = bossHpSlider.maxValue;
 
             if (countdown <= 0f)
             {
                 StartCoroutine(SpawnWave());
-                countdown = timeBetweenWaves;
+                countdownArmedByCentral = false; // [SYNC]
+                countdown = GetPreDelayForWaveIndex(currentWaveIndex + 1);
                 isFirst = false;
             }
             else
@@ -154,8 +216,12 @@ public class Planet2WaveManager : MonoBehaviour
 
     private void LogAndResetWaveStats() // 메서드 이름은 유지하되, 내부 로직을 단순화
     {
+        mainbossHpSlider.gameObject.SetActive(false);
+        mainbossHpSlider.value = mainbossHpSlider.maxValue;
+        
         // 웨이브 완료 및 광물 로그 기록
-        GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
+        // 중복되는 wave 로그 주석 처리
+        // GameAnalyticsLogger.instance.LogWaveComplete(Managers.Instance.core.CurrentHP);
 
         // 웨이브 통계 리셋
         Managers.Instance.inventory.ResetWaveStats();
@@ -208,6 +274,10 @@ public class Planet2WaveManager : MonoBehaviour
         {
             spawnPosition = bossSpwanPoint == null ? GetRandomSpawnPosition() : bossSpwanPoint.position;
         }
+        else if (type == EnemyType.MainBoss)
+        {
+            spawnPosition = mainBossSpwanPoint == null ? GetRandomSpawnPosition() : mainBossSpwanPoint.position;
+        }
         else
         {
             spawnPosition = GetRandomSpawnPosition();
@@ -229,6 +299,8 @@ public class Planet2WaveManager : MonoBehaviour
         {
             if (enemyComponent.enemyData.enemyType == EnemyType.Boss)
                 spawnPosition = bossSpwanPoint == null ? GetRandomSpawnPosition() : bossSpwanPoint.position;
+            else if(enemyComponent.enemyData.enemyType == EnemyType.MainBoss)
+                spawnPosition = mainBossSpwanPoint == null ? GetRandomSpawnPosition() : mainBossSpwanPoint.position;
             else
                 spawnPosition = GetRandomSpawnPosition();
 
@@ -265,7 +337,8 @@ public class Planet2WaveManager : MonoBehaviour
             yield break;
 
         isSpawning = true;
-        GameAnalyticsLogger.instance.LogWaveStart(Managers.Instance.core.CurrentHP);
+        // 중복되는 wave 로그 주석 처리
+        // GameAnalyticsLogger.instance.LogWaveStart(Managers.Instance.core.CurrentHP);
         WaveSO currentWave = waves[currentWaveIndex];
 
         totalEnemiesInWave = currentWave.GetTotalEnemyCount();
@@ -286,6 +359,11 @@ public class Planet2WaveManager : MonoBehaviour
                 EnemyType typeToSpawn = SelectRandomEnemyType(currentWave);
                 if (typeToSpawn != (EnemyType)(-1))
                 {
+                    if (typeToSpawn == EnemyType.MainBoss)
+                    {
+                        mainbossHpSlider.gameObject.SetActive(true);
+                        mainbossHpSlider.value = mainbossHpSlider.maxValue;
+                    }
                     var pool = enemyPools[typeToSpawn];
                     pool.Get();
                     remainingSpawnCounts[typeToSpawn]--;

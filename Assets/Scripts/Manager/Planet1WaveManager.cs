@@ -10,6 +10,13 @@ public class Planet1WaveManager : MonoBehaviour
 {
     public static Planet1WaveManager Instance;
 
+    [Header("Wave Pre-start Delays (sec)")]
+    [Tooltip("각 웨이브 시작 '직전'에 기다릴 시간(초). 비어있거나 음수면 defaultPreDelay 사용")]
+    [SerializeField] private List<float> preStartDelays = new List<float>();
+
+    [Tooltip("preStartDelays에 항목이 없거나 음수일 때 사용할 기본 지연값(초)")]
+    [SerializeField] private float defaultPreDelay = 5f;
+
     [Header("Enemy Settings")]
     [Tooltip("Enum 순서와 일치해야 합니다!")]
     public GameObject[] enemyPrefabs; // 인덱스 = EnemyType 순서
@@ -39,6 +46,7 @@ public class Planet1WaveManager : MonoBehaviour
     public TMP_Text enemyCountText;
     public TMP_Text miningInstructionText; // 채굴 안내 텍스트
     public Slider bossHpSlider; // 슬라이더 오브젝트
+    public Slider mainBossHpSlider;
 
     [HideInInspector] public int EnemyCount = 0;
     private int totalEnemiesInWave = 0; // 현재 웨이브의 총 적 수
@@ -48,6 +56,43 @@ public class Planet1WaveManager : MonoBehaviour
     [SerializeField] private bool gateAutoHoldArmed = false;
     // [API] 추가: 중앙에서 게이트 홀드 토글
 
+    [Header("Central Sync (P1)")]
+    public bool AllWavesCompleted => currentWaveIndex >= waves.Length;
+
+    // 현재 웨이브와 다음 웨이브 사이(= 적 전멸 && 스폰 종료 && 아직 마지막 웨이브 아님)
+    public bool IsBetweenWaves() => (EnemyCount <= 0 && !isSpawning && currentWaveIndex < waves.Length);
+
+    // 읽기 전용: P1의 기본 쿨다운 초
+    public float TimeBetweenWaves => timeBetweenWaves;
+
+    // 중앙에서 카운트다운을 잠그고(대기), 동시에 시작 신호가 오면 해제한다
+    private bool countdownLockedByCentral = false;
+    private bool countdownArmedByCentral = false; // 중앙이 seconds를 넣어줬다는 표시
+
+    public float GetPreDelayForWaveIndex(int waveIndex)
+    {
+        if (preStartDelays != null &&
+            waveIndex >= 0 &&
+            waveIndex < preStartDelays.Count &&
+            preStartDelays[waveIndex] >= 0f)
+            return preStartDelays[waveIndex];
+
+        return defaultPreDelay;
+    }
+
+    // [추가] "다음에 시작될" 웨이브의 인덱스 = currentWaveIndex
+    public float GetUpcomingPreDelay() => GetPreDelayForWaveIndex(currentWaveIndex);
+    public void LockCountdownByCentral(bool v)
+    {
+        countdownLockedByCentral = v;
+        if (v) countdownArmedByCentral = false; // 잠글 땐 무장 해제
+    }
+
+    public void StartSimulCountdownFromCentral(float seconds)
+    {
+        countdown = seconds;
+        countdownArmedByCentral = true; // 이제 카운트다운을 돌려도 됨(해제 신호와 함께 사용)
+    }
     public void PauseByCentral() => enabled = false;
     public void SetGateHold(bool v) => holdAfterGate = v;
 
@@ -62,6 +107,7 @@ public class Planet1WaveManager : MonoBehaviour
 
     // 보스 스폰 위치
     public Transform bossSpwanPoint;
+    public Transform mainBossSpwanPoint;
 
     private void Awake()
     {
@@ -91,6 +137,11 @@ public class Planet1WaveManager : MonoBehaviour
         // 보스 체력바 초기화
         bossHpSlider.gameObject.SetActive(false);
         bossHpSlider.value = bossHpSlider.maxValue;
+        
+        mainBossHpSlider.gameObject.SetActive(false);
+        mainBossHpSlider.value = mainBossHpSlider.maxValue;
+        
+        countdown = GetPreDelayForWaveIndex(0);
     }
 
     private void Update()
@@ -100,22 +151,31 @@ public class Planet1WaveManager : MonoBehaviour
         {
             waveEnd = true;
             if (waveTimerText != null) waveTimerText.text = $"Wave {currentWaveIndex + 1}";
-            if (enemyCountText != null) enemyCountText.text = $"Enemies: {EnemyCount}";
+            if (enemyCountText != null) enemyCountText.text = $"Planet 1: {EnemyCount}";
             if (miningInstructionText != null)
             {
                 miningInstructionText.color = Color.red; // 빨간색으로 변경
-                miningInstructionText.text = "적이 오고 있다! 기지로 돌아가라!";
+                miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!";
+                if(currentWaveIndex >= 4)
+                {
+                    miningInstructionText.text = "적의 공격이다! 즉시 기지로 복귀하라!";
+                }
             }
             return;
         }
         // 스폰이 끝났지만 적이 남아있으면 대기
         if (EnemyCount > 0 && !isSpawning)
         {
-            if (enemyCountText != null) enemyCountText.text = $"Enemies: {EnemyCount}";
+            if (enemyCountText != null) enemyCountText.text = $"Planet 1: {EnemyCount}";
             if (miningInstructionText != null)
             {
                 miningInstructionText.color = Color.red; // 빨간색으로 변경
-                miningInstructionText.text = "적이 오고 있다! 기지로 돌아가라!";
+                miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!";
+                
+                if(currentWaveIndex >= 4)
+                {
+                    miningInstructionText.text = "적의 공격이다! 즉시 기지로 복귀하라!";
+                }
             }
             return;
         }
@@ -124,9 +184,45 @@ public class Planet1WaveManager : MonoBehaviour
         // 적이 모두 죽고, 스폰도 끝났으면 카운트다운 시작
         if (EnemyCount <= 0 && !isSpawning)
         {
+            if (currentWaveIndex >= 4) // Wave4 클리어(0-based로 4 이상)
+            {
+                if (!gateAutoHoldArmed)
+                {
+                    holdAfterGate = true;
+                    gateAutoHoldArmed = true;
+                    bossHpSlider.gameObject.SetActive(false);
+                    bossHpSlider.value = mainBossHpSlider.maxValue;
+                    if (waveTimerText) waveTimerText.text = "Waiting Planet2 activation...";
+                    if (enemyCountText) enemyCountText.text = "Mining Phase";
+                    return; // 카운트다운 시작 자체를 막아 즉시 대기 상태
+                }
+                if (holdAfterGate)
+                {
+                    bossHpSlider.gameObject.SetActive(false);
+                    bossHpSlider.value = mainBossHpSlider.maxValue;
+                    if (waveTimerText) waveTimerText.text = "Waiting Planet2 activation...";
+                    if (enemyCountText) enemyCountText.text = "Mining Phase";
+                    return; // 여전히 대기
+                }
+                
+                
+            }
+            if (WaveManager.Instance != null
+                && WaveManager.Instance.IsCombinedPhase
+                && countdownLockedByCentral
+                && !countdownArmedByCentral)
+            {
+                if (waveTimerText != null) waveTimerText.text = "Waiting other planet...";
+                if (enemyCountText != null) enemyCountText.text = "Mining Phase";
+                // 보스 HP바는 기존 로직대로 숨김 처리됨
+                return; // 카운트다운/스폰 전부 보류
+            }
             // 웨이브 종료 후 보스 체력바 비활성화 및 초기화
             bossHpSlider.gameObject.SetActive(false);
             bossHpSlider.value = bossHpSlider.maxValue;
+            
+            mainBossHpSlider.gameObject.SetActive(false);
+            mainBossHpSlider.value = mainBossHpSlider.maxValue;
             
             // 마지막 웨이브까지 모두 클리어한 경우
             if (currentWaveIndex >= waves.Length)
@@ -169,28 +265,17 @@ public class Planet1WaveManager : MonoBehaviour
             // 카운트다운이 끝나면 다음 웨이브 시작
             if (countdown <= 0f)
             {
-                if (currentWaveIndex >= 4) // 0-based: 4면 Wave4까지 완료
-                {
-                    if (!gateAutoHoldArmed) { 
-                        holdAfterGate = true; gateAutoHoldArmed = true; 
-                        if (waveTimerText) waveTimerText.text = "Waiting Planet2 activation..."; 
-                        return; 
-                    }
-                    if (holdAfterGate)
-                    {
-                        if (waveTimerText) waveTimerText.text = "Waiting Planet2 activation...";
-                        return; // 계속 대기
-                    }
-                }
+                
                 if (forceStartRequested) { 
-                    StartCoroutine(SpawnWave()); 
-                    countdown = timeBetweenWaves; 
+                    StartCoroutine(SpawnWave());
+                    countdown = GetPreDelayForWaveIndex(currentWaveIndex + 1);
                     isFirst = false; 
                     forceStartRequested = false; 
                     return; 
                 }
                 StartCoroutine(SpawnWave());
-                countdown = timeBetweenWaves;
+                countdownArmedByCentral = false;
+                countdown = GetPreDelayForWaveIndex(currentWaveIndex + 1);
                 isFirst = false; // 첫 번째 웨이브가 시작되면 더 이상 첫 시작이 아님
             }
             else
@@ -278,6 +363,19 @@ public class Planet1WaveManager : MonoBehaviour
                 spawnPosition = bossSpwanPoint.position; // 보스 스폰 포인트 사용
             }
         }
+        else if (type == EnemyType.MainBoss)
+        {
+            if(mainBossSpwanPoint == null)
+            {
+                spawnPosition = GetRandomSpawnPosition();
+            }
+            else
+            {
+                mainBossHpSlider.gameObject.SetActive(true);
+                mainBossHpSlider.value = mainBossHpSlider.maxValue;
+                spawnPosition = mainBossSpwanPoint.position;
+            }
+        }
         else
         {
             spawnPosition = GetRandomSpawnPosition();
@@ -299,6 +397,10 @@ public class Planet1WaveManager : MonoBehaviour
             if (enemyComponent.enemyData.enemyType == EnemyType.Boss)
             {
                 spawnPosition = bossSpwanPoint == null ? GetRandomSpawnPosition() : bossSpwanPoint.position;
+            }
+            else if (enemyComponent.enemyData.enemyType == EnemyType.MainBoss)
+            {
+                spawnPosition = mainBossSpwanPoint == null ? GetRandomSpawnPosition() : mainBossSpwanPoint.position;
             }
             else
             {
@@ -356,6 +458,13 @@ public class Planet1WaveManager : MonoBehaviour
                         bossHpSlider.gameObject.SetActive(true);
                         bossHpSlider.value = bossHpSlider.maxValue;
                     }
+                    
+                    if(typeToSpawn == EnemyType.MainBoss)
+                    {
+                        mainBossHpSlider.gameObject.SetActive(true);
+                        mainBossHpSlider.value = mainBossHpSlider.maxValue;
+                    }
+                    
                     var pool = enemyPools[typeToSpawn];
                     pool.Get();
                     remainingSpawnCounts[typeToSpawn]--;
