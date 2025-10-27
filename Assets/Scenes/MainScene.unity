@@ -5776,6 +5776,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planet2WeaponPivot
       objectReference: {fileID: 0}
+    - target: {fileID: 2107321024316239686, guid: 7d26a2b1c6b29aa4ba28aa5a7a704883, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7634647457021425068, guid: 7d26a2b1c6b29aa4ba28aa5a7a704883, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
