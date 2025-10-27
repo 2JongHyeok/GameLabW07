@@ -11,16 +11,16 @@ public class WorldWarper : MonoBehaviour
 
     [Header("맵 경계 설정")]
     [Tooltip("우주선이 이 Y좌표보다 위로 가면 아래에서 나타남")]
-    [SerializeField]private float topBoundary = 150f;
+   private float topBoundary = 155f;
 
     [Tooltip("우주선이 이 Y좌표보다 아래로 가면 위에서 나타남")]
-    [SerializeField]private float bottomBoundary = -150f;
+    private float bottomBoundary = -155f;
 
     [Tooltip("우주선이 이 X좌표보다 왼쪽으로 가면 오른쪽에서 나타남")]
-    [SerializeField]private float leftBoundary = -100f;
+    private float leftBoundary = -105f;
 
     [Tooltip("우주선이 이 X좌표보다 오른쪽으로 가면 왼쪽에서 나타남")]
-    [SerializeField]private float rightBoundary = 100f;
+    private float rightBoundary = 105f;
 
     [Header("Cinemachine (선택)")]
     [Tooltip("시네머신 Follow 타겟. 비우면 이 transform 사용")]

@@ -10,10 +10,10 @@ public class Ore : MonoBehaviour
     [Tooltip("이 광물 덩어리 하나가 몇 개로 취급될지 설정하세요.")]
     public int amount = 1;
     [Header("세계 좌표 경계 (기본값: top=270, bottom=-90, left=-90, right=90)")]
-    [SerializeField] private float topBoundary = 250f;
-    [SerializeField] private float bottomBoundary = -250f;
-    [SerializeField] private float leftBoundary = -100f;
-    [SerializeField] private float rightBoundary = 100f;
+    private float topBoundary = 150f;
+    private float bottomBoundary = -150f;
+    private float leftBoundary = -100f;
+    private float rightBoundary = 100f;
     [Header("벽 충돌 느낌 옵션")]
     [Tooltip("true면 벽에 닿은 축의 속도를 0으로 고정(미끄러짐 O). false면 반발 계수로 튕김.")]
     [SerializeField] private bool stopAtWall = true;
