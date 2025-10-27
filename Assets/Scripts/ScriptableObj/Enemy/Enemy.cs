@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour
     
     // 보스 처치 시 생성될 코어
     [SerializeField] private GameObject bossCorePrefab;
+    public bool isHittedByObital = false;
     
     private void Start()
     {

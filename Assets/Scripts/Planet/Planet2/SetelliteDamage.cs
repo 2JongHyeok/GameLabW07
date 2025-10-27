@@ -21,8 +21,24 @@ public class SatelliteDamage : MonoBehaviour
         var enemy = other.GetComponent<Enemy>();
         if (enemy == null) return;
 
-        // 총알과 동일한 방식으로 데미지 적용
+        if (!enemy.isHittedByObital)
+        {
+            enemy.isHittedByObital = true;
+        }
+        else return;
+
         int damage = Managers.Instance.weapon2.GetDamage();
         enemy.TakeDamage(damage, damageSourceName);
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        // 태그 체크(프로젝트 규칙과 동일하게 "Enemy" 사용)
+        if (!collision.CompareTag("Enemy")) return;
+
+        // Enemy 컴포넌트 가져오기
+        var enemy = collision.GetComponent<Enemy>();
+        if (enemy == null) return;
+
+        enemy.isHittedByObital = false;
     }
 }
