@@ -10964,8 +10964,8 @@ MonoBehaviour:
   planetCamera: {fileID: 137777106}
   spaceshipCamera: {fileID: 1430701315}
   zoomSpeed: 5
-  minPlanetCamZoom: 12
-  maxPlanetCamZoom: 12
+  minPlanetCamZoom: 20
+  maxPlanetCamZoom: 20
   minShipCamZoom: 2
   maxShipCamZoom: 20
   smoothSpeed: 5
