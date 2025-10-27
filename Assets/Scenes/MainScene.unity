@@ -1316,6 +1316,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: space_ship
       objectReference: {fileID: 0}
+    - target: {fileID: 9148295601314746383, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
