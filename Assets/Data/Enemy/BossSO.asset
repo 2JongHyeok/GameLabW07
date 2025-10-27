@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BossSO
   m_EditorClassIdentifier: 
   enemyType: 5
-  enemyHP: 3
+  enemyHP: 100
   enemySpeed: 1
   enemyPrefab: {fileID: 0}
   bulletPrefab: {fileID: 6360892650054380025, guid: ef343e70042ee1140871eafb98ce9661, type: 3}
