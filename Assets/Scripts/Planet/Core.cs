@@ -18,6 +18,7 @@ public class Core : MonoBehaviour
     [SerializeField] private GameObject autoTurret;
     [SerializeField] private GameObject sucksionZone;
     [SerializeField] private Image alertImage;
+    [SerializeField] private DockingStation dockingStation;
     private bool isAlert = false;
     
     // 현재 체력 읽기용 
@@ -108,10 +109,7 @@ public class Core : MonoBehaviour
         if (isDead) return;
         isDead = true;
         OnDie?.Invoke();
-        dockingSystem.SetActive(false);
-        sucksionZone.SetActive(false);
-        autoTurret.SetActive(false);
-        //Destroy(gameObject);
+        HideCore();
         //  Planet1은 true → 기존처럼 GameOver, Planet2는 false → 게임은 계속
         if (endGameOnDie)
         {
@@ -120,7 +118,33 @@ public class Core : MonoBehaviour
             
         // else: 비파괴 상태로 유지(부활 가능)
     }
+    private void HideCore()
+    {
+        if (dockingStation != null)
+        {
+            dockingStation.PlayerGoToSpace();
+        }
+        
+        var renderers = GetComponentsInChildren<Renderer>();
+        foreach (var renderer in renderers)
+            renderer.enabled = false;
 
+        var colliders = GetComponentsInChildren<Collider2D>();
+        foreach (var col in colliders)
+            col.enabled = false;
+
+        var rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.simulated = false; 
+        }
+
+        dockingSystem.SetActive(false);
+        sucksionZone.SetActive(false);
+        autoTurret.SetActive(false);
+    }
     private void GameOver()
     {
         GameAnalyticsLogger.instance.LogWaveFail(Managers.Instance.core.CurrentHP);
@@ -143,12 +167,30 @@ public class Core : MonoBehaviour
         {
             isDead = false;
             OnRevive?.Invoke();
-            dockingSystem.SetActive(true);
-            sucksionZone.SetActive(true);
-            autoTurret.SetActive(true);
+            Revive();
         }
     }
+    public void Revive()
+    {
 
+        // 렌더러 다시 켜기
+        foreach (var renderer in GetComponentsInChildren<Renderer>())
+            renderer.enabled = true;
+
+        // 콜라이더 다시 켜기
+        foreach (var col in GetComponentsInChildren<Collider2D>())
+            col.enabled = true;
+
+        // Rigidbody 다시 활성화
+        var rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+            rb.simulated = true;
+
+        // 다른 시스템도 다시 켜기
+        dockingSystem.SetActive(true);
+        sucksionZone.SetActive(true);
+        autoTurret.SetActive(true);
+    }
     public void AddMaxHP(int amount)
     {
         maxHP += amount;

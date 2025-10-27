@@ -2413,6 +2413,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 229442894}
     - target: {fileID: 8400077734484539953, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
+      propertyPath: dockingStation
+      value: 
+      objectReference: {fileID: 1660408333}
+    - target: {fileID: 8400077734484539953, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
       propertyPath: inventoryManger
       value: 
       objectReference: {fileID: 5803141803156037022}
@@ -5597,6 +5601,7 @@ MonoBehaviour:
   autoTurret: {fileID: 742853715}
   sucksionZone: {fileID: 1183638031375791093}
   alertImage: {fileID: 62145802}
+  dockingStation: {fileID: 0}
   endGameOnDie: 1
 --- !u!212 &1190461933
 SpriteRenderer:

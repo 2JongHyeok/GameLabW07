@@ -57,39 +57,43 @@ public class DockingStation : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) && cameraSwitcher && 
             SpaceshipController.IsSpaceshipMode==false&& isShipDocked==true)
         {
-            isShipDocked = false;
-            Debug.Log(isShipDocked);
-            cameraSwitcher.ActivateSpaceship();
-            SpaceshipController.SetIsSpaceShipMode(true);
-            if (dockedShip)
-            {
-                //[Log] 출격 로그 출력
-                GameAnalyticsLogger.instance.LogPlayerExitBase();
-                
-                Debug.Log(transform.position+" "+gameObject.name+" "+ nextDeparturePosition);
-                // [수정] 출격 로직을 LaunchShip() 함수로 분리합니다.
-                // dockedShip.transform.SetPositionAndRotation(nextDeparturePosition, nextDepartureRotation);
-                // dockedShip.SetActive(true);
-                // isSpaceshipMode = true;
-                LaunchShip();
-
-                UpdateAllUIStates();
-            }
-            if (planet1Weapon != null && planet1Weapon.Length > 0)
-            {
-                foreach (var weapon in planet1Weapon)
-                {
-                    if (weapon != null)
-                        weapon.DeactivateWeapon();
-                }
-            }
-            else if (planet2Weapon != null)
-            {
-                planet2Weapon.DeactivateWeapon(); // Weapon2에 새 메서드 추가 필요
-            }
+            PlayerGoToSpace();
         }
     }
 
+    public void PlayerGoToSpace()
+    {
+        isShipDocked = false;
+        Debug.Log(isShipDocked);
+        cameraSwitcher.ActivateSpaceship();
+        SpaceshipController.SetIsSpaceShipMode(true);
+        if (dockedShip)
+        {
+            //[Log] 출격 로그 출력
+            GameAnalyticsLogger.instance.LogPlayerExitBase();
+
+            Debug.Log(transform.position + " " + gameObject.name + " " + nextDeparturePosition);
+            // [수정] 출격 로직을 LaunchShip() 함수로 분리합니다.
+            // dockedShip.transform.SetPositionAndRotation(nextDeparturePosition, nextDepartureRotation);
+            // dockedShip.SetActive(true);
+            // isSpaceshipMode = true;
+            LaunchShip();
+
+            UpdateAllUIStates();
+        }
+        if (planet1Weapon != null && planet1Weapon.Length > 0)
+        {
+            foreach (var weapon in planet1Weapon)
+            {
+                if (weapon != null)
+                    weapon.DeactivateWeapon();
+            }
+        }
+        else if (planet2Weapon != null)
+        {
+            planet2Weapon.DeactivateWeapon(); // Weapon2에 새 메서드 추가 필요
+        }
+    }
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Spaceship")) return;
