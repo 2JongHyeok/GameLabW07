@@ -55,7 +55,7 @@ public class Core : MonoBehaviour
         if (currentHP < 0) currentHP = 0;
         OnHpChanged?.Invoke(currentHP);
         UpdateHPText();
-        StartCoroutine(FadeInAndOut(alertImage, 0.3f, 0.3f));
+        StartCoroutine(FadeInAndOut(alertImage, 0.5f, 0.5f));
 
         if (!isDead && CurrentHP <= 0)
             Die();
