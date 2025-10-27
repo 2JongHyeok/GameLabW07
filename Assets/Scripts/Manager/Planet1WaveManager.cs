@@ -188,6 +188,8 @@ public class Planet1WaveManager : MonoBehaviour
             {
                 if (!gateAutoHoldArmed)
                 {
+                    bossHpSlider.gameObject.SetActive(false);
+                    bossHpSlider.value = bossHpSlider.maxValue;
                     holdAfterGate = true;
                     gateAutoHoldArmed = true;
                     if (waveTimerText) waveTimerText.text = "Waiting Planet2 activation...";
@@ -196,6 +198,8 @@ public class Planet1WaveManager : MonoBehaviour
                 }
                 if (holdAfterGate)
                 {
+                    bossHpSlider.gameObject.SetActive(false);
+                    bossHpSlider.value = bossHpSlider.maxValue;
                     if (waveTimerText) waveTimerText.text = "Waiting Planet2 activation...";
                     if (enemyCountText) enemyCountText.text = "Mining Phase";
                     return; // 여전히 대기

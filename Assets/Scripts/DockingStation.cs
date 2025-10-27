@@ -154,4 +154,6 @@ public class DockingStation : MonoBehaviour
         nextDeparturePosition = transform.position + dir * departureRadius;
         nextDepartureRotation = Quaternion.LookRotation(Vector3.forward, dir);
     }
+
+
 }

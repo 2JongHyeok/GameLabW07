@@ -124,7 +124,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
   m_PrefabInstance: {fileID: 1183638031375791092}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1183638031375791094}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b4769e901c7989488fa30cd3ec8bde8, type: 3}
@@ -2008,6 +2008,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7214629419806525471, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
   m_PrefabInstance: {fileID: 583798100}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &583798102 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7977831134454261125, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
+  m_PrefabInstance: {fileID: 583798100}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &586435983 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8400077734484539953, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
@@ -2264,9 +2269,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1244889370}
     - target: {fileID: 8400077734484539953, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
+      propertyPath: autoTurret
+      value: 
+      objectReference: {fileID: 1001158639}
+    - target: {fileID: 8400077734484539953, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
       propertyPath: coreNumber
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8400077734484539953, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
+      propertyPath: sucksionZone
+      value: 
+      objectReference: {fileID: 583798102}
+    - target: {fileID: 8400077734484539953, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
+      propertyPath: dockingSystem
+      value: 
+      objectReference: {fileID: 229442894}
     - target: {fileID: 8400077734484539953, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
       propertyPath: inventoryManger
       value: 
@@ -5311,6 +5328,9 @@ MonoBehaviour:
   maxHP: 100
   CoreHpText: {fileID: 1043734844}
   inventoryManger: {fileID: 5803141803156037022}
+  dockingSystem: {fileID: 1183638031375791094}
+  autoTurret: {fileID: 742853715}
+  sucksionZone: {fileID: 1183638031375791093}
   endGameOnDie: 1
 --- !u!212 &1190461933
 SpriteRenderer:
@@ -12370,6 +12390,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
+--- !u!1 &1183638031375791093 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7977831134454261125, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
+  m_PrefabInstance: {fileID: 1183638031375791092}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1183638031375791094 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1490539693002975518, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
+  m_PrefabInstance: {fileID: 1183638031375791092}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1283875468145906675
 MonoBehaviour:
   m_ObjectHideFlags: 0
