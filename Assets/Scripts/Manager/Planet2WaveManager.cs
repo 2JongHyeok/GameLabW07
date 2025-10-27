@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
-
+[DefaultExecutionOrder(-10)]
 public class Planet2WaveManager : MonoBehaviour
 {
     public static Planet2WaveManager Instance;
@@ -190,6 +190,9 @@ public class Planet2WaveManager : MonoBehaviour
 
             if (countdown <= 0f)
             {
+                bool inCombined = (WaveManager.Instance != null && WaveManager.Instance.IsCombinedPhase);
+                if (inCombined && !countdownArmedByCentral)
+                    return;
                 StartCoroutine(SpawnWave());
                 countdownArmedByCentral = false; // [SYNC]
                 if (WaveManager.Instance == null || !WaveManager.Instance.IsCombinedPhase)

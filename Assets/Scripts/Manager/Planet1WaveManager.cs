@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
 
-
+[DefaultExecutionOrder(-10)]
 public class Planet1WaveManager : MonoBehaviour
 {
     public static Planet1WaveManager Instance;
@@ -219,19 +219,9 @@ public class Planet1WaveManager : MonoBehaviour
                 && countdownLockedByCentral
                 && !countdownArmedByCentral)
             {
-                if (countdown <= 0f)
-                {
-                    StartCoroutine(SpawnWave());
-                    countdownArmedByCentral = false; // 중앙 카운트다운 사용 완료
-                    isFirst = false;
-                    waveGuard = true;
-                }
-                else
-                {
-                    if (waveTimerText != null) waveTimerText.text = "Waiting other planet...";
-                    if (enemyCountText != null) enemyCountText.text = "Mining Phase";
-                }
-                return; // 카운트다운/스폰 전부 보류
+                if (waveTimerText != null) waveTimerText.text = "Waiting other planet...";
+                if (enemyCountText != null) enemyCountText.text = "Mining Phase";
+                return; 
             }
             // 웨이브 종료 후 보스 체력바 비활성화 및 초기화
             bossHpSlider.gameObject.SetActive(false);
@@ -289,7 +279,6 @@ public class Planet1WaveManager : MonoBehaviour
             // 카운트다운이 끝나면 다음 웨이브 시작
             if (countdown <= 0f)
             {
-                
                 if (forceStartRequested) { 
                     StartCoroutine(SpawnWave());
 
@@ -297,10 +286,17 @@ public class Planet1WaveManager : MonoBehaviour
                     forceStartRequested = false; 
                     return; 
                 }
+                bool inCombined = (WaveManager.Instance != null && WaveManager.Instance.IsCombinedPhase);
+                if (inCombined && !countdownArmedByCentral)
+                    return;
+
+                // 3) 정상 시작
                 StartCoroutine(SpawnWave());
-                countdownArmedByCentral = false;
-                isFirst = false; // 첫 번째 웨이브가 시작되면 더 이상 첫 시작이 아님
+                if (inCombined) countdownArmedByCentral = false; // arm 토큰 소모
+
+                isFirst = false;
                 waveGuard = true;
+                return;
             }
             else
             {
