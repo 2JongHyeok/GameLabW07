@@ -19,7 +19,7 @@ MonoBehaviour:
     <color=green>60\uCD08</color> "
   depth: 4
   coalCost: 4
-  ironCost: 3
+  ironCost: 2
   goldCost: 0
   diamondCost: 0
   postSubBranches: []
