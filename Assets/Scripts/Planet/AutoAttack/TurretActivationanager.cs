@@ -73,6 +73,7 @@ public class TurretActivationManager : MonoBehaviour
         if (laserActivated) return;                 // 중복 방지
         if (laserTurret == null)
         {
+            Debug.LogError("[Laser] laserTurret 미할당");
             return;
         }
         var go = laserTurret.gameObject;
@@ -82,6 +83,7 @@ public class TurretActivationManager : MonoBehaviour
         // 그 다음 전략 활성화(코루틴 시작)
         laserTurret.ActivateTurret(laserStrategy);
         laserActivated = true;
+        Debug.Log("[Laser] 레이저 포탑 활성화 완료");
     }
     void Update()
     {

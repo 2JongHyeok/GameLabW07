@@ -90,6 +90,7 @@ public class Planet2Manager : MonoBehaviour
             var cargoSystem = FindAnyObjectByType<SpaceshipCargoSystem>();
             cargoSystem.CallBreakConnectionForPlanetCore();
             
+            GameAnalyticsLogger.instance.LogPlanetCoreActivated();
             VisibleEffect.SetActive(false);
             WaveManager.Instance?.NotifyPlanet2Activated();
             cargoSystem.UnloadAllOres(inventoryManger);

@@ -321,6 +321,7 @@ public class SpaceshipCargoSystem : MonoBehaviour
                 {
                     oreToCollect.transform.GetChild(0).transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
                 }
+                GameAnalyticsLogger.instance.LogPlanetCoreCollected();
             }
         }
         potentialOres.Remove(oreToCollect);

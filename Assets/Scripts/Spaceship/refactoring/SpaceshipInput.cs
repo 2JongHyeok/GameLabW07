@@ -27,6 +27,7 @@ public class SpaceshipInput : MonoBehaviour
         mainCamera = Camera.main;
         if (mainCamera == null)
         {
+            Debug.LogError("메인 카메라를 찾을 수 없습니다! 카메라에 'MainCamera' 태그가 있는지 확인하세요.");
         }
     }
 

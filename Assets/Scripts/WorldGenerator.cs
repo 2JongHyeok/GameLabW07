@@ -104,6 +104,7 @@ public class WorldGenerator : MonoBehaviour
     /// </summary>
     public void GenerateWorld()
     {
+        Debug.LogError(generationRadius+" , "+generationWidth+" , "+generationHeight);
         // 테스트를 위해 기존 타일을 모두 지웁니다.
         worldTilemap.ClearAllTiles();
         
@@ -163,6 +164,7 @@ public class WorldGenerator : MonoBehaviour
             shadowGenerator.GenerateInitialShadow();
         }
 
+        GameAnalyticsLogger.instance.LogTilemapInfo(GetMineralSpawnLogDataAsString());
 
     }
 
@@ -211,6 +213,7 @@ public class WorldGenerator : MonoBehaviour
         Tilemap prefabTilemap = asteroidPrefab.GetComponentInChildren<Tilemap>();
         if (prefabTilemap == null)
         {
+            Debug.LogError($"{asteroidPrefab.name} 프리팹 안에 Tilemap이 없습니다!");
             return;
         }
 
@@ -221,6 +224,7 @@ public class WorldGenerator : MonoBehaviour
         bool mirrorY = Random.value > 0.5f;     // 수직 반전 여부
 
         // 디버깅을 위해 어떤 변환이 선택되었는지 확인하고 싶다면 아래 주석을 해제하세요.
+        // Debug.Log($"Spawning with Rotation: {rotationIndex * 90} deg, MirrorX: {mirrorX}, MirrorY: {mirrorY}");
 
         // 프리팹 타일맵의 모든 타일 정보를 순회합니다.
         foreach (var pos in prefabTilemap.cellBounds.allPositionsWithin)

@@ -64,12 +64,15 @@ public class DockingStation : MonoBehaviour
     public void PlayerGoToSpace()
     {
         isShipDocked = false;
+        Debug.Log(isShipDocked);
         cameraSwitcher.ActivateSpaceship();
         SpaceshipController.SetIsSpaceShipMode(true);
         if (dockedShip)
         {
-          
+            //[Log] 출격 로그 출력
+            GameAnalyticsLogger.instance.LogPlayerExitBase();
 
+            Debug.Log(transform.position + " " + gameObject.name + " " + nextDeparturePosition);
             // [수정] 출격 로직을 LaunchShip() 함수로 분리합니다.
             // dockedShip.transform.SetPositionAndRotation(nextDeparturePosition, nextDepartureRotation);
             // dockedShip.SetActive(true);
@@ -95,11 +98,13 @@ public class DockingStation : MonoBehaviour
     {
         if (!other.CompareTag("Spaceship")) return;
         if (!cameraSwitcher) return;
+        Debug.Log("IsSpaceshipMode"+SpaceshipController.IsSpaceshipMode);
         // 우주선 모드일 때만 도킹 처리 (중복 토글/오차 방지)
         if (SpaceshipController.IsSpaceshipMode)
         {
             SpaceshipController.SetIsSpaceShipMode(false);
             isShipDocked = true;
+            Debug.Log(isShipDocked);
             // 1) 이 행성의 카메라 지정
             cameraSwitcher.SetPlanetCamera(planetCamera);
             // 2) 즉시 행성 시점으로 전환
@@ -113,7 +118,10 @@ public class DockingStation : MonoBehaviour
             StoreShip();
             UpdateAllUIStates();
 
+            Debug.Log($"[DockingStation] 도킹 완료: {(planetCamera ? planetCamera.name : "null")}");
             
+            // [Log] 도킹 로그 출력
+            GameAnalyticsLogger.instance.LogPlayerEnterBase();
         }
     }
 

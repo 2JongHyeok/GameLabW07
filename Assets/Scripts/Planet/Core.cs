@@ -147,6 +147,9 @@ public class Core : MonoBehaviour
     }
     private void GameOver()
     {
+        GameAnalyticsLogger.instance.LogWaveFail(Managers.Instance.core.CurrentHP);
+        GameAnalyticsLogger.instance.LogWaveResources(
+            Managers.Instance.inventory.GetWaveResourceStats(Planet1WaveManager.Instance.CurrentWaveIndex));
         Managers.Instance.RestartPanel.SetActive(true);
         Destroy(gameObject);
     }
