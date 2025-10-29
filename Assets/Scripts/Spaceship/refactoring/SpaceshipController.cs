@@ -110,7 +110,7 @@ public class SpaceshipController : MonoBehaviour
         shipMotor.Move(shipInput.ThrustInput, currentBoostMultiplier);
         shipMotor.Rotate(shipInput.RotateInput);
         shipMotor.ApplyActiveDeceleration(shipInput.ThrustInput);
-        shipMotor.ApplyActiveRotationalDeceleration(shipInput.RotateInput);
+        shipMotor.ApplyActiveRotationalDeceleration(shipInput.RotateInput, shipInput.ThrustInput);
         Vector2 currentPosition = rb.position;
         
         // 프레임 간 이동 거리 누적
@@ -139,7 +139,7 @@ public class SpaceshipController : MonoBehaviour
         ToggleParticle(thrusterParticle, isThrusting);
         ToggleParticle(boostParticle1, isBoosting);
         ToggleParticle(boostParticle2, isBoosting);
-        ToggleParticle(rightThrusterParticle, rotateInput > 0.1f);
+        ToggleParticle(rightThrusterParticle, rotateInput > 0.1f); // 여기 이펙트
         ToggleParticle(leftThrusterParticle, rotateInput < -0.1f);
         ToggleParticle(reverseThrusterParticle, canControl && shipInput.ThrustInput < -0.1f);
 

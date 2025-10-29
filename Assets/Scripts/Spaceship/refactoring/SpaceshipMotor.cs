@@ -52,6 +52,15 @@ public class SpaceshipMotor : MonoBehaviour
     [Range(0f, 100f)]
     [SerializeField] private float overweightThresholdPercent = 80f;
 
+    // ## 여기부터 추가 ##
+    [Header("Knockback Settings")]
+    [Tooltip("전방 충돌 시 튕겨나갈 힘의 크기 (Impulse)")]
+    [SerializeField] private float knockbackStrength = 10f;
+    
+    [Tooltip("넉백이 발동되기 위한 최소 충돌 속도")]
+    [SerializeField] private float minKnockbackSpeed = 1f;
+    // ## 추가 끝 ##
+    
     public event Action OnThrustValueChanged;
 
     public Rigidbody2D Rb { get; private set; }
@@ -164,7 +173,7 @@ public class SpaceshipMotor : MonoBehaviour
     // Rotate 함수는 변경할 필요가 없습니다.
     public void Rotate(float rotateInput)
     {
-        if (Mathf.Abs(rotateInput) > 0.1f)
+        if (Mathf.Abs(rotateInput) > 0.01f)
         {
             Rb.AddTorque(-rotateInput * additiveTorque);
         }
@@ -193,9 +202,27 @@ public class SpaceshipMotor : MonoBehaviour
             }
         }
     }
-    public void ApplyActiveRotationalDeceleration(float rotateInput)
+    public void ApplyActiveRotationalDeceleration(float rotateInput, float thrustInput = 0f)
     {
-        if (Mathf.Abs(rotateInput) < 0.1f)
+        /*if (Mathf.Abs(rotateInput) < 0.1f)
+        {
+            if (Mathf.Abs(Rb.angularVelocity) > 0)
+            {
+                // 현재 회전 방향의 반대로 '제동 토크'를 가합니다.
+                float counterTorque = -Mathf.Sign(Rb.angularVelocity) * stoppingTorque;
+                Rb.AddTorque(counterTorque);
+            }
+            // 현재 각속도를 '비율'로 감소시킵니다.
+            Rb.angularVelocity *= rotationalGlideReduction;
+            if (Mathf.Abs(Rb.angularVelocity) < angularStopThreshold)
+            {
+                Rb.angularVelocity = 0f;
+            }
+        }*/
+        
+        // 1. 회전 입력이 없을 때 '그리고'
+        // 2. 추진 입력(직진)도 없을 때만 능동 제동을 실행합니다.
+        if (Mathf.Abs(rotateInput) < 0.01f && Mathf.Abs(thrustInput) < 0.1f)
         {
             if (Mathf.Abs(Rb.angularVelocity) > 0)
             {
@@ -259,5 +286,28 @@ public class SpaceshipMotor : MonoBehaviour
 
     #endregion
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // 1. 최소 속도 이상으로 움직이고 있을 때만 넉백을 검사합니다.
+        //    (가만히 있는데 넉백되면 이상하니까)
+        if (Rb.linearVelocity.magnitude < minKnockbackSpeed)
+        {
+            return;
+        }
 
+        // 2. 충돌 지점의 법선 벡터(normal)를 가져옵니다. 
+        //    이 벡터는 충돌한 표면에서 '바깥으로' 튕겨 나오는 방향입니다.
+        Vector2 collisionNormal = collision.contacts[0].normal;
+
+        // 3. 우주선의 '앞쪽' 방향(transform.up)과 법선 벡터를 내적(Dot)합니다.
+        //    결과가 -1에 가까우면 정면 충돌, 0이면 측면, 1이면 후방 충돌입니다.
+        float dot = Vector2.Dot(transform.up, collisionNormal);
+
+        // 4. 정면 충돌인지 확인합니다. (dot < -0.1f, 즉 90도보다 앞쪽으로 충돌)
+        if (dot < -0.1f)
+        {
+            // 5. 법선 벡터 방향(튕겨나올 방향)으로 '즉발적인' 힘(Impulse)을 가해 넉백시킵니다.
+            Rb.AddForce(collisionNormal * knockbackStrength, ForceMode2D.Impulse);
+        }
+    }
 }

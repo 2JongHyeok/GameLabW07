@@ -1452,6 +1452,26 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 908878209827147228, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: additiveTorque
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 908878209827147228, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: stoppingTorque
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 908878209827147228, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: minKnockbackSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2413852135908817706, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: mouseSensitivity
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2413852135908817706, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: mouseRotationThreshold
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3954204389919689628, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
       propertyPath: ropeSegmentPrefab
       value: 
@@ -1475,6 +1495,18 @@ PrefabInstance:
     - target: {fileID: 6443243626551388017, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
       propertyPath: m_Name
       value: Planet1TargetIndicator
+      objectReference: {fileID: 0}
+    - target: {fileID: 7180292076679184082, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 7180292076679184082, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 7180292076679184082, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 7180292076679184082, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1520,6 +1552,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: space_ship
       objectReference: {fileID: 0}
+    - target: {fileID: 9003192783875796088, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 500e80e9b5a330345a318a19f0c372ea, type: 2}
     - target: {fileID: 9148295601314746383, guid: 31ae00cb01416884f93ddbf2060a3dea, type: 3}
       propertyPath: m_SortingOrder
       value: 10
@@ -13700,8 +13736,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1889246257501131323}
   m_HandleRect: {fileID: 8920092929309086370}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 0.5885416
+  m_Value: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
