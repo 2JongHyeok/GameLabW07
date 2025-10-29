@@ -13,13 +13,11 @@ MonoBehaviour:
   m_Name: DurabilityAsteroidColors
   m_EditorClassIdentifier: 
   colorMappings:
-  - durabilityThreshold: 5
-    color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
+  - durabilityThreshold: 2
+    color: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
   - durabilityThreshold: 4
     color: {r: 0.3529412, g: 0.3529412, b: 0.3529412, a: 1}
-  - durabilityThreshold: 3
-    color: {r: 0.3137255, g: 0.3137255, b: 0.3137255, a: 1}
-  - durabilityThreshold: 2
-    color: {r: 0.27450982, g: 0.27450982, b: 0.27450982, a: 1}
-  - durabilityThreshold: 1
+  - durabilityThreshold: 10
     color: {r: 0.23529412, g: 0.23529412, b: 0.23529412, a: 1}
+  - durabilityThreshold: 20
+    color: {r: 0.11764706, g: 0.11764706, b: 0.11764706, a: 1}
