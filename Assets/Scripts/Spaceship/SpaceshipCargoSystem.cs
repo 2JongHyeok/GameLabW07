@@ -312,6 +312,18 @@ public class SpaceshipCargoSystem : MonoBehaviour
         // 수집 직전에 하이라이트를 확실히 끕니다.
         ClearHighlight();
         
+        if(oreToCollect.TryGetComponent<Ore>(out var ore))
+        {
+            if(ore.oreType == OreType.PlanetCore)
+            {
+                // 수집한 광물의 자식 오브젝트에 접근 후 크기 감소
+                if (oreToCollect.transform.GetChild(0) != null)
+                {
+                    oreToCollect.transform.GetChild(0).transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+                }
+                GameAnalyticsLogger.instance.LogPlanetCoreCollected();
+            }
+        }
         potentialOres.Remove(oreToCollect);
         
         // --- 이하 로프 생성 로직 ---

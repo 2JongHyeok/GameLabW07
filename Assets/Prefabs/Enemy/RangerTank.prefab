@@ -221,11 +221,15 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: 64da78864db95fa42a0905967e5b4999, type: 2}
   firePoint: {fileID: 6642446227114851140}
   maxDistanceFromTarget: 50
+  respawnDistanceOffset: 2
   target: {fileID: 0}
   enemyHP: 0
   isDead: 0
   isAttacking: 0
   attackTimer: 0
+  enemyNum: 0
+  bossCorePrefab: {fileID: 0}
+  isHittedByObital: 0
 --- !u!61 &1900514363879975294
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -246,10 +250,10 @@ BoxCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 119
+    m_Bits: 32887
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 119
+    m_Bits: 32887
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295

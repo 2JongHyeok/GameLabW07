@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07036a65505eaee49af8cd5408739b90, type: 3}
+  m_Name: BossSO
+  m_EditorClassIdentifier: 
+  enemyType: 5
+  enemyHP: 450
+  enemySpeed: 0.8
+  enemyPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 6360892650054380025, guid: ef343e70042ee1140871eafb98ce9661, type: 3}
+  attackRange: 10
+  bulletSpeed: 1
+  attackCooldown: 1
+  ExplosionEffectPrefab: {fileID: 5807730180560662781, guid: 9b9b064fb4e0f0445a06122d7bfca6e6, type: 3}
+  damage: 50
+  explosionRadius: 4
+  effectExplosionRadius: 8
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 8193

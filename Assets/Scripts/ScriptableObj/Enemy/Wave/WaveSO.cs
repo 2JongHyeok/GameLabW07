@@ -12,7 +12,7 @@ public class WaveSO : ScriptableObject
     public int kamikazeTankCount = 0;
     public int parasiteCount = 0;
     public int bossCount = 0;
-
+    public int mainBossCount = 0;
 
     [Header("Spawn Timing")]
     [Tooltip("스폰 간격 (초)")]
@@ -27,7 +27,7 @@ public class WaveSO : ScriptableObject
     // 이 웨이브에서 스폰할 총 적의 수 계산
     public int GetTotalEnemyCount()
     {
-        return rangerCount + rangerTankCount + kamikazeCount + kamikazeTankCount + parasiteCount + bossCount;
+        return rangerCount + rangerTankCount + kamikazeCount + kamikazeTankCount + parasiteCount + bossCount + mainBossCount;
     }
 
     // 특정 적 타입의 스폰 수 가져오기
@@ -47,6 +47,8 @@ public class WaveSO : ScriptableObject
                 return parasiteCount;
             case EnemyType.Boss:
                 return bossCount;
+            case EnemyType.MainBoss:
+                return mainBossCount;
             default:
                 return 0;
         }
@@ -74,6 +76,9 @@ public class WaveSO : ScriptableObject
             
         if (bossCount > 0)
             infos.Add(new EnemySpawnInfo { enemyType = EnemyType.Boss, count = bossCount });
+        
+        if (mainBossCount > 0)
+            infos.Add(new EnemySpawnInfo { enemyType = EnemyType.MainBoss, count = mainBossCount });
 
 
         return infos.ToArray();

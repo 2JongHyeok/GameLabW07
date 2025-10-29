@@ -5,7 +5,7 @@ public class OreSuctionZone : MonoBehaviour
 {
     [Header("흡입 설정")]
     [Tooltip("광물이 빨려들어갈 목표 지점 (예: Vector2.zero 또는 다른 Transform.position)")]
-    [SerializeField] private Vector2 suctionTarget = Vector2.zero;
+    [SerializeField] private GameObject suctionTargetObject; // Inspector에서 할당
 
     [Tooltip("흡입 속도")]
     [SerializeField] private float suctionSpeed = 5f;
@@ -39,17 +39,15 @@ public class OreSuctionZone : MonoBehaviour
             Planet2Manager.instance.SetCoreStatus(false);
             return;
         }
-        
-        
-        // 만약 광물이 다른 곳에서 먼저 파괴되었을 수 있으니, 확인 후 코루틴을 시작합니다.
-        if (oreObj != null)
-        {    
-            // 광물이 (0,0)으로 부드럽게 끌려가도록 코루틴 시작
-            StartCoroutine(SuckToCenter(oreObj));
+
+
+        if (oreObj != null && suctionTargetObject != null)
+        {
+            StartCoroutine(SuckToTarget(oreObj, suctionTargetObject.transform));
         }
     }
 
-    private IEnumerator SuckToCenter(GameObject ore)
+    private IEnumerator SuckToTarget(GameObject ore, Transform target)
     {
         Rigidbody2D rb = ore.GetComponent<Rigidbody2D>();
         
@@ -60,10 +58,10 @@ public class OreSuctionZone : MonoBehaviour
             rb.angularVelocity = 0;
         }
 
-        while (ore != null)
+        while (ore != null && target != null)
         {
             Vector2 pos = ore.transform.position;
-            Vector2 dir = (suctionTarget - pos);
+            Vector2 dir = (target.position - ore.transform.position);
             float dist = dir.magnitude;
 
             if (dist < 0.1f)

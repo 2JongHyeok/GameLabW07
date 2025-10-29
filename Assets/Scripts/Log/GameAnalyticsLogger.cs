@@ -6,8 +6,8 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using UnityEngine;
-
-public enum LogCategory { Session, Wave, Build, Resources, Combat, Movement,Total}
+using System.Collections;
+public enum LogCategory { Session, Wave, Build, Resources, Combat, Movement, Coordinate, TilemapInfo }
 
 public class GameAnalyticsLogger : MonoBehaviour
 {
@@ -24,6 +24,10 @@ public class GameAnalyticsLogger : MonoBehaviour
     public Vector2 playerLastPosition;
     public float playerMoveDistance = 0f;
     public float playerMaxMoveDistance = 0f;
+    
+    [Header("Logging Settings")] // 강제 로그 기록 간격 - 플레이어 좌표 수집용
+    private const float LOGGING_INTERVAL = 5.0f; 
+    private Coroutine loggingCoroutine;
 
 
     string userId, sessionId, sessionDir;
@@ -38,6 +42,8 @@ public class GameAnalyticsLogger : MonoBehaviour
     { LogCategory.Resources,   "resource.txt" },
     { LogCategory.Combat,      "combat.txt" },
     { LogCategory.Movement,    "movement.txt" },
+    {LogCategory.Coordinate,    "Coordinate.txt" },
+    {LogCategory.TilemapInfo, "TilemapInfo.txt" },
 };
 
 readonly Dictionary<LogCategory, string[]> csvHeaders = new()
@@ -54,7 +60,8 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
 
     { LogCategory.Build , new[]{
         "event_name", "ts", "t",
-        "Wave", "Timestamp", "Build_Name"
+        "Wave", "Timestamp", "Build_Name", "Build_ID",
+        "Cost_Coal", "Cost_Iron", "Cost_Gold", "Cost_Diamond"
     }},
 
     { LogCategory.Resources, new[]{
@@ -75,6 +82,16 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         "event_name","ts","t",
         "Wave", "Timestamp", "Exit_Count_Session",
         "Player_Move_Distance", "Player_Max_Move_Distance"
+    }},
+    
+    { LogCategory.Coordinate, new[]{
+        "event_name","ts","t",
+        "Wave", "Timestamp",
+        "Player_Coodinate"
+    }},
+    { LogCategory.TilemapInfo , new[]{
+        "event_name","ts","t",
+        "Tilemap"
     }},
 };
 
@@ -99,6 +116,12 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         Directory.CreateDirectory(sessionDir);
         Application.wantsToQuit += OnWantsToQuit;
         LogSessionStart();
+    }
+    
+    public void Start()
+    {
+        // 강제 로그 기록 코루틴 시작 - 플레이어 좌표 수집용
+        loggingCoroutine = StartCoroutine(TimedLoggingRoutine());
     }
 
 
@@ -223,8 +246,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            // { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex > 0 ? Planet1WaveManager.Instance.CurrentWaveIndex - 1 : 0 }
-            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex },
+            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
             { "Timestamp", GetLocalTime() },
             { "Core_Hp_CompleteWave",  coreHpComplete}
         };
@@ -237,8 +259,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            // { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex > 0 ? Planet1WaveManager.Instance.CurrentWaveIndex - 1 : 0 }
-            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex },
+            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
             { "Timestamp", GetLocalTime() },
             { "Core_Hp_FailWave",  coreHpFail}
         };
@@ -248,13 +269,17 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     #endregion
 
     #region Build
-    public void LogBuildUpgrade(string buildName)
+    public void LogBuildUpgrade(BaseForgeSO upgradeData)
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex },
+            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
             { "Timestamp", GetLocalTime() },
-            { "Build_Name", buildName }
+            { "Build_Name", upgradeData.upgradeName },
+            { "Cost_Coal", upgradeData.coalCost },
+            { "Cost_Iron", upgradeData.ironCost },
+            { "Cost_Gold", upgradeData.goldCost },
+            { "Cost_Diamond", upgradeData.diamondCost }
         };
         WriteTxt(LogCategory.Build, "build_upgrade", data);
         WriteCsv(LogCategory.Build, "build_upgrade", data);
@@ -268,7 +293,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         {
             var data = new Dictionary<string, object>
             {
-                { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex },
+                { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
                 { "Timestamp", GetLocalTime() },
                 { "Mineral_Type", mineralData.MineralType },
                 { "Total_Mined_Session", mineralData.TotalMinedSession },
@@ -280,6 +305,30 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
             WriteCsv(LogCategory.Resources, "wave_resources", data);
         }
     }
+    
+    // 언제 행성 코어를 획득하고 코어로 행성을 활성화 했는지 기록
+    public void LogPlanetCoreCollected()
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
+            { "Timestamp", GetLocalTime() },
+        };
+        WriteTxt(LogCategory.Resources, "planet_core_collected", data);
+        WriteCsv(LogCategory.Resources, "planet_core_collected", data);
+    }
+    
+    public void LogPlanetCoreActivated()
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
+            { "Timestamp", GetLocalTime() },
+        };
+        WriteTxt(LogCategory.Resources, "planet_core_activated", data);
+        WriteCsv(LogCategory.Resources, "planet_core_activated", data);
+    }
+    
     #endregion
 
     #region Combat
@@ -312,7 +361,7 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     {
         var data = new Dictionary<string, object>
         {
-            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex },
+            { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
             { "Timestamp", GetLocalTime() },
             { "Enemy_Type", enemyType },
             { "Defeated_By", defeatedBy },
@@ -339,7 +388,8 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
     #region Movement
     public void LogPlayerExitBase()
     {
-        ClearMovementValue();
+        // 도킹 시 기존 누적 거리 데이터 초기화되서 주석처리
+        // ClearMovementValue();
         var data = new Dictionary<string, object>
         {
             { "Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
@@ -361,7 +411,55 @@ readonly Dictionary<LogCategory, string[]> csvHeaders = new()
         WriteTxt(LogCategory.Movement, "player_enter_base", data);
         WriteCsv(LogCategory.Movement, "player_enter_base", data);
     }
+    
     #endregion
+
+    #region Coordinate
+    
+    // player movement 추적 로그 (프레임마다 호출)
+    public void LogPlayerMovement(Vector2 currentPosition)
+    {
+        var data = new Dictionary<string, object>
+        {
+            {"Wave", Planet1WaveManager.Instance.CurrentWaveIndex + 1 },
+            {"Timestamp", GetLocalTime() },
+            {"Player_Move_Distance", playerMoveDistance.ToString("F2") },
+            {"Player_Max_Move_Distance", playerMaxMoveDistance.ToString("F2") },
+            {"Player_Coodinate", $"({currentPosition.x:F2}, {currentPosition.y:F2})"}
+        };
+        
+        WriteTxt(LogCategory.Coordinate, "player_movement", data);
+        WriteCsv(LogCategory.Coordinate, "player_movement", data);
+    }
+
+    public void LogTilemapInfo(string tilemapName)
+    {
+        var data = new Dictionary<string, object>
+        {
+            {"Tilemap", tilemapName },
+        };
+        
+        WriteTxt(LogCategory.TilemapInfo, "tileMapInfo", data);
+        WriteCsv(LogCategory.TilemapInfo, "tileMapInfo", data);
+    }
+    
+    #endregion
+    
+    private IEnumerator TimedLoggingRoutine()
+    {
+        while (true)
+        {
+            // 지정된 시간(5초)만큼 대기
+            yield return new WaitForSeconds(LOGGING_INTERVAL);
+
+            // 정기적으로 플레이어의 현재 위치/상태를 로그
+            LogPlayerMovement(Managers.Instance.spaceshipMotor.Rb.position); 
+            
+            // 행성 자원 상태도 정기적으로 로그 - 필요하면 부활
+            // LogWaveResources(Managers.Instance.inventory.GetWaveResourceStats(Planet1WaveManager.Instance.CurrentWaveIndex));
+        }
+    }
+    
     bool OnWantsToQuit()
     {
         LogSessionEnd();

@@ -9,6 +9,8 @@ public class CameraSwitcher : MonoBehaviour
 
     [Tooltip("우주선 추적용 카메라 (SpaceshipCam)")]
     [SerializeField] private CinemachineCamera spaceshipCamera;
+    [SerializeField] private Camera minimapCamera;
+    public GameObject player;
 
     [Header("Zoom")]
     [SerializeField] private float zoomSpeed = 5f;
@@ -39,6 +41,7 @@ public class CameraSwitcher : MonoBehaviour
 
     void LateUpdate()
     {
+        if(player != null) minimapCamera.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -20f);
         if (currentCamera == null) return;
         var lens = currentCamera.Lens;
         lens.OrthographicSize = Mathf.Lerp(lens.OrthographicSize, targetZoomSize, Time.deltaTime * smoothSpeed);
@@ -72,7 +75,7 @@ public class CameraSwitcher : MonoBehaviour
             Debug.LogWarning("[CameraSwitcher] spaceshipCamera is null");
             return;
         }
-
+        
         if (planetCamera) planetCamera.Priority.Value = InactivePriority;
         spaceshipCamera.Priority.Value = ActivePriority;
 

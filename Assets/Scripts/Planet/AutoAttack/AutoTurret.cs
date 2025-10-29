@@ -5,6 +5,7 @@ public class AutoTurret : MonoBehaviour
 {
     [Header("타겟 설정 (2D)")]
     public string targetTag = "Enemy";
+    public string targetTag2 = "Boss";
     public float scanRange = 15f;
     public LayerMask targetLayers;
 
@@ -14,7 +15,6 @@ public class AutoTurret : MonoBehaviour
 
     private static readonly List<Collider2D> overlapResults = new List<Collider2D>(64);
     private ContactFilter2D contactFilter;
-
     private void Awake()
     {
         // ContactFilter2D 셋업 (레이어 마스크/트리거 포함 여부 등)
@@ -24,14 +24,25 @@ public class AutoTurret : MonoBehaviour
         contactFilter.useTriggers = true; // 트리거도 탐지하려면 true (상황에 맞게)
     }
 
+    private void Start()
+    {
+        if(gameObject.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+        {
+            spriteRenderer.enabled = false;
+        }
+
+    }
     public void ActivateTurret(IAttackStrategy strategy)
     {
         if (isAttacking) return;
         attackStrategy = strategy;
         isAttacking = true;
         attackStrategy.StartAttack(this, transform, targetTag);
+        if (gameObject.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+        {
+            spriteRenderer.enabled = false;
+        }
     }
-
     public void DeactivateTurret()
     {
         if (!isAttacking) return;
@@ -81,7 +92,7 @@ public class AutoTurret : MonoBehaviour
             if (col == null) continue;
 
             // 태그 필터(비워두면 무시)
-            if (!string.IsNullOrEmpty(targetTag) && !col.CompareTag(targetTag))
+            if (!string.IsNullOrEmpty(targetTag) && !col.CompareTag(targetTag) && !col.CompareTag(targetTag2))
                 continue;
 
             float sqr = ((Vector2)col.transform.position - (Vector2)transform.position).sqrMagnitude;

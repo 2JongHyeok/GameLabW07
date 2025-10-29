@@ -45,6 +45,10 @@ public class SpaceshipController : MonoBehaviour
     private bool canControl = true;
     private float currentBoostMultiplier = 1f;
     private float particleMuiltiplier = 1f;
+    
+    // 로그 수집용 변수
+    private Vector2 playerLastLoggedPosition; // 마지막으로 로그를 기록한 위치
+    [SerializeField] private float loggingThreshold = 1.5f; // [이 거리 이상 이동해야 로그 기록
 
     public static bool IsSpaceshipMode { get; private set; } = false;
     public static void SetIsSpaceShipMode(bool isSpaceShipMode)
@@ -106,9 +110,9 @@ public class SpaceshipController : MonoBehaviour
         shipMotor.Move(shipInput.ThrustInput, currentBoostMultiplier);
         shipMotor.Rotate(shipInput.RotateInput);
         shipMotor.ApplyActiveDeceleration(shipInput.ThrustInput);
-        shipMotor.ApplyActiveRotationalDeceleration(shipInput.RotateInput);
+        shipMotor.ApplyActiveRotationalDeceleration(shipInput.RotateInput, shipInput.ThrustInput);
         Vector2 currentPosition = rb.position;
-
+        
         // 프레임 간 이동 거리 누적
         float frameDistance = Vector2.Distance(currentPosition, GameAnalyticsLogger.instance.playerLastPosition);
         GameAnalyticsLogger.instance.playerMoveDistance += frameDistance;
@@ -120,6 +124,13 @@ public class SpaceshipController : MonoBehaviour
 
         // 다음 프레임 계산을 위해 갱신
         GameAnalyticsLogger.instance.playerLastPosition = currentPosition;
+        
+        if (Vector2.Distance(currentPosition, playerLastLoggedPosition) >= loggingThreshold)
+        {
+            GameAnalyticsLogger.instance.LogPlayerMovement(currentPosition);
+            // 로그를 기록했으므로, 마지막 로그 위치를 현재 위치로 갱신
+            playerLastLoggedPosition = currentPosition;
+        }
     }
     
     private void UpdateEffects(bool isThrusting, bool isBoosting, float rotateInput)
@@ -128,7 +139,7 @@ public class SpaceshipController : MonoBehaviour
         ToggleParticle(thrusterParticle, isThrusting);
         ToggleParticle(boostParticle1, isBoosting);
         ToggleParticle(boostParticle2, isBoosting);
-        ToggleParticle(rightThrusterParticle, rotateInput > 0.1f);
+        ToggleParticle(rightThrusterParticle, rotateInput > 0.1f); // 여기 이펙트
         ToggleParticle(leftThrusterParticle, rotateInput < -0.1f);
         ToggleParticle(reverseThrusterParticle, canControl && shipInput.ThrustInput < -0.1f);
 

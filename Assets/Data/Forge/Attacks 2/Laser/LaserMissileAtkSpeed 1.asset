@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcc5bc18dace1404db7a09ba8417fddd, type: 3}
+  m_Name: LaserMissileAtkSpeed 1
+  m_EditorClassIdentifier: 
+  forgeId: 20
+  upgradeName: "\uC7AC\uC7A5\uC804 \uC2DC\uAC04 Lv.2"
+  upgradeDescription: "\uB808\uC774\uC800 \uD130\uB81B\uC758 \uC131\uB2A5\uC744 \uAC1C\uC120\uD569\uB2C8\uB2E4.\\n\uBC1C\uC0AC
+    \uC2DC\uAC04: 5.0/s > <color=green>4.0/s</color> "
+  depth: 3
+  coalCost: 0
+  ironCost: 0
+  goldCost: 2
+  diamondCost: 1
+  postSubBranches: []
+  LaserAtkInterval: -1
+  LaserAtkDamage: 1

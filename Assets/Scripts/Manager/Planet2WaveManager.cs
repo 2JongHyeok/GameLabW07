@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
-
+[DefaultExecutionOrder(-10)]
 public class Planet2WaveManager : MonoBehaviour
 {
     public static Planet2WaveManager Instance;
@@ -61,8 +61,7 @@ public class Planet2WaveManager : MonoBehaviour
     [SerializeField] private float defaultPreDelay = 5f;
     
     public Slider mainbossHpSlider;
-    public Slider bossHpSlider;
-    
+
     public float GetPreDelayForWaveIndex(int waveIndex)
     {
         if (preStartDelays != null &&
@@ -138,14 +137,14 @@ public class Planet2WaveManager : MonoBehaviour
         {
             waveEnd = true;
             if (waveTimerText != null) waveTimerText.text = $"Wave {currentWaveIndex + 1}";
-            if (enemyCountText != null) enemyCountText.text = $"Planet2: {EnemyCount}";
+            if (enemyCountText != null) enemyCountText.text = $"Colony : {EnemyCount}";
             if (miningInstructionText != null) { miningInstructionText.color = Color.red; miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!"; }
             return;
         }
 
         if (EnemyCount > 0 && !isSpawning)
         {
-            if (enemyCountText != null) enemyCountText.text = $"Planet2: {EnemyCount}";
+            if (enemyCountText != null) enemyCountText.text = $"Colony : {EnemyCount}";
             if (miningInstructionText != null) { miningInstructionText.color = Color.red; miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!"; }
             return;
         }
@@ -158,10 +157,9 @@ public class Planet2WaveManager : MonoBehaviour
                 && !countdownArmedByCentral)
             {
                 if (waveTimerText != null) waveTimerText.text = "Waiting other planet...";
-                if (enemyCountText != null) enemyCountText.text = "Mining Phase";
+                if (enemyCountText != null) enemyCountText.text = "";
                 return;
             }
-            
             if (forceStartRequested) { 
                 StartCoroutine(SpawnWave()); 
                 countdown = timeBetweenWaves;
@@ -169,10 +167,8 @@ public class Planet2WaveManager : MonoBehaviour
                 forceStartRequested = false; 
                 return; 
             }
-            
             if (currentWaveIndex >= waves.Length)
             {
-                
                 // 모든 웨이브가 완료된 후에는 더 이상 로그를 기록하지 않음
                 if (waveTimerText != null) waveTimerText.text = "All Waves Completed!";
                 if (enemyCountText != null) enemyCountText.text = "";
@@ -191,15 +187,26 @@ public class Planet2WaveManager : MonoBehaviour
 
             EnemyCount = 0;
             countdown -= Time.deltaTime;
-            bossHpSlider.gameObject.SetActive(false);
-            bossHpSlider.value = bossHpSlider.maxValue;
 
             if (countdown <= 0f)
             {
+                bool inCombined = (WaveManager.Instance != null && WaveManager.Instance.IsCombinedPhase);
+                if (inCombined && !countdownArmedByCentral)
+                    return;
                 StartCoroutine(SpawnWave());
                 countdownArmedByCentral = false; // [SYNC]
-                countdown = GetPreDelayForWaveIndex(currentWaveIndex + 1);
+                if (WaveManager.Instance == null || !WaveManager.Instance.IsCombinedPhase)
+                {
+                    countdown = GetPreDelayForWaveIndex(currentWaveIndex + 1);
+                }
+                else
+                {
+                    // 중앙이 두 행성이 같은 프레임에 BetweenWaves가 되었을 때 주입함
+                    LockCountdownByCentral(true);     // 내 카운트는 중앙 신호까지 대기
+                                                      // countdown은 건드리지 않음
+                }
                 isFirst = false;
+                return;
             }
             else
             {

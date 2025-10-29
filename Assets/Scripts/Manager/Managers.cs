@@ -23,6 +23,7 @@ public class Managers : MonoBehaviour
     public Planet planet2;
     public SubWeaponManager subWeaponManager;
     public Weapon2 weapon2; 
+    public Planet1WaveManager planet1WaveManager;
 
     [Header("Options")]
     [SerializeField] private bool dontDestroyOnLoad = true;

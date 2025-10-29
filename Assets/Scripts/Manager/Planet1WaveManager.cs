@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
 
-
+[DefaultExecutionOrder(-10)]
 public class Planet1WaveManager : MonoBehaviour
 {
     public static Planet1WaveManager Instance;
@@ -40,6 +40,7 @@ public class Planet1WaveManager : MonoBehaviour
     private bool waveEnd = false;
     public int enemyNum = 0;
     private bool hasTriggeredWaveClearAction = false;
+    private bool waveGuard = false;
 
     [Header("UI")]
     public TMP_Text waveTimerText;
@@ -81,7 +82,11 @@ public class Planet1WaveManager : MonoBehaviour
     }
 
     // [추가] "다음에 시작될" 웨이브의 인덱스 = currentWaveIndex
-    public float GetUpcomingPreDelay() => GetPreDelayForWaveIndex(currentWaveIndex);
+    public float GetUpcomingPreDelay()
+    {
+        int upcoming = waveGuard ? currentWaveIndex + 1 : currentWaveIndex;
+        return GetPreDelayForWaveIndex(upcoming);
+    }
     public void LockCountdownByCentral(bool v)
     {
         countdownLockedByCentral = v;
@@ -109,6 +114,7 @@ public class Planet1WaveManager : MonoBehaviour
     public Transform bossSpwanPoint;
     public Transform mainBossSpwanPoint;
 
+    public bool isAfterBossWave = false;
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -151,7 +157,7 @@ public class Planet1WaveManager : MonoBehaviour
         {
             waveEnd = true;
             if (waveTimerText != null) waveTimerText.text = $"Wave {currentWaveIndex + 1}";
-            if (enemyCountText != null) enemyCountText.text = $"Planet 1: {EnemyCount}";
+            if (enemyCountText != null) enemyCountText.text = $"Planet : {EnemyCount}";
             if (miningInstructionText != null)
             {
                 miningInstructionText.color = Color.red; // 빨간색으로 변경
@@ -166,7 +172,7 @@ public class Planet1WaveManager : MonoBehaviour
         // 스폰이 끝났지만 적이 남아있으면 대기
         if (EnemyCount > 0 && !isSpawning)
         {
-            if (enemyCountText != null) enemyCountText.text = $"Planet 1: {EnemyCount}";
+            if (enemyCountText != null) enemyCountText.text = $"Planet : {EnemyCount}";
             if (miningInstructionText != null)
             {
                 miningInstructionText.color = Color.red; // 빨간색으로 변경
@@ -184,28 +190,29 @@ public class Planet1WaveManager : MonoBehaviour
         // 적이 모두 죽고, 스폰도 끝났으면 카운트다운 시작
         if (EnemyCount <= 0 && !isSpawning)
         {
+            
             if (currentWaveIndex >= 4) // Wave4 클리어(0-based로 4 이상)
             {
                 if (!gateAutoHoldArmed)
                 {
+                    bossHpSlider.gameObject.SetActive(false);
+                    bossHpSlider.value = bossHpSlider.maxValue;
                     holdAfterGate = true;
                     gateAutoHoldArmed = true;
-                    bossHpSlider.gameObject.SetActive(false);
-                    bossHpSlider.value = mainBossHpSlider.maxValue;
-                    if (waveTimerText) waveTimerText.text = "Waiting Planet2 activation...";
+                    if (waveTimerText) waveTimerText.text = "보스의 코어로 콜로니를 건설하세요";
                     if (enemyCountText) enemyCountText.text = "Mining Phase";
+                    isAfterBossWave = true;
+                    // 여기
                     return; // 카운트다운 시작 자체를 막아 즉시 대기 상태
                 }
                 if (holdAfterGate)
                 {
                     bossHpSlider.gameObject.SetActive(false);
-                    bossHpSlider.value = mainBossHpSlider.maxValue;
-                    if (waveTimerText) waveTimerText.text = "Waiting Planet2 activation...";
+                    bossHpSlider.value = bossHpSlider.maxValue;
+                    if (waveTimerText) waveTimerText.text = "보스의 코어로 콜로니를 건설하세요";
                     if (enemyCountText) enemyCountText.text = "Mining Phase";
                     return; // 여전히 대기
                 }
-                
-                
             }
             if (WaveManager.Instance != null
                 && WaveManager.Instance.IsCombinedPhase
@@ -214,8 +221,7 @@ public class Planet1WaveManager : MonoBehaviour
             {
                 if (waveTimerText != null) waveTimerText.text = "Waiting other planet...";
                 if (enemyCountText != null) enemyCountText.text = "Mining Phase";
-                // 보스 HP바는 기존 로직대로 숨김 처리됨
-                return; // 카운트다운/스폰 전부 보류
+                return; 
             }
             // 웨이브 종료 후 보스 체력바 비활성화 및 초기화
             bossHpSlider.gameObject.SetActive(false);
@@ -259,24 +265,38 @@ public class Planet1WaveManager : MonoBehaviour
                     GameAnalyticsLogger.instance.UpdateWave();
                 }
             }
+            if (waveGuard)
+            {
+                currentWaveIndex++;
+                if (WaveManager.Instance == null || !WaveManager.Instance.IsCombinedPhase)
+                    countdown = GetPreDelayForWaveIndex(currentWaveIndex);
+
+                waveGuard = false;
+            }
             EnemyCount = 0;
             countdown -= Time.deltaTime;
 
             // 카운트다운이 끝나면 다음 웨이브 시작
             if (countdown <= 0f)
             {
-                
                 if (forceStartRequested) { 
                     StartCoroutine(SpawnWave());
-                    countdown = GetPreDelayForWaveIndex(currentWaveIndex + 1);
+
                     isFirst = false; 
                     forceStartRequested = false; 
                     return; 
                 }
+                bool inCombined = (WaveManager.Instance != null && WaveManager.Instance.IsCombinedPhase);
+                if (inCombined && !countdownArmedByCentral)
+                    return;
+
+                // 3) 정상 시작
                 StartCoroutine(SpawnWave());
-                countdownArmedByCentral = false;
-                countdown = GetPreDelayForWaveIndex(currentWaveIndex + 1);
-                isFirst = false; // 첫 번째 웨이브가 시작되면 더 이상 첫 시작이 아님
+                if (inCombined) countdownArmedByCentral = false; // arm 토큰 소모
+
+                isFirst = false;
+                waveGuard = true;
+                return;
             }
             else
             {
@@ -293,7 +313,13 @@ public class Planet1WaveManager : MonoBehaviour
                     {
                         // 웨이브 사이에는 초록색으로 자원 탐색 메시지 표시
                         miningInstructionText.color = Color.green;
-                        miningInstructionText.text = "자원을 탐색하세요";
+                        
+                        if(currentWaveIndex == 4)
+                        {
+                            miningInstructionText.text = "상단에 보스 코어가 생성되었습니다.";
+                        }
+                        else
+                            miningInstructionText.text = "자원을 탐색하세요";
                     }
 
                     if (waveEnd)
@@ -476,7 +502,6 @@ public class Planet1WaveManager : MonoBehaviour
         }
 
         isSpawning = false;
-        currentWaveIndex++;
         hasTriggeredWaveClearAction = false;
     }
 

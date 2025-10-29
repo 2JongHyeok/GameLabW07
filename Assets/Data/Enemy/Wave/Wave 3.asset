@@ -17,6 +17,8 @@ MonoBehaviour:
   kamikazeCount: 5
   kamikazeTankCount: 3
   parasiteCount: 0
-  spawnInterval: 4
-  minSpawnPerInterval: 4
-  maxSpawnPerInterval: 4
+  bossCount: 0
+  mainBossCount: 0
+  spawnInterval: 1
+  minSpawnPerInterval: 1
+  maxSpawnPerInterval: 1

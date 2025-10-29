@@ -36,7 +36,7 @@ public class Weapon : MonoBehaviour
     [Header("Gamepad Settings")]
     private Coroutine rumbleCoroutine; // 현재 실행 중인 진동 코루틴
     private float stickDeadZone = 0.1f;      // 스틱 데드존
-
+    private bool isWeaponActive = true; // 새로운 개별 무기 활성화 상태
     void Awake()
     {
         if (!targetRenderer) targetRenderer = GetComponentInChildren<SpriteRenderer>(true);
@@ -45,7 +45,7 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
-        if (SpaceshipController.IsSpaceshipMode==true) return;
+        if (!isWeaponActive) return;
         MoveWeapon();
         Fire();
     }
@@ -163,7 +163,15 @@ public class Weapon : MonoBehaviour
             FireBullet();
         }
     }
-
+    public void ActivateWeapon()
+    {
+        isWeaponActive = true;
+    }
+    public void DeactivateWeapon()
+    {
+        isWeaponActive = false;
+        // (선택 사항: 포탑 비활성화 로직 추가)
+    }
     private void FireBullet()
     {
         nextFireTime = Time.time + fireRate;

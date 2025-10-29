@@ -26,6 +26,15 @@ public class DockingStation : MonoBehaviour
     
     [SerializeField]private bool isShipDocked=false;
 
+    [Header("이 행성의 무기")]
+    [SerializeField] private Weapon[] planet1Weapon;
+    [SerializeField] private Weapon2 planet2Weapon;
+    [SerializeField] private AutoTurret planetAutoTurret;
+
+    public void SetShipDockedState(bool val)
+    {
+        isShipDocked = val;
+    }
     void Reset()
     {
         var col = GetComponent<Collider2D>();
@@ -48,24 +57,43 @@ public class DockingStation : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) && cameraSwitcher && 
             SpaceshipController.IsSpaceshipMode==false&& isShipDocked==true)
         {
-            isShipDocked = false;
-            Debug.Log(isShipDocked);
-            cameraSwitcher.ActivateSpaceship();
-            SpaceshipController.SetIsSpaceShipMode(true);
-            if (dockedShip)
-            {
-                Debug.Log(transform.position+" "+gameObject.name+" "+ nextDeparturePosition);
-                // [수정] 출격 로직을 LaunchShip() 함수로 분리합니다.
-                // dockedShip.transform.SetPositionAndRotation(nextDeparturePosition, nextDepartureRotation);
-                // dockedShip.SetActive(true);
-                // isSpaceshipMode = true;
-                LaunchShip();
-
-                UpdateAllUIStates();
-            }
+            PlayerGoToSpace();
         }
     }
 
+    public void PlayerGoToSpace()
+    {
+        isShipDocked = false;
+        Debug.Log(isShipDocked);
+        cameraSwitcher.ActivateSpaceship();
+        SpaceshipController.SetIsSpaceShipMode(true);
+        if (dockedShip)
+        {
+            //[Log] 출격 로그 출력
+            GameAnalyticsLogger.instance.LogPlayerExitBase();
+
+            Debug.Log(transform.position + " " + gameObject.name + " " + nextDeparturePosition);
+            // [수정] 출격 로직을 LaunchShip() 함수로 분리합니다.
+            // dockedShip.transform.SetPositionAndRotation(nextDeparturePosition, nextDepartureRotation);
+            // dockedShip.SetActive(true);
+            // isSpaceshipMode = true;
+            LaunchShip();
+
+            UpdateAllUIStates();
+        }
+        if (planet1Weapon != null && planet1Weapon.Length > 0)
+        {
+            foreach (var weapon in planet1Weapon)
+            {
+                if (weapon != null)
+                    weapon.DeactivateWeapon();
+            }
+        }
+        else if (planet2Weapon != null)
+        {
+            planet2Weapon.DeactivateWeapon(); // Weapon2에 새 메서드 추가 필요
+        }
+    }
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Spaceship")) return;
@@ -91,6 +119,9 @@ public class DockingStation : MonoBehaviour
             UpdateAllUIStates();
 
             Debug.Log($"[DockingStation] 도킹 완료: {(planetCamera ? planetCamera.name : "null")}");
+            
+            // [Log] 도킹 로그 출력
+            GameAnalyticsLogger.instance.LogPlayerEnterBase();
         }
     }
 
@@ -113,6 +144,18 @@ public class DockingStation : MonoBehaviour
         if (!dockedShip) return;
         CalculateNextDeparturePoint(dockedShip.transform.position);
         dockedShip.SetActive(false);
+        if (planet1Weapon != null && planet1Weapon.Length > 0)
+        {
+            foreach (var weapon in planet1Weapon)
+            {
+                if (weapon != null)
+                    weapon.ActivateWeapon();
+            }
+        }
+        else if (planet2Weapon != null)
+        {
+            planet2Weapon.ActivateWeapon();
+        }
     }
 
     // [추가] 우주선 출격 로직
@@ -148,4 +191,6 @@ public class DockingStation : MonoBehaviour
         nextDeparturePosition = transform.position + dir * departureRadius;
         nextDepartureRotation = Quaternion.LookRotation(Vector3.forward, dir);
     }
+
+
 }

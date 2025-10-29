@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 public class WorldGenerator : MonoBehaviour
 {
@@ -11,13 +12,13 @@ public class WorldGenerator : MonoBehaviour
 
     [Header("월드 생성 설정")]
     [Tooltip("중심(0,0)에서부터 생성할 월드의 전체 반경")]
-    [SerializeField] private float generationRadius = 1000f;
+    [SerializeField] private float generationRadius = 500f;
     
     [Header("월드 생성 설정")] // 직사각형 버전
     [Tooltip("생성할 월드의 가로 길이 (X축)")]
-    [SerializeField] private float generationWidth = 100f;
+    [SerializeField] private float generationWidth = 200f;
     [Tooltip("생성할 월드의 세로 길이 (Y축)")]
-    [SerializeField] private float generationHeight = 300f;
+    [SerializeField] private float generationHeight = 500f;
 
     [Tooltip("소행성을 배치할 격자의 크기. 작을수록 촘촘하게 검사합니다.")]
     [SerializeField] private int gridCellSize = 30;
@@ -48,12 +49,62 @@ public class WorldGenerator : MonoBehaviour
 
         GenerateWorld();
     }
+    
+    /// <summary>
+    /// 월드 타일맵 전체를 순회하며 광물 타일의 종류와 위치 정보를 문자열로 반환합니다.
+    /// </summary>
+    /// <returns>광물 스폰 정보가 담긴 문자열</returns>
+    public string GetMineralSpawnLogDataAsString()
+    {
+        // StringBuilder를 사용하여 효율적으로 문자열을 만듭니다.
+        StringBuilder logBuilder = new StringBuilder();
+        logBuilder.AppendLine("--- Mineral Spawn Locations ---"); // 로그 시작 마커
+
+        // worldTilemap이 할당되지 않았으면 에러 메시지 반환
+        if (worldTilemap == null) 
+        {
+            logBuilder.AppendLine("ERROR: worldTilemap is not assigned!");
+            return logBuilder.ToString();
+        }
+
+        // 타일맵의 경계를 가져옵니다.
+        BoundsInt bounds = worldTilemap.cellBounds;
+
+        // 경계 내의 모든 셀 위치를 순회합니다.
+        foreach (var cellPos in bounds.allPositionsWithin)
+        {
+            // 해당 셀 위치의 TileBase를 가져옵니다.
+            TileBase tile = worldTilemap.GetTile(cellPos);
+
+            // 타일이 존재하고, 그 타일이 MineralRuleTile 타입인지 확인합니다.
+            // ('is' 키워드와 패턴 매칭을 사용)
+            if (tile is MineralRuleTile mineralTile) 
+            {
+                // MineralRuleTile이라면, 해당 에셋의 이름(name)을 광물 타입으로 사용합니다.
+                // (예: "Coal_MineralTile" -> "Coal_MineralTile")
+                string mineralType = mineralTile.name; 
+                
+                // 로그 문자열에 추가 (형식: "Mineral: [타일이름], Position: (X, Y, Z)")
+                logBuilder.AppendLine($"Mineral: {mineralType}, Position: ({cellPos.x}, {cellPos.y}, {cellPos.z})");
+            }
+            // [선택 사항] 만약 StampAsteroid에서 덮어쓴 mineralTileToSpawn도 기록하고 싶다면:
+            else if (tile == mineralTileToSpawn && mineralTileToSpawn != null)
+            {
+                string mineralType = mineralTileToSpawn.name; // 또는 "Core_Mineral" 같은 고정 이름 사용
+                logBuilder.AppendLine($"Mineral (Center): {mineralType}, Position: ({cellPos.x}, {cellPos.y}, {cellPos.z})");
+            }
+        }
+
+        logBuilder.AppendLine("--- End Mineral Spawn Locations ---"); // 로그 끝 마커
+        return logBuilder.ToString(); // 최종 문자열 반환
+    }
 
     /// <summary>
     /// 절차적 월드 생성을 시작하는 메인 함수입니다.
     /// </summary>
     public void GenerateWorld()
     {
+        Debug.LogError(generationRadius+" , "+generationWidth+" , "+generationHeight);
         // 테스트를 위해 기존 타일을 모두 지웁니다.
         worldTilemap.ClearAllTiles();
         
@@ -113,6 +164,7 @@ public class WorldGenerator : MonoBehaviour
             shadowGenerator.GenerateInitialShadow();
         }
 
+        GameAnalyticsLogger.instance.LogTilemapInfo(GetMineralSpawnLogDataAsString());
 
     }
 

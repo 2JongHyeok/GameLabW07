@@ -10,8 +10,6 @@ public class LaserMissileAtkSpeedSO : BaseForgeSO
     public override void Apply()
     {
         if (Managers.Instance?.turretActivationManager == null) return;
-        LaserAtkInterval += Managers.Instance.turretActivationManager.GetLaserInterval();
-        LaserAtkDamage += Managers.Instance.turretActivationManager.GetLaserDamage();
         
         Managers.Instance.turretActivationManager.SetLaserInterval(LaserAtkInterval);
         Managers.Instance.turretActivationManager.SetLaserDamage(LaserAtkDamage);

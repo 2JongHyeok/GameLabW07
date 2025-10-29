@@ -1792,7 +1792,7 @@ MonoBehaviour:
   ironText: {fileID: 7423509246555952292}
   goldText: {fileID: 4828071321344663380}
   diamondText: {fileID: 5364643442136358467}
-  chargeTime: 1
+  chargeTime: 0.5
   lockedAlpha: 0.5
   affordableTextColor: {r: 0, g: 0, b: 0, a: 1}
   unaffordableTextColor: {r: 1, g: 0, b: 0, a: 1}

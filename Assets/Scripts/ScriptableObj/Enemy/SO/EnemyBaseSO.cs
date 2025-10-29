@@ -7,7 +7,8 @@ public enum EnemyType
     Kamikaze,
     KamikazeTank,
     Parasite,
-    Boss
+    Boss,
+    MainBoss
 }
 
 public abstract class EnemyBaseSO : ScriptableObject

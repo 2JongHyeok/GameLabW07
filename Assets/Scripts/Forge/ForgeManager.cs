@@ -208,7 +208,7 @@ public class ForgeManager : MonoBehaviour
     public void ForgeApply(BaseForgeSO forgeSO)
     {
         forgeSO?.Apply();
-        GameAnalyticsLogger.instance.LogBuildUpgrade( forgeSO.upgradeName);
+        GameAnalyticsLogger.instance.LogBuildUpgrade(forgeSO);
         // ForgeId의 레벨 증가
         forgeLevel[(int)forgeSO.forgeId]++;
         
@@ -276,7 +276,7 @@ public class ForgeManager : MonoBehaviour
             forgeId == ForgeId.Planet2MainCannonBulletNumber ||
             forgeId == ForgeId.LaserMissileUnlock ||
             forgeId == ForgeId.LaserMissileAtkSpeed;
-
+        
         if (isPlanet2RelatedForge)
         {
             // Planet2Manager.instance가 null이 아니고, IsPlanetActive가 false이면 구매 불가능
