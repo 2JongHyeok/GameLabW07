@@ -70,12 +70,12 @@ public class WorldAnalysisLogger : MonoBehaviour
                 overallTotal++;
 
                 // 범위별 카운트 집계
-                if (distanceFromOrigin >= 0 && distanceFromOrigin <= 30)
+                if (distanceFromOrigin >= 0 && distanceFromOrigin <= 40)
                 {
                     AddTileToCounts(rawCounts0_20, tileName);
                     total0_20++;
                 }
-                else if (distanceFromOrigin > 30 && distanceFromOrigin <= 60)
+                else if (distanceFromOrigin > 40 && distanceFromOrigin <= 60)
                 {
                     AddTileToCounts(rawCounts20_50, tileName);
                     total20_50++;
@@ -98,7 +98,7 @@ public class WorldAnalysisLogger : MonoBehaviour
             overallRawCounts, overallTotal,
             new Dictionary<string, int>[] { rawCounts0_20, rawCounts20_50, rawCounts50_80, rawCounts80_110 },
             new int[] { total0_20, total20_50, total50_80, total80_110 },
-            new string[] { "0 ~ 30", "30 ~ 60", "60 ~ 85", "85 ~ 120" }
+            new string[] { "0 ~ 40", "40 ~ 60", "60 ~ 85", "85 ~ 120" }
         );
     }
 

@@ -158,7 +158,30 @@ public class AsteroidHealth : MonoBehaviour
             }
             else // 일반 돌 타일의 경우
             {
-                myTilemap.SetColor(cellPosition, colorSettings.GetColorForDurability(newDurability));
+                // 이전
+                // myTilemap.SetColor(cellPosition, colorSettings.GetColorForDurability(newDurability));
+            // (타일 종류(광물/돌)와 상관없이, 데미지를 입으면 알파(투명도)를 낮춥니다.)
+
+                // 1. 이 타일의 현재 색상을 타일맵에서 가져옵니다.
+                // (InitializeDurability에서 설정한 초기 색상)
+                Color originalColor = myTilemap.GetColor(cellPosition);
+                
+                // 2. 최대 내구도를 가져옵니다.
+                float maxDurability = maxDurabilityMap[cellPosition];
+                
+                // 3. 현재 내구도 비율을 계산합니다. (정수 나눗셈 방지를 위해 float 캐스팅)
+                float durabilityRatio = (float)newDurability / maxDurability; 
+
+                // 4. 낮아질 최저 알파를 설정합니다. (예: 30%)
+                float minAlphaFactor = 0.3f;
+                float minAlpha = originalColor.a * minAlphaFactor; // (보통 1.0 * 0.3 = 0.3)
+
+                // 5. '최소 알파'와 '원래 알파' 사이를 내구도 비율에 따라 보간합니다.
+                float newAlpha = Mathf.Lerp(minAlpha, originalColor.a, durabilityRatio);
+
+                // 6. 계산된 새로운 알파로 색상을 생성하여 적용합니다. (RGB는 그대로 둠)
+                Color newColor = new Color(originalColor.r, originalColor.g, originalColor.b, newAlpha);
+                myTilemap.SetColor(cellPosition, newColor);
             }
         }
     }

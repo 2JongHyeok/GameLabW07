@@ -458,7 +458,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &75682730
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6867,6 +6867,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1461141694}
     m_Modifications:
     - target: {fileID: 865010487718599184, guid: 171336894674eb54cb87cce504e4ef86, type: 3}
+      propertyPath: gridCellSize
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 865010487718599184, guid: 171336894674eb54cb87cce504e4ef86, type: 3}
       propertyPath: generationWidth
       value: 160
       objectReference: {fileID: 0}
@@ -6921,6 +6925,10 @@ PrefabInstance:
     - target: {fileID: 5523729712933830869, guid: 171336894674eb54cb87cce504e4ef86, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191635804146933913, guid: 171336894674eb54cb87cce504e4ef86, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7467,7 +7475,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1723403734
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12506,7 +12514,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1978449040
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13095,7 +13103,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &2113214244
 SpriteRenderer:
   m_ObjectHideFlags: 0
