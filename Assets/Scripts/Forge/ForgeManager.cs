@@ -6,6 +6,7 @@ public class ForgeManager : MonoBehaviour
     [Header("UI Panel")]
     [SerializeField] private GameObject forgePanel; // 포지 UI 패널
     [SerializeField] private ForgeUI forgeUI; // ForgeUI 참조
+    [SerializeField] private GameObject ToggleUI;
     
     [Header("Branch Configuration")]
     public MainBranchSO[] mainBranches;
@@ -94,6 +95,8 @@ public class ForgeManager : MonoBehaviour
     // 포지 패널 열기
     private void OpenForgePanel()
     {
+        ToggleUI.GetComponent<CanvasGroup>().alpha = 0;
+        
         if (forgePanel != null)
         {
             forgePanel.SetActive(true);
@@ -116,6 +119,8 @@ public class ForgeManager : MonoBehaviour
     // 포지 패널 닫기
     private void CloseForgePanel()
     {
+        ToggleUI.GetComponent<CanvasGroup>().alpha = 1;
+        
         if (forgePanel != null)
         {
             forgePanel.SetActive(false);

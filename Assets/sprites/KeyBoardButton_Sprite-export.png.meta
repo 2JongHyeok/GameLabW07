@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c1bc0f65c0b197f468467dca04ba07f3
+guid: 0ddf5984868cb4246ac9a7bdff35e995
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8384465368889741996
-    second: KeyBoardButton_Sprite_0
+      213: -988479590517663418
+    second: KeyBoardButton_Sprite-export_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -96,29 +96,16 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: KeyBoardButton_Sprite_0
+      name: KeyBoardButton_Sprite-export_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 374
+        width: 1000
         height: 355
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 45d23c77b2564ab80800000000000000
-      internalID: -8384465368889741996
+      spriteID: 6499873bc073842f0800000000000000
+      internalID: -988479590517663418
       vertices: []
       indices: 
       edges: []
@@ -148,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      KeyBoardButton_Sprite_0: -8384465368889741996
+      KeyBoardButton_Sprite-export_0: -988479590517663418
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

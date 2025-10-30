@@ -35,6 +35,7 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private ForgeManager forgeManger;
     private bool isLocked = false; // 잠금 상태
     
+    
     // Tooltip 관련
     private static ForgeTooltipUI tooltipUI;
     
@@ -43,7 +44,31 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private float currentChargeTime = 0f;
     private Coroutine chargeCoroutine;
     private bool isHovering = false; // 마우스 호버 상태
+    
+    [Tooltip("변경할 색상")]
+    public Color targetColor = Color.green;
 
+    [Header("머티리얼 로드 설정")]
+    [Tooltip("Assets/Resources/ 폴더 기준의 머티리얼 경로.\n(예: MyMaterials/Arrow_Green)")]
+    [SerializeField] private string materialPathInResources = "Text 0";
+    
+    private Material loadedMaterial;
+
+    void Awake()
+    {
+        // 1. Resources 폴더에서 머티리얼을 불러옵니다.
+        //    (경로를 사용하며, 파일 확장자 .mat는 제외합니다.)
+        if (!string.IsNullOrEmpty(materialPathInResources))
+        {
+            loadedMaterial = Resources.Load<Material>(materialPathInResources);
+
+            if (loadedMaterial == null)
+            {
+                Debug.LogError($"[Resources] 머티리얼 로드 실패! 경로를 확인하세요: Assets/Resources/{materialPathInResources}");
+            }
+        }
+    }
+    
     public void Initialize(BaseForgeSO forgeData, SubBranchType subBranch, int indexInSameId, ForgeManager manager, Action<BaseForgeSO> onChargeComplete)
     {
         forgeSO = forgeData;
@@ -415,6 +440,9 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             UpdateLockState();
         }
         
+        ChangeNextArrowsColor();
+        ChangeNodeColor();
+        
         // 툴팁 갱신 (자원 소모 반영)
         if (tooltipUI != null && isHovering && forgeSO != null)
         {
@@ -423,7 +451,94 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             tooltipUI.RefreshContent(forgeSO, canPurchase);
         }
         
+        
         // 차징 상태 리셋
         StopCharging();
     }
+    
+    /// <summary>
+    /// 현재 노드 다음에 오는 ArrowBody들의 색상과 머티리얼을 변경합니다.
+    /// </summary>
+    public void ChangeNextArrowsColor()
+    {
+        Transform parentTransform = transform.parent;
+        if (parentTransform == null)
+        {
+            Debug.LogError("부모 오브젝트를 찾을 수 없습니다.");
+            return;
+        }
+
+        // 1. 부모로부터 내 순서(인덱스) 찾기
+        int myIndex = transform.GetSiblingIndex();
+
+        // 2. 내 다음 형제(Sibling)부터 순차적으로 탐색
+        // (i = myIndex + 1 부터 시작)
+        for (int i = myIndex + 1; i < parentTransform.childCount; i++)
+        {
+            Transform nextSibling = parentTransform.GetChild(i);
+
+            // 3. 다음 형제가 "ArrowBody"인지 확인 (태그 사용 권장)
+            // 참고: ArrowBody 오브젝트의 태그를 "ArrowBody"로 설정해야 합니다.
+            if (nextSibling.name.StartsWith("ArrowBody")) 
+            // 만약 태그 대신 이름으로 검사하고 싶다면:
+            // if (nextSibling.gameObject.name.StartsWith("ArrowBody"))
+            {
+                // 탐색한 오브젝트 확인용 로그
+                Debug.Log($"[{gameObject.name}]의 다음 형제 [{nextSibling.name}]는 ArrowBody입니다.");
+                // 4. ArrowBody가 맞다면 Renderer 컴포넌트 찾기
+                Image arrowImage = nextSibling.GetComponentInChildren<Image>();
+                // 참조한 이미지 컴포넌트
+                Debug.Log(arrowImage.name);
+                
+                if (arrowImage != null)
+                {
+                    Debug.Log($"[{gameObject.name}]의 다음 화살표 [{nextSibling.name}] 색상 변경 중...");
+
+                    // 5. 색상 및 머티리얼 변경
+                    // 머티리얼의 '인스턴스'를 생성하여 색상만 변경합니다.
+                    arrowImage.color = targetColor; 
+                    
+                    if (loadedMaterial != null)
+                    {
+                        arrowImage.material = loadedMaterial;
+                    }
+
+                }
+            }
+            else
+            {
+                // 6. ArrowBody가 아닌 오브젝트(아마도 다음 노드)를 만나면 즉시 중단
+                Debug.Log($"[{nextSibling.name}] 발견. 화살표 탐색을 중단합니다.");
+                break; 
+            }
+        }
+    }
+    
+    public void ChangeNodeColor()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            Transform imageFrame = transform.GetChild(i);
+            
+            if (imageFrame.name.StartsWith("Image")) 
+            {
+                Image arrowImage = imageFrame.GetComponent<Image>();
+                
+                if (arrowImage != null)
+                {
+                    arrowImage.color = targetColor; 
+                    
+                    if (loadedMaterial != null)
+                    {
+                        arrowImage.material = loadedMaterial;
+                    }
+                }
+            }
+            else
+            {
+                break; 
+            }
+        }
+    }
+    
 }
