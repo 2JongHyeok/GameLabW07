@@ -27,6 +27,7 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [Header("Affordability Colors")]
     [SerializeField] private Color affordableTextColor = Color.black; // 구매 가능 시 텍스트 색
     [SerializeField] private Color unaffordableTextColor = Color.red; // 구매 불가능 시 텍스트 색
+    [SerializeField] private Color alreadyOwnedTextColor = Color.white; // 이미 소유한 경우 텍스트 색
 
     private BaseForgeSO forgeSO;
     private SubBranchType subBranchType; // 이 노드가 속한 서브브랜치
@@ -47,12 +48,15 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     
     [Tooltip("변경할 색상")]
     public Color targetColor = Color.green;
+    public Color targetNodeColor = Color.white;
 
     [Header("머티리얼 로드 설정")]
     [Tooltip("Assets/Resources/ 폴더 기준의 머티리얼 경로.\n(예: MyMaterials/Arrow_Green)")]
     [SerializeField] private string materialPathInResources = "Text 0";
     
     private Material loadedMaterial;
+    
+    bool isOwned = false;
 
     void Awake()
     {
@@ -163,6 +167,15 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         
         // 텍스트 색상 변경
         Color textColor = canAfford ? affordableTextColor : unaffordableTextColor;
+        if (canAfford)
+        {
+            ChangeNodeFrameColor();
+        }
+        if(isOwned)
+        {
+            textColor = alreadyOwnedTextColor;
+            canvasGroup.alpha = 1f;
+        }
         
         if (coalText != null)
             coalText.color = textColor;
@@ -443,11 +456,14 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         ChangeNextArrowsColor();
         ChangeNodeColor();
         
+        
         // 툴팁 갱신 (자원 소모 반영)
         if (tooltipUI != null && isHovering && forgeSO != null)
         {
             // 구매 후 상태 다시 확인 (잠금 상태와 자원 상태 모두 변경되었을 수 있음)
             bool canPurchase = !isLocked;
+            isOwned = true;
+            UpdateAffordabilityTextColor();
             tooltipUI.RefreshContent(forgeSO, canPurchase);
         }
         
@@ -513,8 +529,8 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             }
         }
     }
-    
-    public void ChangeNodeColor()
+
+    public void AffordableColorNodeFrame()
     {
         for (int i = 0; i < 4; i++)
         {
@@ -540,5 +556,41 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             }
         }
     }
+    
+    public void ChangeNodeFrameColor()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            Transform imageFrame = transform.GetChild(i);
+            
+            if (imageFrame.name.StartsWith("Image")) 
+            {
+                Image arrowImage = imageFrame.GetComponent<Image>();
+                
+                if (arrowImage != null)
+                {
+                    arrowImage.color = targetColor; 
+                    
+                    if (loadedMaterial != null)
+                    {
+                        arrowImage.material = loadedMaterial;
+                    }
+                }
+            }
+            else
+            {
+                break; 
+            }
+        }
+    }
+
+    public void ChangeNodeColor()
+    {
+        Transform imageNode = transform.GetChild(4);
+        Image nodeImage = imageNode.GetComponent<Image>();
+        nodeImage.color = targetNodeColor;
+    }
+    
+    
     
 }
