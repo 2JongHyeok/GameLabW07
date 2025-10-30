@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: b0249d8c935344451aa4de6db76f0688
+ShaderImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164360
+  packageName: Alpha Flashing UI (UI Shaders)
+  packageVersion: 2.3
+  assetPath: Assets/#NVJOB Alpha Flashing UI/Example Scenes/Standard Assets/Effects/ImageEffects/Shaders/NoiseAndGrain.shader
+  uploadId: 356381

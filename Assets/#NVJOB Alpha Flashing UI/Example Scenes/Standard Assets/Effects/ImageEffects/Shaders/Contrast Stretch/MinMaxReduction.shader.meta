@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 57b33a14b6d5347c5a85c36f6cb3b280
+ShaderImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164360
+  packageName: Alpha Flashing UI (UI Shaders)
+  packageVersion: 2.3
+  assetPath: Assets/#NVJOB Alpha Flashing UI/Example Scenes/Standard Assets/Effects/ImageEffects/Shaders/Contrast
+    Stretch/MinMaxReduction.shader
+  uploadId: 356381

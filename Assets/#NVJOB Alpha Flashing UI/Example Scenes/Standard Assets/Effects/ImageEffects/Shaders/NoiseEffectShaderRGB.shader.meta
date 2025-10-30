@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 5d7f4c401ae8946bcb0d6ff68a9e7466
+ShaderImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164360
+  packageName: Alpha Flashing UI (UI Shaders)
+  packageVersion: 2.3
+  assetPath: Assets/#NVJOB Alpha Flashing UI/Example Scenes/Standard Assets/Effects/ImageEffects/Shaders/NoiseEffectShaderRGB.shader
+  uploadId: 356381

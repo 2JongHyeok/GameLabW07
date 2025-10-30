@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: b61f0d8d8244b4b28aa66b0c8cb46a8d
+ShaderImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164360
+  packageName: Alpha Flashing UI (UI Shaders)
+  packageVersion: 2.3
+  assetPath: Assets/#NVJOB Alpha Flashing UI/Example Scenes/Standard Assets/Effects/ImageEffects/Shaders/ColorCorrection3DLut.shader
+  uploadId: 356381
