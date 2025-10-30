@@ -11,19 +11,25 @@ public class ViewContext : MonoBehaviour
 
     public System.Action<CameraType> OnDockChanged;
     public System.Action<bool> OnPlanet2UnlockChanged;
+    public System.Action<CameraType> OnViewChanged;  
 
+   
     void Awake() => I = this;
 
-    public void SetCurrentView(CameraType t) => CurrentView = t;
 
     public void SetDockedPlanet(CameraType t)
     {
         DockedPlanet = t;
         OnDockChanged?.Invoke(t);
     }
-
+    public void SetCurrentView(CameraType t)
+    {
+        CurrentView = t;
+        OnViewChanged?.Invoke(t);  
+    }
     public void SetPlanet2Unlocked(bool v)
     {
+        Debug.Log("SetPlanet2Unlocked 불림");
         Planet2Unlocked = v;
         OnPlanet2UnlockChanged?.Invoke(v);
     }
