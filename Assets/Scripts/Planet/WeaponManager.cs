@@ -6,7 +6,6 @@ public class SubWeaponManager : MonoBehaviour
     [SerializeField] private GameObject subWeapon1;
     [SerializeField] private GameObject subWeapon2;
     [SerializeField] private GameObject subWeapon3;
-
     [Header("콤바인 무기")]
     [SerializeField] private GameObject subWeapon1Combine;
     [SerializeField] private GameObject subWeapon2Combine;
@@ -18,6 +17,7 @@ public class SubWeaponManager : MonoBehaviour
     // 내부 배열(중복 제어용)
     private GameObject[] normals;
     private GameObject[] combines;
+    [SerializeField] private CameraType ownerPlanet = CameraType.Planet1;
 
     void Start()
     {
@@ -27,11 +27,16 @@ public class SubWeaponManager : MonoBehaviour
 
         UpdateWeaponState();
     }
+    private bool IsAllowed()
+    {
+        var ctx = ViewContext.I;
+        if (ctx == null) return false;
+        return ctx.DockedPlanet == ownerPlanet; // 해당 행성에 도킹 중일 때만 허용
+    }
 
     private void Update()
     {
-        // TODO 이부분 나중에 키 바인딩만 뺄 것.
-        // if (Input.GetKeyDown(KeyCode.K)) LevelUp();
+        if (!IsAllowed()) return;
         if (Input.GetKeyDown(KeyCode.Mouse1)) ToggleCombine();
 
     }

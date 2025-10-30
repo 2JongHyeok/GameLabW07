@@ -11,6 +11,7 @@ public class Planet2Manager : MonoBehaviour
     [SerializeField] private SpaceshipCargoSystem cargoSystem;
     [SerializeField] private InventoryManger inventoryManger;
     [SerializeField] private DockingStation planet2DockingStationScript;
+    [SerializeField] private GameObject planet2Button;
     bool isPlanetActive = false;
     bool isSpaceShipInRange = false;    // 우주선이 행성을 새로 생성할 수 있는 거리 내에 있는지.
     bool hasPlanet2Core = false;
@@ -98,8 +99,13 @@ public class Planet2Manager : MonoBehaviour
             }
             SpaceshipController.SetIsSpaceShipMode(false);
             planet2DockingStationScript.SetShipDockedState(true);
-            ViewContext.I.SetPlanet2Unlocked(true); // 버튼 해제
-            FindFirstObjectByType<WeaponControlSwitcher>()?.OnDockedPlanetChanged(CameraType.Planet2);
+            ViewContext.I.SetCurrentView(CameraType.Planet2);
+            ViewContext.I.SetDockedPlanet(CameraType.Planet2); 
+            ViewContext.I.SetPlanet2Unlocked(true);
+            FindFirstObjectByType<WeaponControlSwitcher>()?.OnDockedPlanetChanged(CameraType.Planet2); // 즉시 적용
+            if (planet2Button) planet2Button.SetActive(true);
+            FindFirstObjectByType<WeaponControlSwitcher>()?.NotifyWeaponTopologyChanged();
+            Debug.Log("[P2] Unlocked Planet2");
         }
     }
    

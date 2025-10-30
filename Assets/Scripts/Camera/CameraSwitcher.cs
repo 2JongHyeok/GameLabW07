@@ -95,16 +95,22 @@ public class CameraSwitcher : MonoBehaviour
             return;
         }
 
-        if (spaceshipCamera) spaceshipCamera.Priority.Value = InactivePriority;
+        //if (spaceshipCamera) spaceshipCamera.Priority.Value = InactivePriority;
+        if(currentCamera!= null)
+            currentCamera.Priority.Value = InactivePriority;
         planetCam.Priority.Value = ActivePriority;
 
         planetCamera = planetCam;
         currentCamera = planetCam;
+        if (ViewContext.I == null || ViewContext.I.DockedPlanet != CameraType.SpaceShip)
+            SpaceshipController.SetIsSpaceShipMode(false);
         targetZoomSize = currentCamera.Lens.OrthographicSize;
 
         Debug.Log($"[CameraSwitcher] 모드: 행성 ({currentCamera.name}) prio={planetCam.Priority.Value}");
         DumpLive();
         var t = planetCam.GetComponent<CameraTypeTag>()?.type ?? CameraType.Planet1;
+        if (ViewContext.I != null)
+            ViewContext.I.SetCurrentView(t);
         OnViewChanged?.Invoke(t);
     }
 
@@ -127,6 +133,5 @@ public class CameraSwitcher : MonoBehaviour
     {
         string ship = spaceshipCamera ? $"{spaceshipCamera.name} live={spaceshipCamera.IsLive} prio={spaceshipCamera.Priority.Value}" : "spaceship=null";
         string planet = planetCamera ? $"{planetCamera.name} live={planetCamera.IsLive} prio={planetCamera.Priority.Value}" : "planet=null";
-        Debug.Log($"[LiveCheck] {ship} | {planet}");
     }
 }

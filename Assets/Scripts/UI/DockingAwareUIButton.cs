@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class DockingAwareUIButton : MonoBehaviour
 {
@@ -8,24 +9,41 @@ public class DockingAwareUIButton : MonoBehaviour
     [SerializeField] private Kind kind;
     [SerializeField] private Button btn;
     [SerializeField] private GameObject rootForVisibility; // Planet2 버튼 숨김/표시용(없으면 this.gameObject)
+    [SerializeField] private CameraSwitcher cameraSwitcher;
 
-    void Awake()
+    void OnEnable()
     {
-        if (!btn) btn = GetComponent<Button>();
-        ViewContext.I.OnDockChanged += _ => Refresh();
-        ViewContext.I.OnPlanet2UnlockChanged += _ => Refresh();
+        if (!btn) btn = GetComponentInChildren<Button>(true);
+
+        if (ViewContext.I != null)
+        {
+            ViewContext.I.OnDockChanged += HandleDockChanged;
+            ViewContext.I.OnPlanet2UnlockChanged += HandleUnlockChanged;
+            ViewContext.I.OnViewChanged += HandleViewChanged; 
+        }
+        // cameraSwitcher 참조는 선택(없어도 동작하도록)
+        if (cameraSwitcher != null)
+            cameraSwitcher.OnViewChanged += HandleViewChanged;
+
+        Refresh();            // 첫 프레임 즉시 1회 갱신
     }
 
-    void Start() => Refresh();
-
-    void OnDestroy()
+    void OnDisable()
     {
         if (ViewContext.I != null)
         {
-            ViewContext.I.OnDockChanged -= _ => Refresh(); // 람다 저장 안되니 안전하게 null 체크만
-            ViewContext.I.OnPlanet2UnlockChanged -= _ => Refresh();
+            ViewContext.I.OnDockChanged -= HandleDockChanged;
+            ViewContext.I.OnPlanet2UnlockChanged -= HandleUnlockChanged;
+            ViewContext.I.OnViewChanged -= HandleViewChanged;
         }
+        if (cameraSwitcher != null)
+            cameraSwitcher.OnViewChanged -= HandleViewChanged;
     }
+
+    private void HandleDockChanged(CameraType _) => Refresh();
+    private void HandleUnlockChanged(bool _) => Refresh();
+    private void HandleViewChanged(CameraType _) => Refresh(); 
+
 
     void Refresh()
     {
@@ -37,6 +55,7 @@ public class DockingAwareUIButton : MonoBehaviour
         {
             var go = rootForVisibility ? rootForVisibility : gameObject;
             go.SetActive(ctx.Planet2Unlocked);
+            Debug.Log("버튼 킴");
         }
 
         // 인터랙션 규칙
@@ -44,18 +63,16 @@ public class DockingAwareUIButton : MonoBehaviour
         switch (kind)
         {
             case Kind.Spaceship:
-                // 4) 도킹 시 우주선 버튼 비활성
-                interactable = (ctx.DockedPlanet == CameraType.SpaceShip);
+                interactable = ((ctx.DockedPlanet == CameraType.SpaceShip) &&(ctx.CurrentView) != CameraType.SpaceShip);
                 break;
             case Kind.Planet1:
-                // 5) Planet1에 도킹한 상태면 Planet1 버튼 비활성
-                interactable = (ctx.DockedPlanet != CameraType.Planet1);
+                interactable = (ctx.CurrentView != CameraType.Planet1);
                 break;
             case Kind.Planet2:
-                // Planet2에 도킹한 상태면 Planet2 버튼 비활성
-                interactable = (ctx.DockedPlanet != CameraType.Planet2) && ctx.Planet2Unlocked;
+                interactable = ctx.Planet2Unlocked && (ctx.CurrentView != CameraType.Planet2);
                 break;
         }
         if (btn) btn.interactable = interactable;
+        Debug.Log(kind + "는 " + interactable);
     }
 }
