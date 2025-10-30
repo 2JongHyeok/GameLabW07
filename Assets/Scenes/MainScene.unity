@@ -1576,7 +1576,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3484089782227895973, guid: 6b44414eaaa0d7c4b858b81f4f5133b7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 3
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 3484089782227895973, guid: 6b44414eaaa0d7c4b858b81f4f5133b7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6668,6 +6668,10 @@ MonoBehaviour:
   minShipCamZoom: 2
   maxShipCamZoom: 20
   smoothSpeed: 5
+  followPlayer: 1
+  isOnMinimap: 0
+  minimapFollowSpeed: 5
+  movementReFollowThreshold: 0.1
 --- !u!1 &1113942296 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5168160883184831422, guid: c4f993dcaf3201141b031d659e0c3b6f, type: 3}
@@ -8846,8 +8850,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -892.4, y: -61.125}
-  m_SizeDelta: {x: 91, y: 135}
+  m_AnchoredPosition: {x: -894, y: -62}
+  m_SizeDelta: {x: 124, y: 124}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1671250463
 MonoBehaviour:
@@ -13231,6 +13235,10 @@ MonoBehaviour:
   minShipCamZoom: 2
   maxShipCamZoom: 20
   smoothSpeed: 5
+  followPlayer: 1
+  isOnMinimap: 0
+  minimapFollowSpeed: 5
+  movementReFollowThreshold: 0.1
 --- !u!4 &1778712952
 Transform:
   m_ObjectHideFlags: 0
@@ -14869,6 +14877,7 @@ GameObject:
   - component: {fileID: 2099530077}
   - component: {fileID: 2099530079}
   - component: {fileID: 2099530078}
+  - component: {fileID: 2099530080}
   m_Layer: 5
   m_Name: MiniMapImg
   m_TagString: Untagged
@@ -14893,7 +14902,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: -888.4, y: -66.87494}
-  m_SizeDelta: {x: 290, y: 435}
+  m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2099530078
 MonoBehaviour:
@@ -14930,6 +14939,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2099530076}
   m_CullTransparentMesh: 1
+--- !u!114 &2099530080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099530076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01f0cc6c99363e44ab4b649a6bb609ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimapCamera: {fileID: 879916772}
+  cameraSwitcher: {fileID: 1778712951}
+  zoomSpeed: 25
+  smoothSpeed: 10
+  minZoom: 10
+  maxZoom: 70.9
+  dragSpeed: 0.1
 --- !u!1 &2113192864
 GameObject:
   m_ObjectHideFlags: 0
@@ -15373,7 +15401,7 @@ RectTransform:
   m_GameObject: {fileID: 2615088940956422268}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8749246955554115742}
@@ -15381,7 +15409,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -113, y: 32}
+  m_AnchoredPosition: {x: -14, y: 84}
   m_SizeDelta: {x: 0, y: -183}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1506935609268358324

@@ -28,20 +28,56 @@ public class CameraSwitcher : MonoBehaviour
 
     private const int ActivePriority = 20;
     private const int InactivePriority = 10;
+    
+    [Header("Minimap")]
+    [Tooltip("미니맵 카메라가 플레이어를 따라다니도록 설정합니다.")]
+    public bool followPlayer = true;
+    public bool isOnMinimap = false;
+    [SerializeField] private float minimapFollowSpeed = 5f;
+    [Tooltip("플레이어의 이 속도(sqrMagnitude) 이상으로 움직여야 미니맵이 다시 따라갑니다.")]
+    [SerializeField] private float movementReFollowThreshold = 0.1f;
+    private Rigidbody2D playerRb;
+    
 
     void Start()
     {
         // 시작은 행성 카메라(Planet1Cam)로
         ActivatePlanet(planetCamera);
         targetZoomSize = currentCamera != null ? currentCamera.Lens.OrthographicSize : 5f;
+        isOnMinimap = false;
+        followPlayer = true;
         //DumpLive();
-    }
+        
+        playerRb = player.GetComponent<Rigidbody2D>();
+            
 
-    void Update() => HandleZoom();
+    }
+    
+    void Update()
+    {
+        HandleZoom(); // 메인 카메라 줌 처리
+
+        // 플레이어 움직임 감지하여 복귀 처리
+        CheckForPlayerMovementToReFollow();
+    }
 
     void LateUpdate()
     {
-        if(player != null) minimapCamera.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -20f);
+        if (player != null)
+        {
+            // 1. 목표 위치 (플레이어 위치) 설정
+            Vector3 targetPosition = new Vector3(player.transform.position.x, player.transform.position.y, -20f);
+
+            // 2. followPlayer가 true일 때만 부드럽게 이동 (Lerp)
+            if (followPlayer)
+            {
+                minimapCamera.transform.position = Vector3.Lerp(
+                    minimapCamera.transform.position, // 현재 위치
+                    targetPosition,                   // 목표 위치
+                    Time.deltaTime * minimapFollowSpeed); // 속도
+            } 
+        }
+        
         if (currentCamera == null) return;
         var lens = currentCamera.Lens;
         lens.OrthographicSize = Mathf.Lerp(lens.OrthographicSize, targetZoomSize, Time.deltaTime * smoothSpeed);
@@ -113,6 +149,8 @@ public class CameraSwitcher : MonoBehaviour
     private void HandleZoom()
     {
         if (currentCamera == null) return;
+        if (isOnMinimap) return;
+        
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (Mathf.Approximately(scroll, 0f)) return;
 
@@ -129,4 +167,26 @@ public class CameraSwitcher : MonoBehaviour
         string planet = planetCamera ? $"{planetCamera.name} live={planetCamera.IsLive} prio={planetCamera.Priority.Value}" : "planet=null";
         Debug.Log($"[LiveCheck] {ship} | {planet}");
     }
+    
+    // --- ▼ 이 함수를 새로 추가하세요 ▼ ---
+    /// <summary>
+    /// 플레이어가 움직이는지 감지하여 미니맵 추적을 다시 시작합니다.
+    /// </summary>
+    private void CheckForPlayerMovementToReFollow()
+    {
+        // 이미 따라가고 있거나, Rigidbody가 없으면 검사 안 함
+        if (followPlayer || playerRb == null)
+        {
+            return;
+        }
+
+        // 플레이어의 속도(제곱)가 설정한 임계값보다 커지면
+        // (sqrMagnitude는 Vector3.Distance보다 연산 비용이 훨씬 쌈)
+        if (playerRb.linearVelocity.sqrMagnitude > movementReFollowThreshold)
+        {
+            // 추적 모드로 다시 변경
+            followPlayer = true;
+        }
+    }
+    // --- ▲ 이 함수를 새로 추가하세요 ▲ ---
 }

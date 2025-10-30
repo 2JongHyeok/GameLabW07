@@ -65,6 +65,8 @@ public class SpaceshipMotor : MonoBehaviour
     [SerializeField] private float minKnockbackSpeed = 1f;
     
     public event Action OnThrustValueChanged;
+    
+    public bool isOnMinimap = false;
 
     public Rigidbody2D Rb { get; private set; }
 
@@ -94,7 +96,7 @@ public class SpaceshipMotor : MonoBehaviour
     private void FixedUpdate()
     {
         // ... (FixedUpdate 내용은 동일) ...
-        if (speedData == null) return;
+        if (speedData == null || isOnMinimap) return;
         float mass = Rb.mass;
         float absoluteMaxSpeed = (movementDrag > 0 && mass > 0) ? thrustPower / (movementDrag * mass) : 0f;
         float effectiveThrust = CalculateEffectiveThrust();
@@ -140,6 +142,8 @@ public class SpaceshipMotor : MonoBehaviour
 
     public void Move(float thrustInput, float boostMultiplier)
     {
+        if (isOnMinimap) return;
+        
         if (Mathf.Abs(thrustInput) > 0.01f)
         {
             float forceToApply = CalculateEffectiveThrust();
@@ -148,6 +152,8 @@ public class SpaceshipMotor : MonoBehaviour
     }
     public void Rotate(float rotateInput)
     {
+        if (isOnMinimap) return;
+        
         if (Mathf.Abs(rotateInput) > 0.01f)
         {
             Rb.AddTorque(-rotateInput * additiveTorque);
@@ -157,6 +163,8 @@ public class SpaceshipMotor : MonoBehaviour
     // ... (ApplyActiveDeceleration 함수는 동일) ...
     public void ApplyActiveDeceleration(float thrustInput)
     {
+        if (isOnMinimap) return;
+        
         if (Mathf.Abs(thrustInput) < 0.1f)
         {
             if (Rb.linearVelocity.sqrMagnitude > 0) // 움직이고 있을 때만
@@ -175,6 +183,8 @@ public class SpaceshipMotor : MonoBehaviour
     // ## --- 이 함수를 완전히 교체합니다 --- ##
     public void ApplyActiveRotationalDeceleration(float rotateInput, float thrustInput = 0f)
     {
+        if (isOnMinimap) return;
+        
         // 1. 회전 입력이 있을 때 (데드존 밖)
         if (Mathf.Abs(rotateInput) > 0.01f)
         {
