@@ -4528,6 +4528,7 @@ Transform:
   - {fileID: 1808628663}
   - {fileID: 7276378935500500829}
   - {fileID: 2050996197}
+  - {fileID: 1966205813}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &994011219
@@ -4669,6 +4670,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planet2Btn
       objectReference: {fileID: 0}
+    - target: {fileID: 5895469613333864525, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5895469613333864525, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5895469613333864525, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1096807286}
+    - target: {fileID: 5895469613333864525, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5895469613333864525, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SwitchToPlanetCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 5895469613333864525, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlanetButton, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5895469613333864525, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7645464975610577713, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4749,6 +4778,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9097026852104614801, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+      propertyPath: targetCam
+      value: 
+      objectReference: {fileID: 1819013918}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5592,6 +5625,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1082530650}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1096807286 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9097026852104614801, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+  m_PrefabInstance: {fileID: 1001781460}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2962648628b934382d09fd23e20b24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1104671155
 GameObject:
   m_ObjectHideFlags: 0
@@ -12920,6 +12964,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1195811763}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1966205812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1966205813}
+  - component: {fileID: 1966205814}
+  m_Layer: 0
+  m_Name: PlanetCamManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1966205813
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966205812}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 994011218}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1966205814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966205812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eea9c391494e87469107aa0e6263cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1973134178
 GameObject:
   m_ObjectHideFlags: 0
@@ -13090,6 +13178,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planet1Btn
       objectReference: {fileID: 0}
+    - target: {fileID: 5895469613333864525, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5895469613333864525, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5895469613333864525, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2018318748}
+    - target: {fileID: 5895469613333864525, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5895469613333864525, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SwitchToPlanetCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 5895469613333864525, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlanetButton, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5895469613333864525, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7645464975610577713, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -13170,6 +13286,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9097026852104614801, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+      propertyPath: targetCam
+      value: 
+      objectReference: {fileID: 137777106}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13189,6 +13309,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2018318748 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9097026852104614801, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+  m_PrefabInstance: {fileID: 2018318743}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2962648628b934382d09fd23e20b24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2027331418
@@ -13979,7 +14110,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 8920092929309086370}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.5333333
+  m_Size: 0.53749996
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
