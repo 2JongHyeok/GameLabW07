@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: e515e0f94cefc4c0db54b45cba621544
+ShaderImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164360
+  packageName: Alpha Flashing UI (UI Shaders)
+  packageVersion: 2.3
+  assetPath: Assets/#NVJOB Alpha Flashing UI/Example Scenes/Standard Assets/Effects/ImageEffects/Shaders/ColorCorrectionSelective.shader
+  uploadId: 356381

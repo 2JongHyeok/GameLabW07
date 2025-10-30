@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 8ac44c18fd645b7448217d516c2a94af
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164360
+  packageName: Alpha Flashing UI (UI Shaders)
+  packageVersion: 2.3
+  assetPath: Assets/#NVJOB Alpha Flashing UI/Alpha Flashing UI/Alpha Flashing Sprite.shader
+  uploadId: 356381

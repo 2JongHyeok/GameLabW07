@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: cd5b323dcc592457790ff18b528f5e67
+ShaderImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164360
+  packageName: Alpha Flashing UI (UI Shaders)
+  packageVersion: 2.3
+  assetPath: Assets/#NVJOB Alpha Flashing UI/Example Scenes/Standard Assets/Effects/ImageEffects/Shaders/_Antialiasing/FXAA2.shader
+  uploadId: 356381
