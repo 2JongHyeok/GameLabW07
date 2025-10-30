@@ -19,9 +19,9 @@ MonoBehaviour:
   - asteroidPrefab: {fileID: 6662504043527552974, guid: 29447c97fd470dc4da019d7d1b8777a5, type: 3}
     weight: 20
   - asteroidPrefab: {fileID: 6662504043527552974, guid: 8aed04ef6ba1b6643bb521dc78d62da6, type: 3}
-    weight: 15
+    weight: 20
   - asteroidPrefab: {fileID: 6662504043527552974, guid: cc61130ea446cb848a08d4a19bb0c7db, type: 3}
-    weight: 10
+    weight: 15
   - asteroidPrefab: {fileID: 6662504043527552974, guid: 8ebb668d6471ff2498c52d664d3eac7e, type: 3}
     weight: 15
   - asteroidPrefab: {fileID: 6662504043527552974, guid: 16aad13c28dc34346aa1e22fca805e4f, type: 3}

@@ -214,7 +214,7 @@ public class WorldAnalysisLogger : MonoBehaviour
 
         report.AppendLine("==============================================================");
 
-        // 파일에 전체 리포트 기록 (기존 내용 덮어쓰기)
-        File.WriteAllText(filePath, report.ToString());
+        // 파일에 전체 리포트 기록 (기존 내용에 이어서 쓰기)
+        File.AppendAllText(filePath, report.ToString());
     }
 }
