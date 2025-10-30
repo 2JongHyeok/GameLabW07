@@ -24,7 +24,7 @@ public class CameraSwitcher : MonoBehaviour
 
     private CinemachineCamera currentCamera;
     private float targetZoomSize;
-    
+    public System.Action<CameraType> OnViewChanged;
 
     private const int ActivePriority = 20;
     private const int InactivePriority = 10;
@@ -67,7 +67,6 @@ public class CameraSwitcher : MonoBehaviour
             ActivatePlanet(planetCamera);
     }
 
-    /// <summary>우주선 모드로 전환</summary>
     public void ActivateSpaceship()
     {
         if (spaceshipCamera == null)
@@ -85,9 +84,9 @@ public class CameraSwitcher : MonoBehaviour
 
         Debug.Log($"[CameraSwitcher] 모드: 우주선 ({currentCamera.name}) prio={spaceshipCamera.Priority.Value}");
         DumpLive();
+        OnViewChanged?.Invoke(CameraType.SpaceShip);
     }
 
-    /// <summary>지정한 행성 카메라로 전환</summary>
     public void ActivatePlanet(CinemachineCamera planetCam)
     {
         if (planetCam == null)
@@ -101,12 +100,12 @@ public class CameraSwitcher : MonoBehaviour
 
         planetCamera = planetCam;
         currentCamera = planetCam;
-        SpaceshipController.SetIsSpaceShipMode(false);
-        Debug.Log("ActivatePlanet");
         targetZoomSize = currentCamera.Lens.OrthographicSize;
 
         Debug.Log($"[CameraSwitcher] 모드: 행성 ({currentCamera.name}) prio={planetCam.Priority.Value}");
         DumpLive();
+        var t = planetCam.GetComponent<CameraTypeTag>()?.type ?? CameraType.Planet1;
+        OnViewChanged?.Invoke(t);
     }
 
     // ===== 내부 처리 =====

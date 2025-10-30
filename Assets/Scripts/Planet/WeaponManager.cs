@@ -102,6 +102,7 @@ public class SubWeaponManager : MonoBehaviour
                 }
                 break;
         }
+        FindFirstObjectByType<WeaponControlSwitcher>()?.NotifyWeaponTopologyChanged();
     }
 
     // 유틸들

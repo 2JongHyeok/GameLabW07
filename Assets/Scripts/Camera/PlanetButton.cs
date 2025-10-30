@@ -1,48 +1,27 @@
 using UnityEngine;
+using Unity.Cinemachine;
 using UnityEngine.UI;
-using Unity.Cinemachine; 
+
 public class PlanetButton : MonoBehaviour
 {
-    [Header("전환할 시네머신 카메라")]
     [SerializeField] private CinemachineCamera targetCam;
+    [SerializeField] private CameraSwitcher cameraSwitcher;
+    [SerializeField] private CameraType thisType; // 버튼 목적지(Planet1/Planet2/SpaceShip)
 
-    [Header("전환 방식 (권장: Priority)")]
-    [SerializeField] private bool usePriority = true; // true면 Priority로, false면 활성/비활성 전환
-    [SerializeField] private int activePriority = 20;
-    [SerializeField] private int inactivePriority = 10;
-
-    // Button.onClick 에 연결
-    public void SwitchToPlanetCamera()
+    void Start()
     {
-        if (!targetCam)
-        {
-            Debug.LogWarning("[PlanetButton] targetCam이 비어있습니다.");
-            return;
-        }
+        // Planet2 버튼이면 잠금 상태에선 숨김
+        if (thisType == CameraType.Planet2 && !ViewContext.I.Planet2Unlocked)
+            gameObject.SetActive(false);
+    }
 
-        // 비활성 객체 포함, 씬의 모든 CM 카메라 수집
-        var allCams = FindObjectsByType<CinemachineCamera>(
-            FindObjectsInactive.Include, FindObjectsSortMode.None
-        );
+    public void OnClick()
+    {
+        if (!cameraSwitcher) return;
 
-        if (usePriority)
-        {
-            foreach (var cam in allCams)
-                cam.Priority = (cam == targetCam) ? activePriority : inactivePriority;
-        }
+        if (thisType == CameraType.SpaceShip)
+            cameraSwitcher.ActivateSpaceship();
         else
-        {
-            // 대안: 게임오브젝트 활성/비활성 전환
-            foreach (var cam in allCams)
-                cam.gameObject.SetActive(cam == targetCam);
-        }
-
-        // 브레인 존재 체크(메인 카메라에 붙어 있어야 블렌드/전환이 적용됨)
-        var brain = Camera.main ? Camera.main.GetComponent<CinemachineBrain>()
-                                : FindFirstObjectByType<CinemachineBrain>(FindObjectsInactive.Include);
-        if (!brain)
-            Debug.LogWarning("[PlanetButton] 씬의 카메라에 CinemachineBrain 컴포넌트를 추가하세요.");
-
-        Debug.Log($"[PlanetButton] 카메라 전환: {targetCam.name}");
+            cameraSwitcher.ActivatePlanet(targetCam);
     }
 }
