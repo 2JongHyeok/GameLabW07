@@ -11,6 +11,8 @@ TagManager:
   - Enemy
   - Weapon
   - PlanetCore
+  - AttackArea1
+  - AttackArea2
   layers:
   - Default
   - TransparentFX

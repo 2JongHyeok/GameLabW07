@@ -19,7 +19,7 @@ MonoBehaviour:
   depth: 5
   coalCost: 0
   ironCost: 0
-  goldCost: 2
-  diamondCost: 1
+  goldCost: 3
+  diamondCost: 0
   postSubBranches: []
   allowedOreCount: 4

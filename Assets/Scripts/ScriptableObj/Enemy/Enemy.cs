@@ -200,50 +200,56 @@ public class Enemy : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (enemyData == null) return;
+    
+        switch (enemyData.enemyType)
+        {
+            // 패러사이트는 "Respawn" 태그에 반응
+            case EnemyType.Parasite:
+                if (collision.CompareTag("Respawn"))
+                {
+                    isAttacking = true;
+                }
+                else if (collision.CompareTag("Weapon"))
+                {
+                    isDead = true;
+                    // (여기에 밟혀 죽는 이펙트/사운드 추가하면 좋음)
+                    myPool.Release(gameObject); // 풀로 반환 (죽음)
+                }
+                break;
 
-        // 패러사이트는 "Respawn" 태그에 반응
-        if (enemyData.enemyType == EnemyType.Parasite)
-        {
-            if (collision.CompareTag("Respawn"))
-            {
-                isAttacking = true;
-            }
-            else if (collision.CompareTag("Weapon"))
-            {
-                isDead = true;
-                // (여기에 밟혀 죽는 이펙트/사운드 추가하면 좋음)
-                myPool.Release(gameObject); // 풀로 반환 (죽음)
-            }
-        }
-        // 레인저/탱크는 기존대로 "Player" 태그에 반응
-        else if (enemyData.enemyType == EnemyType.Ranger || enemyData.enemyType == EnemyType.RangerTank)
-        {
-            if (collision.CompareTag("Player"))
-            {
-                isAttacking = true;
-            }
+            // 레인저/탱크는 "AttackArea1", "AttackArea2" 태그에 반응
+            case EnemyType.Ranger:
+                if (collision.CompareTag("AttackArea1"))
+                {
+                    isAttacking = true;
+                }
+                break;
+
+            case EnemyType.RangerTank:
+                if (collision.CompareTag("AttackArea2"))
+                {
+                    isAttacking = true;
+                }
+                break;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (enemyData == null) return;
+    
+        switch (enemyData.enemyType)
+        {
+            case EnemyType.Parasite when collision.CompareTag("Respawn"):
+                isAttacking = false;
+                break;
 
-        // 패러사이트는 "Respawn" 태그에서 벗어났을 때
-        if (enemyData.enemyType == EnemyType.Parasite)
-        {
-            if (collision.CompareTag("Respawn"))
-            {
+            case EnemyType.Ranger when collision.CompareTag("AttackArea1"):
                 isAttacking = false;
-            }
-        }
-        // 레인저/탱크는 "Player" 태그에서 벗어났을 때
-        else if (enemyData.enemyType == EnemyType.Ranger || enemyData.enemyType == EnemyType.RangerTank )
-        {
-            if (collision.CompareTag("Player"))
-            {
+                break;
+            case EnemyType.RangerTank when collision.CompareTag("AttackArea2"):
                 isAttacking = false;
-            }
+                break;
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
