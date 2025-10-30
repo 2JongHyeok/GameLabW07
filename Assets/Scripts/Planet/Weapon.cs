@@ -144,9 +144,12 @@ public class Weapon : MonoBehaviour
         // bool keyboardFire = Input.GetKey(KeyCode.Space);
         
         
-        // 좌클릭 입력으로 변경
+        
         bool primaryFireInput = false;
-        primaryFireInput = Input.GetMouseButton(0);
+        
+        // 좌클릭 또는 스페이스 키 입력으로 공격
+        primaryFireInput = Input.GetMouseButton(0) || Input.GetKeyDown(KeyCode.Space);
+        
 
         // 게임패드 A 버튼 입력 확인
         bool gamepadFire = false;
