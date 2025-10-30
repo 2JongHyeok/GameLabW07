@@ -6505,7 +6505,7 @@ MonoBehaviour:
   kind: 2
   btn: {fileID: 2044011857}
   rootForVisibility: {fileID: 971359258}
-  cameraSwitcher: {fileID: 1108278171}
+  cameraSwitcher: {fileID: 0}
 --- !u!1 &1104671155
 GameObject:
   m_ObjectHideFlags: 0
@@ -6707,7 +6707,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1108278169}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d455114a57c8d024782d0c4775ee4011, type: 3}
   m_Name: 
@@ -6725,7 +6725,7 @@ MonoBehaviour:
   followPlayer: 1
   isOnMinimap: 0
   minimapFollowSpeed: 5
-  movementReFollowThreshold: 0.1
+  movementReFollowThreshold: 5
 --- !u!1 &1113942296 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5168160883184831422, guid: c4f993dcaf3201141b031d659e0c3b6f, type: 3}
@@ -7483,7 +7483,7 @@ MonoBehaviour:
   cargoSystem: {fileID: 1908056906}
   inventoryManger: {fileID: 5803141803156037022}
   planet2DockingStationScript: {fileID: 1660408333}
-  planet2Button: {fileID: 971359258}
+  planet2Button: {fileID: 0}
   planet2Weapon: {fileID: 302044737}
   constructionPromptUI: {fileID: 840141163}
   VisibleEffect: {fileID: 240399502}
@@ -14663,7 +14663,7 @@ MonoBehaviour:
   kind: 1
   btn: {fileID: 12616951}
   rootForVisibility: {fileID: 0}
-  cameraSwitcher: {fileID: 1108278171}
+  cameraSwitcher: {fileID: 0}
 --- !u!1 &2027331418
 GameObject:
   m_ObjectHideFlags: 0
@@ -15526,8 +15526,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1889246257501131323}
   m_HandleRect: {fileID: 8920092929309086370}
   m_Direction: 0
-  m_Value: -6144
-  m_Size: 0.9999963
+  m_Value: -19.936724
+  m_Size: 0.99886
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -16967,7 +16967,7 @@ MonoBehaviour:
   kind: 0
   btn: {fileID: 7259951986805042249}
   rootForVisibility: {fileID: 0}
-  cameraSwitcher: {fileID: 1108278171}
+  cameraSwitcher: {fileID: 0}
 --- !u!114 &7028480654169208916
 MonoBehaviour:
   m_ObjectHideFlags: 0

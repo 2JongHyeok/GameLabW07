@@ -179,6 +179,12 @@ public class CameraSwitcher : MonoBehaviour
     /// </summary>
     private void CheckForPlayerMovementToReFollow()
     {
+        if (Input.GetMouseButton(2))
+        {
+            Debug.Log("중앙 버튼 눌림: 미니맵 추적 일시 중지");
+            return;
+        }
+        
         // 이미 따라가고 있거나, Rigidbody가 없으면 검사 안 함
         if (followPlayer || playerRb == null)
         {
@@ -189,6 +195,7 @@ public class CameraSwitcher : MonoBehaviour
         // (sqrMagnitude는 Vector3.Distance보다 연산 비용이 훨씬 쌈)
         if (playerRb.linearVelocity.sqrMagnitude > movementReFollowThreshold)
         {
+            Debug.Log("플레이어 움직임 감지: 미니맵 추적 재개");
             // 추적 모드로 다시 변경
             followPlayer = true;
         }

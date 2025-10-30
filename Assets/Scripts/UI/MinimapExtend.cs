@@ -89,6 +89,7 @@ public class MinimapExtend : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             lastDragPosition = Input.mousePosition;
             if (cameraSwitcher != null)
             {
+                Debug.Log("Minimap drag started, disabling followPlayer.");
                 cameraSwitcher.followPlayer = false;
             }
         }
