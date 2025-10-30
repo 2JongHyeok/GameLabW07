@@ -7,10 +7,10 @@ public class SpaceshipInput : MonoBehaviour
     [Tooltip("역추진 시 적용될 힘의 배율 (0.5 = 50%)")] [SerializeField]
     private float reverseThrustMultiplier = 0.5f;
 
-    // ## 수정 ## : 회전 관련 변수 추가
+    // 회전 관련 변수 추가
     [Header("Rotation Settings")] [Tooltip("마우스가 이 각도(도) 이상 벗어나야 회전 입력을 생성합니다.")] [SerializeField]
     private float mouseRotationThreshold = 5.0f; // 약간의 오차 허용
-    // ## 수정 끝 ##
+    [SerializeField] private float mouseRotationDeadzone = 0.5f; // 5.0f -> 0.5f (또는 1.0f)로 추천
     
     // ## 더블 클릭 로직을 위한 변수 수정 ##
     [Header("Double Click Settings")]
@@ -20,7 +20,6 @@ public class SpaceshipInput : MonoBehaviour
 
     // 'isReverseThrustToggled' 대신, 현재 홀드 상태를 저장할 변수
     private bool isHoldingForReverse = false; 
-    // ## 수정 끝 ##
 
     [Header("Gamepad Settings")] private float gamepadDeadZone = 0.1f; // 게임패드 데드존 설정
 
@@ -32,7 +31,9 @@ public class SpaceshipInput : MonoBehaviour
     private Camera mainCamera; // 마우스 위치 변환용
 
     [SerializeField] private float mouseSensitivity = 45.0f; // 마우스 감도 조절용 변수
-
+    public bool isMouseControlEnabled = true; // 마우스 제어 활성화 여부
+    public float mouseX;
+    public float mouseY;
     void Awake()
     {
         mainCamera = Camera.main;
@@ -41,15 +42,8 @@ public class SpaceshipInput : MonoBehaviour
             Debug.LogError("메인 카메라를 찾을 수 없습니다! 카메라에 'MainCamera' 태그가 있는지 확인하세요.");
         }
     }
-
-    // 이딴 건 이제 필요 없어.
-    // public bool ToggleControlPressed { get; private set; }
-
-
-    // Awake()도 필요 없어. Input System을 안 쓰니까.
-    // private void Awake() { }
-
-    // 모든 걸 이 원시적인 Update() 안에서 해결해주지.
+    
+    
     private void Update()
     {
         #region 게임 패드 코드
@@ -74,7 +68,8 @@ public class SpaceshipInput : MonoBehaviour
         #endregion
 
 
-        #region 기존 이동 로직
+        #region 기존 이동 로직 (삭제됨)
+        /*
         if (ThrustInput == 0.0f)
         {
             // 전진/후진 (W/S)
@@ -89,14 +84,26 @@ public class SpaceshipInput : MonoBehaviour
         {
             ThrustInput = 1.0f;
         }
-        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.DownArrow))
         {
             ThrustInput = -reverseThrustMultiplier;
         }
+        */
         #endregion
-        
-        // ## --- 새로운 '더블 클릭 홀드' 추력 로직 --- ##
 
+        mouseX = Input.GetAxis("Mouse X");
+        mouseY = Input.GetAxis("Mouse Y");
+
+        // 2. 마우스가 실제로 움직였는지 확인 (둘 중 하나라도 0이 아니면)
+        if (mouseX != 0f || mouseY != 0f)
+        {
+            isMouseControlEnabled = true;
+        }
+        else
+        {
+            isMouseControlEnabled = false;
+        }
+        
         // 1. 마우스 우클릭을 '누른' 프레임에만 홀드 상태를 결정합니다.
         if (Input.GetMouseButtonDown(1))
         {
@@ -120,7 +127,7 @@ public class SpaceshipInput : MonoBehaviour
         ThrustInput = 0.0f;
 
         // 3. 마우스 우클릭이 '눌려있는 동안'(홀드) 상태에 따라 추력을 적용합니다.
-        if (Input.GetMouseButton(1)) // 꾹 누르고 있는 동안
+        if (Input.GetMouseButton(1) || Input.GetKey(KeyCode.UpArrow)) // 꾹 누르고 있는 동안
         {
             if (isHoldingForReverse)
             {
@@ -133,58 +140,54 @@ public class SpaceshipInput : MonoBehaviour
                 ThrustInput = 1.0f;
             }
         }
-        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.DownArrow))
         {
             // 4. 마우스를 누르고 있지 않을 때만 S키 입력을 받습니다.
             ThrustInput = -reverseThrustMultiplier;
         }
+        
 
-        // ## --- 로직 수정 끝 --- ##
-
-
+        // 5. 마우스 기반 회전 계산 (기본)
         CalculateRotationInputFromMouse();
 
-        #region 부스트 및 게임 패드 코드
+
+        #region 부스트 및 게임 패드, 키보드 회전 코드
 
         // 부스트 (Shift)
         // IsBoosting = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
-        // 회전 (A/D)
+        // ## 여기부터 수정 ##
+        // 6. 키보드 회전 입력 (마우스 입력을 덮어씀)
         // A키는 양수, D키는 음수 값을 줘야 Motor에서 제대로 회전해.
-        // 게임패드 왼쪽 스틱 X축 입력 처리 (회전)
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            // Motor.cs의 AddTorque(-rotateInput) 로직에 따라, 
+            // 왼쪽(반시계) 회전은 rotateInput이 -1f가 되어야 합니다.
+            RotateInput = -0.2f;
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            // 오른쪽(시계) 회전은 rotateInput이 1f가 되어야 합니다.
+            RotateInput = 0.2f;
+        }
+        // 키보드 입력이 없으면, 5번에서 계산한 마우스 회전값(RotateInput)이 그대로 사용됩니다.
+        // else { RotateInput = 0f; } <-- 이 코드는 절대 넣으면 안 됩니다. (마우스 회전을 0으로 덮어쓰기 때문)
 
+
+        // 게임패드 왼쪽 스틱 X축 입력 처리 (회전)
         // 추후 게임패드 추가
         /*if (Gamepad.current != null)
         {
             float gamepadRotate = Gamepad.current.leftStick.ReadValue().x;
             if (Mathf.Abs(game22padRotate) > gamepadDeadZone) // 데드존 적용
             {
+                // 게임패드 입력이 있다면, 키보드/마우스 입력을 다시 덮어씁니다.
                 RotateInput = gamepadRotate; // 스틱 X축 값을 직접 사용
             }
             else
             {
-                RotateInput = 0f; // 데드존 이내면 입력 없음
+                // 게임패드 입력이 데드존 안이면, 키보드/마우스 값을 유지합니다.
             }
-        }*/
-
-        // 게임패드 입력이 없거나 데드존 이내일 경우 키보드 입력 사용 
-        // 게임패드 입력이 없었을 때만 키보드 확인
-        /*if (RotateInput == 0f)
-        {
-            // 추후 여기에 키보드 인풋 추가
-        }
-
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-        {
-            RotateInput = -1f;
-        }
-        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-        {
-            RotateInput = 1f;
-        }
-        else
-        {
-            RotateInput = 0f;
         }*/
 
         #endregion
@@ -192,6 +195,9 @@ public class SpaceshipInput : MonoBehaviour
 
     private void CalculateRotationInputFromMouse()
     {
+        if(!isMouseControlEnabled) return;
+        
+        
         // 기본값은 회전 없음
         RotateInput = 0f;
         if (mainCamera == null) return;
@@ -210,19 +216,18 @@ public class SpaceshipInput : MonoBehaviour
         Vector2 shipForward = transform.up;
         // 4. 우주선 앞쪽 방향과 마우스를 향하는 방향 사이의 각도 계산 (SignedAngle 사용)
         float angleDifference = Vector2.SignedAngle(shipForward, directionToMouse);
-
-        // 5. 각도 차이가 임계값보다 클 때만 회전 입력 생성
-        /*if (Mathf.Abs(angleDifference) > mouseRotationThreshold)
-        {*/
-            // ## 여기가 핵심 수정 ##
-            // Mathf.Sign 대신, 각도 차이에 비례하는 값을 사용합니다.
-            // 45도 각도 차이일 때 최대 회전(-1 또는 1)에 도달하도록 조절합니다.
-            // 이 '45f' 값을 조절하여 회전 민감도를 튜닝할 수 있습니다.
+        
+        // 각도 차이가 '데드존'보다 작으면, 'RotateInput'을 0으로 확정합니다.
+        if (Mathf.Abs(angleDifference) < mouseRotationDeadzone)
+        {
+            RotateInput = 0f;
+        }
+        else
+        {
+            // 데드존보다 클 때만 회전 입력을 계산합니다.
             float proportionalRotation = Mathf.Clamp(angleDifference / mouseSensitivity, -1f, 1f);
-
-            // 기존 로직과 방향을 맞추기 위해 부호를 반전합니다. (-Mathf.Sign()을 썼으므로)
             RotateInput = -proportionalRotation;
-        /*}*/
-        // 임계값 이내면 RotateInput은 0 유지 (회전 안 함)
+        }
     }
-}
+} 
+
