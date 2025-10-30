@@ -7,7 +7,6 @@ public class Planet2Manager : MonoBehaviour
     [SerializeField] private GameObject planet2;
     [SerializeField] private GameObject planet2Sheild;
     [SerializeField] private GameObject planet2DockingStation;
-    [SerializeField] private GameObject planet2Hp;
     [SerializeField] private GameObject planet2Wave;
     [SerializeField] private SpaceshipCargoSystem cargoSystem;
     [SerializeField] private InventoryManger inventoryManger;
@@ -46,7 +45,6 @@ public class Planet2Manager : MonoBehaviour
         planet2.SetActive(false);
         planet2Sheild.SetActive(false);
         planet2DockingStation.SetActive(false);
-        planet2Hp.SetActive(false);
         planet2Wave.SetActive(false);
 
         // 시작 시 건설 안내 UI가 있다면 비활성화합니다.
@@ -84,7 +82,6 @@ public class Planet2Manager : MonoBehaviour
             planet2.SetActive(true); 
             planet2Sheild.SetActive(true);
             planet2DockingStation.SetActive(true);
-            planet2Hp.SetActive(true);
             planet2Wave.SetActive(true);
             
             var cargoSystem = FindAnyObjectByType<SpaceshipCargoSystem>();
@@ -101,6 +98,8 @@ public class Planet2Manager : MonoBehaviour
             }
             SpaceshipController.SetIsSpaceShipMode(false);
             planet2DockingStationScript.SetShipDockedState(true);
+            ViewContext.I.SetPlanet2Unlocked(true); // 버튼 해제
+            FindFirstObjectByType<WeaponControlSwitcher>()?.OnDockedPlanetChanged(CameraType.Planet2);
         }
     }
    

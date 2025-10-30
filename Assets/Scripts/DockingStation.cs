@@ -30,7 +30,8 @@ public class DockingStation : MonoBehaviour
     [SerializeField] private Weapon[] planet1Weapon;
     [SerializeField] private Weapon2 planet2Weapon;
     [SerializeField] private AutoTurret planetAutoTurret;
-
+    [SerializeField] private CameraType cameraType;
+    private bool dockingInProgress = false;
     public void SetShipDockedState(bool val)
     {
         isShipDocked = val;
@@ -78,7 +79,7 @@ public class DockingStation : MonoBehaviour
             // dockedShip.SetActive(true);
             // isSpaceshipMode = true;
             LaunchShip();
-
+            ViewContext.I.SetDockedPlanet(CameraType.SpaceShip);
             UpdateAllUIStates();
         }
         if (planet1Weapon != null && planet1Weapon.Length > 0)
@@ -98,46 +99,31 @@ public class DockingStation : MonoBehaviour
     {
         if (!other.CompareTag("Spaceship")) return;
         if (!cameraSwitcher) return;
-        Debug.Log("IsSpaceshipMode"+SpaceshipController.IsSpaceshipMode);
-        // 우주선 모드일 때만 도킹 처리 (중복 토글/오차 방지)
-        if (SpaceshipController.IsSpaceshipMode)
-        {
-            SpaceshipController.SetIsSpaceShipMode(false);
-            isShipDocked = true;
-            Debug.Log(isShipDocked);
-            // 1) 이 행성의 카메라 지정
-            cameraSwitcher.SetPlanetCamera(planetCamera);
-            // 2) 즉시 행성 시점으로 전환
-            cameraSwitcher.ActivatePlanet(planetCamera);
 
-            // 우주선 보관 및 다음 출격 위치 계산
-            // [수정] 우주선 보관 로직을 StoreShip() 함수로 분리합니다.
-            dockedShip = other.attachedRigidbody ? other.attachedRigidbody.gameObject : other.gameObject;
-            // CalculateNextDeparturePoint(dockedShip.transform.position);
-            // if (dockedShip) dockedShip.SetActive(false);
-            StoreShip();
-            UpdateAllUIStates();
+        // 우주선 모드일 때만 도킹 처리 (규칙상)
+        if (!SpaceshipController.IsSpaceshipMode) return;
+        if (isShipDocked || dockingInProgress) return; // 재진입 가드
+        dockingInProgress = true;
 
-            Debug.Log($"[DockingStation] 도킹 완료: {(planetCamera ? planetCamera.name : "null")}");
-            
-            // [Log] 도킹 로그 출력
-            GameAnalyticsLogger.instance.LogPlayerEnterBase();
-        }
-    }
+        SpaceshipController.SetIsSpaceShipMode(false);
+        isShipDocked = true;
 
-    public void DockShip(GameObject ship)
-    {
-        // 1. 이 행성의 카메라 지정
         cameraSwitcher.SetPlanetCamera(planetCamera);
-        // 2. 즉시 행성 시점으로 전환
         cameraSwitcher.ActivatePlanet(planetCamera);
 
-        // 우주선 보관 및 다음 출격 위치 계산
-        dockedShip = ship;
+        dockedShip = other.attachedRigidbody ? other.attachedRigidbody.gameObject : other.gameObject;
         StoreShip();
+
+        ViewContext.I.SetDockedPlanet(cameraType);
+        FindFirstObjectByType<WeaponControlSwitcher>()?.OnDockedPlanetChanged(cameraType);
+
         UpdateAllUIStates();
+        GameAnalyticsLogger.instance.LogPlayerEnterBase();
+
+        dockingInProgress = false;
     }
 
+  
     // [추가] 우주선 보관 로직
     private void StoreShip()
     {
