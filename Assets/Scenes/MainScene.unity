@@ -7687,11 +7687,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 865010487718599184, guid: 171336894674eb54cb87cce504e4ef86, type: 3}
       propertyPath: generationWidth
-      value: 200
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 865010487718599184, guid: 171336894674eb54cb87cce504e4ef86, type: 3}
       propertyPath: generationHeight
-      value: 300
+      value: 220
       objectReference: {fileID: 0}
     - target: {fileID: 865010487718599184, guid: 171336894674eb54cb87cce504e4ef86, type: 3}
       propertyPath: generationRadius
@@ -14549,8 +14549,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1889246257501131323}
   m_HandleRect: {fileID: 8920092929309086370}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 0.53749996
+  m_Value: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
