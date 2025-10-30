@@ -99,10 +99,8 @@ public class DockingStation : MonoBehaviour
     {
         if (!other.CompareTag("Spaceship")) return;
         if (!cameraSwitcher) return;
-
-        // 우주선 모드일 때만 도킹 처리 (규칙상)
-        if (!SpaceshipController.IsSpaceshipMode) return;
-        if (isShipDocked || dockingInProgress) return; // 재진입 가드
+        if (!SpaceshipController.IsSpaceshipMode) return; // 우주선 모드일 때만 도킹
+        if (isShipDocked || dockingInProgress) return;    // 재진입 가드
         dockingInProgress = true;
 
         SpaceshipController.SetIsSpaceShipMode(false);
