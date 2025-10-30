@@ -12,13 +12,13 @@ public class Core : MonoBehaviour
     public int coreNumber = 1;                 // 추가: 코어 번호 (UI 표시용)
     public int maxHP = 100;
     private int currentHP;
-    public TMP_Text CoreHpText;
     [SerializeField] private InventoryManger inventoryManger;
     [SerializeField] private GameObject dockingSystem;
     [SerializeField] private GameObject autoTurret;
     [SerializeField] private GameObject sucksionZone;
     [SerializeField] private Image alertImage;
     [SerializeField] private DockingStation dockingStation;
+    [SerializeField] private Image healthFillImage;
     private bool isAlert = false;
     
     // 현재 체력 읽기용 
@@ -36,25 +36,29 @@ public class Core : MonoBehaviour
     private void Awake()
     {
         currentHP = maxHP;
-        UpdateHPText();
         alertImage.color = new Color(alertImage.color.r, alertImage.color.g, alertImage.color.b, 0f);
     }
 
-    private void UpdateHPText()
+    private void Start()
     {
-        if (CoreHpText != null)
-            if (coreNumber == 1)
-                CoreHpText.text = $"Planet : {currentHP}/{maxHP}";
-            else
-                CoreHpText.text = $"Colony : {currentHP}/{maxHP}";
+        UpdateHealthBar(); // 초기 체력 표시
     }
+    private void UpdateHealthBar()
+    {
+        float fillAmount = currentHP / (float)maxHP;
+        if (healthFillImage != null)
+        {
+            float scale = Mathf.Lerp(0f, 1f, fillAmount); // HP가 줄수록 작아짐
+            healthFillImage.rectTransform.localScale = new Vector3(1f, scale, 1f);
+        }
 
+    }
     public void TakeDamage(int damage)
     {
         currentHP -= damage;
         if (currentHP < 0) currentHP = 0;
         OnHpChanged?.Invoke(currentHP);
-        UpdateHPText();
+        UpdateHealthBar();
         StartCoroutine(FadeInAndOut(alertImage, 0.5f, 0.5f));
 
         if (!isDead && CurrentHP <= 0)
@@ -160,7 +164,7 @@ public class Core : MonoBehaviour
         int prev = currentHP;
         currentHP = Mathf.Min(currentHP + amount, maxHP);
         OnHpChanged?.Invoke(currentHP);
-        UpdateHPText();
+        UpdateHealthBar();
 
         //  죽어있던 코어가 0→양수로 회복되면 부활 처리
         if (isDead && prev <= 0 && currentHP > 0)
@@ -196,10 +200,8 @@ public class Core : MonoBehaviour
         maxHP += amount;
         currentHP += amount;
         OnHpChanged?.Invoke(currentHP);
-        UpdateHPText();
+        UpdateHealthBar();
     }
-
-    public void RefreshHPText() => UpdateHPText();
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
