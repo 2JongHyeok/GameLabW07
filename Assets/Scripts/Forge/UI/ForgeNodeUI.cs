@@ -25,7 +25,7 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private float lockedAlpha = 0.5f; // 잠긴 상태의 투명도
     
     [Header("Affordability Colors")]
-    [SerializeField] private Color affordableTextColor = Color.white; // 구매 가능 시 텍스트 색
+    [SerializeField] private Color affordableTextColor = Color.black; // 구매 가능 시 텍스트 색
     [SerializeField] private Color unaffordableTextColor = Color.red; // 구매 불가능 시 텍스트 색
 
     private BaseForgeSO forgeSO;

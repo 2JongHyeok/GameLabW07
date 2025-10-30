@@ -12,14 +12,15 @@ public class SpaceshipInput : MonoBehaviour
     private float mouseRotationThreshold = 5.0f; // 약간의 오차 허용
     // ## 수정 끝 ##
     
-    // ## 더블 클릭 로직을 위한 변수 추가 ##
+    // ## 더블 클릭 로직을 위한 변수 수정 ##
     [Header("Double Click Settings")]
     [Tooltip("더블 클릭으로 인정할 최대 시간 간격 (초)")]
     [SerializeField] private float doubleClickTimeThreshold = 0.3f;
     private float timeOfLastRmbClick = -10f; // 마지막 우클릭 시간 (초기값은 멀리 둠)
-    private bool isReverseThrustToggled = false; // 역추진 토글 상태
-    private bool ignoreHoldOnThisClick = false; // 더블 클릭이 '홀드'로 인식되는 것을 방지
-    // ## 추가 끝 ##
+
+    // 'isReverseThrustToggled' 대신, 현재 홀드 상태를 저장할 변수
+    private bool isHoldingForReverse = false; 
+    // ## 수정 끝 ##
 
     [Header("Gamepad Settings")] private float gamepadDeadZone = 0.1f; // 게임패드 데드존 설정
 
@@ -94,57 +95,52 @@ public class SpaceshipInput : MonoBehaviour
         }
         #endregion
         
-// ## --- 추력 로직 전체 수정 --- ##
+        // ## --- 새로운 '더블 클릭 홀드' 추력 로직 --- ##
 
-        // 1. 더블 클릭 감지 및 토글 로직
-        if (Input.GetMouseButtonDown(1)) // 마우스 우클릭을 '누른' 바로 그 프레임
+        // 1. 마우스 우클릭을 '누른' 프레임에만 홀드 상태를 결정합니다.
+        if (Input.GetMouseButtonDown(1))
         {
             float timeSinceLastClick = Time.time - timeOfLastRmbClick;
 
             if (timeSinceLastClick <= doubleClickTimeThreshold)
             {
-                // 더블 클릭 성공!
-                isReverseThrustToggled = !isReverseThrustToggled; // 역추진 상태 토글
+                // 더블 클릭 성공: 이번 홀드는 '역추진' 홀드입니다.
+                isHoldingForReverse = true;
                 timeOfLastRmbClick = -10f; // 타이머 리셋 (3연속 클릭 방지)
-                ignoreHoldOnThisClick = true; // 이 클릭은 '홀드(전진)'로 인식되지 않도록 방지
             }
             else
             {
-                // 일반적인 첫 번째 클릭
-                timeOfLastRmbClick = Time.time;
-                ignoreHoldOnThisClick = false;
+                // 일반 클릭: 이번 홀드는 '전진' 홀드입니다.
+                isHoldingForReverse = false;
+                timeOfLastRmbClick = Time.time; // 다음 더블 클릭을 위해 시간 기록
             }
         }
 
-        // 2. 입력값 계산 (우선순위 적용)
-        
-        // 매 프레임 추력을 0으로 초기화
+        // 2. 현재 입력값을 0으로 초기화
         ThrustInput = 0.0f;
 
-        if (isReverseThrustToggled)
+        // 3. 마우스 우클릭이 '눌려있는 동안'(홀드) 상태에 따라 추력을 적용합니다.
+        if (Input.GetMouseButton(1)) // 꾹 누르고 있는 동안
         {
-            // P1: 역추진 토글이 켜져있다면, 역추진이 최우선
-            ThrustInput = -reverseThrustMultiplier;
-
-            // 단, 역추진 중에 전진(우클릭 홀드)을 시도하면 토글을 푼다.
-            if (Input.GetMouseButton(1) && !ignoreHoldOnThisClick)
+            if (isHoldingForReverse)
             {
-                isReverseThrustToggled = false;
-                ThrustInput = 1.0f; // 즉시 전진으로 전환
+                // '역추진' 홀드 상태입니다.
+                ThrustInput = -reverseThrustMultiplier;
             }
-        }
-        else if (Input.GetMouseButton(1) && !ignoreHoldOnThisClick)
-        {
-            // P2: 역추진 토글이 꺼져있고, (더블클릭이 아닌) 일반 우클릭 홀드 중이면 전진
-            ThrustInput = 1.0f;
+            else
+            {
+                // '전진' 홀드 상태입니다.
+                ThrustInput = 1.0f;
+            }
         }
         else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
-            // P3: 마우스 입력이 없을 때, S키로 역추진 (토글 X)
+            // 4. 마우스를 누르고 있지 않을 때만 S키 입력을 받습니다.
             ThrustInput = -reverseThrustMultiplier;
         }
-        
+
         // ## --- 로직 수정 끝 --- ##
+
 
         CalculateRotationInputFromMouse();
 

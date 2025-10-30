@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: b59984d82af624bd3b0c777f038276f2
+ShaderImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164360
+  packageName: Alpha Flashing UI (UI Shaders)
+  packageVersion: 2.3
+  assetPath: Assets/#NVJOB Alpha Flashing UI/Example Scenes/Standard Assets/Effects/ImageEffects/Shaders/CreaseApply.shader
+  uploadId: 356381

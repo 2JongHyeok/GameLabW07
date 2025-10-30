@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 57cdacf9b217546aaa18edf39a6151c0
+ShaderImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164360
+  packageName: Alpha Flashing UI (UI Shaders)
+  packageVersion: 2.3
+  assetPath: Assets/#NVJOB Alpha Flashing UI/Example Scenes/Standard Assets/Effects/ImageEffects/Shaders/_DepthOfField/Bokeh34.shader
+  uploadId: 356381

@@ -56,6 +56,13 @@ public class ForgeManager : MonoBehaviour
         }
     }
     
+    float afTime;
+    void LateUpdate()
+    {
+        afTime += Time.unscaledDeltaTime;
+        Shader.SetGlobalFloat("_NV_AF_Time", afTime);
+        
+    }
     private void Update()
     {
         // Tab 키를 누르면 포지 패널 토글 (켰다 껐다)

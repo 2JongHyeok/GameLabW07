@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: befbb4b9c320b4b18a08ef7afb93b6c9
+ShaderImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164360
+  packageName: Alpha Flashing UI (UI Shaders)
+  packageVersion: 2.3
+  assetPath: Assets/#NVJOB Alpha Flashing UI/Example Scenes/Standard Assets/Effects/ImageEffects/Shaders/Contrast
+    Stretch/Luminance.shader
+  uploadId: 356381

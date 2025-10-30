@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 52d0bb18ca28e5c4c8cc82db8e55e787
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164360
+  packageName: Alpha Flashing UI (UI Shaders)
+  packageVersion: 2.3
+  assetPath: Assets/#NVJOB Alpha Flashing UI/Example Scenes/Materials/UI/Text 2.mat
+  uploadId: 356381
