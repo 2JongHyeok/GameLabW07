@@ -73,7 +73,7 @@ public class ForgeUI : MonoBehaviour
         {
             mainBranchUIComponent.Initialize(mainBranchSO);
         }
-
+        
         // 서브 브랜치 컨테이너 찾기 (프리팹 내부에 "SubBranchContainer"라는 이름의 Transform이 있다고 가정)
         Transform subBranchContainer = mainBranchUI.transform.Find("SubBranchContainer");
         if (subBranchContainer == null)
@@ -305,6 +305,13 @@ public class ForgeUI : MonoBehaviour
                 
             }
         }
+        
+        if(nodeUIComponent.isOwned)
+        {
+            nodeUIComponent.ChangeNextArrowsColor();
+            nodeUIComponent.ChangeNodeColor();
+            nodeUIComponent.ChangeNodeFrameColor();
+        }
     }
 
     // 빈 노드 생성 (노드가 없는 Depth용)
@@ -400,7 +407,7 @@ public class ForgeUI : MonoBehaviour
             // 인덱스가 변경되었으므로 UI 갱신
             if (needsRefresh)
             {
-                GenerateForgeUI(); // 전체 재생성
+                // GenerateForgeUI(); // 전체 재생성
                 UpdateAllNodeTextColors(); // 재생성 후 텍스트 색상 업데이트
             }
             else

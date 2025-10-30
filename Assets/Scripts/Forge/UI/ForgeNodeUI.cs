@@ -56,7 +56,7 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     
     private Material loadedMaterial;
     
-    bool isOwned = false;
+    public bool isOwned = false;
 
     void Awake()
     {
@@ -525,33 +525,6 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             {
                 // 6. ArrowBody가 아닌 오브젝트(아마도 다음 노드)를 만나면 즉시 중단
                 Debug.Log($"[{nextSibling.name}] 발견. 화살표 탐색을 중단합니다.");
-                break; 
-            }
-        }
-    }
-
-    public void AffordableColorNodeFrame()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            Transform imageFrame = transform.GetChild(i);
-            
-            if (imageFrame.name.StartsWith("Image")) 
-            {
-                Image arrowImage = imageFrame.GetComponent<Image>();
-                
-                if (arrowImage != null)
-                {
-                    arrowImage.color = targetColor; 
-                    
-                    if (loadedMaterial != null)
-                    {
-                        arrowImage.material = loadedMaterial;
-                    }
-                }
-            }
-            else
-            {
                 break; 
             }
         }
