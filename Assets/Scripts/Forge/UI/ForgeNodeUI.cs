@@ -456,7 +456,6 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         ChangeNextArrowsColor();
         ChangeNodeColor();
         
-        
         // 툴팁 갱신 (자원 소모 반영)
         if (tooltipUI != null && isHovering && forgeSO != null)
         {
@@ -559,6 +558,11 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void ChangeNodeColor()
     {
+        bool isReusable = forgeSO is IReuse reuse && reuse.IsReusable;
+        if (isReusable)
+        {
+            return;
+        }
         Transform imageNode = transform.GetChild(4);
         Image nodeImage = imageNode.GetComponent<Image>();
         nodeImage.color = targetNodeColor;

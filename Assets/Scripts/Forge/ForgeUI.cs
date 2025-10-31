@@ -408,6 +408,7 @@ public class ForgeUI : MonoBehaviour
             if (needsRefresh)
             {
                 // GenerateForgeUI(); // 전체 재생성
+                RefreshAllNodes();
                 UpdateAllNodeTextColors(); // 재생성 후 텍스트 색상 업데이트
             }
             else
