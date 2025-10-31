@@ -16,7 +16,7 @@ MonoBehaviour:
   - durabilityThreshold: 20
     color: {r: 0.3764706, g: 0.3529412, b: 0.41960785, a: 1}
   - durabilityThreshold: 10
-    color: {r: 0.38039216, g: 0.39607844, b: 0.3529412, a: 1}
+    color: {r: 0.41568628, g: 0.4392157, b: 0.30588236, a: 1}
   - durabilityThreshold: 4
     color: {r: 0.4392157, g: 0.33333334, b: 0.30588236, a: 1}
   - durabilityThreshold: 2
