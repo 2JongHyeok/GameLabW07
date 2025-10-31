@@ -1994,9 +1994,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 956665701}
     - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
-      propertyPath: 'enemyPrefabs.Array.data[6]'
+      propertyPath: 'enemyPrefabs.Array.data[2]'
       value: 
       objectReference: {fileID: 2615078695605655245, guid: 5bdc2962bc7238543ab106022dfeacea, type: 3}
+    - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
+      propertyPath: 'enemyPrefabs.Array.data[3]'
+      value: 
+      objectReference: {fileID: 3732918253183833171, guid: 2f4e763b99dd012449e0fc9d0eed412b, type: 3}
+    - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
+      propertyPath: 'enemyPrefabs.Array.data[4]'
+      value: 
+      objectReference: {fileID: 3732918253183833171, guid: 40a0db0a5f174c24fb6d97ba6f46cb1b, type: 3}
+    - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
+      propertyPath: 'enemyPrefabs.Array.data[5]'
+      value: 
+      objectReference: {fileID: 2615078695605655245, guid: 4e15d82d4de1c3947a5b22f1b76248db, type: 3}
+    - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
+      propertyPath: 'enemyPrefabs.Array.data[6]'
+      value: 
+      objectReference: {fileID: 1839482599764033570, guid: 0af713d654351c7409e976bd320126ed, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3939,6 +3955,10 @@ PrefabInstance:
     - target: {fileID: 1504068590506934482, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
       propertyPath: m_Name
       value: Planet2Core
+      objectReference: {fileID: 0}
+    - target: {fileID: 1504068590506934482, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3401776995559114420, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6886,9 +6906,21 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
-      propertyPath: 'enemyPrefabs.Array.data[7]'
+      propertyPath: 'enemyPrefabs.Array.data[4]'
+      value: 
+      objectReference: {fileID: 2615078695605655245, guid: 4e15d82d4de1c3947a5b22f1b76248db, type: 3}
+    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
+      propertyPath: 'enemyPrefabs.Array.data[5]'
       value: 
       objectReference: {fileID: 2615078695605655245, guid: 5bdc2962bc7238543ab106022dfeacea, type: 3}
+    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
+      propertyPath: 'enemyPrefabs.Array.data[6]'
+      value: 
+      objectReference: {fileID: 1839482599764033570, guid: 0af713d654351c7409e976bd320126ed, type: 3}
+    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
+      propertyPath: 'enemyPrefabs.Array.data[7]'
+      value: 
+      objectReference: {fileID: 1839482599764033570, guid: cd57d0606f762314eb7a84ef6f365a50, type: 3}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: 'preStartDelays.Array.data[0]'
       value: 90
@@ -8075,7 +8107,7 @@ GameObject:
   - component: {fileID: 1190461933}
   - component: {fileID: 1190461932}
   - component: {fileID: 1190461931}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Planet1Core
   m_TagString: Core
   m_Icon: {fileID: 0}
