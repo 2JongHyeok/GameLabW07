@@ -3164,7 +3164,7 @@ PrefabInstance:
     - target: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
       propertyPath: cameraSwitcher
       value: 
-      objectReference: {fileID: 1778712951}
+      objectReference: {fileID: 1108278171}
     - target: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
       propertyPath: inventoryManger
       value: 
@@ -4169,8 +4169,8 @@ Transform:
   m_GameObject: {fileID: 783145772}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -221, y: -124, z: 0}
+  m_LocalScale: {x: 0.7808, y: 0.7808, z: 0.7808}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1671250462}
@@ -5790,7 +5790,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 688005881}
-  - {fileID: 1778712952}
   - {fileID: 879916770}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6435,7 +6434,7 @@ MonoBehaviour:
   kind: 2
   btn: {fileID: 2044011857}
   rootForVisibility: {fileID: 971359258}
-  cameraSwitcher: {fileID: 0}
+  cameraSwitcher: {fileID: 1108278171}
 --- !u!1 &1104671155
 GameObject:
   m_ObjectHideFlags: 0
@@ -6637,7 +6636,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1108278169}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d455114a57c8d024782d0c4775ee4011, type: 3}
   m_Name: 
@@ -13391,64 +13390,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &1778712950
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1778712952}
-  - component: {fileID: 1778712951}
-  m_Layer: 0
-  m_Name: CameraManager (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1778712951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1778712950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d455114a57c8d024782d0c4775ee4011, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  planetCamera: {fileID: 137777106}
-  spaceshipCamera: {fileID: 1430701315}
-  minimapCamera: {fileID: 879916772}
-  player: {fileID: 1908056905}
-  zoomSpeed: 5
-  minPlanetCamZoom: 20
-  maxPlanetCamZoom: 20
-  minShipCamZoom: 2
-  maxShipCamZoom: 20
-  smoothSpeed: 5
-  followPlayer: 1
-  isOnMinimap: 0
-  minimapFollowSpeed: 5
-  movementReFollowThreshold: 0.1
---- !u!4 &1778712952
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1778712950}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.0624847, y: 0.058221817, z: 0.0030880868}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1020572472}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1779104726 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3484089782227895973, guid: 6b44414eaaa0d7c4b858b81f4f5133b7, type: 3}
@@ -15294,7 +15235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minimapCamera: {fileID: 879916772}
-  cameraSwitcher: {fileID: 1778712951}
+  cameraSwitcher: {fileID: 0}
   zoomSpeed: 25
   smoothSpeed: 10
   minZoom: 10
@@ -15633,7 +15574,7 @@ PrefabInstance:
     - target: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
       propertyPath: cameraSwitcher
       value: 
-      objectReference: {fileID: 1778712951}
+      objectReference: {fileID: 1108278171}
     - target: {fileID: 7370505871076105924, guid: 72e50df7d89bbde4b897cff783e06567, type: 3}
       propertyPath: inventoryManger
       value: 
@@ -15728,8 +15669,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1889246257501131323}
   m_HandleRect: {fileID: 8920092929309086370}
   m_Direction: 0
-  m_Value: -6144
-  m_Size: 0.9999963
+  m_Value: -19.936724
+  m_Size: 0.99886
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
