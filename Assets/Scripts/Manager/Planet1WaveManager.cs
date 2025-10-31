@@ -314,9 +314,9 @@ public class Planet1WaveManager : MonoBehaviour
                         // 웨이브 사이에는 초록색으로 자원 탐색 메시지 표시
                         miningInstructionText.color = Color.green;
                         
-                        if(currentWaveIndex == 4)
+                        if(currentWaveIndex == 4 && !Planet2Manager.instance.IsPlanetActive)
                         {
-                            miningInstructionText.text = "상단에 보스 코어가 생성되었습니다.";
+                            miningInstructionText.text = "상단에 보스의 코어가 나타났습니다";
                         }
                         else
                             miningInstructionText.text = "자원을 탐색하세요";
