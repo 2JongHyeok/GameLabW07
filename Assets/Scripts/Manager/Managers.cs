@@ -254,9 +254,24 @@ public class Managers : MonoBehaviour
             Instance = null;
             Destroy(gameObject);
         }
-        
+
         // 현재 활성화된 씬을 다시 로드
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
+    }
+    
+    public void QuitGame()
+    {
+        Debug.Log("게임 종료 버튼 클릭!");
+
+        // 유니티 에디터에서 테스트할 경우, 
+        // Application.Quit()은 작동하지 않으므로 
+        // 에디터의 플레이 모드를 중지하도록 처리합니다.
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            // 실제 빌드된 게임에서는 여기서 종료됩니다.
+            Application.Quit();
+        #endif
     }
 }

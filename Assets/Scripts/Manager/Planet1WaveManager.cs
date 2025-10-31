@@ -46,6 +46,7 @@ public class Planet1WaveManager : MonoBehaviour
     public TMP_Text waveTimerText;
     public TMP_Text enemyCountText;
     public TMP_Text miningInstructionText; // 채굴 안내 텍스트
+    public GameObject GameClearPanel;
     public Slider bossHpSlider; // 슬라이더 오브젝트
     public Slider mainBossHpSlider;
 
@@ -147,6 +148,9 @@ public class Planet1WaveManager : MonoBehaviour
         mainBossHpSlider.gameObject.SetActive(false);
         mainBossHpSlider.value = mainBossHpSlider.maxValue;
         
+        if (GameClearPanel != null)
+            GameClearPanel.SetActive(false);
+        
         countdown = GetPreDelayForWaveIndex(0);
     }
 
@@ -208,6 +212,10 @@ public class Planet1WaveManager : MonoBehaviour
                 // 보스 체력바가 남아있을 수 있으므로 확실히 숨김
                 bossHpSlider.gameObject.SetActive(false);
                 mainBossHpSlider.gameObject.SetActive(false);
+
+                if (GameClearPanel != null)
+                    GameClearPanel.SetActive(true);
+
                 return; // 모든 로직 종료
             }
 
