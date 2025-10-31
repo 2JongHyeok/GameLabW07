@@ -99,6 +99,7 @@ public class Planet2Manager : MonoBehaviour
             }
             SpaceshipController.SetIsSpaceShipMode(false);
             planet2DockingStationScript.SetShipDockedState(true);
+            DockingStation.SetCurrentDockedStation(planet2DockingStationScript);
             ViewContext.I.SetCurrentView(CameraType.Planet2);
             ViewContext.I.SetDockedPlanet(CameraType.Planet2); 
             ViewContext.I.SetPlanet2Unlocked(true);

@@ -111,6 +111,7 @@ public class Core : MonoBehaviour
 
     public void Die()
     {
+        Debug.Log($"isShipDocked = {dockingStation.IsShipDocked()}, CurrentDockedStation = {DockingStation.CurrentDockedStation}");
         if (isDead) return;
         isDead = true;
         OnDie?.Invoke();
@@ -128,9 +129,13 @@ public class Core : MonoBehaviour
     {
         if (dockingStation != null)
         {
-            dockingStation.PlayerGoToSpace();
+            if (dockingStation.IsShipDocked() && DockingStation.CurrentDockedStation == dockingStation)
+            {
+                dockingStation.PlayerGoToSpace();
+            }
         }
-        
+        Debug.Log(DockingStation.CurrentDockedStation);
+
         var renderers = GetComponentsInChildren<Renderer>();
         foreach (var renderer in renderers)
             renderer.enabled = false;

@@ -20,14 +20,24 @@ public class WeaponControlSwitcher : MonoBehaviour
     [Header("참조")]
     [SerializeField] private CameraSwitcher cameraSwitcher;
     [SerializeField] private ViewContext ctx;
-
+    [SerializeField] private Core planet2Core;
     // 내부 캐시
     private readonly List<Weapon> p1Cache = new();
     private readonly List<Weapon2> p2Cache = new();
     private bool cachesBuilt;
 
     void Awake() { RebuildCaches(); }
-
+    private void Start()
+    {
+        if (planet2Core != null)
+        {
+            planet2Core.OnDie += () => SetP2(false);
+            planet2Core.OnRevive += () => {
+                if (ctx.CurrentView == CameraType.Planet2)
+                    SetP2(true);
+            };
+        }
+    }
     void OnEnable()
     {
         if (!ctx) ctx = ViewContext.I;
@@ -134,6 +144,8 @@ public class WeaponControlSwitcher : MonoBehaviour
 
     private void SetP2(bool on)
     {
+        if (planet2Core != null && planet2Core.IsDead)
+            on = false;
         foreach (var w in p2Cache)
         {
             if (!w) continue;

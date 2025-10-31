@@ -31,7 +31,8 @@ public class DockingStation : MonoBehaviour
     [SerializeField] private Weapon2 planet2Weapon;
     [SerializeField] private AutoTurret planetAutoTurret;
     [SerializeField] private CameraType cameraType;
-    private bool dockingInProgress = false;
+    private bool dockingInProgress = false; 
+    public static DockingStation CurrentDockedStation { get; private set; }
     public void SetShipDockedState(bool val)
     {
         isShipDocked = val;
@@ -61,10 +62,19 @@ public class DockingStation : MonoBehaviour
             PlayerGoToSpace();
         }
     }
-
+    public bool IsShipDocked()
+    {
+        return isShipDocked;
+    }
+    public static void SetCurrentDockedStation(DockingStation station)
+    {
+        CurrentDockedStation = station;
+    }
     public void PlayerGoToSpace()
     {
         isShipDocked = false;
+        if (CurrentDockedStation == this)
+            CurrentDockedStation = null;
         cameraSwitcher.ActivateSpaceship();
         ViewContext.I.SetCurrentView(CameraType.SpaceShip);
         SpaceshipController.SetIsSpaceShipMode(true);
@@ -101,10 +111,10 @@ public class DockingStation : MonoBehaviour
         if (!SpaceshipController.IsSpaceshipMode) return; // 우주선 모드일 때만 도킹
         if (isShipDocked || dockingInProgress) return;    // 재진입 가드
         dockingInProgress = true;
-
         SpaceshipController.SetIsSpaceShipMode(false);
         isShipDocked = true;
-
+        CurrentDockedStation = this;
+        Debug.Log($"Player가 Planet2에 도킹함");
         ViewContext.I.SetDockedPlanet(cameraType);
         FindFirstObjectByType<WeaponControlSwitcher>()?.OnDockedPlanetChanged(cameraType);
         cameraSwitcher.SetPlanetCamera(planetCamera);

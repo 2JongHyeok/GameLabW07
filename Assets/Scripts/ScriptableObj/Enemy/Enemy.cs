@@ -78,7 +78,6 @@ public class Enemy : MonoBehaviour
             {
                 attackTimer -= Time.deltaTime;
             }
-            Debug.Log("Attacking");
         }
         else
         {
@@ -88,7 +87,6 @@ public class Enemy : MonoBehaviour
                 target.position,
                 enemyData.enemySpeed * Time.deltaTime
             );
-            Debug.Log("Moving");
 
         }
         transform.rotation = Quaternion.LookRotation(Vector3.forward, target.position - transform.position);
