@@ -9,7 +9,9 @@ public enum EnemyType
     Parasite,
     RailGun,
     Boss,
-    MainBoss
+    MainBoss,
+    Rammer,
+    Commander
 }
 
 public abstract class EnemyBaseSO : ScriptableObject

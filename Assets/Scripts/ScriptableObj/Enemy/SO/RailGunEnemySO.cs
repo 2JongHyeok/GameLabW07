@@ -47,6 +47,17 @@ public class RailGunEnemySO : EnemyBaseSO
         }
 
         float chargeTimer = 0f;
+        
+        // 1. 원본 차징 시간을 가져옵니다.
+        float actualChargeTime = this.chargeTime; 
+
+        // 2. 버프 매니저가 활성화되어 있는지 확인합니다.
+        if (EnemyBuffManager.Instance != null && EnemyBuffManager.Instance.IsCommanderActive)
+        {
+            // 3. 활성화 상태라면, 버프 배율을 적용한 실제 차징 시간을 계산합니다.
+            actualChargeTime *= EnemyBuffManager.Instance.railgunChargeTimeMultiplier;
+        }
+        
         while (chargeTimer < chargeTime)
         {
             if (!enemy.isAttacking)

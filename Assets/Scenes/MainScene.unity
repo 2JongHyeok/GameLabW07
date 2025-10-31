@@ -1994,6 +1994,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 956665701}
     - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
+      propertyPath: enemyPrefabs.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
       propertyPath: 'enemyPrefabs.Array.data[2]'
       value: 
       objectReference: {fileID: 2615078695605655245, guid: 5bdc2962bc7238543ab106022dfeacea, type: 3}
@@ -2013,6 +2017,18 @@ PrefabInstance:
       propertyPath: 'enemyPrefabs.Array.data[6]'
       value: 
       objectReference: {fileID: 1839482599764033570, guid: 0af713d654351c7409e976bd320126ed, type: 3}
+    - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
+      propertyPath: 'enemyPrefabs.Array.data[7]'
+      value: 
+      objectReference: {fileID: 1839482599764033570, guid: cd57d0606f762314eb7a84ef6f365a50, type: 3}
+    - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
+      propertyPath: 'enemyPrefabs.Array.data[8]'
+      value: 
+      objectReference: {fileID: 2615078695605655245, guid: 30ae6c8430ee03749919fb6db9a2a683, type: 3}
+    - target: {fileID: 3608379068774387054, guid: d4c9de23cd524dc46ade5d522c7f7508, type: 3}
+      propertyPath: 'enemyPrefabs.Array.data[9]'
+      value: 
+      objectReference: {fileID: 2615078695605655245, guid: d819c03ab6627094dbcc180fc0216370, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4041,6 +4057,54 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
+--- !u!1 &680871808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 680871809}
+  - component: {fileID: 680871810}
+  m_Layer: 0
+  m_Name: EnemyBuffManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &680871809
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680871808}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.0746875, y: -4.80088, z: 1.1982588}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 994011218}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &680871810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680871808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6caddf7e655d1645ac429db9e38e281, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commanderShieldHP: 10
+  attackSpeedMultiplier: 3
+  rammerFrequencyMultiplier: 3
+  railgunChargeTimeMultiplier: 0.1
 --- !u!1 &684506652
 GameObject:
   m_ObjectHideFlags: 0
@@ -6345,6 +6409,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 680871809}
   - {fileID: 1904381663096016607}
   - {fileID: 1808628663}
   - {fileID: 7276378935500500829}
@@ -6899,7 +6964,7 @@ PrefabInstance:
       objectReference: {fileID: 1392649552}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: enemyPrefabs.Array.size
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: preStartDelays.Array.size
@@ -6921,6 +6986,18 @@ PrefabInstance:
       propertyPath: 'enemyPrefabs.Array.data[7]'
       value: 
       objectReference: {fileID: 1839482599764033570, guid: cd57d0606f762314eb7a84ef6f365a50, type: 3}
+    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
+      propertyPath: 'enemyPrefabs.Array.data[8]'
+      value: 
+      objectReference: {fileID: 2615078695605655245, guid: 30ae6c8430ee03749919fb6db9a2a683, type: 3}
+    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
+      propertyPath: 'enemyPrefabs.Array.data[9]'
+      value: 
+      objectReference: {fileID: 2615078695605655245, guid: d819c03ab6627094dbcc180fc0216370, type: 3}
+    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
+      propertyPath: 'enemyPrefabs.Array.data[10]'
+      value: 
+      objectReference: {fileID: 2615078695605655245, guid: d819c03ab6627094dbcc180fc0216370, type: 3}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: 'preStartDelays.Array.data[0]'
       value: 90

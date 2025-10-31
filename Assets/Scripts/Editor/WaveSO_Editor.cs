@@ -15,6 +15,8 @@ public class WaveSO_Editor : Editor
     private SerializedProperty bossCountProp;
     private SerializedProperty mainBossCountProp;
     private SerializedProperty railGunCountProp;
+    private SerializedProperty rammerCountProp;
+    private SerializedProperty commanderCountProp;
 
 
     private void OnEnable()
@@ -30,6 +32,8 @@ public class WaveSO_Editor : Editor
         bossCountProp = serializedObject.FindProperty("bossCount");
         mainBossCountProp = serializedObject.FindProperty("mainBossCount");
         railGunCountProp = serializedObject.FindProperty("railGunCount");
+        rammerCountProp = serializedObject.FindProperty("rammerCount");
+        commanderCountProp = serializedObject.FindProperty("commanderCount");
     }
 
     public override void OnInspectorGUI()
@@ -63,6 +67,8 @@ public class WaveSO_Editor : Editor
             EditorGUILayout.PropertyField(bossCountProp, new GUIContent("Boss"));
             EditorGUILayout.PropertyField(mainBossCountProp, new GUIContent("Main Boss"));
             EditorGUILayout.PropertyField(railGunCountProp, new GUIContent("Rail Gun"));
+            EditorGUILayout.PropertyField(rammerCountProp, new GUIContent("Rammer"));
+            EditorGUILayout.PropertyField(commanderCountProp, new GUIContent("Commander"));
         }
         EditorGUILayout.EndVertical();
         
