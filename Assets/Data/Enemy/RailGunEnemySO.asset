@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed1fb9c3e282ea643bdeafb06b60499e, type: 3}
+  m_Name: RailGunEnemySO
+  m_EditorClassIdentifier: 
+  enemyType: 5
+  enemyHP: 3
+  enemySpeed: 4
+  enemyPrefab: {fileID: 0}
+  attackRange: 999
+  attackCooldown: 1
+  chargeTime: 5
+  laserDuration: 3
+  railgunDamage: 100
+  damageTickRate: 0.05
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 12288
+  chargeEffectPrefab: {fileID: 1871257392921325001, guid: 8a3b2d08759a05f40813a2e43fa81caa, type: 3}
+  laserEffectPrefab: {fileID: 4523101079787381671, guid: b54bc38c4d621c54b833d72faa17a61c, type: 3}

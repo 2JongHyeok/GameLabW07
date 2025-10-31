@@ -14,6 +14,7 @@ public class WaveSO_Editor : Editor
     private SerializedProperty maxSpawnPerIntervalProp;
     private SerializedProperty bossCountProp;
     private SerializedProperty mainBossCountProp;
+    private SerializedProperty railGunCountProp;
 
 
     private void OnEnable()
@@ -28,6 +29,7 @@ public class WaveSO_Editor : Editor
         maxSpawnPerIntervalProp = serializedObject.FindProperty("maxSpawnPerInterval");
         bossCountProp = serializedObject.FindProperty("bossCount");
         mainBossCountProp = serializedObject.FindProperty("mainBossCount");
+        railGunCountProp = serializedObject.FindProperty("railGunCount");
     }
 
     public override void OnInspectorGUI()
@@ -60,6 +62,7 @@ public class WaveSO_Editor : Editor
             EditorGUILayout.PropertyField(parasiteCountProp, new GUIContent("Parasite"));
             EditorGUILayout.PropertyField(bossCountProp, new GUIContent("Boss"));
             EditorGUILayout.PropertyField(mainBossCountProp, new GUIContent("Main Boss"));
+            EditorGUILayout.PropertyField(railGunCountProp, new GUIContent("Rail Gun"));
         }
         EditorGUILayout.EndVertical();
         

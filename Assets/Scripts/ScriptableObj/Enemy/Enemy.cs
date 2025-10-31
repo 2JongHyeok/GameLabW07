@@ -58,7 +58,8 @@ public class Enemy : MonoBehaviour
         // Ranger 또는 RangerTank 타입이고 공격 중일 때
         if (isAttacking && (enemyData.enemyType == EnemyType.Ranger ||
                             enemyData.enemyType == EnemyType.RangerTank ||
-                            enemyData.enemyType == EnemyType.Parasite))
+                            enemyData.enemyType == EnemyType.Parasite||
+                            enemyData.enemyType == EnemyType.RailGun))
         {
             if (attackTimer <= 0f)
             {
@@ -139,6 +140,14 @@ public class Enemy : MonoBehaviour
                 if (parasite != null)
                 {
                     attackCooldown = parasite.attackCooldown;
+                }
+            }
+            else if (enemyData.enemyType == EnemyType.RailGun)
+            {
+                var railgun = enemyData as RailGunEnemySO;
+                if (railgun != null)
+                {
+                    attackCooldown = railgun.attackCooldown;
                 }
             }
         }
@@ -223,6 +232,13 @@ public class Enemy : MonoBehaviour
                     isAttacking = true;
                 }
                 break;
+            
+            case EnemyType.RailGun:
+                if (collision.CompareTag("AttackArea2"))
+                {
+                    isAttacking = true;
+                }
+                break;
         }
     }
 
@@ -240,6 +256,9 @@ public class Enemy : MonoBehaviour
                 isAttacking = false;
                 break;
             case EnemyType.RangerTank when collision.CompareTag("AttackArea2"):
+                isAttacking = false;
+                break;
+            case EnemyType.RailGun when collision.CompareTag("AttackArea2"):
                 isAttacking = false;
                 break;
         }

@@ -7,6 +7,7 @@ public enum EnemyType
     Kamikaze,
     KamikazeTank,
     Parasite,
+    RailGun,
     Boss,
     MainBoss
 }

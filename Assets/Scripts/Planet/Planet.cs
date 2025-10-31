@@ -29,9 +29,11 @@ public class Planet: MonoBehaviour
     // 타일 데미지 처리
     public void DamageTile(Vector3Int cellPos, int damage)
     {
+        Debug.Log("DamageTile called");
         if (!tileHPs.ContainsKey(cellPos)) return;
         tileHPs[cellPos] -= damage;
 
+        Debug.Log($"Tile at {cellPos} took {damage} damage. Remaining HP: {tileHPs[cellPos]}");
         if (tileHPs[cellPos] <= 0)
         {
             BreakTile(cellPos);

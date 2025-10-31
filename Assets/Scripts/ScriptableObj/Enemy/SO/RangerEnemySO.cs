@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RangerEnemySO", menuName = "ScriptableObjects/Enemy/RangerEnemySO", order = 1)]
+[CreateAssetMenu(fileName = "RangerGunEnemySO", menuName = "ScriptableObjects/Enemy/RangerEnemySO", order = 1)]
 public class RangerEnemySO : EnemyBaseSO
 {
     [Header("Ranger Stats")]
