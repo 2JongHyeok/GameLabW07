@@ -6,7 +6,7 @@ public class ToggleControlUI : MonoBehaviour
     public GameObject controlUI1;
     public GameObject controlUI2;
     
-    bool isUI1Toggled = false;
+    bool isUI1Toggled = true;
     bool isUI2Toggled = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
