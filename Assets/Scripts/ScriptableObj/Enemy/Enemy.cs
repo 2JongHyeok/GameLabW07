@@ -53,16 +53,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        // 타겟과의 거리 체크 - 너무 멀어지면 리스폰
-        if (target != null)
-        {
-            float distanceToTarget = Vector2.Distance(transform.position, target.position);
-            if (distanceToTarget > maxDistanceFromTarget)
-            {
-                RespawnAtRandomPosition();
-                return;
-            }
-        }
+        
         
         // Ranger 또는 RangerTank 타입이고 공격 중일 때
         if (isAttacking && (enemyData.enemyType == EnemyType.Ranger ||
@@ -87,6 +78,7 @@ public class Enemy : MonoBehaviour
             {
                 attackTimer -= Time.deltaTime;
             }
+            Debug.Log("Attacking");
         }
         else
         {
@@ -96,6 +88,8 @@ public class Enemy : MonoBehaviour
                 target.position,
                 enemyData.enemySpeed * Time.deltaTime
             );
+            Debug.Log("Moving");
+
         }
         transform.rotation = Quaternion.LookRotation(Vector3.forward, target.position - transform.position);
 
@@ -305,6 +299,51 @@ public class Enemy : MonoBehaviour
 
         transform.position = target.position + new Vector3(x, y, 0f);*/
     }
-    
-   
+    private void OnEnable()
+    {
+        Core.OnCoreDied += HandleCoreDied;
+    }
+
+    private void OnDisable()
+    {
+        Core.OnCoreDied -= HandleCoreDied;
+    }
+
+    private void HandleCoreDied(int deadCoreNumber)
+    {
+        // 코어2가 죽었을 때만 코어1로 갈아탄다
+        if (deadCoreNumber == 2)
+        {
+            TrySwitchTargetToCore1();
+        }
+    }
+
+    private void TrySwitchTargetToCore1()
+    {
+        Debug.Log("코어깨져서 재이동");
+        var cores = FindObjectsByType<Core>(FindObjectsSortMode.None);
+        Core core1 = null;
+        foreach (var c in cores)
+        {
+            if (c.coreNumber == 1 && !c.IsDead)
+            {
+                core1 = c;
+                break;
+            }
+        }
+
+        if (core1 != null)
+        {
+            // 사격/고정 상태 해제 후 이동 상태로 전환
+            isAttacking = false;   // AttackArea1 트리거에 다시 들어갈 때까지 이동하게 함
+            attackTimer = 0f;
+
+            // 네이밍 유지: SetTaget(철자 주의) 사용 가능, 또는 target 직접 대입
+            SetTaget(core1.transform); // 혹은: target = core1.transform;
+        }
+        else
+        {
+            // 코어1도 없으면(이미 파괴 등) 아무것도 하지 않음. 필요시 디스폰/후퇴 로직 추가 가능
+        }
+    }
 }

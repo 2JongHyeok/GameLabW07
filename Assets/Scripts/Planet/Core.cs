@@ -20,7 +20,8 @@ public class Core : MonoBehaviour
     [SerializeField] private DockingStation dockingStation;
     [SerializeField] private Image healthFillImage;
     private bool isAlert = false;
-    
+    public static event Action<int> OnCoreDied;   // 코어 번호 브로드캐스트
+    public bool IsDead => isDead;                 // 외부에서 생존 확인
     // 현재 체력 읽기용 
     public int CurrentHP => currentHP;
     
@@ -113,6 +114,7 @@ public class Core : MonoBehaviour
         if (isDead) return;
         isDead = true;
         OnDie?.Invoke();
+        OnCoreDied?.Invoke(coreNumber);
         HideCore();
         //  Planet1은 true → 기존처럼 GameOver, Planet2는 false → 게임은 계속
         if (endGameOnDie)
