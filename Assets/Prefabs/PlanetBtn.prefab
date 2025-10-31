@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7645464975610577713}
-  - component: {fileID: 9097026852104614801}
+  - component: {fileID: 3019422768988265966}
   m_Layer: 5
   m_Name: PlanetBtn
   m_TagString: Untagged
@@ -39,7 +39,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &9097026852104614801
+--- !u!114 &3019422768988265966
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -48,13 +48,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2201765770430425745}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e2962648628b934382d09fd23e20b24, type: 3}
+  m_Script: {fileID: 11500000, guid: 14b8f17892b8364458a9c07a2ae04e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetCam: {fileID: 0}
-  usePriority: 1
-  activePriority: 20
-  inactivePriority: 10
+  kind: 1
+  btn: {fileID: 5895469613333864525}
+  rootForVisibility: {fileID: 0}
+  cameraSwitcher: {fileID: 0}
 --- !u!1 &2478845206025788523
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 4229195606707077231}
   - component: {fileID: 8526107561418835485}
   - component: {fileID: 5895469613333864525}
+  - component: {fileID: 2310891451115710969}
   m_Layer: 5
   m_Name: PlanetCamBtn
   m_TagString: Untagged
@@ -285,7 +286,34 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8526107561418835485}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2310891451115710969}
+        m_TargetAssemblyTypeName: PlanetButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2310891451115710969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5737486928353150464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2962648628b934382d09fd23e20b24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetCam: {fileID: 0}
+  cameraSwitcher: {fileID: 0}
+  thisType: 1
 --- !u!1 &7533779310522383677
 GameObject:
   m_ObjectHideFlags: 0
