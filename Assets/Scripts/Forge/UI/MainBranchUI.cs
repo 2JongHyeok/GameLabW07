@@ -1,14 +1,51 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class MainBranchUI : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI branchNameText;
     [SerializeField] private Image branchIcon;
+    [SerializeField] private Color AffordableFrameColor = Color.green;
+    [SerializeField] private Color NotAffordableFrameColor = Color.red;
+    [SerializeField] private Color AffordableNodeColor = Color.white;
+    [SerializeField] private Color NotAffordableNodeColor = Color.gray;
 
     private MainBranchSO mainBranchSO;
+    private GameObject childObjNodeObj;
+    private GameObject childObjFrameObj;
+    private bool onceUpdateColonyUI = false;
+
+    void Start()
+    {
+        childObjFrameObj = transform.GetChild(0).gameObject;
+        childObjNodeObj = childObjFrameObj.transform.GetChild(0).gameObject;
+        
+        childObjFrameObj.GetComponent<Image>().color = AffordableFrameColor;
+        childObjNodeObj.GetComponent<Image>().color = AffordableNodeColor;
+
+        if (mainBranchSO != null)
+        {
+            Debug.LogError("MainBranchUI needs a mainBranchSO");
+            if(mainBranchSO.branchName == "행성2공격" || mainBranchSO.branchName == "행성2강화")
+            {
+                Debug.Log("MainBranchUI: Planet2 branch detected, initializing colors.");
+                childObjFrameObj.GetComponent<Image>().color = NotAffordableFrameColor;
+                childObjNodeObj.GetComponent<Image>().color = NotAffordableNodeColor;
+            }
+        }
+    }
+    void Update()
+    {
+        if (Planet2Manager.instance.IsPlanetActive && !onceUpdateColonyUI)
+        {
+            UpdateColonyUI();
+            onceUpdateColonyUI = true;
+        }
+    }
 
     public void Initialize(MainBranchSO branchSO)
     {
@@ -42,5 +79,12 @@ public class MainBranchUI : MonoBehaviour
         // {
         //     branchIcon.sprite = mainBranchSO.icon;
         // }
+    }
+
+    private void UpdateColonyUI()
+    {
+        
+        childObjFrameObj.GetComponent<Image>().color = AffordableFrameColor;
+        childObjNodeObj.GetComponent<Image>().color = AffordableNodeColor;
     }
 }

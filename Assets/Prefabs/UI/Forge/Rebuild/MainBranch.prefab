@@ -304,6 +304,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   branchNameText: {fileID: 7294368781506399516}
   branchIcon: {fileID: 2406249848856983257}
+  AffordableFrameColor: {r: 0.73333335, g: 0.9607843, b: 0.27450982, a: 1}
+  NotAffordableFrameColor: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
+  AffordableNodeColor: {r: 0.40392157, g: 0.5686275, b: 0.07058824, a: 1}
+  NotAffordableNodeColor: {r: 0.35686275, g: 0.35686275, b: 0.35686275, a: 1}
 --- !u!1 &6803208513737233543
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8814e6928576db5479c1e148737f583f, type: 3}
   m_Name: Planet2Branch
   m_EditorClassIdentifier: 
-  branchName: "\uD589\uC131 \uAC15\uD654"
+  branchName: "\uD589\uC1312\uAC15\uD654"
   branchType: 3
   subBranches:
   - {fileID: 11400000, guid: 3d3157a30e2368b489102c167505e5d1, type: 2}
