@@ -91,19 +91,7 @@ public class SpaceshipInput : MonoBehaviour
         */
         #endregion
 
-        mouseX = Input.GetAxis("Mouse X");
-        mouseY = Input.GetAxis("Mouse Y");
 
-        // 2. 마우스가 실제로 움직였는지 확인 (둘 중 하나라도 0이 아니면)
-        if (mouseX != 0f || mouseY != 0f)
-        {
-            isMouseControlEnabled = true;
-        }
-        else
-        {
-            isMouseControlEnabled = false;
-        }
-        
         // 1. 마우스 우클릭을 '누른' 프레임에만 홀드 상태를 결정합니다.
         if (Input.GetMouseButtonDown(1))
         {
@@ -195,9 +183,6 @@ public class SpaceshipInput : MonoBehaviour
 
     private void CalculateRotationInputFromMouse()
     {
-        if(!isMouseControlEnabled) return;
-        
-        
         // 기본값은 회전 없음
         RotateInput = 0f;
         if (mainCamera == null) return;

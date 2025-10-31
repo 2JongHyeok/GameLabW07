@@ -6850,7 +6850,6 @@ MonoBehaviour:
   planet2: {fileID: 1313229398}
   planet2Sheild: {fileID: 1770977317}
   planet2DockingStation: {fileID: 229442894}
-  planet2Hp: {fileID: 0}
   planet2Wave: {fileID: 155267637}
   cargoSystem: {fileID: 1908056906}
   inventoryManger: {fileID: 5803141803156037022}
@@ -8264,7 +8263,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 26, y: -627}
   m_SizeDelta: {x: 91, y: 135}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1671250463
@@ -8280,7 +8279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -14117,7 +14116,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 4, y: -4}
+  m_AnchoredPosition: {x: 30, y: -631}
   m_SizeDelta: {x: 290, y: 435}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2099530078

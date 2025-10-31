@@ -65,7 +65,7 @@ Material:
     m_Ints: []
     m_Floats:
     - PixelSnap: 1
-    - _Brightness: 4.33
+    - _Brightness: 3.29
     - _BumpScale: 1
     - _Contrast: 1
     - _Cutoff: 0.5

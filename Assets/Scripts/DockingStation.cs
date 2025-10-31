@@ -65,23 +65,22 @@ public class DockingStation : MonoBehaviour
     public void PlayerGoToSpace()
     {
         isShipDocked = false;
-        Debug.Log(isShipDocked);
         cameraSwitcher.ActivateSpaceship();
+        ViewContext.I.SetCurrentView(CameraType.SpaceShip);
         SpaceshipController.SetIsSpaceShipMode(true);
+        Debug.Log(isShipDocked);
+
         if (dockedShip)
         {
             //[Log] 출격 로그 출력
             GameAnalyticsLogger.instance.LogPlayerExitBase();
-
-            Debug.Log(transform.position + " " + gameObject.name + " " + nextDeparturePosition);
-            // [수정] 출격 로직을 LaunchShip() 함수로 분리합니다.
-            // dockedShip.transform.SetPositionAndRotation(nextDeparturePosition, nextDepartureRotation);
-            // dockedShip.SetActive(true);
-            // isSpaceshipMode = true;
             LaunchShip();
-            ViewContext.I.SetDockedPlanet(CameraType.SpaceShip);
-            UpdateAllUIStates();
+            Debug.Log(transform.position + " " + gameObject.name + " " + nextDeparturePosition);
         }
+        var wcs = FindFirstObjectByType<WeaponControlSwitcher>();
+        wcs?.OnDockedPlanetChanged(CameraType.SpaceShip);
+        UpdateAllUIStates();
+
         if (planet1Weapon != null && planet1Weapon.Length > 0)
         {
             foreach (var weapon in planet1Weapon)
@@ -99,28 +98,26 @@ public class DockingStation : MonoBehaviour
     {
         if (!other.CompareTag("Spaceship")) return;
         if (!cameraSwitcher) return;
-
-        // 우주선 모드일 때만 도킹 처리 (규칙상)
-        if (!SpaceshipController.IsSpaceshipMode) return;
-        if (isShipDocked || dockingInProgress) return; // 재진입 가드
+        if (!SpaceshipController.IsSpaceshipMode) return; // 우주선 모드일 때만 도킹
+        if (isShipDocked || dockingInProgress) return;    // 재진입 가드
         dockingInProgress = true;
 
         SpaceshipController.SetIsSpaceShipMode(false);
         isShipDocked = true;
 
+        ViewContext.I.SetDockedPlanet(cameraType);
+        FindFirstObjectByType<WeaponControlSwitcher>()?.OnDockedPlanetChanged(cameraType);
         cameraSwitcher.SetPlanetCamera(planetCamera);
         cameraSwitcher.ActivatePlanet(planetCamera);
 
         dockedShip = other.attachedRigidbody ? other.attachedRigidbody.gameObject : other.gameObject;
         StoreShip();
-
-        ViewContext.I.SetDockedPlanet(cameraType);
-        FindFirstObjectByType<WeaponControlSwitcher>()?.OnDockedPlanetChanged(cameraType);
-
         UpdateAllUIStates();
+        dockingInProgress = false;
+
         GameAnalyticsLogger.instance.LogPlayerEnterBase();
 
-        dockingInProgress = false;
+        Debug.Log("[Dock] Planet2 dock start");
     }
 
   
