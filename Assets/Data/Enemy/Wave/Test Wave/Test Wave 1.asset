@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3e106c13f59574287bc2011c90fc9b, type: 3}
   m_Name: Test Wave 1
   m_EditorClassIdentifier: 
-  rangerCount: 1
+  rangerCount: 0
   rangerTankCount: 0
-  kamikazeCount: 0
+  kamikazeCount: 1
   kamikazeTankCount: 0
   parasiteCount: 0
   bossCount: 0
