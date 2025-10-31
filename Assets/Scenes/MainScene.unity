@@ -886,7 +886,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &62145801
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7416,7 +7416,7 @@ MonoBehaviour:
   cargoSystem: {fileID: 1908056906}
   inventoryManger: {fileID: 5803141803156037022}
   planet2DockingStationScript: {fileID: 1660408333}
-  planet2Button: {fileID: 0}
+  planet2Button: {fileID: 971359258}
   planet2Weapon: {fileID: 302044737}
   constructionPromptUI: {fileID: 840141163}
   VisibleEffect: {fileID: 240399502}
@@ -15239,7 +15239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minimapCamera: {fileID: 879916772}
-  cameraSwitcher: {fileID: 0}
+  cameraSwitcher: {fileID: 1108278171}
   zoomSpeed: 25
   smoothSpeed: 10
   minZoom: 10

@@ -115,7 +115,7 @@ public class SpaceshipInput : MonoBehaviour
         ThrustInput = 0.0f;
 
         // 3. 마우스 우클릭이 '눌려있는 동안'(홀드) 상태에 따라 추력을 적용합니다.
-        if (Input.GetMouseButton(1) || Input.GetKey(KeyCode.UpArrow)) // 꾹 누르고 있는 동안
+        if (Input.GetMouseButton(1)) // 꾹 누르고 있는 동안
         {
             if (isHoldingForReverse)
             {
@@ -128,11 +128,7 @@ public class SpaceshipInput : MonoBehaviour
                 ThrustInput = 1.0f;
             }
         }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            // 4. 마우스를 누르고 있지 않을 때만 S키 입력을 받습니다.
-            ThrustInput = -reverseThrustMultiplier;
-        }
+        
         
 
         // 5. 마우스 기반 회전 계산 (기본)
@@ -147,17 +143,7 @@ public class SpaceshipInput : MonoBehaviour
         // ## 여기부터 수정 ##
         // 6. 키보드 회전 입력 (마우스 입력을 덮어씀)
         // A키는 양수, D키는 음수 값을 줘야 Motor에서 제대로 회전해.
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            // Motor.cs의 AddTorque(-rotateInput) 로직에 따라, 
-            // 왼쪽(반시계) 회전은 rotateInput이 -1f가 되어야 합니다.
-            RotateInput = -0.2f;
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            // 오른쪽(시계) 회전은 rotateInput이 1f가 되어야 합니다.
-            RotateInput = 0.2f;
-        }
+        
         // 키보드 입력이 없으면, 5번에서 계산한 마우스 회전값(RotateInput)이 그대로 사용됩니다.
         // else { RotateInput = 0f; } <-- 이 코드는 절대 넣으면 안 됩니다. (마우스 회전을 0으로 덮어쓰기 때문)
 
