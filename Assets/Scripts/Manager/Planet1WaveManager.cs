@@ -28,6 +28,12 @@ public class Planet1WaveManager : MonoBehaviour
     [Tooltip("카메라 경계에서 얼마나 떨어진 곳에서 스폰할지")]
     public float spawnDistanceOffset = 2f;
 
+    [Header("Spawn Anti-Overlap")]
+    [Tooltip("적들이 서로 겹치지 않도록 보장할 최소 거리. 0 이하면 이 기능을 사용하지 않습니다.")]
+    [SerializeField] private float minSpawnDistance = 1.0f;
+    [Tooltip("최소 거리를 확보하기 위해 새 위치를 찾으려는 최대 시도 횟수")]
+    [SerializeField] private int maxSpawnRetries = 10;
+
     [Header("Wave Settings")]
     [Tooltip("웨이브 데이터 리스트")]
     public WaveSO[] waves;
@@ -432,28 +438,58 @@ public class Planet1WaveManager : MonoBehaviour
     }
 
     // 카메라 밖 원의 랜덤 위치 계산
-    private Vector3 GetRandomSpawnPosition()
+    private Vector3 GetRandomSpawnPosition(List<Vector3> recentPositions)
     {
-        float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
         Camera mainCamera = Camera.main;
         float aspect = mainCamera != null ? mainCamera.aspect : 16f / 9f;
         float horizontalSize = maxCameraSize * aspect;
         float spawnRadius = Mathf.Max(maxCameraSize, horizontalSize) + spawnDistanceOffset;
-        float x = Mathf.Cos(randomAngle) * spawnRadius;
-        float y = Mathf.Sin(randomAngle) * spawnRadius;
-        return new Vector3(x, y, 0f);
+
+        // 최소 거리 체크 기능이 비활성화되었거나, 비교할 대상이 없으면 바로 위치 반환
+        if (minSpawnDistance <= 0 || recentPositions == null || recentPositions.Count == 0)
+        {
+            return CalculatePositionOnCircle(spawnRadius);
+        }
+
+        Vector3 newPos;
+        for (int i = 0; i < maxSpawnRetries; i++)
+        {
+            newPos = CalculatePositionOnCircle(spawnRadius);
+            bool isTooClose = false;
+            foreach (var pos in recentPositions)
+            {
+                if (Vector3.Distance(newPos, pos) < minSpawnDistance)
+                {
+                    isTooClose = true;
+                    break;
+                }
+            }
+
+            if (!isTooClose) return newPos; // 충분히 멀면 위치 확정
+        }
+
+        // 최대 시도 횟수를 초과하면 그냥 마지막 위치 반환 (안전장치)
+        return CalculatePositionOnCircle(spawnRadius);
+    }
+
+    private Vector3 CalculatePositionOnCircle(float radius)
+    {
+        float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+        float x = Mathf.Cos(randomAngle) * radius;
+        float y = Mathf.Sin(randomAngle) * radius;
+        return new Vector3(x, y, 0);
     }
 
     private GameObject CreateEnemy(EnemyType type)
     {
-        Vector3 spawnPosition = GetRandomSpawnPosition();
+        Vector3 spawnPosition = GetRandomSpawnPosition(null);
         
 
         if (type == EnemyType.Boss) // 보스 스폰 위치 처리
         {
             if (bossSpwanPoint == null)
             {
-                spawnPosition = GetRandomSpawnPosition(); // 보스 스폰 포인트가 없으면 랜덤 위치
+                spawnPosition = GetRandomSpawnPosition(null); // 보스 스폰 포인트가 없으면 랜덤 위치
             }
             else
             {
@@ -466,7 +502,7 @@ public class Planet1WaveManager : MonoBehaviour
         {
             if(mainBossSpwanPoint == null)
             {
-                spawnPosition = GetRandomSpawnPosition();
+                spawnPosition = GetRandomSpawnPosition(null);
             }
             else
             {
@@ -477,7 +513,7 @@ public class Planet1WaveManager : MonoBehaviour
         }
         else
         {
-            spawnPosition = GetRandomSpawnPosition();
+            spawnPosition = GetRandomSpawnPosition(null);
         }
         GameObject prefab = enemyPrefabs[(int)type];
         GameObject enemy = Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
@@ -488,31 +524,13 @@ public class Planet1WaveManager : MonoBehaviour
 
     private void OnGetEnemy(GameObject enemy)
     {
-        enemy.SetActive(true);
-        Vector3 spawnPosition = GetRandomSpawnPosition();
+        // 위치 설정은 SpawnWave에서 처리하므로, 여기서는 상태 리셋과 활성화만 담당합니다.
         Enemy enemyComponent = enemy.GetComponent<Enemy>();
-        if (enemyComponent != null && enemyComponent.enemyData != null)
+        if (enemyComponent != null)
         {
-            if (enemyComponent.enemyData.enemyType == EnemyType.Boss)
-            {
-                spawnPosition = bossSpwanPoint == null ? GetRandomSpawnPosition() : bossSpwanPoint.position;
-            }
-            else if (enemyComponent.enemyData.enemyType == EnemyType.MainBoss)
-            {
-                spawnPosition = mainBossSpwanPoint == null ? GetRandomSpawnPosition() : mainBossSpwanPoint.position;
-            }
-            else
-            {
-                spawnPosition = GetRandomSpawnPosition();
-            }
-            enemy.transform.SetPositionAndRotation(spawnPosition, Quaternion.identity);
             enemyComponent.ResetState();
         }
-        GameAnalyticsLogger.instance.LogEnemySpawn(
-            enemyComponent.enemyData.enemyType.ToString(),
-            enemyComponent.enemyNum++,
-            spawnPosition.ToString()
-        );
+        enemy.SetActive(true);
     }
     private void OnReleaseEnemy(GameObject enemy)
     {
@@ -543,9 +561,14 @@ public class Planet1WaveManager : MonoBehaviour
         // 🔹 1. 보스 타입 분리
         List<EnemyType> bossTypes = new List<EnemyType> { EnemyType.Boss, EnemyType.MainBoss };
 
+        // 한 스폰 간격 내에서 생성된 위치를 저장할 리스트
+        List<Vector3> recentSpawnPositions = new List<Vector3>();
+
         // 🔹 2. 일반 적 먼저 스폰
         while (GetTotalRemainingSpawnsExceptBoss(bossTypes) > 0)
         {
+            recentSpawnPositions.Clear(); // 매 간격마다 리스트 초기화
+
             int spawnCount = Random.Range(currentWave.minSpawnPerInterval, currentWave.maxSpawnPerInterval + 1);
             spawnCount = Mathf.Min(spawnCount, GetTotalRemainingSpawnsExceptBoss(bossTypes));
 
@@ -553,9 +576,21 @@ public class Planet1WaveManager : MonoBehaviour
             {
                 EnemyType typeToSpawn = SelectRandomEnemyTypeExceptBoss(currentWave, bossTypes);
                 if (typeToSpawn == (EnemyType)(-1)) continue;
-
+                
+                // 위치를 먼저 계산합니다.
+                Vector3 spawnPos = GetRandomSpawnPosition(recentSpawnPositions);
+                recentSpawnPositions.Add(spawnPos); // 다음 적이 참고하도록 위치 추가
+                
                 var pool = enemyPools[typeToSpawn];
-                pool.Get();
+                GameObject enemyObj = pool.Get(); // OnGetEnemy가 호출되어 상태가 리셋됩니다.
+                enemyObj.transform.position = spawnPos; // 계산된 위치를 적용합니다.
+
+                // [수정] 로그 기록을 이 위치로 이동
+                Enemy enemyComponent = enemyObj.GetComponent<Enemy>();
+                GameAnalyticsLogger.instance.LogEnemySpawn(
+                    enemyComponent.enemyData.enemyType.ToString(),
+                    enemyComponent.enemyNum++, // enemyNum은 Enemy.cs의 ResetState에서 초기화됩니다.
+                    spawnPos.ToString());
                 remainingSpawnCounts[typeToSpawn]--;
             }
 
@@ -582,8 +617,20 @@ public class Planet1WaveManager : MonoBehaviour
                     mainBossHpSlider.value = mainBossHpSlider.maxValue;
                 }
 
+                // 보스는 지정된 위치를 사용하므로 겹침 방지 로직이 필요 없습니다.
+                Vector3 spawnPos = (bossType == EnemyType.Boss) ? bossSpwanPoint.position : mainBossSpwanPoint.position;
+                if (spawnPos == null) spawnPos = GetRandomSpawnPosition(null); // 안전장치
+
                 var pool = enemyPools[bossType];
-                pool.Get();
+                GameObject bossObj = pool.Get();
+                bossObj.transform.position = spawnPos;
+
+                // [수정] 보스 로그 기록 추가
+                Enemy enemyComponent = bossObj.GetComponent<Enemy>();
+                GameAnalyticsLogger.instance.LogEnemySpawn(
+                    enemyComponent.enemyData.enemyType.ToString(),
+                    enemyComponent.enemyNum++,
+                    spawnPos.ToString());
                 remainingSpawnCounts[bossType]--;
 
                 // 보스들끼리 텀 주고 싶다면 약간 대기

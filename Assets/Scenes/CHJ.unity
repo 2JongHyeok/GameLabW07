@@ -4178,9 +4178,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   commanderShieldHP: 10
-  attackSpeedMultiplier: 3
-  rammerFrequencyMultiplier: 3
-  railgunChargeTimeMultiplier: 0.1
+  attackSpeedMultiplier: 1.5
+  rammerFrequencyMultiplier: 1.5
+  railgunChargeTimeMultiplier: 0.5
 --- !u!1 &684506652
 GameObject:
   m_ObjectHideFlags: 0
@@ -7047,6 +7047,22 @@ PrefabInstance:
       propertyPath: mainBossSpwanPoint
       value: 
       objectReference: {fileID: 956665701}
+    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
+      propertyPath: 'waves.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ba582544ebd923049b09275ff3471301, type: 2}
+    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
+      propertyPath: 'waves.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: fe802965ae2e9684cafc7f80773eabca, type: 2}
+    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
+      propertyPath: 'waves.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8763d7818660fc64c889cc87e0a7f785, type: 2}
+    - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
+      propertyPath: 'waves.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4161bb3d052788346826ad3eb96ee42e, type: 2}
     - target: {fileID: 893884487776227120, guid: a86dfae0efe74e943a6517bbe3e1a1b8, type: 3}
       propertyPath: miningInstructionText
       value: 
