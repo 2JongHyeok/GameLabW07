@@ -58,7 +58,7 @@ public class RailGunEnemySO : EnemyBaseSO
             actualChargeTime *= EnemyBuffManager.Instance.railgunChargeTimeMultiplier;
         }
         
-        while (chargeTimer < chargeTime)
+        while (chargeTimer < actualChargeTime)
         {
             if (!enemy.isAttacking)
             {
