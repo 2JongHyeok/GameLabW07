@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3e106c13f59574287bc2011c90fc9b, type: 3}
   m_Name: Wave 7_2
   m_EditorClassIdentifier: 
-  rangerCount: 15
-  rangerTankCount: 8
-  kamikazeCount: 6
-  kamikazeTankCount: 4
+  rangerCount: 10
+  rangerTankCount: 6
+  kamikazeCount: 4
+  kamikazeTankCount: 3
   parasiteCount: 0
   bossCount: 0
   mainBossCount: 0
-  spawnInterval: 1.5
-  minSpawnPerInterval: 3
-  maxSpawnPerInterval: 3
+  railGunCount: 5
+  rammerCount: 2
+  commanderCount: 2
+  spawnInterval: 1
+  minSpawnPerInterval: 2
+  maxSpawnPerInterval: 4
