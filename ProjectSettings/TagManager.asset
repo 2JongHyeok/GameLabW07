@@ -13,6 +13,7 @@ TagManager:
   - PlanetCore
   - AttackArea1
   - AttackArea2
+  - AttackArea3
   layers:
   - Default
   - TransparentFX
