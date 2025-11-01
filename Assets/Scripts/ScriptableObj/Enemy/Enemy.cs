@@ -67,18 +67,27 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        // --- [이 'if' 블록 전체가 수정되었습니다] ---
-        
-        // "공격 의사"가 있는 적들 (Ranger, RailGun, Commander 등)
+        // --- [이 'if' 블록이 롤백되었습니다] ---
+
+        // [롤백 주석] 아래는 보스가 원거리 공격을 위해 멈추도록 수정했던 'if' 문입니다.
+        /*
         if (isAttacking && (enemyData.enemyType == EnemyType.Ranger ||
                             enemyData.enemyType == EnemyType.RangerTank ||
                             enemyData.enemyType == EnemyType.Parasite ||
                             enemyData.enemyType == EnemyType.RailGun ||
                             enemyData.enemyType == EnemyType.Commander ||
-                            enemyData.enemyType == EnemyType.Boss || // [보스 수정] Boss 추가
-                            enemyData.enemyType == EnemyType.MainBoss)) // [보스 수정] MainBoss 추가
+                            enemyData.enemyType == EnemyType.Boss || 
+                            enemyData.enemyType == EnemyType.MainBoss))
+        */
+        
+        // [롤백 복원] 보스가 멈추지 않고 'else'로 빠지도록 (카미카제처럼) 'if' 문에서 Boss를 제거한 버전입니다.
+        if (isAttacking && (enemyData.enemyType == EnemyType.Ranger ||
+                            enemyData.enemyType == EnemyType.RangerTank ||
+                            enemyData.enemyType == EnemyType.Parasite ||
+                            enemyData.enemyType == EnemyType.RailGun ||
+                            enemyData.enemyType == EnemyType.Commander))
         {
-            // 1. 공격에 필요한 사거리를 SO에서 가져옵니다. (Rammer, Kamikaze 등은 0으로 처리)
+            // 1. 공격에 필요한 사거리를 SO에서 가져옵니다.
             float currentAttackRange = 0f;
             switch (enemyData.enemyType)
             {
@@ -91,18 +100,20 @@ public class Enemy : MonoBehaviour
                 case EnemyType.RailGun:
                     currentAttackRange = (enemyData as RailGunEnemySO)?.attackRange ?? 0f;
                     break;
-                // [보스 수정] Boss 케이스 추가 (RailGun과 동일 로직)
+                
+                // [롤백 주석] 아래는 보스 사거리 체크 로직입니다.
+                /*
                 case EnemyType.Boss:
                     currentAttackRange = (enemyData as BossSO)?.attackRange ?? 0f;
                     break;
-                // [보스 수정] MainBoss 케이스 추가 (RailGun과 동일 로직)
                 case EnemyType.MainBoss:
                     currentAttackRange = (enemyData as MainBossSO)?.attackRange ?? 0f;
                     break;
-                // Commander와 Parasite는 그 자리에 멈추는 게 목적이므로 사거리 0 (무한대)
+                */
+
                 case EnemyType.Commander:
                 case EnemyType.Parasite:
-                    currentAttackRange = Mathf.Infinity; // 그 자리에 멈춰서 공격
+                    currentAttackRange = Mathf.Infinity; 
                     break;
             }
 
@@ -110,13 +121,10 @@ public class Enemy : MonoBehaviour
             float distanceToTarget = Vector2.Distance(transform.position, target.position);
 
             // 3. 사거리(currentAttackRange) 밖에 있다면: "이동"
-            // (Commander/Parasite는 currentAttackRange가 무한대라 이 조건이 항상 false)
             if (distanceToTarget > currentAttackRange)
             {
-                // 공격 타이머는 리셋 (이동 중엔 공격 쿨이 돌지 않음)
                 attackTimer = 0f; 
                 
-                // 'else' 블록의 이동 로직을 그대로 가져옴
                 transform.position = Vector2.MoveTowards(
                     transform.position,
                     target.position,
@@ -126,10 +134,9 @@ public class Enemy : MonoBehaviour
             // 4. 사거리(currentAttackRange) 안에 있다면: "공격"
             else
             {
-                // (기존 'if' 블록의 공격 로직)
                 if (attackTimer <= 0f)
                 {
-                    enemyData.PerformAttack(this); // 거리 체크가 이미 끝났으므로 호출
+                    enemyData.PerformAttack(this); 
                     attackTimer = attackCooldown;
 
                     if (!hasLoggedFirstAttack)
@@ -147,8 +154,10 @@ public class Enemy : MonoBehaviour
         // --- [수정 끝] ---
         else
         {
-            // 단순 이동 (Rammer, Kamikaze 등이 이 로직을 따름)
-            // [보스 수정] 보스들이 isAttacking=false일 때 (트리거 밖일 때) 이 로직을 따릅니다.
+            // [롤백 복원] 
+            // 1. 'isAttacking=false'인 적 (Ranger 등)이 이 로직을 따릅니다.
+            // 2. 'isAttacking'을 사용하지 않는 적 (Rammer, Kamikaze)이 이 로직을 따릅니다.
+            // 3. 위 'if' 문에 Boss가 빠졌으므로, Boss도 이 로직 (단순 돌진)을 따릅니다.
             transform.position = Vector2.MoveTowards(
                 transform.position,
                 target.position,
@@ -165,13 +174,8 @@ public class Enemy : MonoBehaviour
         myPool = pool;
     }
     
-    /// <summary>
-    /// ScriptableObject에서 원본 공격 쿨다운 값을 다시 읽어옵니다.
-    /// (버프 해제 시 사용)
-    /// </summary>
     public void ResetAttackCooldownFromSO()
     {
-        // ResetState()에 있던 로직과 100% 동일합니다.
         if (enemyData != null)
         {
             if (enemyData.enemyType == EnemyType.Ranger)
@@ -214,7 +218,6 @@ public class Enemy : MonoBehaviour
                     attackCooldown = rammer.attackCooldown;
                 }
             }
-            // [추가] Commander도 쿨다운을 사용 (멈추기 위해)
             else if (enemyData.enemyType == EnemyType.Commander)
             {
                 var commander = enemyData as CommanderSO;
@@ -223,7 +226,9 @@ public class Enemy : MonoBehaviour
                     attackCooldown = commander.attackCooldown;
                 }
             }
-            // [보스 수정] Boss 쿨다운 추가
+            
+            // [롤백 주석] 보스의 쿨다운 로직 (원거리 공격용)
+            /*
             else if (enemyData.enemyType == EnemyType.Boss)
             {
                 var boss = enemyData as BossSO;
@@ -232,7 +237,6 @@ public class Enemy : MonoBehaviour
                     attackCooldown = boss.attackCooldown;
                 }
             }
-            // [보스 수정] MainBoss 쿨다운 추가
             else if (enemyData.enemyType == EnemyType.MainBoss)
             {
                 var mainBoss = enemyData as MainBossSO;
@@ -241,6 +245,7 @@ public class Enemy : MonoBehaviour
                     attackCooldown = mainBoss.attackCooldown;
                 }
             }
+            */
         }
     }
     
@@ -258,51 +263,37 @@ public class Enemy : MonoBehaviour
         
         shieldHP = 0; // 쉴드 초기화
         
-        // 기존 코드
         enemyNum = Planet1WaveManager.Instance.enemyNum; 
         
-        // 피격 이펙트 초기화
         if (hitFlashEffect != null)
         {
             hitFlashEffect.ResetColor();
         }
         
-        // --- [기존 쿨다운 로직을 아래 함수 호출로 변경] ---
         ResetAttackCooldownFromSO();
 
-        // --- [이 코드를 추가하세요] ---
-        // 버프 매니저에 자신을 등록합니다.
         if (EnemyBuffManager.Instance != null)
         {
             EnemyBuffManager.Instance.RegisterEnemy(this);
-            // Debug.Log($"Enemy {enemyNum} ({enemyType}) 등록 성공. (Manager.Instance 유효)");
         }
         else
         {
-            // "일부만" 활성화되는 경우, 콘솔에 이 에러가 반드시 찍힙니다.
             Debug.LogError($"Enemy {enemyNum} ({enemyType}) 등록 실패! EnemyBuffManager.Instance가 NULL입니다!");
         }
     }
     public void TakeDamage(int damage, string weaponType)
     {
-        if (isDead) return; // 이미 죽었으면 무시
+        if (isDead) return; 
         
-        // --- [쉴드 로직 추가] ---
-        // 쉴드가 있다면 쉴드 HP를 먼저 깎고, 본체 데미지는 무시
         if (shieldHP > 0)
         {
             shieldHP -= damage;
             Debug.Log($"적 {enemyNum} 쉴드 피격! 남은 쉴드: {shieldHP}");
             if (shieldHP <= 0)
             {
-                // [수정] 쉴드가 파괴되면 즉시 원래 색상으로 복구합니다.
-                if (hitFlashEffect != null)
-                {
-                    hitFlashEffect.ResetColor();
-                }
                 Debug.Log($"적 {enemyNum} 쉴드 파괴!");
             }
-            return; // 쉴드가 데미지를 흡수
+            return; 
         }
 
         if (enemyData != null && enemyData.enemyType == EnemyType.Parasite)
@@ -310,23 +301,18 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        // [복원] 기존 코드
         if (enemyData.enemyType == EnemyType.Boss)
         {
             Debug.Log("Boss took damage: " + damage);
-            // 보스 체력 슬라이더 감소 - 보스 최대 체력 대비 비율로 감소
             Planet1WaveManager.Instance.bossHpSlider.value  -= (float)damage / enemyData.enemyHP;
         }
-        // [복원] 기존 코드
         if (enemyData.enemyType == EnemyType.MainBoss)
         {
-            // 보스 체력 슬라이더 감소 - 보스 최대 체력 대비 비율로 감소
             Planet1WaveManager.Instance.mainBossHpSlider.value  -= (float)damage / enemyData.enemyHP;
         }
 
         enemyHP -= damage;
         
-        // 피격 이펙트 재생
         if (hitFlashEffect != null)
         {
             hitFlashEffect.Flash();
@@ -334,23 +320,18 @@ public class Enemy : MonoBehaviour
         
         if (enemyHP <= 0)
         {
-            // 보스 처치 시 코어 생성
             if (bossCorePrefab != null && enemyData.enemyType == EnemyType.Boss)
             {
                 Instantiate(bossCorePrefab, gameObject.transform.position, Quaternion.identity);
             }
             
-            // [복원] 기존 코드
             GameAnalyticsLogger.instance.LogEnemyKilled(enemyType.ToString(), weaponType);
             
-            // --- [버프 매니저 로직 추가] ---
-            // 1. 버프 매니저에서 이 적을 제거합니다.
             if (EnemyBuffManager.Instance != null)
             {
                 EnemyBuffManager.Instance.UnregisterEnemy(this);
             }
 
-            // 2. 만약 죽은 적이 Commander라면, 모든 버프를 끕니다.
             if (enemyData.enemyType == EnemyType.Commander)
             {
                 if (EnemyBuffManager.Instance != null)
@@ -375,7 +356,6 @@ public class Enemy : MonoBehaviour
     
         switch (enemyData.enemyType)
         {
-            // 패러사이트는 "Respawn" 태그에 반응
             case EnemyType.Parasite:
                 if (collision.CompareTag("Respawn"))
                 {
@@ -384,12 +364,10 @@ public class Enemy : MonoBehaviour
                 else if (collision.CompareTag("Weapon"))
                 {
                     isDead = true;
-                    // (여기에 밟혀 죽는 이펙트/사운드 추가하면 좋음)
-                    myPool.Release(gameObject); // 풀로 반환 (죽음)
+                    myPool.Release(gameObject); 
                 }
                 break;
 
-            // 레인저/탱크는 "AttackArea1", "AttackArea2" 태그에 반응
             case EnemyType.Ranger:
                 if (collision.CompareTag("AttackArea1"))
                 {
@@ -405,31 +383,33 @@ public class Enemy : MonoBehaviour
                 break;
             
             case EnemyType.RailGun:
-                if (collision.CompareTag("AttackArea3"))
+                if (collision.CompareTag("AttackArea2"))
                 {
                     isAttacking = true;
                 }
                 break;
-            // [보스 수정] Boss도 AttackArea2에서 멈추도록 추가
+            
+            // [롤백 주석] 보스가 AttackArea2에서 멈추도록 했던 로직
+            /*
             case EnemyType.Boss:
                 if (collision.CompareTag("AttackArea2"))
                 {
                     isAttacking = true;
                 }
                 break;
-            // [보스 수정] MainBoss도 AttackArea2에서 멈추도록 추가
             case EnemyType.MainBoss:
                 if (collision.CompareTag("AttackArea2"))
                 {
                     isAttacking = true;
                 }
                 break;
-            case EnemyType.Commander:
-                if (collision.CompareTag("AttackArea1") || collision.CompareTag("AttackArea2") || collision.CompareTag("AttackArea3")) 
-                {
-                    isAttacking = true; // 멈추기
+            */
 
-                    // Commander가 멈추는 이 시점에 모든 적 버프 활성화
+            case EnemyType.Commander:
+                if (collision.CompareTag("AttackArea1") || collision.CompareTag("AttackArea2")) 
+                {
+                    isAttacking = true; 
+
                     if (EnemyBuffManager.Instance != null)
                     {
                         EnemyBuffManager.Instance.ActivateCommanderBuffs();
@@ -455,18 +435,21 @@ public class Enemy : MonoBehaviour
             case EnemyType.RangerTank when collision.CompareTag("AttackArea2"):
                 isAttacking = false;
                 break;
-            case EnemyType.RailGun when collision.CompareTag("AttackArea3"):
+            case EnemyType.RailGun when collision.CompareTag("AttackArea2"):
                 isAttacking = false;
                 break;
-            // [보스 수정] Boss가 AttackArea2를 나가면 다시 이동
+
+            // [롤백 주석] 보스가 AttackArea2를 나갈 때 다시 이동하도록 했던 로직
+            /*
             case EnemyType.Boss when collision.CompareTag("AttackArea2"):
                 isAttacking = false;
                 break;
-            // [보스 수정] MainBoss가 AttackArea2를 나가면 다시 이동
             case EnemyType.MainBoss when collision.CompareTag("AttackArea2"):
                 isAttacking = false;
                 break;
-            case EnemyType.Commander when collision.CompareTag("AttackArea1") || collision.CompareTag("AttackArea2")|| collision.CompareTag("AttackArea3"):
+            */
+
+            case EnemyType.Commander when collision.CompareTag("AttackArea1") || collision.CompareTag("AttackArea2"):
                 isAttacking = false;
                 break;
         }
@@ -481,28 +464,24 @@ public class Enemy : MonoBehaviour
         HandleKamikazeCollision(collision);
     }
 
-    // --- [이 함수가 수정되었습니다] ---
     private void HandleKamikazeCollision(Collision2D collision)
     {
-        // 이미 비활성화되었으면(풀로 반환되었으면) 무시
         if (!gameObject.activeInHierarchy) return;
         
         // Rammer 타입 쉴드/코어 충돌 처리
         if (enemyData != null && enemyData.enemyType == EnemyType.Rammer && !isBouncingBack)
         {
             var rammerSO = enemyData as RammerEnemySO;
-            if (rammerSO == null) return; // RammerSO가 없으면 중지
+            if (rammerSO == null) return; 
 
-            bool didHitTarget = false; // 쉴드나 코어에 부딪혔는지 확인
+            bool didHitTarget = false; 
 
-            // 1. 쉴드(Tilemap)에 부딪혔는지 확인
             Tilemap tilemap = collision.collider.GetComponent<Tilemap>();
             if (tilemap != null)
             {
                 Planet manager = tilemap.GetComponent<Planet>();
                 if (manager != null)
                 {
-                    // 3x3 광역 데미지 주기
                     Vector3 hitPoint = collision.GetContact(0).point;
                     Vector3 correctedHitPoint = hitPoint - ((Vector3)collision.GetContact(0).normal * 0.01f);
                     Vector3Int centerCellPos = tilemap.WorldToCell(correctedHitPoint);
@@ -519,30 +498,26 @@ public class Enemy : MonoBehaviour
                             manager.DamageTile(neighborCellPos, rammerSO.shieldDamage);
                         }
                     }
-                    didHitTarget = true; // 쉴드에 명중
+                    didHitTarget = true; 
                 }
             }
-            // 2. 코어(Core)에 부딪혔는지 확인 (쉴드가 아닐 경우)
             else if (collision.collider.CompareTag("Core"))
             {
                 Core core = collision.collider.GetComponent<Core>();
                 if (core != null)
                 {
-                    // 코어에는 3x3이 아닌 단일 데미지
                     core.TakeDamage(rammerSO.shieldDamage); 
-                    didHitTarget = true; // 코어에 명중
+                    didHitTarget = true;
                 }
             }
 
-            // 3. 쉴드 또는 코어에 부딪혔다면 후퇴 코루틴 시작
             if (didHitTarget)
             {
                 StartCoroutine(BounceBackCoroutine(rammerSO));
             }
         }
 
-        // Kamikaze 타입 폭발 처리 (enemyData로 직접 체크)
-        // [복원] 기존 코드
+        // Kamikaze 타입 폭발 처리
         if (enemyData != null && enemyData.enemyType == EnemyType.Kamikaze)
         {
             (enemyData as KamikazeSO).Explode(this, collision);
@@ -550,20 +525,24 @@ public class Enemy : MonoBehaviour
         else if (enemyData != null && enemyData.enemyType == EnemyType.KamikazeTank)
         {
             (enemyData as KamikazeTankSO).Explode(this, collision);
-        }
-        // [보스 수정] Boss와 MainBoss의 Explode 로직을 제거했습니다.
-        // else if (enemyData != null && enemyData.enemyType == EnemyType.Boss) ...
-        // else if(enemyData != null && enemyData.enemyType == EnemyType.MainBoss) ...
+        } 
+        
+        // [롤백 복원] Boss와 MainBoss가 충돌 시 Explode 하도록 로직을 다시 추가합니다.
+        else if (enemyData != null && enemyData.enemyType == EnemyType.Boss)
+        {
+            (enemyData as BossSO).Explode(this, collision);
+        } 
+        else if(enemyData != null && enemyData.enemyType == EnemyType.MainBoss)
+        {
+            (enemyData as MainBossSO).Explode(this, collision);
+        } 
     }
     
-    // --- [이 함수가 수정되었습니다] ---
-    // Rammer가 쉴드에 부딪혔을 때 후퇴하는 코루틴 (부드러운 감속 적용)
     private IEnumerator BounceBackCoroutine(RammerEnemySO so)
     {
-        isBouncingBack = true; // 상태를 '후퇴 중'으로 변경
+        isBouncingBack = true; 
 
-        // --- 1. 후퇴 (Knockback) ---
-        Vector2 knockbackDirection = (transform.position - target.position).normalized; // 타겟 반대 방향
+        Vector2 knockbackDirection = (transform.position - target.position).normalized; 
         Vector3 startPos = transform.position;
         Vector3 endPos = transform.position + (Vector3)knockbackDirection * so.knockbackDistance;
 
@@ -571,43 +550,21 @@ public class Enemy : MonoBehaviour
         while (timer < so.knockbackDuration)
         {
             timer += Time.deltaTime;
-            // t 값을 0~1 사이로 제한
             float t = Mathf.Clamp01(timer / so.knockbackDuration);
-            
-            // [수정] Ease-Out 효과 적용 (부드럽게 감속)
-            // t가 0->1로 갈 때, easeT도 0->1로 가지만 점점 느려짐 (Sin 곡선)
             float easeT = Mathf.Sin(t * Mathf.PI * 0.5f); 
             
             transform.position = Vector3.Lerp(startPos, endPos, easeT);
             yield return null;
         }
 
-        // SO의 원본 값(so.attackCooldown) 대신,
-        // 버프 매니저가 수정한 이 인스턴스의 값(this.attackCooldown)을 사용합니다.
         yield return new WaitForSeconds(this.attackCooldown);
 
-        // --- 3. 상태 리셋 ---
-        isBouncingBack = false; // 상태를 '돌진 가능'으로 복구
+        isBouncingBack = false; 
     }
 
-    // 타겟으로부터 너무 멀어졌을 때 랜덤 스폰 포인트로 리스폰
     private void RespawnAtRandomPosition()
     {
-        /*if (target == null) return;
-
-        float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-
-        Camera mainCamera = Camera.main;
-        float aspect = mainCamera ? mainCamera.aspect : 16f / 9f;
-        float size = mainCamera ? mainCamera.orthographicSize : 20f;
-
-        float horizontalSize = size * aspect;
-        float spawnRadius = Mathf.Max(size, horizontalSize) + respawnDistanceOffset;
-
-        float x = Mathf.Cos(randomAngle) * spawnRadius;
-        float y = Mathf.Sin(randomAngle) * spawnRadius;
-
-        transform.position = target.position + new Vector3(x, y, 0f);*/
+        /* ... (리스폰 로직) ... */
     }
     private void OnEnable()
     {
@@ -632,7 +589,6 @@ public class Enemy : MonoBehaviour
 
     private void HandleCoreDied(int deadCoreNumber)
     {
-        // 코어2가 죽었을 때만 코어1로 갈아탄다
         if (deadCoreNumber == 2)
         {
             TrySwitchTargetToCore1();
@@ -655,16 +611,9 @@ public class Enemy : MonoBehaviour
 
         if (core1 != null)
         {
-            // 사격/고정 상태 해제 후 이동 상태로 전환
-            isAttacking = false;   // AttackArea1 트리거에 다시 들어갈 때까지 이동하게 함
+            isAttacking = false;  
             attackTimer = 0f;
-
-            // 네이밍 유지: SetTaget(철자 주의) 사용 가능, 또는 target 직접 대입
-            SetTaget(core1.transform); // 혹은: target = core1.transform;
-        }
-        else
-        {
-            // 코어1도 없으면(이미 파괴 등) 아무것도 하지 않음. 필요시 디스폰/후퇴 로직 추가 가능
+            SetTaget(core1.transform); 
         }
     }
 }
