@@ -575,6 +575,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 881239298}
     m_Modifications:
+    - target: {fileID: 1054226360776013414, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1416700720085230214, guid: da79d49a61749504fa058e1dd41bd37c, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -562.4
@@ -9225,7 +9229,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 994011219}
         m_TargetAssemblyTypeName: Managers, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1
