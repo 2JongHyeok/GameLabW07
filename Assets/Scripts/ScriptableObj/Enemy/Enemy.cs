@@ -295,7 +295,11 @@ public class Enemy : MonoBehaviour
             Debug.Log($"적 {enemyNum} 쉴드 피격! 남은 쉴드: {shieldHP}");
             if (shieldHP <= 0)
             {
-                // TODO: 쉴드 파괴 이펙트
+                // [수정] 쉴드가 파괴되면 즉시 원래 색상으로 복구합니다.
+                if (hitFlashEffect != null)
+                {
+                    hitFlashEffect.ResetColor();
+                }
                 Debug.Log($"적 {enemyNum} 쉴드 파괴!");
             }
             return; // 쉴드가 데미지를 흡수
@@ -421,7 +425,7 @@ public class Enemy : MonoBehaviour
                 }
                 break;
             case EnemyType.Commander:
-                if (collision.CompareTag("AttackArea1") || collision.CompareTag("AttackArea2")) 
+                if (collision.CompareTag("AttackArea1") || collision.CompareTag("AttackArea2") || collision.CompareTag("AttackArea3")) 
                 {
                     isAttacking = true; // 멈추기
 
@@ -462,7 +466,7 @@ public class Enemy : MonoBehaviour
             case EnemyType.MainBoss when collision.CompareTag("AttackArea2"):
                 isAttacking = false;
                 break;
-            case EnemyType.Commander when collision.CompareTag("AttackArea1") || collision.CompareTag("AttackArea2"):
+            case EnemyType.Commander when collision.CompareTag("AttackArea1") || collision.CompareTag("AttackArea2")|| collision.CompareTag("AttackArea3"):
                 isAttacking = false;
                 break;
         }
