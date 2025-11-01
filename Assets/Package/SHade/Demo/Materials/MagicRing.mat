@@ -201,7 +201,7 @@ Material:
     - _RadialStartAngle: 90
     - _RandomSeed: 0
     - _RectSize: 1
-    - _RotateUvAmount: 6.028877
+    - _RotateUvAmount: 2.220632
     - _RoundWaveSpeed: 2
     - _RoundWaveStrength: 0.7
     - _ShadowAlpha: 0.5

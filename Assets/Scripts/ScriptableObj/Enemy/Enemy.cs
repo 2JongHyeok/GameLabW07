@@ -401,7 +401,7 @@ public class Enemy : MonoBehaviour
                 break;
             
             case EnemyType.RailGun:
-                if (collision.CompareTag("AttackArea2"))
+                if (collision.CompareTag("AttackArea3"))
                 {
                     isAttacking = true;
                 }
@@ -451,7 +451,7 @@ public class Enemy : MonoBehaviour
             case EnemyType.RangerTank when collision.CompareTag("AttackArea2"):
                 isAttacking = false;
                 break;
-            case EnemyType.RailGun when collision.CompareTag("AttackArea2"):
+            case EnemyType.RailGun when collision.CompareTag("AttackArea3"):
                 isAttacking = false;
                 break;
             // [보스 수정] Boss가 AttackArea2를 나가면 다시 이동
