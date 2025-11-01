@@ -74,7 +74,9 @@ public class Enemy : MonoBehaviour
                             enemyData.enemyType == EnemyType.RangerTank ||
                             enemyData.enemyType == EnemyType.Parasite ||
                             enemyData.enemyType == EnemyType.RailGun ||
-                            enemyData.enemyType == EnemyType.Commander))
+                            enemyData.enemyType == EnemyType.Commander ||
+                            enemyData.enemyType == EnemyType.Boss || // [보스 수정] Boss 추가
+                            enemyData.enemyType == EnemyType.MainBoss)) // [보스 수정] MainBoss 추가
         {
             // 1. 공격에 필요한 사거리를 SO에서 가져옵니다. (Rammer, Kamikaze 등은 0으로 처리)
             float currentAttackRange = 0f;
@@ -88,6 +90,14 @@ public class Enemy : MonoBehaviour
                     break;
                 case EnemyType.RailGun:
                     currentAttackRange = (enemyData as RailGunEnemySO)?.attackRange ?? 0f;
+                    break;
+                // [보스 수정] Boss 케이스 추가 (RailGun과 동일 로직)
+                case EnemyType.Boss:
+                    currentAttackRange = (enemyData as BossSO)?.attackRange ?? 0f;
+                    break;
+                // [보스 수정] MainBoss 케이스 추가 (RailGun과 동일 로직)
+                case EnemyType.MainBoss:
+                    currentAttackRange = (enemyData as MainBossSO)?.attackRange ?? 0f;
                     break;
                 // Commander와 Parasite는 그 자리에 멈추는 게 목적이므로 사거리 0 (무한대)
                 case EnemyType.Commander:
@@ -138,6 +148,7 @@ public class Enemy : MonoBehaviour
         else
         {
             // 단순 이동 (Rammer, Kamikaze 등이 이 로직을 따름)
+            // [보스 수정] 보스들이 isAttacking=false일 때 (트리거 밖일 때) 이 로직을 따릅니다.
             transform.position = Vector2.MoveTowards(
                 transform.position,
                 target.position,
@@ -210,6 +221,24 @@ public class Enemy : MonoBehaviour
                 if (commander != null)
                 {
                     attackCooldown = commander.attackCooldown;
+                }
+            }
+            // [보스 수정] Boss 쿨다운 추가
+            else if (enemyData.enemyType == EnemyType.Boss)
+            {
+                var boss = enemyData as BossSO;
+                if (boss != null)
+                {
+                    attackCooldown = boss.attackCooldown;
+                }
+            }
+            // [보스 수정] MainBoss 쿨다운 추가
+            else if (enemyData.enemyType == EnemyType.MainBoss)
+            {
+                var mainBoss = enemyData as MainBossSO;
+                if (mainBoss != null)
+                {
+                    attackCooldown = mainBoss.attackCooldown;
                 }
             }
         }
@@ -377,6 +406,20 @@ public class Enemy : MonoBehaviour
                     isAttacking = true;
                 }
                 break;
+            // [보스 수정] Boss도 AttackArea2에서 멈추도록 추가
+            case EnemyType.Boss:
+                if (collision.CompareTag("AttackArea2"))
+                {
+                    isAttacking = true;
+                }
+                break;
+            // [보스 수정] MainBoss도 AttackArea2에서 멈추도록 추가
+            case EnemyType.MainBoss:
+                if (collision.CompareTag("AttackArea2"))
+                {
+                    isAttacking = true;
+                }
+                break;
             case EnemyType.Commander:
                 if (collision.CompareTag("AttackArea1") || collision.CompareTag("AttackArea2")) 
                 {
@@ -409,6 +452,14 @@ public class Enemy : MonoBehaviour
                 isAttacking = false;
                 break;
             case EnemyType.RailGun when collision.CompareTag("AttackArea2"):
+                isAttacking = false;
+                break;
+            // [보스 수정] Boss가 AttackArea2를 나가면 다시 이동
+            case EnemyType.Boss when collision.CompareTag("AttackArea2"):
+                isAttacking = false;
+                break;
+            // [보스 수정] MainBoss가 AttackArea2를 나가면 다시 이동
+            case EnemyType.MainBoss when collision.CompareTag("AttackArea2"):
                 isAttacking = false;
                 break;
             case EnemyType.Commander when collision.CompareTag("AttackArea1") || collision.CompareTag("AttackArea2"):
@@ -496,14 +547,9 @@ public class Enemy : MonoBehaviour
         {
             (enemyData as KamikazeTankSO).Explode(this, collision);
         }
-        else if (enemyData != null && enemyData.enemyType == EnemyType.Boss)
-        {
-            (enemyData as BossSO).Explode(this, collision);
-        } 
-        else if(enemyData != null && enemyData.enemyType == EnemyType.MainBoss)
-        {
-            (enemyData as MainBossSO).Explode(this, collision);
-        } 
+        // [보스 수정] Boss와 MainBoss의 Explode 로직을 제거했습니다.
+        // else if (enemyData != null && enemyData.enemyType == EnemyType.Boss) ...
+        // else if(enemyData != null && enemyData.enemyType == EnemyType.MainBoss) ...
     }
     
     // --- [이 함수가 수정되었습니다] ---
