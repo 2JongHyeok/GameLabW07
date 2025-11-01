@@ -22,4 +22,6 @@ public abstract class EnemyBaseSO : ScriptableObject
     public float enemySpeed;
     public GameObject enemyPrefab;  
     public abstract void PerformAttack(Enemy enemy);
+    public virtual void OnEnemyDisabled(Enemy enemy)
+    { }
 }

@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour
     private float maxDistanceFromTarget = 30f; // 타겟으로부터 최대 거리
 
     [SerializeField] private float respawnDistanceOffset = 2f;
+    
+    [HideInInspector] public GameObject activeSpecialEffect = null;
 
     // 런타임 상태 (외부에서 접근 필요)
     [HideInInspector] public Transform target;
@@ -56,6 +58,7 @@ public class Enemy : MonoBehaviour
         target = newTarget;
     }
 
+    // Enemy.cs
     private void Update()
     {
         // [Rammer 로직] 후퇴 중일 땐 모든 이동/공격 로직 중지
@@ -64,47 +67,88 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        // Ranger 또는 RangerTank 타입이고 공격 중일 때
+        // --- [이 'if' 블록 전체가 수정되었습니다] ---
+        
+        // "공격 의사"가 있는 적들 (Ranger, RailGun, Commander 등)
         if (isAttacking && (enemyData.enemyType == EnemyType.Ranger ||
                             enemyData.enemyType == EnemyType.RangerTank ||
                             enemyData.enemyType == EnemyType.Parasite ||
                             enemyData.enemyType == EnemyType.RailGun ||
                             enemyData.enemyType == EnemyType.Commander))
-
-{
-            if (attackTimer <= 0f)
+        {
+            // 1. 공격에 필요한 사거리를 SO에서 가져옵니다. (Rammer, Kamikaze 등은 0으로 처리)
+            float currentAttackRange = 0f;
+            switch (enemyData.enemyType)
             {
-                enemyData.PerformAttack(this);
-                attackTimer = attackCooldown;
-
-                if (!hasLoggedFirstAttack)
-                {
-                    hasLoggedFirstAttack = true;
-
-                    // [복원] 기존 코드
-                    GameAnalyticsLogger.instance.LogEnemyStartAttack(
-                        enemyNum
-                    );
-                }
+                case EnemyType.Ranger:
+                    currentAttackRange = (enemyData as RangerEnemySO)?.attackRange ?? 0f;
+                    break;
+                case EnemyType.RangerTank:
+                    currentAttackRange = (enemyData as RangerEnemyTankSO)?.attackRange ?? 0f;
+                    break;
+                case EnemyType.RailGun:
+                    currentAttackRange = (enemyData as RailGunEnemySO)?.attackRange ?? 0f;
+                    break;
+                // Commander와 Parasite는 그 자리에 멈추는 게 목적이므로 사거리 0 (무한대)
+                case EnemyType.Commander:
+                case EnemyType.Parasite:
+                    currentAttackRange = Mathf.Infinity; // 그 자리에 멈춰서 공격
+                    break;
             }
+
+            // 2. 실제 거리 계산
+            float distanceToTarget = Vector2.Distance(transform.position, target.position);
+
+            // 3. 사거리(currentAttackRange) 밖에 있다면: "이동"
+            // (Commander/Parasite는 currentAttackRange가 무한대라 이 조건이 항상 false)
+            if (distanceToTarget > currentAttackRange)
+            {
+                // 공격 타이머는 리셋 (이동 중엔 공격 쿨이 돌지 않음)
+                attackTimer = 0f; 
+                
+                // 'else' 블록의 이동 로직을 그대로 가져옴
+                transform.position = Vector2.MoveTowards(
+                    transform.position,
+                    target.position,
+                    enemyData.enemySpeed * Time.deltaTime
+                );
+            }
+            // 4. 사거리(currentAttackRange) 안에 있다면: "공격"
             else
             {
-                attackTimer -= Time.deltaTime;
+                // (기존 'if' 블록의 공격 로직)
+                if (attackTimer <= 0f)
+                {
+                    enemyData.PerformAttack(this); // 거리 체크가 이미 끝났으므로 호출
+                    attackTimer = attackCooldown;
+
+                    if (!hasLoggedFirstAttack)
+                    {
+                        hasLoggedFirstAttack = true;
+                        GameAnalyticsLogger.instance.LogEnemyStartAttack(enemyNum);
+                    }
+                }
+                else
+                {
+                    attackTimer -= Time.deltaTime;
+                }
             }
         }
+        // --- [수정 끝] ---
         else
         {
-            // 단순 이동 (Rammer는 항상 이 로직을 따름)
+            // 단순 이동 (Rammer, Kamikaze 등이 이 로직을 따름)
             transform.position = Vector2.MoveTowards(
                 transform.position,
                 target.position,
                 enemyData.enemySpeed * Time.deltaTime
             );
-
         }
+        
+        // 회전은 항상 마지막에
         transform.rotation = Quaternion.LookRotation(Vector3.forward, target.position - transform.position);
-
     }
+    
     public void SetPool(IObjectPool<GameObject> pool)
     {
         myPool = pool;
@@ -523,6 +567,17 @@ public class Enemy : MonoBehaviour
     private void OnDisable()
     {
         Core.OnCoreDied -= HandleCoreDied;
+        
+        if (activeSpecialEffect != null)
+        {
+            Destroy(activeSpecialEffect);
+            activeSpecialEffect = null;
+        }
+        
+        if (enemyData != null)
+        {
+            enemyData.OnEnemyDisabled(this);
+        }
     }
 
     private void HandleCoreDied(int deadCoreNumber)
