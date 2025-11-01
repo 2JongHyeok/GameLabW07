@@ -28,6 +28,7 @@ public class PlanetBullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            Debug.Log("PlanetBullet hit Enemy");
             // GameAnalyticsLogger.instance.playerBulletHitCount++;
             collision.gameObject.GetComponent<Enemy>()
                 .TakeDamage(Managers.Instance.weapon[0].GetDamage(), "PlanetBullet");

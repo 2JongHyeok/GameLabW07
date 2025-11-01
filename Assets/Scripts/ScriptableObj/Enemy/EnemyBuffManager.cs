@@ -2,20 +2,20 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+[DefaultExecutionOrder(-20)]
 public class EnemyBuffManager : MonoBehaviour
 {
     public static EnemyBuffManager Instance;
 
-    [Header("Commander Buff Stats")]
-    [Tooltip("적에게 부여할 쉴드(보호막) 체력")]
+    [Header("Commander Buff Stats")] [Tooltip("적에게 부여할 쉴드(보호막) 체력")]
     public int commanderShieldHP = 10;
-    
+
     [Tooltip("공격 속도 증가 배율 (예: 1.5 = 50% 빨라짐)")]
     public float attackSpeedMultiplier = 1.5f; // 이 값은 1보다 커야 함
 
     [Tooltip("Rammer 돌진 빈도 증가 배율 (예: 1.5 = 50% 빨라짐)")]
     public float rammerFrequencyMultiplier = 1.5f; // 이 값은 1보다 커야 함
-    
+
     [Tooltip("RailGun 차징 시간 감소 배율 (예: 0.7 = 30% 빨라짐)")]
     public float railgunChargeTimeMultiplier = 0.7f; // 이 값은 1보다 작아야 함
 
@@ -97,6 +97,15 @@ public class EnemyBuffManager : MonoBehaviour
     // --- 개별 적에게 버프를 적용하는 헬퍼 함수 ---
     private void ApplyBuffs(Enemy enemy)
     {
+        if (enemy.enemyData.enemyType == EnemyType.Parasite || 
+            enemy.enemyData.enemyType == EnemyType.Boss || 
+            enemy.enemyData.enemyType == EnemyType.MainBoss ||
+            enemy.enemyData.enemyType == EnemyType.Commander)
+        {
+            // Parasite, Boss, MainBoss, Commander는 버프 대상에서 제외
+            return;
+        }
+
         // 1. 쉴드 부여
         enemy.shieldHP = commanderShieldHP; 
         enemy.GetComponent<SpriteRenderer>().color = Color.cyan;

@@ -202,6 +202,12 @@ public class Enemy : MonoBehaviour
         if (EnemyBuffManager.Instance != null)
         {
             EnemyBuffManager.Instance.RegisterEnemy(this);
+            // Debug.Log($"Enemy {enemyNum} ({enemyType}) 등록 성공. (Manager.Instance 유효)");
+        }
+        else
+        {
+            // "일부만" 활성화되는 경우, 콘솔에 이 에러가 반드시 찍힙니다.
+            Debug.LogError($"Enemy {enemyNum} ({enemyType}) 등록 실패! EnemyBuffManager.Instance가 NULL입니다!");
         }
     }
     public void TakeDamage(int damage, string weaponType)
@@ -230,6 +236,7 @@ public class Enemy : MonoBehaviour
         // [복원] 기존 코드
         if (enemyData.enemyType == EnemyType.Boss)
         {
+            Debug.Log("Boss took damage: " + damage);
             // 보스 체력 슬라이더 감소 - 보스 최대 체력 대비 비율로 감소
             Planet1WaveManager.Instance.bossHpSlider.value  -= (float)damage / enemyData.enemyHP;
         }
