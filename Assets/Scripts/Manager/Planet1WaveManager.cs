@@ -527,76 +527,97 @@ public class Planet1WaveManager : MonoBehaviour
             yield break;
 
         isSpawning = true;
-        // [Log] 웨이브 시작 로그 출력 
         GameAnalyticsLogger.instance.LogWaveStart(Managers.Instance.core.CurrentHP);
         WaveSO currentWave = waves[currentWaveIndex];
 
         // 현재 웨이브의 총 적 수 계산 및 EnemyCount 설정
         totalEnemiesInWave = currentWave.GetTotalEnemyCount();
-        EnemyCount = totalEnemiesInWave; // 전체 적 수로 시작
+        EnemyCount = totalEnemiesInWave;
 
-        // 현재 웨이브의 남은 스폰 수 초기화
+        // 남은 스폰 수 초기화
         remainingSpawnCounts.Clear();
         EnemySpawnInfo[] spawnInfos = currentWave.GetEnemySpawnInfos();
         foreach (var spawnInfo in spawnInfos)
             remainingSpawnCounts[spawnInfo.enemyType] = spawnInfo.count;
 
-        // 모든 적이 스폰될 때까지 반복
-        while (GetTotalRemainingSpawns() > 0)
+        // 🔹 1. 보스 타입 분리
+        List<EnemyType> bossTypes = new List<EnemyType> { EnemyType.Boss, EnemyType.MainBoss };
+
+        // 🔹 2. 일반 적 먼저 스폰
+        while (GetTotalRemainingSpawnsExceptBoss(bossTypes) > 0)
         {
             int spawnCount = Random.Range(currentWave.minSpawnPerInterval, currentWave.maxSpawnPerInterval + 1);
-            spawnCount = Mathf.Min(spawnCount, GetTotalRemainingSpawns());
+            spawnCount = Mathf.Min(spawnCount, GetTotalRemainingSpawnsExceptBoss(bossTypes));
 
             for (int i = 0; i < spawnCount; i++)
             {
-                EnemyType typeToSpawn = SelectRandomEnemyType(currentWave);
-                if (typeToSpawn != (EnemyType)(-1))
-                {
-                    if (typeToSpawn == EnemyType.Boss)
-                    {
-                        bossHpSlider.gameObject.SetActive(true);
-                        bossHpSlider.value = bossHpSlider.maxValue;
-                    }
-                    
-                    if(typeToSpawn == EnemyType.MainBoss)
-                    {
-                        mainBossHpSlider.gameObject.SetActive(true);
-                        mainBossHpSlider.value = mainBossHpSlider.maxValue;
-                    }
-                    
-                    var pool = enemyPools[typeToSpawn];
-                    pool.Get();
-                    remainingSpawnCounts[typeToSpawn]--;
-                }
+                EnemyType typeToSpawn = SelectRandomEnemyTypeExceptBoss(currentWave, bossTypes);
+                if (typeToSpawn == (EnemyType)(-1)) continue;
+
+                var pool = enemyPools[typeToSpawn];
+                pool.Get();
+                remainingSpawnCounts[typeToSpawn]--;
             }
 
             // 다음 스폰까지 대기
             yield return new WaitForSeconds(currentWave.spawnInterval);
         }
 
+        // 🔹 3. 일반 적이 다 나왔으면 → 보스 스폰
+        foreach (var bossType in bossTypes)
+        {
+            if (!remainingSpawnCounts.ContainsKey(bossType)) continue;
+
+            int count = remainingSpawnCounts[bossType];
+            for (int i = 0; i < count; i++)
+            {
+                if (bossType == EnemyType.Boss)
+                {
+                    bossHpSlider.gameObject.SetActive(true);
+                    bossHpSlider.value = bossHpSlider.maxValue;
+                }
+                else if (bossType == EnemyType.MainBoss)
+                {
+                    mainBossHpSlider.gameObject.SetActive(true);
+                    mainBossHpSlider.value = mainBossHpSlider.maxValue;
+                }
+
+                var pool = enemyPools[bossType];
+                pool.Get();
+                remainingSpawnCounts[bossType]--;
+
+                // 보스들끼리 텀 주고 싶다면 약간 대기
+                yield return new WaitForSeconds(1f);
+            }
+        }
+
         isSpawning = false;
         hasTriggeredWaveClearAction = false;
     }
 
-    private int GetTotalRemainingSpawns()
+    private int GetTotalRemainingSpawnsExceptBoss(List<EnemyType> bossTypes)
     {
         int total = 0;
-        foreach (var count in remainingSpawnCounts.Values) total += count;
+        foreach (var kvp in remainingSpawnCounts)
+            if (!bossTypes.Contains(kvp.Key))
+                total += kvp.Value;
         return total;
     }
 
-    private EnemyType SelectRandomEnemyType(WaveSO wave)
+    private EnemyType SelectRandomEnemyTypeExceptBoss(WaveSO wave, List<EnemyType> bossTypes)
     {
         List<EnemyType> availableTypes = new List<EnemyType>();
         foreach (var kvp in remainingSpawnCounts)
-            if (kvp.Value > 0) availableTypes.Add(kvp.Key);
+        {
+            if (kvp.Value > 0 && !bossTypes.Contains(kvp.Key))
+                availableTypes.Add(kvp.Key);
+        }
 
         if (availableTypes.Count == 0)
-            return (EnemyType)(-1); // 스폰 가능한 적이 없음
+            return (EnemyType)(-1);
 
         return availableTypes[Random.Range(0, availableTypes.Count)];
     }
-
 
     private void OnDrawGizmos()
     {
