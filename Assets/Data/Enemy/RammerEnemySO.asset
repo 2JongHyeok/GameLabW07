@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: RammerEnemySO
   m_EditorClassIdentifier: 
   enemyType: 8
-  enemyHP: 6
-  enemySpeed: 4
+  enemyHP: 30
+  enemySpeed: 2
   enemyPrefab: {fileID: 0}
-  shieldDamage: 10
-  knockbackDistance: 2
-  knockbackDuration: 0.2
-  attackCooldown: 1
+  shieldDamage: 5
+  knockbackDistance: 1
+  knockbackDuration: 0.3
+  attackCooldown: 3
