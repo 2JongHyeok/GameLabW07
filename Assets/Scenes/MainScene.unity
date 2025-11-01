@@ -7888,10 +7888,10 @@ MonoBehaviour:
   minimapCamera: {fileID: 879916772}
   player: {fileID: 1908056905}
   zoomSpeed: 5
-  minPlanetCamZoom: 5
+  minPlanetCamZoom: 20
   maxPlanetCamZoom: 20
-  minShipCamZoom: 2
-  maxShipCamZoom: 20
+  minShipCamZoom: 8
+  maxShipCamZoom: 15
   smoothSpeed: 5
   followPlayer: 1
   isOnMinimap: 0
@@ -9728,7 +9728,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 15
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
