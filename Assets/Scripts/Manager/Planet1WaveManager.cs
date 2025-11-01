@@ -71,6 +71,12 @@ public class Planet1WaveManager : MonoBehaviour
     private bool countdownLockedByCentral = false;
     private bool countdownArmedByCentral = false; // 중앙이 seconds를 넣어줬다는 표시
 
+    [Header("Alert Image")]
+    [SerializeField] private Image alertImage;
+    private bool isAlert = false;
+    private bool alertOnce = true;
+
+
     public float GetPreDelayForWaveIndex(int waveIndex)
     {
         if (preStartDelays != null &&
@@ -120,6 +126,8 @@ public class Planet1WaveManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+        alertImage.color = new Color(alertImage.color.r, alertImage.color.g, alertImage.color.b, 0f);
+
     }
 
     private void Start()
@@ -306,6 +314,12 @@ public class Planet1WaveManager : MonoBehaviour
             EnemyCount = 0; // 혹시 모르니 0으로 유지
             countdown -= Time.deltaTime;
 
+            if( countdown <= 10 && countdown >=5)
+            {
+
+                StartCoroutine(FadeInAndOut(alertImage, 1f, 1f));
+            }
+
             // 카운트다운이 끝나면 다음 웨이브 시작
             if (countdown <= 0f)
             {
@@ -351,6 +365,46 @@ public class Planet1WaveManager : MonoBehaviour
                 }
             }
         }
+    }
+    public IEnumerator FadeInAndOut(Image image, float fadeInTime, float fadeOutTime)
+    {
+        if (isAlert) yield break;
+
+        isAlert = true;
+
+        // 1. 페이드 인 (Alpha 0 -> 1)
+        float elapsedTime = 0f;
+        Color originalColor = image.color;
+
+        // 현재 알파 값에서 1을 향해 보간
+        float startAlpha = originalColor.a;
+
+        while (elapsedTime < fadeInTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float newAlpha = Mathf.Lerp(startAlpha, 1f, elapsedTime / fadeInTime);
+            image.color = new Color(originalColor.r, originalColor.g, originalColor.b, newAlpha);
+            yield return null; // 다음 프레임까지 대기
+        }
+
+        // 정확히 1로 설정
+        image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
+
+        // 2. 페이드 아웃 (Alpha 1 -> 0)
+        elapsedTime = 0f; // 경과 시간 리셋
+
+        while (elapsedTime < fadeOutTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float newAlpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeOutTime);
+            image.color = new Color(originalColor.r, originalColor.g, originalColor.b, newAlpha);
+            yield return null; // 다음 프레임까지 대기
+        }
+
+        // 정확히 0으로 설정
+        image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
+
+        isAlert = false;
     }
 
     public void ForceStartNextWaveByCentral()

@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class Planet: MonoBehaviour
 {
     [SerializeField] private Tilemap tilemap;
     [SerializeField] private MyTileData defaultTileData;
     [SerializeField] private float respawnDelay = 3f;
+    [SerializeField] private Image alertImage;
+    private bool isAlert = false;
+
 
     // 각 타일별 상태 저장용
     private Dictionary<Vector3Int, int> tileHPs = new Dictionary<Vector3Int, int>();
@@ -26,19 +30,63 @@ public class Planet: MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        alertImage.color = new Color(alertImage.color.r, alertImage.color.g, alertImage.color.b, 0f);
+    }
     // 타일 데미지 처리
     public void DamageTile(Vector3Int cellPos, int damage)
     {
-        Debug.Log("DamageTile called");
         if (!tileHPs.ContainsKey(cellPos)) return;
         tileHPs[cellPos] -= damage;
+        StartCoroutine(FadeInAndOut(alertImage, 0.5f, 0.5f));
 
-        Debug.Log($"Tile at {cellPos} took {damage} damage. Remaining HP: {tileHPs[cellPos]}");
         if (tileHPs[cellPos] <= 0)
         {
             BreakTile(cellPos);
         }
     }
+    public IEnumerator FadeInAndOut(Image image, float fadeInTime, float fadeOutTime)
+    {
+        if (isAlert) yield break;
+
+        isAlert = true;
+
+        // 1. 페이드 인 (Alpha 0 -> 1)
+        float elapsedTime = 0f;
+        Color originalColor = image.color;
+
+        // 현재 알파 값에서 1을 향해 보간
+        float startAlpha = originalColor.a;
+
+        while (elapsedTime < fadeInTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float newAlpha = Mathf.Lerp(startAlpha, 1f, elapsedTime / fadeInTime);
+            image.color = new Color(originalColor.r, originalColor.g, originalColor.b, newAlpha);
+            yield return null; // 다음 프레임까지 대기
+        }
+
+        // 정확히 1로 설정
+        image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
+
+        // 2. 페이드 아웃 (Alpha 1 -> 0)
+        elapsedTime = 0f; // 경과 시간 리셋
+
+        while (elapsedTime < fadeOutTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float newAlpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeOutTime);
+            image.color = new Color(originalColor.r, originalColor.g, originalColor.b, newAlpha);
+            yield return null; // 다음 프레임까지 대기
+        }
+
+        // 정확히 0으로 설정
+        image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
+
+        isAlert = false;
+    }
+
 
     private void BreakTile(Vector3Int cellPos)
     {
