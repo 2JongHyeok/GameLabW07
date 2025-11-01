@@ -108,13 +108,17 @@ MonoBehaviour:
   firePoint: {fileID: 0}
   maxDistanceFromTarget: 1000
   respawnDistanceOffset: 2
+  activeSpecialEffect: {fileID: 0}
   target: {fileID: 0}
   enemyHP: 0
   isDead: 0
   isAttacking: 0
   attackTimer: 0
   enemyNum: 0
+  attackCooldown: 0
+  shieldHP: 0
   bossCorePrefab: {fileID: 7116799097489120615, guid: ce04df9808ef81d46ae38f03e5d83033, type: 3}
+  isHittedByObital: 0
 --- !u!114 &8427198145810915771
 MonoBehaviour:
   m_ObjectHideFlags: 0
