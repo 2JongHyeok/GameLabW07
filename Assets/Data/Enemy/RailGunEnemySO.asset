@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: RailGunEnemySO
   m_EditorClassIdentifier: 
   enemyType: 7
-  enemyHP: 5
+  enemyHP: 4
   enemySpeed: 4
   enemyPrefab: {fileID: 0}
-  attackRange: 999
+  attackRange: 13
   attackCooldown: 1
   chargeTime: 2
   laserDuration: 3

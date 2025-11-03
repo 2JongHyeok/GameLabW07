@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CommanderSO
   m_EditorClassIdentifier: 
   enemyType: 9
-  enemyHP: 6
+  enemyHP: 5
   enemySpeed: 4
   enemyPrefab: {fileID: 0}
   attackCooldown: 1

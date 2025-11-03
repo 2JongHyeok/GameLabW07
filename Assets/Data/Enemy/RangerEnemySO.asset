@@ -17,6 +17,6 @@ MonoBehaviour:
   enemySpeed: 4
   enemyPrefab: {fileID: 0}
   bulletPrefab: {fileID: 6360892650054380025, guid: ef343e70042ee1140871eafb98ce9661, type: 3}
-  attackRange: 999
+  attackRange: 7
   bulletSpeed: 1
   attackCooldown: 1
