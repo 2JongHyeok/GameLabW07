@@ -19,5 +19,5 @@ MonoBehaviour:
   bulletPrefab: {fileID: 623816275497643022, guid: 79773bd013fa9be408a283794cb8d25a, type: 3}
   attackRange: 20
   bulletSpeed: 1
-  attackCooldown: 3
+  attackCooldown: 4
   interceptorCount: 6

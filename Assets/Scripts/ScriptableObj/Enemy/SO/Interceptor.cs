@@ -15,7 +15,7 @@ public class Interceptor : MonoBehaviour
     [Tooltip("목표를 향해 방향을 전환하는 속도")]
     public float rotationSpeed = 5f;
     [Tooltip("인터셉터의 최대 생존 시간(초). 이 시간이 지나면 목표물과 상관없이 파괴됩니다.")]
-    public float lifetime = 5f;
+    public float lifetime = 15f;
 
     [Header("Damage Settings")]
     public int damage = 2;
@@ -23,12 +23,21 @@ public class Interceptor : MonoBehaviour
     public GameObject explosionEffectPrefab;
     [Tooltip("폭발의 크기")]
     public float effectExplosionRadius = 1.5f;
+    [Tooltip("코어 주변에 생성될 중간 목표 지점의 반경")]
+    public float waypointRadius = 5f;
 
     // --- 내부 변수 ---
+    private enum MovementState { InitialLaunch, ApproachingWaypoint, HomingToCore }
+    private MovementState currentState;
+
     private Transform target;
     private Vector2 initialDirection;
     private float launchTimer;
-    private bool isHoming = false;
+    
+    // --- [수정] 중간 목표 지점(Waypoint) 변수 추가 ---
+    private Vector3 waypoint; 
+    private const float WAYPOINT_REACH_THRESHOLD = 0.5f; // 중간 지점에 '도착'했다고 판단할 거리
+
 
     private void Awake()
     {
@@ -43,14 +52,18 @@ public class Interceptor : MonoBehaviour
     {
         target = newTarget;
 
-        // 1. 360도 무작위 초기 발사 방향 설정
+        // 1. 초기 발사 방향 설정 (360도 무작위)
         float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
         initialDirection = new Vector2(Mathf.Cos(randomAngle), Mathf.Sin(randomAngle));
         launchTimer = initialLaunchDuration;
-        isHoming = false;
 
         // 초기 방향으로 기체 회전
         transform.rotation = Quaternion.LookRotation(Vector3.forward, initialDirection);
+
+        // 2. [수정] 코어 주변의 무작위 중간 목표 지점(Waypoint) 설정
+        waypoint = target.position + (Vector3)(Random.insideUnitCircle.normalized * waypointRadius);
+
+        currentState = MovementState.InitialLaunch;
     }
 
     void Update()
@@ -63,29 +76,49 @@ public class Interceptor : MonoBehaviour
             return;
         }
 
-        // 목표가 없으면 현재 방향으로 계속 직진만 합니다.
-        if (target == null) return; 
-
-        if (launchTimer > 0)
+        // 목표가 사라지면 현재 방향으로 계속 직진만 합니다.
+        if (target == null)
         {
-            // 2. 초기 발사: 설정된 시간 동안 무작위 방향으로 직진
-            transform.position += (Vector3)initialDirection * speed * Time.deltaTime;
-            launchTimer -= Time.deltaTime;
-            if (launchTimer <= 0)
-            {
-                isHoming = true;
-            }
-        }
-        else if (isHoming)
-        {
-            // 3. 유도 비행: 목표를 향해 방향을 부드럽게 전환하며 전진
-            Vector2 directionToTarget = (target.position - transform.position).normalized;
-            float angle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg - 90f;
-            Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
             transform.position += transform.up * speed * Time.deltaTime;
+            return;
         }
+
+        switch (currentState)
+        {
+            case MovementState.InitialLaunch:
+                // 1단계: 초기 발사 - 설정된 시간 동안 무작위 방향으로 직진
+                transform.position += (Vector3)initialDirection * speed * Time.deltaTime;
+                launchTimer -= Time.deltaTime;
+                if (launchTimer <= 0)
+                {
+                    currentState = MovementState.ApproachingWaypoint;
+                }
+                break;
+
+            case MovementState.ApproachingWaypoint:
+                // 2단계: 중간 지점으로 비행
+                MoveTowards(waypoint);
+                // 중간 지점에 충분히 가까워지면 최종 단계로 전환
+                if (Vector2.Distance(transform.position, waypoint) < WAYPOINT_REACH_THRESHOLD)
+                {
+                    currentState = MovementState.HomingToCore;
+                }
+                break;
+
+            case MovementState.HomingToCore:
+                // 3단계: 실제 목표(코어)를 향해 최종 돌진
+                MoveTowards(target.position);
+                break;
+        }
+    }
+
+    private void MoveTowards(Vector3 destination)
+    {
+        Vector2 direction = (destination - transform.position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+        Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        transform.position += transform.up * speed * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

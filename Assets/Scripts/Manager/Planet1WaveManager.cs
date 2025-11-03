@@ -669,7 +669,46 @@ public class Planet1WaveManager : MonoBehaviour
         // 한 스폰 간격 내에서 생성된 위치를 저장할 리스트
         List<Vector3> recentSpawnPositions = new List<Vector3>();
 
-        // 🔹 2. 일반 적 먼저 스폰
+        // 🔹 2. 보스 먼저 스폰
+        foreach (var bossType in bossTypes)
+        {
+            if (!remainingSpawnCounts.ContainsKey(bossType)) continue;
+
+            int count = remainingSpawnCounts[bossType];
+            for (int i = 0; i < count; i++)
+            {
+                if (bossType == EnemyType.Boss)
+                {
+                    bossHpSlider.gameObject.SetActive(true);
+                    bossHpSlider.value = bossHpSlider.maxValue;
+                }
+                else if (bossType == EnemyType.MainBoss)
+                {
+                    mainBossHpSlider.gameObject.SetActive(true);
+                    mainBossHpSlider.value = mainBossHpSlider.maxValue;
+                }
+
+                // 보스는 지정된 위치를 사용하므로 겹침 방지 로직이 필요 없습니다.
+                Vector3 spawnPos = (bossType == EnemyType.Boss) ? bossSpwanPoint.position : mainBossSpwanPoint.position;
+                if (spawnPos == null) spawnPos = GetRandomSpawnPosition(null); // 안전장치
+
+                var pool = enemyPools[bossType];
+                GameObject bossObj = pool.Get();
+                bossObj.transform.position = spawnPos;
+
+                Enemy enemyComponent = bossObj.GetComponent<Enemy>();
+                GameAnalyticsLogger.instance.LogEnemySpawn(
+                    enemyComponent.enemyData.enemyType.ToString(),
+                    enemyComponent.enemyNum++,
+                    spawnPos.ToString());
+                remainingSpawnCounts[bossType]--;
+
+                // 보스들끼리 텀 주고 싶다면 약간 대기
+                yield return new WaitForSeconds(1f);
+            }
+        }
+
+        // 🔹 3. 일반 적 스폰
         while (GetTotalRemainingSpawnsExceptBoss(bossTypes) > 0)
         {
             recentSpawnPositions.Clear(); // 매 간격마다 리스트 초기화
@@ -701,46 +740,6 @@ public class Planet1WaveManager : MonoBehaviour
 
             // 다음 스폰까지 대기
             yield return new WaitForSeconds(currentWave.spawnInterval);
-        }
-
-        // 🔹 3. 일반 적이 다 나왔으면 → 보스 스폰
-        foreach (var bossType in bossTypes)
-        {
-            if (!remainingSpawnCounts.ContainsKey(bossType)) continue;
-
-            int count = remainingSpawnCounts[bossType];
-            for (int i = 0; i < count; i++)
-            {
-                if (bossType == EnemyType.Boss)
-                {
-                    bossHpSlider.gameObject.SetActive(true);
-                    bossHpSlider.value = bossHpSlider.maxValue;
-                }
-                else if (bossType == EnemyType.MainBoss)
-                {
-                    mainBossHpSlider.gameObject.SetActive(true);
-                    mainBossHpSlider.value = mainBossHpSlider.maxValue;
-                }
-
-                // 보스는 지정된 위치를 사용하므로 겹침 방지 로직이 필요 없습니다.
-                Vector3 spawnPos = (bossType == EnemyType.Boss) ? bossSpwanPoint.position : mainBossSpwanPoint.position;
-                if (spawnPos == null) spawnPos = GetRandomSpawnPosition(null); // 안전장치
-
-                var pool = enemyPools[bossType];
-                GameObject bossObj = pool.Get();
-                bossObj.transform.position = spawnPos;
-
-                // [수정] 보스 로그 기록 추가
-                Enemy enemyComponent = bossObj.GetComponent<Enemy>();
-                GameAnalyticsLogger.instance.LogEnemySpawn(
-                    enemyComponent.enemyData.enemyType.ToString(),
-                    enemyComponent.enemyNum++,
-                    spawnPos.ToString());
-                remainingSpawnCounts[bossType]--;
-
-                // 보스들끼리 텀 주고 싶다면 약간 대기
-                yield return new WaitForSeconds(1f);
-            }
         }
 
         isSpawning = false;
