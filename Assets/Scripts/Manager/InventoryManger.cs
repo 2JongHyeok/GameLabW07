@@ -13,14 +13,13 @@ public class InventoryManger : MonoBehaviour
     public int[] depositedThisWave;
     public int[] totalDepositedSession;
 
-    private void Start()
+    private void Awake()
     {
         OreList = new int[orePools.Length];
         minedThisWave = new int[orePools.Length];
         totalMinedSession = new int[orePools.Length];
         depositedThisWave = new int[orePools.Length];
         totalDepositedSession = new int[orePools.Length];
-
         for (int i = 0; i < orePools.Length; i++)
         {
             OreList[i] = 0;
@@ -29,6 +28,9 @@ public class InventoryManger : MonoBehaviour
             depositedThisWave[i] = 0;
             totalDepositedSession[i] = 0;
         }
+    }
+    private void Start()
+    {
         inventoryUI.CreateOreUI(this);
     }
 

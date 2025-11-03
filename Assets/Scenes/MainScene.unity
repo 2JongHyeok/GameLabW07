@@ -6586,8 +6586,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0
-  m_fontSizeBase: 0
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -13216,7 +13216,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: caca2f2d39cb2374cae9438a78b92f22, type: 3}
   - {fileID: 21300000, guid: 36b106e7a71e0824e839b0cc98288748, type: 3}
   - {fileID: 21300000, guid: a1d6a8d19d0bb4e47b4a4d248a5c3d69, type: 3}
-  - {fileID: 21300000, guid: 6052e777fa9e44449a4d83041d129cd1, type: 3}
+  - {fileID: 527011031792966290, guid: 2ea965b099af73040a7ffa5822121a15, type: 3}
+  - {fileID: 7456397265062558375, guid: a29e3012db121ed4085d9a894a84da5a, type: 3}
   - {fileID: 21300000, guid: 5f841b4322ef1fe43b21e3617998a543, type: 3}
 --- !u!1 &1665135616
 GameObject:
@@ -21611,6 +21612,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1b50a4a00ac07e14ba42712b715ddd1b, type: 2}
   - {fileID: 11400000, guid: cc5cfbbc50979c04ca3fe5c8d03939f3, type: 2}
   - {fileID: 11400000, guid: 1aff7f8d338cebe4e8215fe2d72c16d2, type: 2}
+  - {fileID: 11400000, guid: b52a6008fdac5b34089c2369b9072f5a, type: 2}
   OreList: 
   inventoryUI: {fileID: 4826799180745149331}
   minedThisWave: 
