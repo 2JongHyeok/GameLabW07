@@ -77,10 +77,14 @@ public class Planet1WaveManager : MonoBehaviour
     private bool countdownLockedByCentral = false;
     private bool countdownArmedByCentral = false; // 중앙이 seconds를 넣어줬다는 표시
 
-    [Header("Alert Image")]
+    [Header("WaveAlert")]
     [SerializeField] private Image alertImage;
     private bool isAlert = false;
     private bool alertOnce = true;
+    public TMP_Text textMesh; // 효과를 적용할 TextMeshProUGUI 컴포넌트
+    private Color originalColor;     // 원래 색상
+    private Vector3 originalScale;   // 원래 크기
+
 
 
     public float GetPreDelayForWaveIndex(int waveIndex)
@@ -166,6 +170,24 @@ public class Planet1WaveManager : MonoBehaviour
             GameClearPanel.SetActive(false);
         
         countdown = GetPreDelayForWaveIndex(0);
+        
+        // [추가된 부분]
+        // 1. textMesh가 인스펙터에서 할당되지 않았다면 waveTimerText를 사용
+        if (textMesh == null)
+        {
+            textMesh = waveTimerText;
+        }
+
+        // 2. textMesh의 초기 상태(색상, 크기)를 저장
+        if (textMesh != null)
+        {
+            originalColor = textMesh.color;
+            originalScale = textMesh.transform.localScale;
+        }
+        else
+        {
+            Debug.LogError("HighlightEffect를 적용할 TextMeshProUGUI가 할당되지 않았습니다!");
+        }
     }
 
     private void Update()
@@ -323,7 +345,8 @@ public class Planet1WaveManager : MonoBehaviour
             if( countdown <= 10 && countdown >=5)
             {
 
-                StartCoroutine(FadeInAndOut(alertImage, 1f, 1f));
+                // StartCoroutine(FadeInAndOut(alertImage, 1f, 1f));
+                StartCoroutine(HighlightEffect());
             }
 
             // 카운트다운이 끝나면 다음 웨이브 시작
@@ -411,6 +434,73 @@ public class Planet1WaveManager : MonoBehaviour
         image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
 
         isAlert = false;
+    }
+    
+     /// <summary>
+    /// 텍스트 강조 효과를 시작하는 함수입니다.
+    /// </summary>
+    private IEnumerator HighlightEffect()
+    {
+        
+        if(isAlert) yield break;
+        
+        isAlert = true;
+        
+        float duration = 0.5f;       // 전체 효과 지속 시간
+        float scaleMultiplier = 1.5f; // 확대될 크기 배율
+        float shakeMagnitude = 5.0f; // 흔들림의 강도
+
+        Vector3 originalPosition = textMesh.transform.localPosition; // 원래 위치 저장
+
+        float elapsed = 0.0f;
+
+        // 효과 시작: 커지고, 흔들리고, 빨개지기
+        while (elapsed < duration / 2)
+        {
+            elapsed += Time.deltaTime;
+            float progress = elapsed / (duration / 2);
+
+            // 색상 변경 (원래 색 -> 빨간색)
+            textMesh.color = Color.Lerp(originalColor, Color.red, progress);
+
+            // 크기 변경 (원래 크기 -> 목표 크기)
+            textMesh.transform.localScale = Vector3.Lerp(originalScale, originalScale * scaleMultiplier, progress);
+
+            // 위치 흔들기
+            float x = originalPosition.x + Random.Range(-1f, 1f) * shakeMagnitude;
+            float y = originalPosition.y + Random.Range(-1f, 1f) * shakeMagnitude;
+            textMesh.transform.localPosition = new Vector3(x, y, originalPosition.z);
+
+            yield return null; // 다음 프레임까지 대기
+        }
+
+        elapsed = 0.0f; // 시간 초기화
+
+        // 효과 종료: 원래 상태로 복구
+        while (elapsed < duration / 2)
+        {
+            elapsed += Time.deltaTime;
+            float progress = elapsed / (duration / 2);
+
+            // 색상 복구 (빨간색 -> 원래 색)
+            textMesh.color = Color.Lerp(Color.red, originalColor, progress);
+
+            // 크기 복구 (목표 크기 -> 원래 크기)
+            textMesh.transform.localScale = Vector3.Lerp(originalScale * scaleMultiplier, originalScale, progress);
+
+            // 흔들리던 위치를 부드럽게 원래 위치로 복구
+            textMesh.transform.localPosition = Vector3.Lerp(textMesh.transform.localPosition, originalPosition, progress);
+
+
+            yield return null; // 다음 프레임까지 대기
+        }
+
+        // 모든 효과가 끝난 후, 최종적으로 원래 상태로 고정
+        textMesh.color = originalColor;
+        textMesh.transform.localScale = originalScale;
+        textMesh.transform.localPosition = originalPosition;
+        
+        isAlert = false; // 효과 종료 표시
     }
 
     public void ForceStartNextWaveByCentral()

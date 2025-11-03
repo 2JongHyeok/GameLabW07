@@ -35,7 +35,8 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private Action<BaseForgeSO> onChargeCompleteCallback;
     private ForgeManager forgeManger;
     private bool isLocked = false; // 잠금 상태
-    
+    public bool canPurchase = false; // 구매 가능 상태
+    public bool canAfford = false;
     
     // Tooltip 관련
     private static ForgeTooltipUI tooltipUI;
@@ -103,7 +104,7 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         UpdateUI();
         UpdateLockState();
     }
-
+    
     private void UpdateUI()
     {
         if (forgeSO == null) return;
@@ -163,7 +164,7 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         bool hasEnoughDiamond = inventoryManger.OreList[(int)OreType.Diamond] >= forgeSO.diamondCost;
         
         // 모든 자원이 충분하고 잠겨있지 않으면 구매 가능
-        bool canAfford = !isLocked && hasEnoughCoal && hasEnoughIron && hasEnoughGold && hasEnoughDiamond;
+        this.canAfford = !isLocked && hasEnoughCoal && hasEnoughIron && hasEnoughGold && hasEnoughDiamond;
         
         // 텍스트 색상 변경
         Color textColor = canAfford ? affordableTextColor : unaffordableTextColor;
@@ -231,7 +232,7 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         else
         {
             // 일반 노드는 구매 가능 여부 확인
-            bool canPurchase = forgeManger.CanPurchaseForge(subBranchType, forgeSO.forgeId, forgeIndexInSameId);
+            canPurchase = forgeManger.CanPurchaseForge(subBranchType, forgeSO.forgeId, forgeIndexInSameId);
             isLocked = !canPurchase;
         }
         
