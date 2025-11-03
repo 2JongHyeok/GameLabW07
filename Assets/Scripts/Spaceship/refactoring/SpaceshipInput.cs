@@ -46,8 +46,6 @@ public class SpaceshipInput : MonoBehaviour
     
     private void Update()
     {
-        if (Managers.Instance.IsTutorialActive) return;
-
         #region 게임 패드 코드
 
         // 추후 게임패드 추가
