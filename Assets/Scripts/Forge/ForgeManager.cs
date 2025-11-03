@@ -66,7 +66,6 @@ public class ForgeManager : MonoBehaviour
     }
     private void Update()
     {
-        if (Managers.Instance.IsTutorialActive) return;
         // Tab 키를 누르면 포지 패널 토글 (켰다 껐다)
         if (Input.GetKeyDown(KeyCode.Tab))
         {

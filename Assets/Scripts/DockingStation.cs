@@ -55,11 +55,9 @@ public class DockingStation : MonoBehaviour
 
     void Update()
     {
-        if (Managers.Instance.IsTutorialActive) return;
-
         // 예: F키로 출격 (행성 -> 우주선)
-        if (Input.GetKeyDown(KeyCode.F) && cameraSwitcher &&
-        SpaceshipController.IsSpaceshipMode == false && isShipDocked == true)
+        if (Input.GetKeyDown(KeyCode.F) && cameraSwitcher && 
+            SpaceshipController.IsSpaceshipMode==false&& isShipDocked==true)
         {
             PlayerGoToSpace();
         }

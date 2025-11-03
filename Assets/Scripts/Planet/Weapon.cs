@@ -58,8 +58,6 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
-        if (Managers.Instance.IsTutorialActive) return;
-
         if (!isWeaponActive) return;
         MoveWeapon();
         Fire();

@@ -56,12 +56,14 @@ public class Managers : MonoBehaviour
     [SerializeField] private int initialTileMaxHP = 100;
     [SerializeField] private float initialTileRespawnDelay = 3f;
     
+    [Header("Player Actions")]
+    [SerializeField] private KeyCode quickWaveStartKey = KeyCode.F5;
+
     public bool isUpgradeKnockback = false;
     public bool isUpgradeShotgun = false;
     public bool isMergeWeapon = false;
     public float isMultiplyMissileScale = 1f;
 
-    public bool IsTutorialActive = false;
 
     private void Awake()
     {
@@ -76,7 +78,18 @@ public class Managers : MonoBehaviour
         // Awake에서 자동 주입이 꺼져있는 경우, Start에서라도 확보
         if (!autoResolveInAwake) AutoResolveRefs();
         ApplyInitialTunables();
-        IsTutorialActive = true;
+    }
+
+    private void Update()
+    {
+        // 웨이브 시작 단축키 (기본: F5)
+        if (Input.GetKeyDown(quickWaveStartKey))
+        {
+            if (WaveManager.Instance != null)
+            {
+                WaveManager.Instance.RequestImmediateWaveStart();
+            }
+        }
     }
 
     // 외부에서 수동으로도 호출 가능

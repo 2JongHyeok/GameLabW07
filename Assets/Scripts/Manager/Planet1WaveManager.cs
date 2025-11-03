@@ -234,25 +234,21 @@ public class Planet1WaveManager : MonoBehaviour
             // (이전 프레임에서 waveGuard에 의해 인덱스가 증가한 경우)
             if (currentWaveIndex >= waves.Length)
             {
-                if (waveEnd) // waveEnd 플래그로 한 번만 실행되도록 보장
+                // [수정] 게임 클리어 조건 확인을 WaveManager에 위임합니다.
+                bool isGameReallyOver = WaveManager.Instance == null || WaveManager.Instance.IsGameReallyOver();
+
+                if (isGameReallyOver)
                 {
-                    // [수정] 마지막 웨이브의 완료 로그는 waveGuard 블록에서 이미 기록되었으므로 여기서는 호출하지 않습니다.
-                    GameAnalyticsLogger.instance.UpdateWave();
-                    waveEnd = false;
+                    if (waveTimerText != null) waveTimerText.text = "All Waves Completed!";
+                    if (enemyCountText != null) enemyCountText.text = "Victory!";
+                    if (miningInstructionText != null) miningInstructionText.text = "";
+
+                    bossHpSlider.gameObject.SetActive(false);
+                    mainBossHpSlider.gameObject.SetActive(false);
+
+                    if (GameClearPanel != null) GameClearPanel.SetActive(true);
                 }
-
-                if (waveTimerText != null) waveTimerText.text = "All Waves Completed!";
-                if (enemyCountText != null) enemyCountText.text = "Victory!";
-                if (miningInstructionText != null) miningInstructionText.text = "";
-
-                // 보스 체력바가 남아있을 수 있으므로 확실히 숨김
-                bossHpSlider.gameObject.SetActive(false);
-                mainBossHpSlider.gameObject.SetActive(false);
-
-                if (GameClearPanel != null)
-                    GameClearPanel.SetActive(true);
-
-                return; // 모든 로직 종료
+                return;
             }
 
             //  웨이브 인덱스 증가 로직을 홀드 로직보다 먼저 수행합니다.
@@ -340,8 +336,7 @@ public class Planet1WaveManager : MonoBehaviour
 
             // ['hasTriggeredWaveClearAction' 관련 로직은 waveGuard 블록 안으로 이동했습니다.
             EnemyCount = 0; // 혹시 모르니 0으로 유지
-            if(!Managers.Instance.IsTutorialActive)
-                countdown -= Time.deltaTime;
+            countdown -= Time.deltaTime;
 
             if (countdown <= 10 && countdown >= 5)
             {
@@ -517,6 +512,23 @@ public class Planet1WaveManager : MonoBehaviour
         textMesh.transform.localPosition = originalPosition;
         
         isAlert = false; // 효과 종료 표시
+    }
+
+    /// <summary>
+    /// 외부(플레이어의 스킵 버튼 등)에서 다음 웨이브 시작을 앞당기도록 요청합니다.
+    /// 남은 카운트다운이 5초보다 클 경우, 5초로 설정합니다.
+    /// </summary>
+    public void RequestImmediateWaveStart()
+    {
+        // 웨이브 사이의 쉬는 시간(카운트다운 중)에만 작동합니다.
+        if (IsBetweenWaves())
+        {
+            // 남은 시간이 5초 초과일 때만 작동합니다.
+            if (countdown > 11f)
+            {
+                countdown = 11f;
+            }
+        }
     }
 
     public void ForceStartNextWaveByCentral()
