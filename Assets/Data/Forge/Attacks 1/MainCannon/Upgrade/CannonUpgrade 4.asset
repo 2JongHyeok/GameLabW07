@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forgeId: 5
   upgradeName: "\uB109\uBC31"
-  upgradeDescription: "\uC801\uC744 \uB4A4\uB85C \uC57D\uAC04 \uBC00\uCE69\uB2C8\uB2E4."
+  upgradeDescription: "\uC801\uC744 \uB4A4\uB85C \uBC00\uCE69\uB2C8\uB2E4."
   depth: 7
   coalCost: 0
   ironCost: 0
