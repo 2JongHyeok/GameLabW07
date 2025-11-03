@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 8
   enemyHP: 30
-  enemySpeed: 2
+  enemySpeed: 3
   enemyPrefab: {fileID: 0}
   shieldDamage: 5
   knockbackDistance: 1

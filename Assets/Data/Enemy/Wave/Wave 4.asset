@@ -22,6 +22,6 @@ MonoBehaviour:
   railGunCount: 6
   rammerCount: 2
   commanderCount: 0
-  spawnInterval: 1.5
+  spawnInterval: 1
   minSpawnPerInterval: 2
   maxSpawnPerInterval: 4

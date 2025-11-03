@@ -18,7 +18,7 @@ MonoBehaviour:
   kamikazeTankCount: 3
   parasiteCount: 0
   bossCount: 0
-  mainBossCount: 1
+  mainBossCount: 0
   railGunCount: 4
   rammerCount: 2
   commanderCount: 1

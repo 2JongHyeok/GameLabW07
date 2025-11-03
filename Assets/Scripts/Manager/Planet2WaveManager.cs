@@ -369,48 +369,66 @@ public class Planet2WaveManager : MonoBehaviour
         totalEnemiesInWave = currentWave.GetTotalEnemyCount();
         EnemyCount = totalEnemiesInWave;
 
+        // 남은 스폰 수 초기화
         remainingSpawnCounts.Clear();
-        EnemySpawnInfo[] spawnInfos = currentWave.GetEnemySpawnInfos();
-        foreach (var s in spawnInfos)
-            remainingSpawnCounts[s.enemyType] = s.count;
+        foreach (var spawnInfo in currentWave.GetEnemySpawnInfos())
+            remainingSpawnCounts[spawnInfo.enemyType] = spawnInfo.count;
+
+        // 🔹 1. 보스 타입 분리
+        List<EnemyType> bossTypes = new List<EnemyType> { EnemyType.Boss, EnemyType.MainBoss };
 
         // 한 스폰 간격 내에서 생성된 위치를 저장할 리스트
         List<Vector3> recentSpawnPositions = new List<Vector3>();
 
-        while (GetTotalRemainingSpawns() > 0)
+        // 🔹 2. 보스 먼저 스폰
+        foreach (var bossType in bossTypes)
+        {
+            if (!remainingSpawnCounts.ContainsKey(bossType)) continue;
+
+            int count = remainingSpawnCounts[bossType];
+            for (int i = 0; i < count; i++)
+            {
+                if (bossType == EnemyType.MainBoss)
+                {
+                    mainbossHpSlider.gameObject.SetActive(true);
+                    mainbossHpSlider.value = mainbossHpSlider.maxValue;
+                }
+
+                Vector3 spawnPos = (bossType == EnemyType.Boss) ? bossSpwanPoint.position : mainBossSpwanPoint.position;
+                if (spawnPos == null) spawnPos = GetRandomSpawnPosition(null);
+
+                var pool = enemyPools[bossType];
+                GameObject bossObj = pool.Get();
+                bossObj.transform.position = spawnPos;
+
+                Enemy enemyComponent = bossObj.GetComponent<Enemy>();
+                GameAnalyticsLogger.instance.LogEnemySpawn(
+                    enemyComponent.enemyData.enemyType.ToString(),
+                    enemyComponent.enemyNum++,
+                    spawnPos.ToString());
+                remainingSpawnCounts[bossType]--;
+
+                yield return new WaitForSeconds(1f);
+            }
+        }
+
+        // 🔹 3. 일반 적 스폰
+        while (GetTotalRemainingSpawnsExceptBoss(bossTypes) > 0)
         {
             recentSpawnPositions.Clear(); // 매 간격마다 리스트 초기화
 
             int spawnCount = Random.Range(currentWave.minSpawnPerInterval, currentWave.maxSpawnPerInterval + 1);
-            spawnCount = Mathf.Min(spawnCount, GetTotalRemainingSpawns());
+            spawnCount = Mathf.Min(spawnCount, GetTotalRemainingSpawnsExceptBoss(bossTypes));
 
             for (int i = 0; i < spawnCount; i++)
             {
-                EnemyType typeToSpawn = SelectRandomEnemyType(currentWave);
-                if (typeToSpawn != (EnemyType)(-1)) // 스폰할 적이 남아있다면
-                {
-                    // 위치를 먼저 계산합니다.
-                    Vector3 spawnPos = GetRandomSpawnPosition(recentSpawnPositions);
-                    recentSpawnPositions.Add(spawnPos); // 다음 적이 참고하도록 위치 추가
-
-                    if (typeToSpawn == EnemyType.MainBoss)
-                    {
-                        mainbossHpSlider.gameObject.SetActive(true);
-                        mainbossHpSlider.value = mainbossHpSlider.maxValue;
-                    }
-                    var pool = enemyPools[typeToSpawn];
-                    GameObject enemyObj = pool.Get(); // OnGetEnemy가 호출되어 상태가 리셋됩니다.
-                    enemyObj.transform.position = spawnPos; // 계산된 위치를 적용합니다.
-
-                    // 로그 기록
-                    Enemy enemyComponent = enemyObj.GetComponent<Enemy>();
-                    GameAnalyticsLogger.instance.LogEnemySpawn(
-                        enemyComponent.enemyData.enemyType.ToString(),
-                        enemyComponent.enemyNum++,
-                        spawnPos.ToString());
-
-                    remainingSpawnCounts[typeToSpawn]--;
-                }
+                EnemyType typeToSpawn = SelectRandomEnemyTypeExceptBoss(currentWave, bossTypes);
+                if (typeToSpawn == (EnemyType)(-1)) continue;
+                
+                Vector3 spawnPos = GetRandomSpawnPosition(recentSpawnPositions);
+                recentSpawnPositions.Add(spawnPos);
+                
+                SpawnEnemyFromPool(typeToSpawn, spawnPos);
             }
 
             yield return new WaitForSeconds(currentWave.spawnInterval);
@@ -421,21 +439,41 @@ public class Planet2WaveManager : MonoBehaviour
         hasTriggeredWaveClearAction = false;
     }
 
-    private int GetTotalRemainingSpawns()
+    private void SpawnEnemyFromPool(EnemyType type, Vector3 position)
+    {
+        var pool = enemyPools[type];
+        GameObject enemyObj = pool.Get();
+        enemyObj.transform.position = position;
+
+        Enemy enemyComponent = enemyObj.GetComponent<Enemy>();
+        GameAnalyticsLogger.instance.LogEnemySpawn(
+            enemyComponent.enemyData.enemyType.ToString(),
+            enemyComponent.enemyNum++,
+            position.ToString());
+
+        remainingSpawnCounts[type]--;
+    }
+
+    private int GetTotalRemainingSpawnsExceptBoss(List<EnemyType> bossTypes)
     {
         int total = 0;
-        foreach (var count in remainingSpawnCounts.Values) total += count;
+        foreach (var kvp in remainingSpawnCounts)
+            if (!bossTypes.Contains(kvp.Key))
+                total += kvp.Value;
         return total;
     }
 
-    private EnemyType SelectRandomEnemyType(WaveSO wave)
+    private EnemyType SelectRandomEnemyTypeExceptBoss(WaveSO wave, List<EnemyType> bossTypes)
     {
-        List<EnemyType> available = new List<EnemyType>();
+        List<EnemyType> availableTypes = new List<EnemyType>();
         foreach (var kvp in remainingSpawnCounts)
-            if (kvp.Value > 0) available.Add(kvp.Key);
+        {
+            if (kvp.Value > 0 && !bossTypes.Contains(kvp.Key))
+                availableTypes.Add(kvp.Key);
+        }
 
-        if (available.Count == 0) return (EnemyType)(-1);
-        return available[Random.Range(0, available.Count)];
+        if (availableTypes.Count == 0) return (EnemyType)(-1);
+        return availableTypes[Random.Range(0, availableTypes.Count)];
     }
 
     private void OnDestroy()

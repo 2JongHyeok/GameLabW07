@@ -183,6 +183,7 @@ MonoBehaviour:
   initialLaunchDuration: 0.5
   rotationSpeed: 5
   lifetime: 10
-  damage: 2
+  damage: 3
   explosionEffectPrefab: {fileID: 348902903155855943, guid: 2ceb632170e3a5642816da2cf44a0053, type: 3}
-  effectExplosionRadius: 1.5
+  effectExplosionRadius: 1.3
+  waypointRadius: 5
