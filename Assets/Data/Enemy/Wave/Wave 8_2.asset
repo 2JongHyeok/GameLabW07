@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3e106c13f59574287bc2011c90fc9b, type: 3}
   m_Name: Wave 8_2
   m_EditorClassIdentifier: 
-  rangerCount: 8
+  rangerCount: 7
   rangerTankCount: 4
   kamikazeCount: 3
   kamikazeTankCount: 2
@@ -20,8 +20,8 @@ MonoBehaviour:
   bossCount: 0
   mainBossCount: 0
   railGunCount: 3
-  rammerCount: 2
-  commanderCount: 1
+  rammerCount: 1
+  commanderCount: 0
   spawnInterval: 1
   minSpawnPerInterval: 2
-  maxSpawnPerInterval: 5
+  maxSpawnPerInterval: 4

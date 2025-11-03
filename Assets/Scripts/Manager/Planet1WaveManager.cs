@@ -180,7 +180,7 @@ public class Planet1WaveManager : MonoBehaviour
             {
                 miningInstructionText.color = Color.red; // 빨간색으로 변경
                 miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!";
-                if(currentWaveIndex >= 4)
+                if (currentWaveIndex >= 4)
                 {
                     miningInstructionText.text = "적의 공격이다! 즉시 기지로 복귀하라!";
                 }
@@ -195,8 +195,8 @@ public class Planet1WaveManager : MonoBehaviour
             {
                 miningInstructionText.color = Color.red; // 빨간색으로 변경
                 miningInstructionText.text = "적의 공격이다! 기지로 돌아가라!";
-                
-                if(currentWaveIndex >= 4)
+
+                if (currentWaveIndex >= 4)
                 {
                     miningInstructionText.text = "적의 공격이다! 즉시 기지로 복귀하라!";
                 }
@@ -204,7 +204,7 @@ public class Planet1WaveManager : MonoBehaviour
             return;
         }
 
-        
+
         // 적이 모두 죽고, 스폰도 끝났으면 카운트다운 시작
         if (EnemyCount <= 0 && !isSpawning)
         {
@@ -320,7 +320,7 @@ public class Planet1WaveManager : MonoBehaviour
             EnemyCount = 0; // 혹시 모르니 0으로 유지
             countdown -= Time.deltaTime;
 
-            if( countdown <= 10 && countdown >=5)
+            if (countdown <= 10 && countdown >= 5)
             {
 
                 StartCoroutine(FadeInAndOut(alertImage, 1f, 1f));
@@ -367,7 +367,7 @@ public class Planet1WaveManager : MonoBehaviour
                     else if (currentWaveIndex == 7) // 8 웨이브 직전
                     {
                         miningInstructionText.color = Color.yellow; // 경고의 의미로 노란색 유지
-                        miningInstructionText.text = "최종 보스가 출현합니다. 자원을 탐색하세요";
+                        miningInstructionText.text = "적의 총공세가 다가옵니다. 자원을 탐색하세요";
                     }
                     else
                     {
@@ -375,7 +375,7 @@ public class Planet1WaveManager : MonoBehaviour
                         miningInstructionText.color = Color.green;
                         miningInstructionText.text = "자원을 탐색하세요";
                     }
-                    
+
                     if (waveEnd)
                     {
                         // [Log] 웨이브 시작 시 인벤토리 통계 초기화
@@ -386,6 +386,7 @@ public class Planet1WaveManager : MonoBehaviour
             }
         }
     }
+    
     public IEnumerator FadeInAndOut(Image image, float fadeInTime, float fadeOutTime)
     {
         if (isAlert) yield break;

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3e106c13f59574287bc2011c90fc9b, type: 3}
   m_Name: Wave 7_2
   m_EditorClassIdentifier: 
-  rangerCount: 8
-  rangerTankCount: 4
+  rangerCount: 6
+  rangerTankCount: 3
   kamikazeCount: 3
   kamikazeTankCount: 2
   parasiteCount: 0

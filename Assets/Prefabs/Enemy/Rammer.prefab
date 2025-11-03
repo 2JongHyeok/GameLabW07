@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 3592495660494803212}
   - component: {fileID: 204183708548855509}
   - component: {fileID: 2384024012010487978}
-  - component: {fileID: 1900514363879975294}
   - component: {fileID: -1023649825107580295}
-  - component: {fileID: -6438972396851158290}
+  - component: {fileID: 4552345060750741922}
   m_Layer: 9
   m_Name: Rammer
   m_TagString: Enemy
@@ -135,60 +134,17 @@ MonoBehaviour:
   firePoint: {fileID: 0}
   maxDistanceFromTarget: 50
   respawnDistanceOffset: 2
+  activeSpecialEffect: {fileID: 0}
   target: {fileID: 0}
   enemyHP: 0
   isDead: 0
   isAttacking: 0
   attackTimer: 0
   enemyNum: 0
+  attackCooldown: 0
+  shieldHP: 0
   bossCorePrefab: {fileID: 0}
   isHittedByObital: 0
---- !u!61 &1900514363879975294
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2615078695605655245}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 32887
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 32887
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 0.8828125}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &-1023649825107580295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashColor: {r: 1, g: 0.53333336, b: 0.53333336, a: 1}
   flashDuration: 0.1
---- !u!60 &-6438972396851158290
+--- !u!60 &4552345060750741922
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,10 +179,10 @@ PolygonCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 32887
+    m_Bits: 4294967295
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 32887
+    m_Bits: 4294967295
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -249,9 +205,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.018301025, y: 0.45148054}
-      - {x: -0.37046131, y: -0.24445204}
+    - - {x: -0.25, y: 0.43359375}
+      - {x: -0.5, y: 0}
       - {x: -0.25, y: -0.43359375}
       - {x: 0.25, y: -0.43359375}
-      - {x: 0.3558359, y: -0.271091}
+      - {x: 0.5, y: 0}
+      - {x: 0.25, y: 0.43359375}
   m_UseDelaunayMesh: 0
