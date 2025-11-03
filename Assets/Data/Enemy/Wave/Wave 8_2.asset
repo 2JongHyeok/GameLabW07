@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rangerCount: 7
   rangerTankCount: 4
-  kamikazeCount: 3
-  kamikazeTankCount: 2
+  kamikazeCount: 4
+  kamikazeTankCount: 3
   parasiteCount: 0
   bossCount: 0
   mainBossCount: 0
   railGunCount: 3
-  rammerCount: 1
-  commanderCount: 0
+  rammerCount: 2
+  commanderCount: 1
   spawnInterval: 1
   minSpawnPerInterval: 2
   maxSpawnPerInterval: 4
