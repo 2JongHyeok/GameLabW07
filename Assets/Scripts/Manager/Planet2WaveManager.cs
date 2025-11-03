@@ -508,6 +508,23 @@ public class Planet2WaveManager : MonoBehaviour
     {
         planet2CoreAlive = true;
     }
+
+    /// <summary>
+    /// 외부(플레이어의 스킵 버튼 등)에서 다음 웨이브 시작을 앞당기도록 요청합니다.
+    /// 남은 카운트다운이 5초보다 클 경우, 5초로 설정합니다.
+    /// </summary>
+    public void RequestImmediateWaveStart()
+    {
+        // 웨이브 사이의 쉬는 시간(카운트다운 중)에만 작동합니다.
+        if (IsBetweenWaves())
+        {
+            // 남은 시간이 5초 초과일 때만 작동합니다.
+            if (countdown > 11f)
+            {
+                countdown = 11f;
+            }
+        }
+    }
     private void OnDrawGizmos()
     {
         Camera mainCamera = Camera.main;

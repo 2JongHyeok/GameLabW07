@@ -29,8 +29,6 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private bool autoDetectPlanet2Activation = true;
     [Tooltip("게이트(P1 Wave4 완료)를 건너뛰고 즉시 Combined 시작 허용")]
     [SerializeField] private bool debugSkipGate = false;
-    [Tooltip("디버그 강제 동시 시작 핫키")]
-    [SerializeField] private KeyCode debugForceCombinedKey = KeyCode.F9;
 
     [Header("Combined Pre-delay Control")]
     [Tooltip("Combined에서 두 행성의 웨이브 시작 전 지연을 Planet1 값으로 동기화할지")]
@@ -152,10 +150,6 @@ public class WaveManager : MonoBehaviour
             case Phase.Done:
                 break;
         }
-
-        // --- (3) 디버그 핫키 ---
-        if (Input.GetKeyDown(debugForceCombinedKey))
-            ForceCombinedStartNow();
     }
 
     // 외부에서 호출: Planet2가 "활성화"되는 순간에 한 줄
@@ -258,10 +252,32 @@ public class WaveManager : MonoBehaviour
     }
 
     // ---- 디버그 지원 ----
-    [ContextMenu("DEBUG/Force Combined Start Now")]
-    public void ForceCombinedStartNow()
+
+    /// <summary>
+    /// 게임이 정말로 끝났는지(두 행성의 모든 웨이브가 완료되었는지) 확인합니다.
+    /// Planet1WaveManager에서 게임 클리어 UI를 표시하기 전에 호출합니다.
+    /// </summary>
+    public bool IsGameReallyOver()
     {
-        // 게이트 여부와 무관하게 즉시 Combined 진입
-        StartCombinedPhase();
+        bool p1Done = HasPlanet1CompletedFinal();
+
+        // Planet2가 활성화된 적이 있다면, Planet2의 완료 여부도 반드시 확인해야 합니다.
+        bool p2Done = !planet2Activated || HasPlanet2CompletedFinal();
+
+        return p1Done && p2Done;
+    }
+
+    /// <summary>
+    /// [플레이어 기능] 웨이브 시작을 앞당깁니다.
+    /// 각 행성의 WaveManager에 카운트다운을 5초로 설정하도록 요청합니다.
+    /// </summary>
+    [ContextMenu("PLAYER_ACTION/Request Immediate Wave Start")]
+    public void RequestImmediateWaveStart()
+    {
+        if (planet1 != null && planet1.gameObject.activeInHierarchy)
+            planet1.RequestImmediateWaveStart();
+
+        if (planet2 != null && planet2.gameObject.activeInHierarchy)
+            planet2.RequestImmediateWaveStart();
     }
 }
