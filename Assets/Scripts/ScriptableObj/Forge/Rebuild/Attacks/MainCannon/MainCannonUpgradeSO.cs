@@ -11,5 +11,16 @@ public class MainCannonUpgradeSO : BaseForgeSO
     {
         Managers.Instance.AddWeaponDamage((int)AtkDamage);
         Managers.Instance.AddWeaponAttackSpeed(AtkSpeed);
+        if (depth == 7)
+        {
+            Managers.Instance.isUpgradeKnockback = true;
+            return;
+        }
+
+        if (depth == 9)
+        {
+            Managers.Instance.isUpgradeShotgun = true;
+            return;
+        }
     }
 }

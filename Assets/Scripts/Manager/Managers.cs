@@ -55,6 +55,9 @@ public class Managers : MonoBehaviour
     [Header("Initial Tunables - Planet Tiles (Shield)")]
     [SerializeField] private int initialTileMaxHP = 100;
     [SerializeField] private float initialTileRespawnDelay = 3f;
+    
+    public bool isUpgradeKnockback = false;
+    public bool isUpgradeShotgun = false;
 
 
     private void Awake()

@@ -143,8 +143,6 @@ public class Weapon : MonoBehaviour
         // 키보드 스페이스바 입력 확인
         // bool keyboardFire = Input.GetKey(KeyCode.Space);
         
-        
-        
         bool primaryFireInput = false;
         
         // 좌클릭 또는 스페이스 키 입력으로 공격

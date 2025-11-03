@@ -40,7 +40,7 @@ public abstract class BaseForgeSO : ScriptableObject
     public string upgradeName;
     public string upgradeDescription;
     
-    [Range(1, 5)]
+    [Range(1, 10)]
     public int depth = 1;
 
     // 고정 4종 광석 비용

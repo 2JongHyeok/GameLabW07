@@ -23,6 +23,13 @@ public class ForgeUI : MonoBehaviour
     // 메인 브랜치 설정
     [SerializeField] private float baseMainBranchHeight = 100f;   // 메인 브랜치 기본 높이
 
+    // [추가] 가로 스크롤 계산을 위한 변수
+    [Space(10)]
+    [Tooltip("후행 브랜치가 생성될 때마다 들여쓰기할 X축 거리")]
+    [SerializeField] private float subBranchIndentX = 50f;
+    [Tooltip("SubBranch UI의 기본 너비 (가로 스크롤 계산의 기준값)")]
+    [SerializeField] private float baseSubBranchWidth = 700f; // 예: NodeContainer의 기본 너비
+
     [Header("References")]
     [SerializeField] private ForgeManager forgeManager;
     [SerializeField] private InventoryManger inventoryManger; // 인벤토리 매니저 추가
@@ -38,15 +45,9 @@ public class ForgeUI : MonoBehaviour
     [SerializeField] private GameObject enableUpgradePanel;
 
     // --- [수정된 부분] ---
-    // 텍스트, 색상, 머티리얼 관련 필드 제거
-    // [SerializeField] private Color upgradeAvailableColor = Color.green;
-    // [SerializeField] private string upgradeMaterialPath = "Text 0";
-    // private TMP_Text enableUpgradePanelText;
-    // private Material loadedUpgradeMaterial;
-
-    // 알파 제어용 CanvasGroup 변수 추가
-    private CanvasGroup enableUpgradePanelCanvasGroup;
+    // (기존 코드 유지)
     // --- [수정 완료] ---
+    private CanvasGroup enableUpgradePanelCanvasGroup;
 
     public void GenerateForgeUI()
     {
@@ -62,6 +63,10 @@ public class ForgeUI : MonoBehaviour
         {
             CreateMainBranchUI(mainBranch);
         }
+        
+        // [추가] UI 생성 직후 상태 갱신
+        RefreshAllNodes();
+        UpdateAllNodeTextColors();
     }
     
     public void ClearForgeUI()
@@ -100,34 +105,50 @@ public class ForgeUI : MonoBehaviour
 
         // 서브 브랜치 생성 (LockedSubBranch 포함하여 동적으로 생성)
         int totalSubBranchCount = 0;
+        int maxDepthInBranch = 0; // [추가] 이 메인 브랜치 내의 최대 깊이를 추적
+
         if (mainBranchSO.subBranches != null)
         {
             float currentYPosition = 0f;
             for (int i = 0; i < mainBranchSO.subBranches.Length; i++)
             {
+                // [수정] 반환값에 maxDepth 추가됨
                 var result = CreateSubBranchUI(mainBranchSO.subBranches[i], subBranchContainer, currentYPosition, 0);
+                
                 currentYPosition = result.nextYPosition;
                 totalSubBranchCount += result.createdCount;
+                
+                // [추가] 반환된 최대 깊이로 갱신
+                if (result.maxDepth > maxDepthInBranch)
+                {
+                    maxDepthInBranch = result.maxDepth;
+                }
             }
         }
 
-        // 실제 생성된 서브 브랜치 개수로 높이 재계산
-        // MainBranch 높이 = (서브브랜치개수 × 서브브랜치높이) + ((개수-1) × Y간격)
+        // (기존 로직) 실제 생성된 서브 브랜치 개수로 높이 재계산
         float totalGapHeight = totalSubBranchCount > 0 ? (totalSubBranchCount - 1) * subBranchGapY : 0f;
         float calculatedHeight = (totalSubBranchCount * subBranchHeight) + totalGapHeight;
         
         RectTransform mainBranchRect = mainBranchUI.GetComponent<RectTransform>();
         if (mainBranchRect != null)
         {
-            mainBranchRect.sizeDelta = new Vector2(mainBranchRect.sizeDelta.x, calculatedHeight);
+            // [추가] 가로 너비 계산
+            // 너비 = 기본 브랜치 너비 + (최대 깊이 * 들여쓰기 간격)
+            float calculatedWidth = baseSubBranchWidth + (maxDepthInBranch * subBranchIndentX);
+            Debug.Log($"MainBranch {mainBranchSO.branchType} - Calculated Width: {calculatedWidth}, Height: {calculatedHeight}");
+            // [수정] 계산된 너비(calculatedWidth)와 높이(calculatedHeight)를 함께 설정
+            mainBranchRect.sizeDelta = new Vector2(calculatedWidth, calculatedHeight);
         }
     }
 
-    private (GameObject subBranchUI, float nextYPosition, int createdCount) CreateSubBranchUI(SubBranchSO subBranchSO, Transform parent, float currentYPosition, int depth)
+    // [수정] 반환 타입에 int maxDepth 추가
+    private (GameObject subBranchUI, float nextYPosition, int createdCount, int maxDepth) CreateSubBranchUI(SubBranchSO subBranchSO, Transform parent, float currentYPosition, int depth)
     {
         if (subBranchPrefab == null)
         {
-            return (null, currentYPosition, 0);
+            // [수정] 반환 타입에 맞게 현재 depth 반환
+            return (null, currentYPosition, 0, depth);
         }
 
         // 서브 브랜치 UI 생성
@@ -147,9 +168,11 @@ public class ForgeUI : MonoBehaviour
             // 프리팹의 기존 위치 저장
             Vector2 originalPosition = subBranchRect.anchoredPosition;
 
-            // Y 위치만 조정
-            subBranchRect.anchoredPosition = new Vector2(originalPosition.x, originalPosition.y + currentYPosition);
+            // [추가] Depth에 따라 X 위치(들여쓰기) 계산
+            float newXPosition = originalPosition.x + (depth * subBranchIndentX);
 
+            // [수정] Y 위치 및 계산된 X 위치 적용
+            subBranchRect.anchoredPosition = new Vector2(newXPosition, originalPosition.y + currentYPosition);
         }
 
         // 노드 컨테이너 찾기 (Grid Layout은 프리팹에 이미 설정되어 있음)
@@ -159,15 +182,16 @@ public class ForgeUI : MonoBehaviour
             nodeContainer = subBranchUI.transform;
         }
 
-        // 다음 Y 위치 계산 (서브브랜치 높이 + Y 간격)
+        // (기존 로직) 다음 Y 위치 계산 (서브브랜치 높이 + Y 간격)
         float nextYPosition = currentYPosition - subBranchHeight - subBranchGapY;
         int totalCreatedCount = 1; // 현재 서브브랜치
+        int maxDepthEncountered = depth; // [추가] 최대 깊이 추적 변수 (현재 깊이로 초기화)
 
         // 노드(BaseForgeSO) 생성 - Grid Layout에 순서대로 배치
         if (subBranchSO.baseForgeSOs != null)
         {
-            // Depth별로 노드 분류 (1~5)
-            const int maxDepth = 5; // 최대 깊이를 5로 정의
+            // Depth별로 노드 분류 (1~10)
+            const int maxDepth = 10; // (기존에 10으로 수정한 것 유지)
             Dictionary<int, List<BaseForgeSO>> nodesByDepth = new Dictionary<int, List<BaseForgeSO>>();
             for (int d = 1; d <= maxDepth; d++)
             {
@@ -220,25 +244,25 @@ public class ForgeUI : MonoBehaviour
                 }
             }
             
-          
-            
             // postSubBranches 처리 (실제 후행 브랜치 생성)
             foreach (var forgeSO in subBranchSO.baseForgeSOs)
             {
-                
-                
                 if (forgeSO.postSubBranches != null && forgeSO.postSubBranches.Length > 0)
                 {
-                    
-                    
                     foreach (var lockedSubBranch in forgeSO.postSubBranches)
                     {
-                        // 1. 후행 브랜치 생성
-                        var result = CreateSubBranchUI(lockedSubBranch, parent, nextYPosition, depth + 1);
+                        // 1. 후행 브랜치 생성 (depth + 1 전달)
+                        // [수정] 4개의 값을 반환받음
+                        var result = CreateSubBranchUI(lockedSubBranch, parent, nextYPosition, depth + 1); 
+                        
                         nextYPosition = result.nextYPosition;
                         totalCreatedCount += result.createdCount;
-                        
-                        
+
+                        // [추가] 재귀 호출에서 반환된 최대 깊이로 갱신
+                        if (result.maxDepth > maxDepthEncountered)
+                        {
+                            maxDepthEncountered = result.maxDepth;
+                        }
                         
                         // 2. 생성된 후행 브랜치에서 NodeContainer 찾기
                         if (result.subBranchUI != null)
@@ -254,15 +278,10 @@ public class ForgeUI : MonoBehaviour
                             {
                                 // NodeContainer가 없으면 SubBranch 자체를 사용
                                 postNodeContainer = result.subBranchUI.transform;
-                                
                             }
-                            
-                            
                             
                             // 3. 후행 브랜치의 NodeContainer에 꺾인 화살표 생성
                             GameObject cornerArrow = CreateCornerArrowAndReturn(postNodeContainer);
-                            
-                            
                             
                             // 4. 생성된 꺾인 화살표를 맨 앞(첫 번째 자식)으로 이동
                             if (cornerArrow != null)
@@ -272,21 +291,20 @@ public class ForgeUI : MonoBehaviour
                         }
                         else
                         {
-                            
                         }
                     }
                 }
             }
         }
-
-        return (subBranchUI, nextYPosition, totalCreatedCount);
+        
+        // [수정] 계산된 최대 깊이(maxDepthEncountered)를 반환
+        return (subBranchUI, nextYPosition, totalCreatedCount, maxDepthEncountered);
     }
 
     private void CreateForgeNodeUI(BaseForgeSO forgeSO, SubBranchType subBranchType, int indexInSameId, Transform parent, int depth)
     {
         if (forgeNodePrefab == null)
         {
-            
             return;
         }
 
@@ -318,7 +336,6 @@ public class ForgeUI : MonoBehaviour
             }
             else
             {
-                
             }
         }
         
@@ -416,16 +433,15 @@ public class ForgeUI : MonoBehaviour
             // postSubBranches가 있으면 UI 재생성
             if (forgeSO.postSubBranches != null && forgeSO.postSubBranches.Length > 0)
             {
-
                 needsRefresh = true;
             }
             
-            // 인덱스가 변경되었으므로 UI 갱신
+            // [수정] 후행 브랜치가 열릴 때는 UI의 전체 너비/높이를
+            // 다시 계산해야 하므로, RefreshAllNodes()가 아닌
+            // GenerateForgeUI()를 호출해야 합니다.
             if (needsRefresh)
             {
-                // GenerateForgeUI(); // 전체 재생성
-                RefreshAllNodes();
-                UpdateAllNodeTextColors(); // 재생성 후 텍스트 색상 업데이트
+                GenerateForgeUI(); // 전체 재생성 (이 함수가 Refresh/UpdateTextColors를 호출)
             }
             else
             {
@@ -446,7 +462,6 @@ public class ForgeUI : MonoBehaviour
                 if (nodeComponent != null)
                 {
                     nodeComponent.RefreshUI();
-                    
                 }
             }
         }
@@ -455,46 +470,28 @@ public class ForgeUI : MonoBehaviour
     }
     
     // --- [핵심 수정된 메서드] ---
-    /// <summary>
-    /// 모든 노드를 순회하여 구매 가능한 노드가 하나라도 있는지 확인하고,
-    /// '업그레이드 가능' 패널의 알파값을 갱신합니다.
-    /// </summary>
+    // (기존 코드 유지)
     private void UpdateUpgradeablePanelStatus()
     {
-        // 검사용 디버그 추가
-        // CanvasGroup이 없으면(할당 안됨) 아무것도 하지 않음
         if (enableUpgradePanelCanvasGroup == null) return;
 
-        bool anyUpgradeable = false; // '업그레이드 가능한' 노드가 하나라도 있는가
+        bool anyUpgradeable = false; 
         
-        // 1. 모든 노드를 순회
         foreach (var nodeUI in forgeNodeUIObjects.Values)
         {
             if (nodeUI != null)
             {
                 var nodeComponent = nodeUI.GetComponent<ForgeNodeUI>();
                 
-                // 노드가 잠금 해제되었고(canPurchase) 자원도 충분한지(canAfford) 확인
-                
                 if (nodeComponent != null && nodeComponent.canPurchase && nodeComponent.canAfford)
                 {
                     anyUpgradeable = true;
-                    break; // 하나라도 찾으면 즉시 중단
+                    break; 
                 }
             }
         }
 
-        // 2. '업그레이드 가능' 패널의 알파값만 조정
-        if (anyUpgradeable)
-        {
-            enableUpgradePanelCanvasGroup.alpha = 1f; // 보이기
-        }
-        else
-        {
-            enableUpgradePanelCanvasGroup.alpha = 0f; // 숨기기
-        }
-        
-        // [삭제] SetActive, 텍스트 변경, for 루프(색상/머티리얼 변경) 모두 제거됨
+        enableUpgradePanelCanvasGroup.alpha = anyUpgradeable ? 1f : 0f;
     }
     // --- [수정 완료] ---
 
@@ -533,8 +530,7 @@ public class ForgeUI : MonoBehaviour
 
     void Start()
     {
-        // --- [수정된 부분] ---
-        // 공용 업그레이드 패널 찾기 및 CanvasGroup 설정
+        // (기존 코드 유지)
         if (enableUpgradePanel == null)
         {
             enableUpgradePanel = GameObject.FindGameObjectWithTag("EnableUpgradePanel");
@@ -542,17 +538,14 @@ public class ForgeUI : MonoBehaviour
         
         if (enableUpgradePanel != null)
         {
-            // 1. CanvasGroup 컴포넌트를 찾거나 추가합니다.
             enableUpgradePanelCanvasGroup = enableUpgradePanel.GetComponent<CanvasGroup>();
             if (enableUpgradePanelCanvasGroup == null)
             {
                 enableUpgradePanelCanvasGroup = enableUpgradePanel.AddComponent<CanvasGroup>();
             }
             
-            // 2. 시작 시 알파값을 0으로 설정 (숨김)
             enableUpgradePanelCanvasGroup.alpha = 0f; 
             
-            // 3. 패널 자체는 항상 켜둡니다 (알파로 제어하므로)
             enableUpgradePanel.SetActive(true);
         }
         else
@@ -560,14 +553,11 @@ public class ForgeUI : MonoBehaviour
             Debug.LogWarning("ForgeUI: enableUpgradePanel이 할당되지 않았습니다.");
         }
         
-        // InventoryManger 찾기
         if (inventoryManger == null)
         {
             inventoryManger = FindFirstObjectByType<InventoryManger>();
-            
         }
         
-        // Tooltip 초기화
         if (tooltipUI != null)
         {
             ForgeNodeUI.SetTooltip(tooltipUI);
@@ -576,10 +566,15 @@ public class ForgeUI : MonoBehaviour
 
         // 런타임 시작 시 자동으로 UI 생성
         GenerateForgeUI();
+        // [수정] GenerateForgeUI()가 Refresh/UpdateTextColors를 호출하도록 변경했으므로 
+        // Start()에서는 GenerateForgeUI()만 호출하면 됩니다.
     }
 
     void Update()
     {
+        // [참고] 매 프레임 Refresh/UpdateTextColors를 호출하는 것은
+        // 성능에 큰 부담을 줄 수 있습니다.
+        // 자원 획득, 노드 구매 등 '이벤트'가 발생할 때만 호출하는 것이 좋습니다.
         RefreshAllNodes();  
         UpdateAllNodeTextColors();
     }

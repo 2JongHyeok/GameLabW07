@@ -29,10 +29,8 @@ public class MainBranchUI : MonoBehaviour
 
         if (mainBranchSO != null)
         {
-            Debug.LogError("MainBranchUI needs a mainBranchSO");
             if(mainBranchSO.branchName == "행성2공격" || mainBranchSO.branchName == "행성2강화")
             {
-                Debug.Log("MainBranchUI: Planet2 branch detected, initializing colors.");
                 childObjFrameObj.GetComponent<Image>().color = NotAffordableFrameColor;
                 childObjNodeObj.GetComponent<Image>().color = NotAffordableNodeColor;
             }
