@@ -336,7 +336,7 @@ public class Planet1WaveManager : MonoBehaviour
                     isFirst = false;
                     forceStartRequested = false;
 
-                    // [수정 6] waveGuard = true; 를 SpawnWave() 호출 시 항상 설정하도록 통일
+                    // waveGuard = true; 를 SpawnWave() 호출 시 항상 설정하도록 통일
                     waveGuard = true;
                     return;
                 }
@@ -359,8 +359,22 @@ public class Planet1WaveManager : MonoBehaviour
                 if (miningInstructionText != null)
                 {
                     // 웨이브 사이에는 초록색으로 자원 탐색 메시지 표시
-                    miningInstructionText.color = Color.green;
-                    miningInstructionText.text = "자원을 탐색하세요";
+                    if (currentWaveIndex == 3) // 4 웨이브 직전
+                    {
+                        miningInstructionText.color = Color.yellow; // 경고의 의미로 노란색 유지
+                        miningInstructionText.text = "강력한 적이 출현합니다. 자원을 탐색하세요";
+                    }
+                    else if (currentWaveIndex == 7) // 8 웨이브 직전
+                    {
+                        miningInstructionText.color = Color.yellow; // 경고의 의미로 노란색 유지
+                        miningInstructionText.text = "최종 보스가 출현합니다. 자원을 탐색하세요";
+                    }
+                    else
+                    {
+                        // 일반 웨이브 사이에는 초록색으로 자원 탐색 메시지 표시
+                        miningInstructionText.color = Color.green;
+                        miningInstructionText.text = "자원을 탐색하세요";
+                    }
                     
                     if (waveEnd)
                     {
