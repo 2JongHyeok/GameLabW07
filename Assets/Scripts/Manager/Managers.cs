@@ -58,6 +58,7 @@ public class Managers : MonoBehaviour
     
     public bool isUpgradeKnockback = false;
     public bool isUpgradeShotgun = false;
+    public bool isMergeWeapon = false;
 
 
     private void Awake()

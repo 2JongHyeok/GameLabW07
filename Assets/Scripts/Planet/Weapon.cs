@@ -17,6 +17,14 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float explosionRadius = 1.5f;
     [SerializeField] private DockingStation dockingStation;
     
+    // --- [여기에 추가] ---
+    [Header("Juice Settings (발사 효과)")]
+    [Tooltip("스쿼시 효과 세팅 (X:가로, Y:세로, Z:지속시간)")]
+    [SerializeField] private Vector3 fireSqueezeSettings = new Vector3(1.4f, 0.6f, 0.2f);
+    
+    private bool isSqueezing = false;    // 효과 중복 방지 플래그
+    private Vector3 originalWeaponScale; // 무기 원래 크기
+    // --- [여기까지 추가] ---
 
     [Header("Sprite Changes")]  // 외형 변경용
     public SpriteRenderer targetRenderer;   // 없으면 GetComponent로 검색
@@ -40,6 +48,11 @@ public class Weapon : MonoBehaviour
     void Awake()
     {
         if (!targetRenderer) targetRenderer = GetComponentInChildren<SpriteRenderer>(true);
+        
+        if (targetRenderer != null)
+        {
+            originalWeaponScale = targetRenderer.transform.localScale;
+        }
         
     }
 
@@ -191,6 +204,20 @@ public class Weapon : MonoBehaviour
             
             rumbleCoroutine = StartCoroutine(Rumble(0.1f, 0.25f, 0.25f));
         }
+
+      
+            // TODO: 발사 시 무기에 움직이는 효과 추가
+        if (targetRenderer != null && !isSqueezing) 
+        {
+                // 설정값을 바탕으로 목표 스케일 계산
+                float targetX = originalWeaponScale.x * fireSqueezeSettings.x;
+                float targetY = originalWeaponScale.y * fireSqueezeSettings.y;
+                float duration = fireSqueezeSettings.z;
+                
+                StartCoroutine(ApplySqueezeEffect(targetX, targetY, duration));
+        }
+            
+        
         
         int count = Mathf.Clamp(level, 1, maxBullets);
         for (int i = 0; i < count; i++)
@@ -201,6 +228,47 @@ public class Weapon : MonoBehaviour
         }
 
     }
+    
+    // --- [이 함수 전체를 추가] ---
+    /// <summary>
+    /// 무기 스프라이트에 스쿼시 & 스트레치 효과를 적용합니다.
+    /// </summary>
+    private IEnumerator ApplySqueezeEffect(float targetXScale, float targetYScale, float duration)
+    {
+        isSqueezing = true;
+
+        Vector3 newScale = new Vector3(targetXScale, targetYScale, originalWeaponScale.z);
+
+        float timer = 0f;
+        
+        // 1. Squeeze (설정값으로 변경)
+        // (duration의 절반 동안 실행)
+        float squeezeDuration = duration * 0.5f;
+        while (timer < squeezeDuration)
+        {
+            timer += Time.deltaTime;
+            float t = timer / squeezeDuration; // 0에서 1로
+            targetRenderer.transform.localScale = Vector3.Lerp(originalWeaponScale, newScale, t);
+            yield return null;
+        }
+
+        timer = 0f;
+        // 2. Return (원래 크기로 복귀)
+        // (duration의 나머지 절반 동안 실행)
+        float returnDuration = duration * 0.5f;
+        while (timer < returnDuration)
+        {
+            timer += Time.deltaTime;
+            float t = timer / returnDuration; // 0에서 1로
+            targetRenderer.transform.localScale = Vector3.Lerp(newScale, originalWeaponScale, t);
+            yield return null;
+        }
+
+        // 3. 보정 (정확히 원래 스케일로 맞춤)
+        targetRenderer.transform.localScale = originalWeaponScale; 
+        isSqueezing = false;
+    }
+    // --- [여기까지 추가] ---
     
     // 게임패드 진동 코루틴 - duration 초 동안 lowFrequency와 highFrequency로 진동
     private IEnumerator Rumble(float duration, float lowFrequency, float highFrequency)

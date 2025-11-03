@@ -61,6 +61,11 @@ public class SubWeaponManager : MonoBehaviour
     {
         toggle = !toggle;
         UpdateWeaponState();
+
+        if (toggle)
+            Managers.Instance.isMergeWeapon = true;
+        else
+            Managers.Instance.isMergeWeapon = false;
     }
 
     // ---- 핵심 상태 전환 ----
