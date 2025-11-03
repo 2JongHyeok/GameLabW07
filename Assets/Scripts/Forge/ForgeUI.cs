@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using TMPro;
 
 public class ForgeUI : MonoBehaviour
 {
@@ -31,6 +32,21 @@ public class ForgeUI : MonoBehaviour
     private Dictionary<MainBranchType, GameObject> mainBranchUIObjects = new Dictionary<MainBranchType, GameObject>();
     // private Dictionary<SubBranchType, GameObject> subBranchUIObjects = new Dictionary<SubBranchType, GameObject>();
     private Dictionary<BaseForgeSO, GameObject> forgeNodeUIObjects = new Dictionary<BaseForgeSO, GameObject>();
+    
+    [Header("Global Upgrade Panel")]
+    [Tooltip("업그레이드 가능 알림 패널")]
+    [SerializeField] private GameObject enableUpgradePanel;
+
+    // --- [수정된 부분] ---
+    // 텍스트, 색상, 머티리얼 관련 필드 제거
+    // [SerializeField] private Color upgradeAvailableColor = Color.green;
+    // [SerializeField] private string upgradeMaterialPath = "Text 0";
+    // private TMP_Text enableUpgradePanelText;
+    // private Material loadedUpgradeMaterial;
+
+    // 알파 제어용 CanvasGroup 변수 추가
+    private CanvasGroup enableUpgradePanelCanvasGroup;
+    // --- [수정 완료] ---
 
     public void GenerateForgeUI()
     {
@@ -430,10 +446,58 @@ public class ForgeUI : MonoBehaviour
                 if (nodeComponent != null)
                 {
                     nodeComponent.RefreshUI();
+                    
                 }
             }
         }
+        
+        UpdateUpgradeablePanelStatus();
     }
+    
+    // --- [핵심 수정된 메서드] ---
+    /// <summary>
+    /// 모든 노드를 순회하여 구매 가능한 노드가 하나라도 있는지 확인하고,
+    /// '업그레이드 가능' 패널의 알파값을 갱신합니다.
+    /// </summary>
+    private void UpdateUpgradeablePanelStatus()
+    {
+        // 검사용 디버그 추가
+        // CanvasGroup이 없으면(할당 안됨) 아무것도 하지 않음
+        if (enableUpgradePanelCanvasGroup == null) return;
+
+        bool anyUpgradeable = false; // '업그레이드 가능한' 노드가 하나라도 있는가
+        
+        // 1. 모든 노드를 순회
+        foreach (var nodeUI in forgeNodeUIObjects.Values)
+        {
+            if (nodeUI != null)
+            {
+                var nodeComponent = nodeUI.GetComponent<ForgeNodeUI>();
+                
+                // 노드가 잠금 해제되었고(canPurchase) 자원도 충분한지(canAfford) 확인
+                
+                if (nodeComponent != null && nodeComponent.canPurchase && nodeComponent.canAfford)
+                {
+                    anyUpgradeable = true;
+                    break; // 하나라도 찾으면 즉시 중단
+                }
+            }
+        }
+
+        // 2. '업그레이드 가능' 패널의 알파값만 조정
+        if (anyUpgradeable)
+        {
+            enableUpgradePanelCanvasGroup.alpha = 1f; // 보이기
+        }
+        else
+        {
+            enableUpgradePanelCanvasGroup.alpha = 0f; // 숨기기
+        }
+        
+        // [삭제] SetActive, 텍스트 변경, for 루프(색상/머티리얼 변경) 모두 제거됨
+    }
+    // --- [수정 완료] ---
+
     
     // 모든 노드의 구매 가능 여부에 따라 텍스트 색상 업데이트
     public void UpdateAllNodeTextColors()
@@ -469,6 +533,33 @@ public class ForgeUI : MonoBehaviour
 
     void Start()
     {
+        // --- [수정된 부분] ---
+        // 공용 업그레이드 패널 찾기 및 CanvasGroup 설정
+        if (enableUpgradePanel == null)
+        {
+            enableUpgradePanel = GameObject.FindGameObjectWithTag("EnableUpgradePanel");
+        }
+        
+        if (enableUpgradePanel != null)
+        {
+            // 1. CanvasGroup 컴포넌트를 찾거나 추가합니다.
+            enableUpgradePanelCanvasGroup = enableUpgradePanel.GetComponent<CanvasGroup>();
+            if (enableUpgradePanelCanvasGroup == null)
+            {
+                enableUpgradePanelCanvasGroup = enableUpgradePanel.AddComponent<CanvasGroup>();
+            }
+            
+            // 2. 시작 시 알파값을 0으로 설정 (숨김)
+            enableUpgradePanelCanvasGroup.alpha = 0f; 
+            
+            // 3. 패널 자체는 항상 켜둡니다 (알파로 제어하므로)
+            enableUpgradePanel.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("ForgeUI: enableUpgradePanel이 할당되지 않았습니다.");
+        }
+        
         // InventoryManger 찾기
         if (inventoryManger == null)
         {
@@ -485,5 +576,11 @@ public class ForgeUI : MonoBehaviour
 
         // 런타임 시작 시 자동으로 UI 생성
         GenerateForgeUI();
+    }
+
+    void Update()
+    {
+        RefreshAllNodes();  
+        UpdateAllNodeTextColors();
     }
 }

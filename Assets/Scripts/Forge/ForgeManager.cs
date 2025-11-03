@@ -110,8 +110,8 @@ public class ForgeManager : MonoBehaviour
             // 패널이 열릴 때 모든 노드의 텍스트 색상 업데이트
             if (forgeUI != null)
             {
-                forgeUI.UpdateAllNodeTextColors();
                 forgeUI.RefreshAllNodes();
+                forgeUI.UpdateAllNodeTextColors();
             }
         }
     }
