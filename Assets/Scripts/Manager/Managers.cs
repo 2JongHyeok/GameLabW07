@@ -60,6 +60,7 @@ public class Managers : MonoBehaviour
     public bool isUpgradeShotgun = false;
     public bool isMergeWeapon = false;
 
+    public bool IsTutorialActive = false;
 
     private void Awake()
     {
@@ -74,6 +75,7 @@ public class Managers : MonoBehaviour
         // Awake에서 자동 주입이 꺼져있는 경우, Start에서라도 확보
         if (!autoResolveInAwake) AutoResolveRefs();
         ApplyInitialTunables();
+        IsTutorialActive = true;
     }
 
     // 외부에서 수동으로도 호출 가능
