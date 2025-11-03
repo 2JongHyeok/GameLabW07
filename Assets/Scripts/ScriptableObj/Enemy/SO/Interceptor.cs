@@ -60,6 +60,10 @@ public class Interceptor : MonoBehaviour
         // 초기 방향으로 기체 회전
         transform.rotation = Quaternion.LookRotation(Vector3.forward, initialDirection);
 
+        // [수정] 풀에서 재사용될 때를 대비해 콜라이더를 다시 활성화합니다.
+        var collider = GetComponent<Collider2D>();
+        if (collider != null) collider.enabled = true;
+
         // 2. [수정] 코어 주변의 무작위 중간 목표 지점(Waypoint) 설정
         waypoint = target.position + (Vector3)(Random.insideUnitCircle.normalized * waypointRadius);
 
@@ -72,7 +76,8 @@ public class Interceptor : MonoBehaviour
         lifetime -= Time.deltaTime;
         if (lifetime <= 0f)
         {
-            Destroy(gameObject); // 시간이 다 되면 스스로 파괴
+            // [수정] 시간이 다 되면 풀에 반환합니다.
+            ProjectilePoolManager.Instance.InterceptorPool.Release(gameObject);
             return;
         }
 
@@ -148,8 +153,7 @@ public class Interceptor : MonoBehaviour
         if (explosionEffectPrefab != null)
         {
             GameObject effect = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
-            effect.transform.localScale = Vector3.one * effectExplosionRadius;
-            Destroy(effect, 2f);
+            effect.transform.localScale = Vector3.one * effectExplosionRadius;            Destroy(effect, 2f);
         }
 
         // 3. 충돌 대상에 따라 데미지를 처리합니다.
@@ -182,7 +186,7 @@ public class Interceptor : MonoBehaviour
             }
         }
 
-        // 4. 모든 데미지 로직이 실행된 후, 이 프레임의 마지막에 오브젝트를 파괴합니다.
-        Destroy(gameObject);
+        // 4. [수정] 모든 데미지 로직이 실행된 후, 오브젝트를 풀에 반환합니다.
+        ProjectilePoolManager.Instance.InterceptorPool.Release(gameObject);
     }
 }

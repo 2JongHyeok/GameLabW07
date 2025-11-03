@@ -14,13 +14,15 @@ public class MainBossSO : EnemyBaseSO
 
     public override void PerformAttack(Enemy enemy)
     {
-        if (bulletPrefab == null || enemy.firePoint == null) return;
+        // [수정] ProjectilePoolManager가 없으면 공격을 수행하지 않습니다.
+        if (ProjectilePoolManager.Instance == null || enemy.firePoint == null) return;
 
         // 지정된 interceptorCount 만큼 반복하여 인터셉터를 생성합니다.
         for (int i = 0; i < interceptorCount; i++)
         {
-            // 1. 인터셉터 프리팹을 발사 지점에 생성합니다.
-            GameObject interceptorGO = Instantiate(bulletPrefab, enemy.firePoint.position, Quaternion.identity);
+            // 1. [수정] 풀에서 인터셉터를 가져옵니다.
+            GameObject interceptorGO = ProjectilePoolManager.Instance.InterceptorPool.Get();
+            interceptorGO.transform.position = enemy.firePoint.position;
 
             // 2. 생성된 인터셉터에서 Interceptor 스크립트를 가져옵니다.
             Interceptor interceptor = interceptorGO.GetComponent<Interceptor>();

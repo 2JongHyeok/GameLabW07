@@ -17,10 +17,10 @@ MonoBehaviour:
   upgradeDescription: "\uD3EC \uD569\uCCB4\uC2DC \uB4A4\uB85C \uBC00\uCE58\uACE0
     \uAD11\uBC94\uC704\uD55C \uD53C\uD574\uB97C \uC785\uD799\uB2C8\uB2E4."
   depth: 9
-  coalCost: 5
-  ironCost: 3
+  coalCost: 0
+  ironCost: 0
   goldCost: 0
-  diamondCost: 0
+  diamondCost: 3
   postSubBranches: []
   AtkDamage: 0
   AtkSpeed: 0
