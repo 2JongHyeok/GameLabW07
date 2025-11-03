@@ -7,6 +7,7 @@ public class TutorialManager : MonoBehaviour
 {
     [Header("UI Elements")]
     public Image tutorialImageDisplay; // 튜토리얼 이미지를 표시할 Image 컴포넌트
+    public Image tutorialBG; // 튜토리얼 이미지를 표시할 Image 컴포넌트
     public Button nextButton;          // 다음 버튼
     public Button prevButton;          // 이전 버튼
     public Button skipButton;          // 스킵/게임시작 버튼 (하나로 통일)
@@ -90,5 +91,7 @@ public class TutorialManager : MonoBehaviour
         skipButton.gameObject.SetActive(false ); 
         Debug.Log("게임을 시작합니다!");
         Managers.Instance.IsTutorialActive = false;
+        tutorialBG.gameObject.SetActive(false);
+    
     }
 }
