@@ -611,9 +611,20 @@ public class Enemy : MonoBehaviour
 
         if (core1 != null)
         {
-            isAttacking = false;  
+            // 공격 상태 완전 초기화
+            isAttacking = false;
             attackTimer = 0f;
-            SetTaget(core1.transform); 
+            StopAllCoroutines(); // 혹시 공격 코루틴 중일 수도 있음
+
+            // 타겟 교체
+            SetTaget(core1.transform);
+
+            // 즉시 이동 로직 재개
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                core1.transform.position,
+                enemyData.enemySpeed * Time.deltaTime
+            );
         }
     }
 }

@@ -19,6 +19,7 @@ public class Core : MonoBehaviour
     [SerializeField] private Image alertImage;
     [SerializeField] private DockingStation dockingStation;
     [SerializeField] private Image healthFillImage;
+    [SerializeField] private GameObject enemyAttackZone;
     private bool isAlert = false;
     public static event Action<int> OnCoreDied;   // 코어 번호 브로드캐스트
     public bool IsDead => isDead;                 // 외부에서 생존 확인
@@ -63,7 +64,15 @@ public class Core : MonoBehaviour
         StartCoroutine(FadeInAndOut(alertImage, 0.5f, 0.5f));
 
         if (!isDead && CurrentHP <= 0)
+        {
+            Enemy[] allEnemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+            foreach (var enemy in allEnemies)
+            {
+                if (enemy != null)
+                    enemy.isAttacking = false;
+            }
             Die();
+        }
     }
     
     
@@ -154,6 +163,7 @@ public class Core : MonoBehaviour
 
         dockingSystem.SetActive(false);
         sucksionZone.SetActive(false);
+        enemyAttackZone.SetActive(false);
         autoTurret.SetActive(false);
     }
     private void GameOver()
@@ -201,6 +211,7 @@ public class Core : MonoBehaviour
         dockingSystem.SetActive(true);
         sucksionZone.SetActive(true);
         autoTurret.SetActive(true);
+        enemyAttackZone.SetActive(true);
     }
     public void AddMaxHP(int amount)
     {
