@@ -40,6 +40,20 @@ public class Enemy : MonoBehaviour
     // 보스 처치 시 생성될 코어
     [SerializeField] private GameObject bossCorePrefab;
     public bool isHittedByObital = false;
+    
+    // --- [여기에 넉백 변수 추가] ---
+    [Header("Knockback Settings")]
+    [Tooltip("넉백 상태가 지속될 시간 (초)")]
+    [SerializeField] private float knockbackDuration = 0.15f; 
+    
+    private bool isKnockedBack = false; // 넉백 상태인지 확인
+    private float knockbackTimer = 0f;  // 넉백 남은 시간
+    private Vector2 knockbackDirection; // 넉백 방향
+    private float knockbackSpeed;       // 넉백 속도 (총알로부터 받음)
+    // --- [넉백 변수 끝] ---
+
+
+
 
     private void Start()
     {
@@ -65,6 +79,35 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
+        
+        // --- [수정된 넉백 로직] ---
+        // 1. 넉백/정지 상태인지 최우선으로 확인
+        if (isKnockedBack)
+        {
+            // [수정]
+            // 넉백 + 정지 시간(1.5f) 중, 타이머가 1.5f보다 클 때만 (즉, 넉백 이동 시간 동안만)
+            // 뒤로 밀려나는 이동을 적용합니다.
+            if (knockbackTimer > 0.5f)
+            {
+                transform.Translate(knockbackDirection * knockbackSpeed * Time.deltaTime, Space.World);
+            }
+            // (만약 knockbackTimer가 1.5f 이하 0f 초과가 되면, 
+            //  이동(Translate)은 건너뛰고 타이머만 감소하므로 '정지' 상태가 됩니다.)
+
+            // 넉백 타이머 감소
+            knockbackTimer -= Time.deltaTime;
+            if (knockbackTimer <= 0)
+            {
+                isKnockedBack = false; // 넉백 및 정지 상태 모두 종료
+            }
+            
+            // 넉백 중에는 아래의 모든 일반 로직(이동, 공격, 회전)을 건너뜀
+            return; 
+        }
+        // --- [넉백 로직 끝] ---
+        
+        // (타겟이 없으면 멈추는 로직 추가 권장)
+        if (target == null) return;
 
         // 'isAttacking'이 true인 원거리/특수 유닛들의 공격 및 이동 로직
         if (isAttacking && (enemyData.enemyType == EnemyType.Ranger ||
@@ -148,6 +191,25 @@ public class Enemy : MonoBehaviour
         // 회전은 항상 마지막에
         transform.rotation = Quaternion.LookRotation(Vector3.forward, target.position - transform.position);
     }
+    
+    public void ApplyKnockback(Vector2 direction, float speed)
+    {
+        // 이미 죽었거나, Rammer가 후퇴 중이거나, 이미 넉백 중이면 중첩하지 않음
+        if (isDead || isBouncingBack || isKnockedBack)
+        {
+            return;
+        }
+
+        // 넉백 상태로 전환
+        isKnockedBack = true;
+        
+        // [수정] 넉백 시간 + 1.5초(정지 시간)를 더한 값으로 타이머 설정
+        knockbackTimer = knockbackDuration + 1.5f; 
+        
+        knockbackDirection = direction.normalized;
+        knockbackSpeed = speed; // 총알이 전달해준 속도
+    }
+
     
     public void SetPool(IObjectPool<GameObject> pool)
     {
@@ -237,6 +299,12 @@ public class Enemy : MonoBehaviour
         isDead = false;
         isBouncingBack = false;
         hasLoggedFirstAttack = false;
+        
+        
+        // [추가] 넉백 상태도 초기화
+        isKnockedBack = false;
+        knockbackTimer = 0f;shieldHP = 0; // 쉴드 초기화
+
         
         shieldHP = 0; // 쉴드 초기화
         
