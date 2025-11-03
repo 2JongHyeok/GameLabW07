@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cc9728fc1f29944eb5993b6172d827c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 7
   lifeTime: 5
   debrisParticlePrefab: {fileID: 3833818897760939570, guid: 2ceb632170e3a5642816da2cf44a0053, type: 3}
   colorSearchRadius: 1
