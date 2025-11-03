@@ -10,5 +10,7 @@ public class SpaceShipMiningRadiusSO : BaseForgeSO
     {
         if (Managers.Instance?.spaceshipWeapon != null)
             Managers.Instance.spaceshipWeapon.AddMiningRadius(MiningRadius);
+
+        Managers.Instance.isMultiplyMissileScale += 0.3f;
     }
 }

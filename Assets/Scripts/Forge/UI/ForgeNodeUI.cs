@@ -568,7 +568,4 @@ public class ForgeNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         Image nodeImage = imageNode.GetComponent<Image>();
         nodeImage.color = targetNodeColor;
     }
-    
-    
-    
 }

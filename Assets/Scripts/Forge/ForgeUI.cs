@@ -441,7 +441,7 @@ public class ForgeUI : MonoBehaviour
             // GenerateForgeUI()를 호출해야 합니다.
             if (needsRefresh)
             {
-                GenerateForgeUI(); // 전체 재생성 (이 함수가 Refresh/UpdateTextColors를 호출)
+                // GenerateForgeUI(); // 전체 재생성 (이 함수가 Refresh/UpdateTextColors를 호출)
             }
             else
             {

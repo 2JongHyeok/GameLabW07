@@ -11,5 +11,6 @@ public class SpaceShipMiningUpgradeSO : BaseForgeSO
     {
             Managers.Instance.spaceshipWeapon.AddDamage((int)MiningDamage);
         Managers.Instance.spaceshipWeapon.AddAttackSpeed(MiningSpeed);
+        Managers.Instance.isMultiplyMissileScale += 0.3f;
     }
 }

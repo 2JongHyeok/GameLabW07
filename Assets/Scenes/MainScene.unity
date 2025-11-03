@@ -1113,6 +1113,7 @@ MonoBehaviour:
   firePoint: {fileID: 2040539623}
   explosionRadius: 1.5
   dockingStation: {fileID: 24514518}
+  fireSqueezeSettings: {x: 1.4, y: 0.6, z: 0.2}
   targetRenderer: {fileID: 107794006}
   skins: []
   accelTime: 1
@@ -3960,7 +3961,7 @@ RectTransform:
   m_GameObject: {fileID: 598750659}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.02, y: 1.03, z: 1}
+  m_LocalScale: {x: 1.02, y: 1.1124, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1447445845}
@@ -6360,6 +6361,7 @@ MonoBehaviour:
   firePoint: {fileID: 1973134179}
   explosionRadius: 1.5
   dockingStation: {fileID: 24514518}
+  fireSqueezeSettings: {x: 1.4, y: 0.6, z: 0.2}
   targetRenderer: {fileID: 870671695}
   skins: []
   accelTime: 1
@@ -7570,6 +7572,8 @@ MonoBehaviour:
   initialTileRespawnDelay: 90
   isUpgradeKnockback: 0
   isUpgradeShotgun: 0
+  isMergeWeapon: 0
+  isMultiplyMissileScale: 1
 --- !u!1 &1001158639 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1438885493489295582, guid: dad1f0ba3dd5c0c4c9c13dd099be53d8, type: 3}
@@ -7877,6 +7881,7 @@ MonoBehaviour:
   firePoint: {fileID: 1413712333}
   explosionRadius: 1.5
   dockingStation: {fileID: 24514518}
+  fireSqueezeSettings: {x: 1.4, y: 0.6, z: 0.2}
   targetRenderer: {fileID: 1019673338}
   skins: []
   accelTime: 1
@@ -8462,6 +8467,7 @@ MonoBehaviour:
   firePoint: {fileID: 1891357781}
   explosionRadius: 1.5
   dockingStation: {fileID: 24514518}
+  fireSqueezeSettings: {x: 1.4, y: 0.6, z: 0.2}
   targetRenderer: {fileID: 1065963884}
   skins: []
   accelTime: 1
@@ -8987,6 +8993,7 @@ MonoBehaviour:
   firePoint: {fileID: 1082530651}
   explosionRadius: 1.5
   dockingStation: {fileID: 24514518}
+  fireSqueezeSettings: {x: 1.4, y: 0.6, z: 0.2}
   targetRenderer: {fileID: 1104671158}
   skins: []
   accelTime: 1
@@ -11825,6 +11832,7 @@ MonoBehaviour:
   firePoint: {fileID: 296047435}
   explosionRadius: 1.5
   dockingStation: {fileID: 24514518}
+  fireSqueezeSettings: {x: 1.4, y: 0.6, z: 0.2}
   targetRenderer: {fileID: 1512247141}
   skins: []
   accelTime: 1
@@ -17426,6 +17434,7 @@ MonoBehaviour:
   firePoint: {fileID: 217500878}
   explosionRadius: 1.5
   dockingStation: {fileID: 24514518}
+  fireSqueezeSettings: {x: 1.4, y: 0.6, z: 0.2}
   targetRenderer: {fileID: 1870193648}
   skins: []
   accelTime: 1
@@ -18765,7 +18774,7 @@ RectTransform:
   m_GameObject: {fileID: 2052594368}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.02, y: 1.03, z: 1}
+  m_LocalScale: {x: 1.02, y: 1.1124, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1447445845}

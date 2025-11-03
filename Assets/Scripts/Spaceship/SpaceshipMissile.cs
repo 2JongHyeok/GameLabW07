@@ -19,6 +19,7 @@ public class SpaceshipMissile : MonoBehaviour
     [Tooltip("타일 색상을 찾기 위해 충돌 지점 주변을 얼마나 넓게 탐색할지 정합니다. (단위: 셀)")]
     [Range(0, 5)] // 0: 중앙 1칸, 1: 3x3, 2: 5x5
     [SerializeField] private int colorSearchRadius = 1;
+    private float multiplier = 1f;
 
     void Awake()
     {
@@ -38,6 +39,8 @@ public class SpaceshipMissile : MonoBehaviour
     {
         // ★ 핵심: 우주선의 현재 속도 + 미사일 자체의 발사 속도 = 최종 초기 속도
         rb.linearVelocity = shipVelocity + (Vector2)transform.up * speed;
+        multiplier = Managers.Instance.isMultiplyMissileScale;
+        transform.localScale = new Vector3(transform.localScale.x*multiplier,transform.localScale.y * multiplier, multiplier);
     }
 
 
