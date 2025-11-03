@@ -141,7 +141,7 @@ public class EnemyBuffManager : MonoBehaviour
     {
         // 1. 쉴드 즉시 제거
         enemy.shieldHP = 0;
-        enemy.GetComponent<SpriteRenderer>().color = Color.red;
+        enemy.ResetSpriteColor(); // 적의 색상을 원래대로 복원
         // TODO: 쉴드 이펙트 끄는 로직 (enemy.shieldEffect.SetActive(false);)
 
         // 2. 스탯 버프 되돌리기 (SO의 원본 값으로 덮어쓰기)

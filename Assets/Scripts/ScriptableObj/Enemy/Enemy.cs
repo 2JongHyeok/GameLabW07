@@ -281,6 +281,15 @@ public class Enemy : MonoBehaviour
             Debug.LogError($"Enemy {enemyNum} ({enemyType}) 등록 실패! EnemyBuffManager.Instance가 NULL입니다!");
         }
     }
+
+    /// <summary>
+    /// 외부(EnemyBuffManager 등)에서 호출하여 적의 색상을 원래대로 되돌립니다.
+    /// </summary>
+    public void ResetSpriteColor()
+    {
+        if (hitFlashEffect != null)
+            hitFlashEffect.ResetColor();
+    }
     public void TakeDamage(int damage, string weaponType)
     {
         if (isDead) return; 
