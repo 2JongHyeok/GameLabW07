@@ -336,7 +336,8 @@ public class Planet1WaveManager : MonoBehaviour
 
             // ['hasTriggeredWaveClearAction' 관련 로직은 waveGuard 블록 안으로 이동했습니다.
             EnemyCount = 0; // 혹시 모르니 0으로 유지
-            countdown -= Time.deltaTime;
+            if(!Managers.Instance.IsTutorialActive)
+                countdown -= Time.deltaTime;
 
             if (countdown <= 10 && countdown >= 5)
             {
