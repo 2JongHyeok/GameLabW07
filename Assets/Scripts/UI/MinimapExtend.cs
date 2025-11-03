@@ -56,6 +56,8 @@ public class MinimapExtend : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             
             // 슬라이더 값이 변경될 때 호출될 함수 연결
             zoomSlider.onValueChanged.AddListener(OnSliderValueChanged);
+
+            zoomSlider.value = 0.5f;
         }
     }
 
