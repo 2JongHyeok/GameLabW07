@@ -14,10 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 6
   enemyHP: 2000
-  enemySpeed: 3
+  enemySpeed: 1
   enemyPrefab: {fileID: 0}
   bulletPrefab: {fileID: 623816275497643022, guid: 79773bd013fa9be408a283794cb8d25a, type: 3}
   attackRange: 18
   bulletSpeed: 1
   attackCooldown: 3
   interceptorCount: 12
+  ExplosionEffectPrefab: {fileID: 5807730180560662781, guid: 9b9b064fb4e0f0445a06122d7bfca6e6, type: 3}
+  damage: 10
+  explosionRadius: 7
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 8193

@@ -115,8 +115,7 @@ public class Enemy : MonoBehaviour
                             enemyData.enemyType == EnemyType.Parasite ||
                             enemyData.enemyType == EnemyType.RailGun ||
                             enemyData.enemyType == EnemyType.Commander ||
-                            enemyData.enemyType == EnemyType.Boss ||
-                            enemyData.enemyType == EnemyType.MainBoss))
+                            enemyData.enemyType == EnemyType.Boss))
         {
             // 1. 공격에 필요한 사거리를 SO에서 가져옵니다.
             float currentAttackRange = 0f;
@@ -133,9 +132,6 @@ public class Enemy : MonoBehaviour
                     break;
                 case EnemyType.Boss:
                     currentAttackRange = (enemyData as BossSO)?.attackRange ?? 0f;
-                    break;
-                case EnemyType.MainBoss:
-                    currentAttackRange = (enemyData as MainBossSO)?.attackRange ?? 0f;
                     break;
 
                 case EnemyType.Commander:
@@ -275,14 +271,6 @@ public class Enemy : MonoBehaviour
                 if (boss != null)
                 {
                     attackCooldown = boss.attackCooldown;
-                }
-            }
-            else if (enemyData.enemyType == EnemyType.MainBoss)
-            {
-                var mainBoss = enemyData as MainBossSO;
-                if (mainBoss != null)
-                {
-                    attackCooldown = mainBoss.attackCooldown;
                 }
             }
         }
@@ -449,12 +437,6 @@ public class Enemy : MonoBehaviour
                     isAttacking = true;
                 }
                 break;
-            case EnemyType.MainBoss:
-                if (collision.CompareTag("AttackArea3"))
-                {
-                    isAttacking = true;
-                }
-                break;
             case EnemyType.Commander:
                 if (collision.CompareTag("AttackArea1") || collision.CompareTag("AttackArea2") || collision.CompareTag("AttackArea3"))
                 {
@@ -488,9 +470,6 @@ public class Enemy : MonoBehaviour
                 isAttacking = false;
                 break;
             case EnemyType.Boss when collision.CompareTag("AttackArea3"):
-                isAttacking = false;
-                break;
-            case EnemyType.MainBoss when collision.CompareTag("AttackArea3"):
                 isAttacking = false;
                 break;
             case EnemyType.Commander when collision.CompareTag("AttackArea1") || collision.CompareTag("AttackArea2") || collision.CompareTag("AttackArea3"):
@@ -570,6 +549,12 @@ public class Enemy : MonoBehaviour
         {
             (enemyData as KamikazeTankSO).Explode(this, collision);
         } 
+        // [수정] MainBoss를 Kamikaze 그룹에 추가합니다.
+        else if(enemyData != null && enemyData.enemyType == EnemyType.MainBoss)
+        {
+            // MainBossSO에 KamikazeSO와 동일한 Explode(Enemy, Collision2D) 메서드가 필요합니다.
+            (enemyData as MainBossSO).Explode(this, collision);
+        }
     }
     
     private IEnumerator BounceBackCoroutine(RammerEnemySO so)

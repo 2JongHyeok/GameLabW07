@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9561453c-28ee-4cd4-aaff-90b583b99329" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GameLabW07/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GameLabW07/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Data/Enemy/MainBossSO.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Data/Enemy/MainBossSO.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ScriptableObj/Enemy/Enemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ScriptableObj/Enemy/Enemy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ScriptableObj/Enemy/SO/MainBossSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ScriptableObj/Enemy/SO/MainBossSO.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
