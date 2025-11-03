@@ -1,11 +1,13 @@
-using UnityEngine;
 using Unity.Cinemachine; // Unity 6 / Cinemachine 3.x
+using UnityEngine;
 
 public class CameraSwitcher : MonoBehaviour
 {
     [Header("Cameras (CM 3.x)")]
     [Tooltip("현재 활성 '행성' 시점 카메라 (시작 시 Planet1Cam 할당)")]
     [SerializeField] private CinemachineCamera planetCamera;
+    [SerializeField] private CinemachineCamera planet1Camera;
+    [SerializeField] private CinemachineCamera planet2Camera;
 
     [Tooltip("우주선 추적용 카메라 (SpaceshipCam)")]
     [SerializeField] private CinemachineCamera spaceshipCamera;
@@ -56,7 +58,7 @@ public class CameraSwitcher : MonoBehaviour
     void Update()
     {
         HandleZoom(); // 메인 카메라 줌 처리
-
+        HandleCameraHotkeys();
         // 플레이어 움직임 감지하여 복귀 처리
         CheckForPlayerMovementToReFollow();
     }
@@ -84,6 +86,72 @@ public class CameraSwitcher : MonoBehaviour
         currentCamera.Lens = lens;
     }
 
+    private void HandleCameraHotkeys()
+    {
+        if (ViewContext.I == null) return;
+
+        var ctx = ViewContext.I;
+        CameraType current = ctx.CurrentView;
+        CameraType docked = ctx.DockedPlanet;
+        bool planet2Unlocked = ctx.Planet2Unlocked;
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+         
+            bool canMoveToPlanet1 =
+                (current == CameraType.Planet2) ||
+                (current == CameraType.SpaceShip);
+
+            if (canMoveToPlanet1)
+            {
+                if (planet1Camera != null)
+                    ActivatePlanet(planet1Camera);
+                else
+                    Debug.LogWarning("Planet1Cam을 찾지 못했습니다.");
+            }
+            else
+            {
+                Debug.Log("[CameraHotkey] Planet1 이동 불가 (현재 상태)");
+            }
+        }
+
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            bool canMoveToPlanet2 =
+                planet2Unlocked &&
+                ((current == CameraType.Planet1) ||
+                 (current == CameraType.SpaceShip));
+
+            if (canMoveToPlanet2)
+            {
+                if (planet2Camera != null)
+                    ActivatePlanet(planet2Camera);
+                else
+                    Debug.LogWarning("Planet2Cam을 찾지 못했습니다.");
+            }
+            else
+            {
+                Debug.Log("[CameraHotkey] Planet2 이동 불가 (현재 상태 또는 잠금)");
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            bool isDockedToPlanet = (docked == CameraType.Planet1 || docked == CameraType.Planet2);
+            if (isDockedToPlanet)
+            {
+                Debug.Log("[CameraHotkey] 도킹 상태에서는 우주선으로 전환 불가");
+                return;
+            }
+            bool canMoveToShip =
+                (current == CameraType.Planet1) ||
+                (current == CameraType.Planet2 && planet2Unlocked);
+
+            if (canMoveToShip)
+                ActivateSpaceship();
+            else
+                Debug.Log("[CameraHotkey] 우주선 이동 불가 (현재 상태)");
+        }
+    }
     // ===== 외부 호출 =====
 
     /// <summary>행성 <-> 우주선 모드 토글</summary>

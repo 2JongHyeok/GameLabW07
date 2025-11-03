@@ -1023,7 +1023,7 @@ MonoBehaviour:
   autoDiscoverPlanet2: 1
   cameraSwitcher: {fileID: 1108278171}
   ctx: {fileID: 1943522731}
-  planet2Core: {fileID: 0}
+  planet2Core: {fileID: 586435983}
 --- !u!1 &107046168
 GameObject:
   m_ObjectHideFlags: 0
@@ -7990,6 +7990,8 @@ PrefabInstance:
       objectReference: {fileID: 1108278171}
     m_RemovedComponents:
     - {fileID: 9097026852104614801, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+    - {fileID: 3019422768988265966, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+    - {fileID: 2310891451115710969, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -9259,6 +9261,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planetCamera: {fileID: 137777106}
+  planet1Camera: {fileID: 137777106}
+  planet2Camera: {fileID: 1819013918}
   spaceshipCamera: {fileID: 1430701315}
   minimapCamera: {fileID: 879916772}
   player: {fileID: 1908056905}
@@ -19021,6 +19025,8 @@ PrefabInstance:
       objectReference: {fileID: 1108278171}
     m_RemovedComponents:
     - {fileID: 9097026852104614801, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+    - {fileID: 2310891451115710969, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
+    - {fileID: 3019422768988265966, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
