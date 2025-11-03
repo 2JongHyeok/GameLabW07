@@ -914,7 +914,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &62145801
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1312,7 +1312,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &130008828
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3950,7 +3950,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &598750660
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4648,7 +4648,7 @@ PrefabInstance:
     - target: {fileID: 8400077734484539953, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
       propertyPath: alertImage
       value: 
-      objectReference: {fileID: 130008829}
+      objectReference: {fileID: 598750661}
     - target: {fileID: 8400077734484539953, guid: 833554f5fce1e0941b8957c5eba792f9, type: 3}
       propertyPath: autoTurret
       value: 
@@ -7416,6 +7416,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlanetCam2
       objectReference: {fileID: 0}
+    - target: {fileID: 8435492350173124222, guid: c4f993dcaf3201141b031d659e0c3b6f, type: 3}
+      propertyPath: Lens.OrthographicSize
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7706,11 +7710,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7645464975610577713, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 50
+      value: 179.9
       objectReference: {fileID: 0}
     - target: {fileID: 7645464975610577713, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -480
+      value: -187.2
       objectReference: {fileID: 0}
     - target: {fileID: 7645464975610577713, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -9659,10 +9663,11 @@ MonoBehaviour:
   dockingSystem: {fileID: 1183638031375791094}
   autoTurret: {fileID: 742853715}
   sucksionZone: {fileID: 1183638031375791093}
-  alertImage: {fileID: 62145802}
+  alertImage: {fileID: 598750661}
   dockingStation: {fileID: 24514518}
   healthFillImage: {fileID: 2057197456}
   enemyAttackZone: {fileID: 244828934}
+  isAlert: 0
   endGameOnDie: 1
 --- !u!212 &1190461933
 SpriteRenderer:
@@ -12745,7 +12750,9 @@ MonoBehaviour:
     maxHP: 3
     currentHP: 0
   respawnDelay: 40
-  alertImage: {fileID: 62145802}
+  alertImage: {fileID: 2052594370}
+  core: {fileID: 1190461932}
+  core2: {fileID: 586435983}
 --- !u!19719996 &1752708902
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -14906,7 +14913,9 @@ MonoBehaviour:
     maxHP: 3
     currentHP: 0
   respawnDelay: 40
-  alertImage: {fileID: 130008829}
+  alertImage: {fileID: 2052594370}
+  core: {fileID: 1190461932}
+  core2: {fileID: 586435983}
 --- !u!19719996 &1770977320
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -18280,11 +18289,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7645464975610577713, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 50
+      value: 38.1
       objectReference: {fileID: 0}
     - target: {fileID: 7645464975610577713, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -340
+      value: -187.2
       objectReference: {fileID: 0}
     - target: {fileID: 7645464975610577713, guid: 3a00df8f5837a6e4fb475d336d10f530, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -18696,7 +18705,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2052594369
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20706,7 +20715,7 @@ RectTransform:
   m_GameObject: {fileID: 3143041883633526421}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.2, y: 4.2, z: 1}
+  m_LocalScale: {x: 2.046328, y: 2.046328, z: 0.487221}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9011794931035649566}
@@ -20714,7 +20723,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: -200}
+  m_AnchoredPosition: {x: 11, y: -294.1}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6848365751947857718

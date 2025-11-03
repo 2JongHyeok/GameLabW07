@@ -11,6 +11,8 @@ public class Planet: MonoBehaviour
     [SerializeField] private float respawnDelay = 3f;
     [SerializeField] private Image alertImage;
     private bool isAlert = false;
+    public Core core;
+    public Core core2;
 
 
     // 각 타일별 상태 저장용
@@ -39,16 +41,17 @@ public class Planet: MonoBehaviour
     {
         if (!tileHPs.ContainsKey(cellPos)) return;
         tileHPs[cellPos] -= damage;
-        StartCoroutine(FadeInAndOut(alertImage, 0.5f, 0.5f));
+        StartCoroutine(ShieldFadeInAndOut(alertImage, 0.5f, 0.5f));
 
         if (tileHPs[cellPos] <= 0)
         {
             BreakTile(cellPos);
         }
     }
-    public IEnumerator FadeInAndOut(Image image, float fadeInTime, float fadeOutTime)
+    public IEnumerator ShieldFadeInAndOut(Image image, float fadeInTime, float fadeOutTime)
     {
         if (isAlert) yield break;
+        if(core.isAlert || core2.isAlert) yield break;
 
         isAlert = true;
 

@@ -20,7 +20,7 @@ public class Core : MonoBehaviour
     [SerializeField] private DockingStation dockingStation;
     [SerializeField] private Image healthFillImage;
     [SerializeField] private GameObject enemyAttackZone;
-    private bool isAlert = false;
+    public bool isAlert = false;
     public static event Action<int> OnCoreDied;   // 코어 번호 브로드캐스트
     public bool IsDead => isDead;                 // 외부에서 생존 확인
     // 현재 체력 읽기용 
