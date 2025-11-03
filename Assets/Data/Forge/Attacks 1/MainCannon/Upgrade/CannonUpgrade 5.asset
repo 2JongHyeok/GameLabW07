@@ -19,8 +19,8 @@ MonoBehaviour:
   depth: 9
   coalCost: 0
   ironCost: 0
-  goldCost: 0
-  diamondCost: 3
+  goldCost: 10
+  diamondCost: 10
   postSubBranches: []
   AtkDamage: 0
   AtkSpeed: 0
