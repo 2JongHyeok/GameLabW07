@@ -143,9 +143,8 @@ public class AsteroidHealth : MonoBehaviour
                 // 3. 현재 내구도 비율을 계산합니다.
                 float durabilityRatio = newDurability / maxDurability;
 
-                // ✨ --- 여기가 핵심 수정사항! --- ✨
-                // 4. 어두워질 최저 밝기를 설정합니다. (예: 원래 밝기의 40%까지)
-                float minBrightnessFactor = 0.4f;
+                // 4. 어두워질 최저 밝기를 설정합니다.
+                float minBrightnessFactor = 0.5f;
                 float minBrightness = v_original * minBrightnessFactor;
 
                 // 5. '최소 밝기'와 '원래 밝기' 사이를 내구도 비율에 따라 보간합니다.
@@ -172,8 +171,8 @@ public class AsteroidHealth : MonoBehaviour
                 // 3. 현재 내구도 비율을 계산합니다. (정수 나눗셈 방지를 위해 float 캐스팅)
                 float durabilityRatio = (float)newDurability / maxDurability; 
 
-                // 4. 낮아질 최저 알파를 설정합니다. (예: 30%)
-                float minAlphaFactor = 0.3f;
+                // 4. 낮아질 최저 알파를 설정합니다. (예: 50%)
+                float minAlphaFactor = 0.5f;
                 float minAlpha = originalColor.a * minAlphaFactor; // (보통 1.0 * 0.3 = 0.3)
 
                 // 5. '최소 알파'와 '원래 알파' 사이를 내구도 비율에 따라 보간합니다.
