@@ -31,7 +31,7 @@ public class SubWeaponManager : MonoBehaviour
     {
         var ctx = ViewContext.I;
         if (ctx == null) return false;
-        return ctx.DockedPlanet == ownerPlanet; // 해당 행성에 도킹 중일 때만 허용
+        return ctx.CurrentView == ownerPlanet; // 해당 행성에 도킹 중일 때만 허용
     }
 
     private void Update()
