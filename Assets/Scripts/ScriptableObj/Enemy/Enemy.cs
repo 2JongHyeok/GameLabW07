@@ -43,7 +43,6 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-
         // HitFlashEffect 컴포넌트 찾기
         hitFlashEffect = GetComponent<HitFlashEffect>();
         if (hitFlashEffect == null)
@@ -67,25 +66,14 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        // --- [이 'if' 블록이 롤백되었습니다] ---
-
-        // [롤백 주석] 아래는 보스가 원거리 공격을 위해 멈추도록 수정했던 'if' 문입니다.
-        /*
+        // --- [수정 시작] 'if' 문에 Boss와 MainBoss를 다시 추가합니다. ---
         if (isAttacking && (enemyData.enemyType == EnemyType.Ranger ||
                             enemyData.enemyType == EnemyType.RangerTank ||
                             enemyData.enemyType == EnemyType.Parasite ||
                             enemyData.enemyType == EnemyType.RailGun ||
                             enemyData.enemyType == EnemyType.Commander ||
-                            enemyData.enemyType == EnemyType.Boss || 
-                            enemyData.enemyType == EnemyType.MainBoss))
-        */
-        
-        // [롤백 복원] 보스가 멈추지 않고 'else'로 빠지도록 (카미카제처럼) 'if' 문에서 Boss를 제거한 버전입니다.
-        if (isAttacking && (enemyData.enemyType == EnemyType.Ranger ||
-                            enemyData.enemyType == EnemyType.RangerTank ||
-                            enemyData.enemyType == EnemyType.Parasite ||
-                            enemyData.enemyType == EnemyType.RailGun ||
-                            enemyData.enemyType == EnemyType.Commander))
+                            enemyData.enemyType == EnemyType.Boss ||      // [복원]
+                            enemyData.enemyType == EnemyType.MainBoss))   // [복원]
         {
             // 1. 공격에 필요한 사거리를 SO에서 가져옵니다.
             float currentAttackRange = 0f;
@@ -101,15 +89,13 @@ public class Enemy : MonoBehaviour
                     currentAttackRange = (enemyData as RailGunEnemySO)?.attackRange ?? 0f;
                     break;
                 
-                // [롤백 주석] 아래는 보스 사거리 체크 로직입니다.
-                /*
+                // [복원] 보스 사거리 체크 로직
                 case EnemyType.Boss:
                     currentAttackRange = (enemyData as BossSO)?.attackRange ?? 0f;
                     break;
                 case EnemyType.MainBoss:
                     currentAttackRange = (enemyData as MainBossSO)?.attackRange ?? 0f;
                     break;
-                */
 
                 case EnemyType.Commander:
                 case EnemyType.Parasite:
@@ -131,7 +117,7 @@ public class Enemy : MonoBehaviour
                     enemyData.enemySpeed * Time.deltaTime
                 );
             }
-            // 4. 사거리(currentAttackRange) 안에 있다면: "공격"
+            // 4. 사거리(currentAttackRange) 안에 있다면: "공격" (및 정지)
             else
             {
                 if (attackTimer <= 0f)
@@ -154,10 +140,10 @@ public class Enemy : MonoBehaviour
         // --- [수정 끝] ---
         else
         {
-            // [롤백 복원] 
+            // [수정]
             // 1. 'isAttacking=false'인 적 (Ranger 등)이 이 로직을 따릅니다.
             // 2. 'isAttacking'을 사용하지 않는 적 (Rammer, Kamikaze)이 이 로직을 따릅니다.
-            // 3. 위 'if' 문에 Boss가 빠졌으므로, Boss도 이 로직 (단순 돌진)을 따릅니다.
+            // 3. (이제 Boss는 위 'if'문에 포함되므로 이 로직을 따르지 않습니다.)
             transform.position = Vector2.MoveTowards(
                 transform.position,
                 target.position,
@@ -227,8 +213,7 @@ public class Enemy : MonoBehaviour
                 }
             }
             
-            // [롤백 주석] 보스의 쿨다운 로직 (원거리 공격용)
-            /*
+            // --- [수정 시작] 보스의 쿨다운 로직 (원거리 공격용)을 복원합니다. ---
             else if (enemyData.enemyType == EnemyType.Boss)
             {
                 var boss = enemyData as BossSO;
@@ -245,7 +230,7 @@ public class Enemy : MonoBehaviour
                     attackCooldown = mainBoss.attackCooldown;
                 }
             }
-            */
+            // --- [수정 끝] ---
         }
     }
     
@@ -398,8 +383,7 @@ public class Enemy : MonoBehaviour
                 }
                 break;
             
-            // [롤백 주석] 보스가 AttackArea2에서 멈추도록 했던 로직
-            /*
+            // --- [수정 시작] 보스가 AttackArea2에서 멈추도록 로직을 복원합니다. ---
             case EnemyType.Boss:
                 if (collision.CompareTag("AttackArea2"))
                 {
@@ -412,7 +396,7 @@ public class Enemy : MonoBehaviour
                     isAttacking = true;
                 }
                 break;
-            */
+            // --- [수정 끝] ---
 
             case EnemyType.Commander:
                 if (collision.CompareTag("AttackArea1") || collision.CompareTag("AttackArea2")) 
@@ -448,15 +432,14 @@ public class Enemy : MonoBehaviour
                 isAttacking = false;
                 break;
 
-            // [롤백 주석] 보스가 AttackArea2를 나갈 때 다시 이동하도록 했던 로직
-            /*
+            // --- [수정 시작] 보스가 AttackArea2를 나갈 때 다시 이동하도록 로직을 복원합니다. ---
             case EnemyType.Boss when collision.CompareTag("AttackArea2"):
                 isAttacking = false;
                 break;
             case EnemyType.MainBoss when collision.CompareTag("AttackArea2"):
                 isAttacking = false;
                 break;
-            */
+            // --- [수정 끝] ---
 
             case EnemyType.Commander when collision.CompareTag("AttackArea1") || collision.CompareTag("AttackArea2"):
                 isAttacking = false;
@@ -536,7 +519,9 @@ public class Enemy : MonoBehaviour
             (enemyData as KamikazeTankSO).Explode(this, collision);
         } 
         
-        // [롤백 복원] Boss와 MainBoss가 충돌 시 Explode 하도록 로직을 다시 추가합니다.
+        // --- [수정 시작] Boss와 MainBoss가 충돌 시 Explode 하던 로직을 제거합니다. ---
+        // (Ranger처럼 원거리 공격을 하므로, 충돌 시 폭발하면 안 됩니다)
+        /*
         else if (enemyData != null && enemyData.enemyType == EnemyType.Boss)
         {
             (enemyData as BossSO).Explode(this, collision);
@@ -544,7 +529,9 @@ public class Enemy : MonoBehaviour
         else if(enemyData != null && enemyData.enemyType == EnemyType.MainBoss)
         {
             (enemyData as MainBossSO).Explode(this, collision);
-        } 
+        }
+        */
+        // --- [수정 끝] ---
     }
     
     private IEnumerator BounceBackCoroutine(RammerEnemySO so)

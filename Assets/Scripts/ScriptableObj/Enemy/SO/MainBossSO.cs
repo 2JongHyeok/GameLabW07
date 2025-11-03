@@ -18,7 +18,7 @@ public class MainBossSO : EnemyBaseSO
 
     public override void PerformAttack(Enemy enemy)
     {
-   
+        // TODO: MainBoss 공격 로직 구현
     }
     
     public void Explode(Enemy enemy, Collision2D collision)
